@@ -1,0 +1,110 @@
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+
+global procedure  CurrentUserStockMovsRn(record RcVc RepSpec)
+begin
+	integer rw;
+	record UserVc Userr;
+	record StockMovVc SMr;
+	boolean testf,TrHs;
+	string 5 okChar;
+	integer key;
+		
+	Userr.Code = CurrentUser;
+	ReadFirstMain(Userr,1,true);
+	
+	okChar = UChr(10003);
+
+  StartReportJob("Переміщення " & CurrentUser);
+   rw = 1;	
+	 Header(rw,"Всі переміщення для складу " & Userr.Location,1);
+  EndHeader;
+  
+  StartFormat(20);
+    OutString(20,0,"Номер",false);
+    OutString(100,0,"Дата",true);
+    OutString(180,0,"Зі складу",true);
+    OutString(260,0,"На склад",true);
+    OutString(350,0,"Відправлено",true);
+    OutString(400,0,"Отримано",true);
+  Endformat;
+  Black_Divider(0,1);  
+  
+//----------------------FROM location---------------------------//  
+
+  if (RepSpec.flags[1]==0) then begin
+		key = 2;
+		SMr.OKFlag = 0;
+	end else begin
+		key = 1;
+	end;  
+	
+  //SMr.TransDate = CurrentDate;
+  SMr.SerNr = 9000000000;
+  SMr.FrLocation = Userr.Location;
+  
+  TrHs = true;
+  While(LoopBackKey("FrLocOK",SMr,key,TrHs)) begin
+
+  	if (RepSpec.flags[1]==0 and SMr.OKFlag!=0) then begin TrHs = false; end;  	
+		if (SMr.FrLocation != Userr.Location) then begin TrHs = false; end;
+
+		if (TrHs) then begin
+  		StartFormat(15);
+  		  OutStringID(20,"DblStockMovVc",SMr.SerNr,false,SMr.SerNr);
+  		  OutString(100,0,SMr.TransDate,true);
+  		  OutString(180,0,SMr.FrLocation,true);
+  		  OutString(260,0,SMr.ToLocation,true);
+  		  if (SMr.SentOKFlag!=0) then begin
+					OutString(350,0,okChar,true);
+				end;
+ 		    if (SMr.OKFlag!=0) then begin
+					OutString(400,0,okChar,true);
+				end;
+  		Endformat;
+	
+		end;
+	end;
+	ResetLoop(SMr);  
+	
+	StartFormat(20);
+	Endformat;
+
+//----------------------TO location---------------------------//
+	
+  SMr.SerNr = 9000000000;
+  SMr.ToLocation = Userr.Location;
+  if (RepSpec.flags[1]==0) then begin
+		key = 2;
+		SMr.OKFlag = 0;
+	end else begin
+		key = 1;
+	end;   
+  
+  TrHs = true;
+  While(LoopBackKey("ToLocOK",SMr,key,TrHs)) begin
+
+  	if (RepSpec.flags[1]==0 and SMr.OKFlag!=0) then begin TrHs = false; end;  	
+		if (SMr.ToLocation != Userr.Location) then begin TrHs = false; end;
+
+		if (TrHs) then begin
+  		StartFormat(15);
+  		  OutStringID(20,"DblStockMovVc",SMr.SerNr,false,SMr.SerNr);
+  		  OutString(100,0,SMr.TransDate,true);
+  		  OutString(180,0,SMr.FrLocation,true);
+  		  OutString(260,0,SMr.ToLocation,true);
+  		  if (SMr.SentOKFlag!=0) then begin
+					OutString(350,0,okChar,true);
+				end;
+ 		    if (SMr.OKFlag!=0) then begin
+					OutString(400,0,okChar,true);
+				end;
+  		Endformat;
+	
+		end;
+	end;
+
+  EndJob;
+return;
+end;

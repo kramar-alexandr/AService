@@ -1,0 +1,89 @@
+external function LongInt DateDiff(Date,Date);
+external procedure ExtractObj(string,var Integer,var string);
+external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
+external function val AbsoluteVal(val);
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+external function roundmode SetRoundModeD(Integer);
+external procedure ToStrTRCode(var string,Integer,LongInt);
+external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,17:04 21.12.2015
+
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+
+global procedure TRDiffRn(record RcVc RepSpec)
+begin
+
+	record TRVc TRr;
+	row TRVc TRrw;
+  date sd,ed;
+  Integer pos,i,mtcnt;
+  Boolean TrHs,testf,testf1;
+  roundmode rnd;
+  val debt,cred,diff,totdiff;
+  string 255 rstr;
+	
+	sd = RepSpec.sStartDate;
+	ed = RepSpec.sEndDate;
+	
+	rnd = DefaultValRoundoff; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.decimals = 3; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.step = kRoundingStepNone; //Edit***************************Sasha2,17:40 10.02.2015
+  rnd.mode = kRoundingModeHalfUp; //Edit***************************Sasha2,17:40 10.02.2015
+	
+	startreportnoheaderjob("Звіт по дисбалансу проводок");
+	pos = 0;
+	startformat(15);		
+		outstring(pos,0,"Документ",false);
+		outstring(pos+=70,0,"Дата",false);
+		outstring(pos+=70,0,"Дт",false);
+		outstring(pos+=70,0,"Кт",false);
+		outstring(pos+=70,0,"Різниця",false);
+	endformat;
+	
+	totdiff = 0;
+	TrHs = true;
+	TRr.TransDate = sd;
+	while (loopkey("TransDate",TRr,1,TrHs)) begin
+		testf = true;
+		if(TRr.TransDate>ed)then begin TrHs = false; testf = false; end;
+		If(testf) then begin
+		  debt = 0;
+		  cred = 0;
+		  mtcnt = MatRowCnt(TRr);
+		  for (i=0;i<mtcnt;i=i+1) begin
+		    MatRowGet(TRr,i,TRrw);
+		    testf1 = true;
+		    if (TRrw.stp!=1 or TRrw.ovst!=0) then begin testf1 = false; end;
+		    if (testf1) then begin
+		      debt = debt + TRrw.DebVal;
+		      cred = cred + TRrw.CredVal;
+		    end;
+		  end;
+		  diff = debt - cred;
+		  if (diff!=0) then begin
+		    pos = 0;
+      	startformat(15);	
+      	  ToStrTRCode(rstr,TRr.IntYc,TRr.Number);	
+      		outstring(pos,"DblTrans",rstr,false);
+      		outstring(pos+=70,0,TRr.TransDate,false);
+      		outstring(pos+=70,0,ValToMyString(debt,5),false);
+      		outstring(pos+=70,0,ValToMyString(cred,5),false);
+      		outstring(pos+=70,0,ValToMyString(diff,5),false);
+      	endformat;
+      	totdiff = totdiff + diff;
+		  end;
+		end;
+	end;	
+	
+	if (totdiff!=0) then begin
+	  pos = 0;
+  	startformat(15);	
+  		outstring(pos+=280,0,ValToMyString(totdiff,5),false);
+  	endformat;
+  end;
+	
+	endjob;
+
+return;
+end;

@@ -1,0 +1,39 @@
+event startup
+begin
+
+	SetLangMode(LangUkrainian,"UKR",0);
+  
+	Setting("Додати товари в принтер",InsArtTClass,modPOS);
+	Setting("Z-Звіт",ZRepTClass,modPOS);
+	Setting("X-Звіт",XRepTClass,modPOS);
+	Setting("Скасувати чек",MyCancelTClass,modPOS);
+	Setting("Звіт по товарам за день",MyBigReportTClass,modPOS);
+	Setting("Синхронізувати базові налаштування",MySyncSNTClass,modPOS);
+	Setting("Надрукувати чек до інвойса",MyPrintRepTClass,modPOS);
+	Setting("Видалити порожню сесію",MyDelSessTClass,modPOS);
+	Setting("Надрукувати нульовий чек",MyNullRecieptTClass,modPOS);
+	Setting("Звіт по касі за період",MyPeriodReportTClass,modPOS);
+	Setting("Додати підпис до чека",AddDownStringTClass,modPOS);
+	//Setting("Внесення готівки",CashINOUTTClass,modPOS);	//Commented out by Dima	09.01.2015
+	Setting("Час на принтері",My1NullRecieptTClass,modPOS);
+	Setting("Внесення готівки",CashEventsTClass,modPOS); //Edit***************************Dima 08.01.2015
+
+	
+	/*SetLangMode(LangRussian,"RUS",0);
+  
+	Setting("Добавить товары в принтер",InsArtTClass,modPOS);
+	Setting("Z-Отчет",ZRepTClass,modPOS);
+	Setting("X-Отчет",XRepTClass,modPOS);
+	Setting("Отменить чек",MyCancelTClass,modPOS);
+	Setting("Отчет по товарам за день",MyBigReportTClass,modPOS);
+	Setting("Синхронизировать базовые настройки",MySyncSNTClass,modPOS);
+	Setting("Напечатать чек к инвойсу",MyPrintRepTClass,modPOS);
+	Setting("Удалить пустую сессию",MyDelSessTClass,modPOS);
+	Setting("Напечатать нулевой чек",MyNullRecieptTClass,modPOS);
+	Setting("Отчет по кассе за период",MyPeriodReportTClass,modPOS);
+	Setting("Добавить подпись к чеку",AddDownStringTClass,modPOS);
+	Setting("Внесение наличных",CashINOUTTClass,modPOS);
+	Setting("Время на принтере",My1NullRecieptTClass,modPOS);*/
+	
+ RETURN;
+END;  

@@ -1,0 +1,614 @@
+external procedure ExtractObj(string,var Integer,var string);
+
+global updating procedure RecalcWebRegMn()
+begin
+	record WebSyncRegVc WSRr;
+	record ItemStatusVc ISr,ISfind;
+	record WebSyncBlock WSBb;
+	record WebSyncMatBlock WSMBb;
+	row WebSyncMatBlock WSMBwr;
+	integer i,mtrw;
+	boolean TrHs,testf,testf1,TrHs1;
+	string 255 available,notAvailable,otherCompsAvailable; //Edit***************************Sasha2,13:04 07.04.2016
+	string 20 curID; //Edit***************************Sasha2,13:04 07.04.2016
+  integer pos; //Edit***************************Sasha2,13:04 07.04.2016
+	
+	blockload(WSMBb);
+  blockload(WSBb);
+  mtrw = matrowcnt(WSMBb);
+	
+	WSRr.ArtCode = "";
+	While(loopmain(WSRr,1,true)) begin
+	  
+		ISfind.Code = WSRr.ArtCode;
+		TrHs1 = true;
+		available = "";
+		while(loopmain(ISfind,1,TrHs1))begin
+			testf1 = true;
+			if(ISfind.Instock<=0)then begin testf1 = false; end;
+			if(ISfind.Code!=WSRr.ArtCode)then begin testf1 = false; TrHs1 = false; end;
+		
+			if(testf1)then begin
+				for(i=0;i<mtrw;i=i+1)begin
+					matrowget(WSMBb,i,WSMBwr);
+					if(ISfind.Location==WSMBwr.Location)then begin
+						if(nonblank(available))then begin available = available & ","; end;
+						available = available & WSMBwr.ID;
+					end;
+				end;
+			end;
+		end;
+		resetloop(ISfind);
+		notAvailable = ""; //Edit***************************Sasha2,12:53 07.04.2016 {
+		for(i=0;i<mtrw;i=i+1) begin
+      matrowget(WSMBb,i,WSMBwr);
+      if (NonBlank(WSMBwr.Location) and setinset(WSMBwr.Location,available)==false) then begin
+        if(nonblank(notAvailable))then begin notAvailable = notAvailable & ","; end;
+        notAvailable = notAvailable & WSMBwr.ID;
+      end;
+    end;
+		otherCompsAvailable = "";
+    pos = 0;
+    ExtractObj(WSRr.Available,pos,curID);
+    while (NonBlank(curID)) begin
+      if (setinset(curID,available)==false and setinset(curID,notAvailable)==false) then begin
+        if(nonblank(otherCompsAvailable))then begin otherCompsAvailable = otherCompsAvailable & ","; end;
+        otherCompsAvailable = otherCompsAvailable & curID;
+      end;
+      ExtractObj(WSRr.Available,pos,curID);
+    end; 
+    if (NonBlank(otherCompsAvailable) and NonBlank(available)) then begin
+      available = otherCompsAvailable & "," & available;
+    end;
+    if (NonBlank(otherCompsAvailable) and Blank(available)) then begin
+      available = otherCompsAvailable;
+    end;
+    //Edit***************************Sasha2,12:53 07.04.2016 }
+	  //otherCompsAvailable = WSRr.Available;
+	  WSRr.Available = available;
+    WSRr.DateChange = CurrentDate;
+	  recordstore(WSRr,true);//LogText(0,"WSRr.ArtCode:" & WSRr.ArtCode & Chr(9) & "WSRr.Available:" & otherCompsAvailable & Chr(9) & "WSRr.Available:" & WSRr.Available);
+	  
+	end; 
+	
+return;
+end;
+
+
+global updating procedure SyncWebRegMn()
+begin
+record WebSyncRegVc WSRr;
+record ItemStatusVc ISr,ISfind;
+record WebSyncBlock WSBb;
+record WebSyncMatBlock WSMBb;
+row WebSyncMatBlock WSMBwr;
+integer i,mtrw;
+record PLDefVc PLDr;
+record PLVc PLr;
+boolean TrHs,testf,testf1,TrHs1;
+string 255 available,notAvailable,otherCompsAvailable,tempAvailable; //Edit***************************Sasha2,13:04 07.04.2016
+string 20 curID; //Edit***************************Sasha2,13:04 07.04.2016
+integer pos; //Edit***************************Sasha2,13:04 07.04.2016
+
+  blockload(WSMBb);
+  blockload(WSBb);
+  mtrw = matrowcnt(WSMBb);
+  
+  
+  ISr.Code = "";
+  ISr.Location = ";;;";
+  TrHs = true;
+  while(loopkey("Location",ISr,2,TrHs)) begin
+    testf = true;
+    if(ISr.Location!=";;;")then begin TrHs = false; testf = false; end;
+    if(ISr.Instock<=0)then begin testf = false; end;
+    
+    if(testf)then begin
+      ISfind.Code = ISr.Code;
+      TrHs1 = true;
+      available = "";
+      while(loopmain(ISfind,1,TrHs1)) begin
+        testf1 = true;
+        if(ISfind.Instock<=0)then begin testf1 = false; end;
+        if(ISfind.Code!=ISr.Code)then begin testf1 = false; TrHs1 = false; end;
+        
+        if(testf1)then begin
+          for(i=0;i<mtrw;i=i+1) begin
+            matrowget(WSMBb,i,WSMBwr);
+            if(ISfind.Location==WSMBwr.Location)then begin
+              if(nonblank(available))then begin available = available & ","; end;
+              available = available & WSMBwr.ID;
+            end;
+          end;
+        end;
+      end;
+      resetloop(ISfind);
+      WSRr.ArtCode = ISr.Code;
+      if(readfirstmain(WSRr,1,true) and (WSRr.ArtCode==ISr.Code))then begin
+        notAvailable = "";  //Edit***************************Sasha2,12:53 07.04.2016 {
+        for(i=0;i<mtrw;i=i+1) begin
+          matrowget(WSMBb,i,WSMBwr);
+          if (NonBlank(WSMBwr.Location) and setinset(WSMBwr.Location,available)==false) then begin
+            if(nonblank(notAvailable))then begin notAvailable = notAvailable & ","; end;
+            notAvailable = notAvailable & WSMBwr.ID;
+          end;
+        end;
+        otherCompsAvailable = "";
+        pos = 0;
+        ExtractObj(WSRr.Available,pos,curID);
+        while (NonBlank(curID)) begin
+          if (setinset(curID,available)==false and setinset(curID,notAvailable)==false) then begin
+            if(nonblank(otherCompsAvailable))then begin otherCompsAvailable = otherCompsAvailable & ","; end;
+            otherCompsAvailable = otherCompsAvailable & curID;
+          end;
+          ExtractObj(WSRr.Available,pos,curID);
+        end; 
+        if (NonBlank(otherCompsAvailable) and NonBlank(available)) then begin
+          available = otherCompsAvailable & "," & available;
+        end;
+        if (NonBlank(otherCompsAvailable) and Blank(available)) then begin
+          available = otherCompsAvailable;
+        end;
+        //Edit***************************Sasha2,12:53 07.04.2016 }
+        PLr.PLCode = WSBb.DefPriceList;
+        PLr.ArtCode = ISr.Code;
+        if(readfirstmain(PLr,2,true))then begin
+          WSRr.Price = PLr.ExVatPrice;
+        end;
+        tempAvailable = WSRr.Available; //Edit***************************Sasha2,14:37 07.04.2016
+        WSRr.Available = available;
+        WSRr.DateChange = CurrentDate;
+        if(tempAvailable!=available)then begin //Edit***************************Sasha2,14:37 07.04.2016
+          recordStore(WSRr,true); //LogText(0,"WSRr.ArtCode:" & WSRr.ArtCode & Chr(9) & "WSRr.Available:" & tempAvailable & Chr(9) & "WSRr.Available:" & WSRr.Available);
+        end;
+      end else begin
+        Recordnew(WSRr);
+        WSRr.ArtCode = ISr.Code;
+        PLr.PLCode = WSBb.DefPriceList;
+        PLr.ArtCode = ISr.Code;
+        if(readfirstmain(PLr,2,true))then begin
+          WSRr.Price = PLr.ExVatPrice;
+        end;
+        WSRr.Available = available;
+        WSRr.DateChange = CurrentDate;
+        if(nonblank(WSRr.Available))then begin
+          recordStore(WSRr,true);
+        end;
+      end;
+      resetloop(WSRr);
+    end;
+  end;
+  resetloop(ISr);
+  
+  WSBb.DateLastTime = currentdate;
+  blockstore(WSBb);
+  
+return;
+end;
+
+global updating procedure UpdateWebRegMn()
+begin
+record WebSyncRegVc WSRr;
+
+  WSRr.ArtCode = "";
+  While(loopmain(WSRr,1,true))begin
+      WSRr.DateChange = currentdate;
+      recordstore(WSRr,true);
+  end;
+ 
+return;
+end;
+
+
+global updating procedure SyncWebRegUpdateFromIS(record ItemStatusVc ISr)
+begin
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+record WebSyncMatBlock WSMBb;
+row WebSyncMatBlock WSMBwr;
+record INVc INr;
+integer i,mtrw;
+record PLVc PLr;
+boolean testf;
+string 200 aval,newaval,curLocsAvailable,curID;
+string 255 otherLocsAvailable;
+integer lenth,k,pos;
+string 5 achar,char;
+  
+  blockload(WSBb);
+  blockload(WSMBb);
+  mtrw = matrowcnt(WSMBb);
+  testf = false;
+  for(i=0;i<mtrw;i=i+1)begin
+    matrowget(WSMBb,i,WSMBwr);
+    if(WSMBwr.Location==ISr.Location)then begin
+      aval = WSMBwr.ID;
+      testf = true;
+    end;
+    if (Blank(curLocsAvailable)) then begin
+      curLocsAvailable = WSMBwr.ID;
+    end else begin
+      curLocsAvailable = curLocsAvailable & "," & WSMBwr.ID;
+    end;
+  end;
+  
+  if(testf)then begin
+    INr.Code = ISr.Code;
+    ReadFirstMain(INr,1,true);
+    WSRr.ArtCode = ISr.Code;
+    if(readfirstmain(WSRr,1,true) and WSRr.ArtCode==ISr.Code)then begin
+      PLr.PLCode = WSBb.DefPriceList;
+        PLr.ArtCode = ISr.Code;
+        if(readfirstmain(PLr,2,true))then begin
+          if (CurrentCompany==10) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
+            if (INr.Group!="APPLE") then begin
+              pos = 0;
+              ExtractObj(WSRr.Available,pos,curID);
+              while (NonBlank(curID)) begin
+                if (setinset(curID,curLocsAvailable)==false) then begin
+                  if (Blank(otherLocsAvailable)) then begin
+                    otherLocsAvailable = curID;
+                  end else begin
+                    otherLocsAvailable = otherLocsAvailable & "," & curID;
+                  end;
+                end;
+                ExtractObj(WSRr.Available,pos,curID);
+              end;
+              if (Blank(otherLocsAvailable)) then begin
+                WSRr.Price = PLr.ExVatPrice;
+              end;
+            end;
+          end else begin //Edit***************************Sasha2,13:01 24.05.2016 }
+            WSRr.Price = PLr.ExVatPrice;
+          end;
+        end;
+        if(setinset(aval,WSRr.Available))then begin
+          if(ISr.Instock<=0)then begin
+            lenth = len(WSRr.Available);
+            achar = "";
+            char = "";
+            newaval = "";
+            
+            for(i=0;i<lenth;i=i+1) begin
+              char = mid(WSRr.Available,i,1);
+              if(char!=",")then begin
+                achar = achar & char;
+              end else begin
+                if(achar!=aval)then begin
+                  if(nonblank(newaval))then begin
+                    newaval = newaval & "," & achar;
+                  end else begin
+                    newaval = achar;
+                  end;
+                end;
+                achar = "";
+              end;
+            end;
+            if(achar!=aval)then begin
+              if(nonblank(newaval))then begin
+                newaval = newaval & "," & achar;
+              end else begin
+                newaval = achar;
+              end;
+            end;
+            WSRr.Available = newaval;
+          end;
+        end else begin
+        	if(ISr.Instock>0)then begin
+						if(nonblank(WSRr.Available))then begin
+							WSRr.Available = WSRr.Available & "," & aval;
+						end else begin
+							WSRr.Available = aval;
+						end;
+          end;
+        end;
+        WSRr.DateChange = CurrentDate;
+        recordStore(WSRr,true);
+    end else begin
+      Recordnew(WSRr);
+      WSRr.ArtCode = ISr.Code;
+      PLr.PLCode = WSBb.DefPriceList;
+      PLr.ArtCode = ISr.Code;
+      if(readfirstmain(PLr,2,true))then begin
+        if (CurrentCompany==10) then begin //Edit***************************Sasha2,13:01 24.05.2016 {
+          if (INr.Group!="APPLE") then begin
+            WSRr.Price = PLr.ExVatPrice;
+          end;
+        end else begin //Edit***************************Sasha2,13:01 24.05.2016 }
+          WSRr.Price = PLr.ExVatPrice;
+        end;
+      end;
+      WSRr.Available = aval;
+      WSRr.DateChange = CurrentDate;
+      recordStore(WSRr,true);
+    end;
+  end;
+return;
+end;
+
+updating procedure SyncWebRegUpdateFromPL(record PLVc PLr)
+begin
+  record WebSyncRegVc WSRr;
+  record WebSyncBlock WSBb;
+  record INVc INr;
+  record WebSyncMatBlock WSMBb;
+  row WebSyncMatBlock WSMBwr;
+  Boolean proceedf;
+  string 255 otherLocsAvailable,curLocsAvailable;
+  string 50 curID;
+  Integer mtrw,pos,i;
+  
+  blockload(WSBb);
+  if(WSBb.DefPriceList==PLr.PLCode)then begin
+    INr.Code = PLr.ArtCode;
+    ReadFirstMain(INr,1,true);
+    
+    proceedf = true; //Edit***************************Sasha2,13:01 24.05.2016 {
+    if (CurrentCompany==10 and INr.Group=="APPLE") then begin
+      proceedf = false;
+    end;
+    if (proceedf) then begin
+      WSRr.ArtCode = PLr.ArtCode;
+      if(readfirstmain(WSRr,1,true))then begin
+        if (CurrentCompany==10) then begin
+          blockload(WSMBb);
+          mtrw = matrowcnt(WSMBb);
+          for (i=0;i<mtrw;i=i+1) begin
+            matrowget(WSMBb,i,WSMBwr);
+            if (Blank(curLocsAvailable)) then begin
+              curLocsAvailable = WSMBwr.ID;
+            end else begin
+              curLocsAvailable = curLocsAvailable & "," & WSMBwr.ID;
+            end;
+          end;
+          pos = 0;
+          ExtractObj(WSRr.Available,pos,curID);
+          while (NonBlank(curID)) begin
+            if (setinset(curID,curLocsAvailable)==false) then begin
+              if (Blank(otherLocsAvailable)) then begin
+                otherLocsAvailable = curID;
+              end else begin
+                otherLocsAvailable = otherLocsAvailable & "," & curID;
+              end;
+            end;
+            ExtractObj(WSRr.Available,pos,curID);
+          end;
+          if (NonBlank(otherLocsAvailable)) then begin
+            proceedf = false;
+          end;
+        end;
+        if (proceedf) then begin //Edit***************************Sasha2,13:01 24.05.2016 }
+          WSRr.Price = PLr.ExVatPrice;
+          WSRr.DateChange = currentdate;
+          recordstore(WSRr,true);  
+        end;
+      end else begin //Edit***************************Sasha2,14:34 26.06.2014 {
+        recordnew(WSRr);// Edit ************************** четверг, 26 июня 2014 г., 16:50:36
+        WSRr.ArtCode = PLr.ArtCode;
+        WSRr.Price = PLr.ExVatPrice;
+        WSRr.DateChange = currentdate;
+        recordstore(WSRr,true);
+      end; //Edit***************************Sasha2,14:35 26.06.2014 }
+    end;
+  end;
+return;
+end;
+
+
+global updating procedure UpdatePricesInWebSyncReg()
+begin
+	record PLVc PLr;
+	record WebSyncBlock WSBb;
+	boolean TrHs,testf;
+	record WebSyncRegVc WSRr;
+	
+	
+	blockload(WSBb);
+	
+	PLr.PLCode = WSBb.DefPriceList;
+	
+	TrHs = true;
+	while(loopmain(PLr,1,TrHs))begin
+		if(PLr.PLCode!=WSBb.DefPriceList)then begin TrHs = false; end;
+		
+		if(TrHs)then begin
+			WSRr.ArtCode = PLr.ArtCode;
+			if(readfirstmain(WSRr,1,true))then begin
+				if(WSRr.Price!=PLr.ExVatPrice)then begin
+					logtext(0,WSRr.ArtCode & " WebChangePrice " & WSRr.Price & " -> " & PLr.ExVatPrice);
+					WSRr.Price = PLr.ExVatPrice;
+          WSRr.DateChange = currentdate;
+          recordstore(WSRr,true); 
+				end;
+			end;
+		end;
+		
+	end;
+
+
+return;
+end;
+
+
+global
+updating function LongInt ItemStatusVcRecordSaveAfter(var record ItemStatusVc ISr,record ItemStatusVc IS2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  SyncWebRegUpdateFromIS(ISr);
+  ItemStatusVcRecordSaveAfter = res;
+  RETURN;
+END;
+
+global
+updating function LongInt ItemStatusVcRecordUpdate(var record ItemStatusVc ISr,record ItemStatusVc IS2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  
+  SyncWebRegUpdateFromIS(ISr);
+  ItemStatusVcRecordUpdate = res;
+  RETURN;
+END;
+
+
+global
+updating function LongInt PLVcRecordSaveAfter(var record PLVc PLr,record PLVc PL2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  
+  SyncWebRegUpdateFromPL(PLr);
+  PLVcRecordSaveAfter = res;
+  RETURN;
+END;
+
+global
+updating function LongInt PLVcRecordUpdateAfter(var record PLVc PLr,record PLVc PL2r,LongInt stat,LongInt long4)
+BEGIN
+  LongInt res;
+  
+  SyncWebRegUpdateFromPL(PLr);
+  PLVcRecordUpdateAfter = res;
+  RETURN;
+END;
+
+
+global
+updating function LongInt WebSyncRegVcRecordUpdate(var record WebSyncRegVc WSRr,record WebSyncRegVc WSR2r,LongInt stat,LongInt long4)
+BEGIN
+	
+	WSRr.DateChange = currentdate;
+	
+return;
+end;
+
+global
+updating function LongInt WebSyncRegVcRecordSave(var record WebSyncRegVc WSRr,record WebSyncRegVc WSR2r,LongInt stat,LongInt long4)
+BEGIN
+	
+	WSRr.DateChange = currentdate;
+	
+return;
+end;
+
+
+updating procedure AddTextToNote(var record NotepadVc Noter,string tstr)
+BEGIN
+    AddToText(tstr,Noter);
+    AddToText(Chr(13) & Chr(10),Noter);
+    
+  RETURN;
+END;
+
+global updating procedure CreateSVOSerNoter(record SVOVc SVOr,string tstr)
+begin
+record NotepadVc Noter,OldNoter;
+record RLinkVc RLinkr;
+Integer notenr;
+boolean findf;
+
+
+    notenr = 1;
+    findf = false;
+    while (ReadRecordLink(SVOr,notenr,Noter,RLinkr)) begin
+       if(RLinkr.Comment==USetStr(1243))then begin 
+         findf = true;
+         goto Lfindnoter; 
+       end;
+       notenr = notenr + 1;
+    end;
+Lfindnoter:;
+    if(findf)then begin
+      OldNoter.SerNr = Noter.SerNr;
+      OldNoter.LangCode = Noter.LangCode;
+      OldNoter.Classification = Noter.Classification;
+      OldNoter.FromRecidStr = Noter.FromRecidStr;
+      OldNoter.CompanyNr = Noter.CompanyNr;
+      RecordClear(Noter);
+      //if (RecordStore(Noter,true)) then begin  end;// Edit ************************** Monday, 13 June 2016 11:42:58
+      recordCopy(Noter,OldNoter);
+      Noter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");// Edit ************************** Monday, 13 June 2016 11:43:54
+      AddTextToNote(Noter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:42
+      if (RecordStore(Noter,true)) then begin  end;
+    end else begin
+      recordNew(Noter);
+      AddTextToNote(Noter,tstr);// Edit ************************** Wednesday, 8 June 2011 11:45:46
+      Noter.SerNr = NextSerNr("NotepadVc",CurrentDate,-1,false,"");
+      if (RecordStore(Noter,false)) then begin
+        CreateRecordLink(SVOr,CurrentCompany,Noter,CurrentCompany);  
+        notenr = 1;
+        while (ReadRecordLink(SVOr,notenr,Noter,RLinkr)) begin
+          notenr = notenr + 1;
+        end;
+        if (ReadRecordLink(SVOr,notenr-1,Noter,RLinkr)) then begin
+          RLinkr.Comment = USetStr(1243);//"Printed Docs";   
+          if (RecordStore(RLinkr,true)) then begin  end;
+        end;
+      end;
+    end;
+  
+return;
+end;
+
+
+
+
+
+global updating procedure FillSVOHistSerialMn()
+begin
+record SVOVc SVOr;
+row SVOVc SVOrw;
+record SVOHistSerialVc SVHistr;
+integer mtrw,i;
+  
+  
+  while(loopmain(SVOr,1,true))begin
+    mtrw = matrowcnt(SVOr);
+    for(i=0;i<mtrw;i=i+1)begin
+      matrowget(SVOr,i,SVOrw);
+      if(nonblank(SVOrw.SerialNr))then begin
+        recordnew(SVHistr);
+        SVHistr.SerialNr = SVOrw.SerialNr;
+        SVHistr.ArtCode = SVOrw.ArtCode;
+        SVHistr.Qty = SVOrw.Quant;
+        SVHistr.TransNr = SVOr.SerNr;
+        SVHistr.FileName = "SVOVc";
+        SVHistr.OKFlag = SVOr.DoneMark;
+        SVHistr.Type = SVOrw.ItemType;
+        SVHistr.TransDate = SVOr.TransDate;
+        SVHistr.OkDate = SVOr.PlanShip;
+        SVHistr.ReturnDate = SVOr.RegDate;
+        SVHistr.SalesMan = SVOr.CustomField7;
+        SVHistr.Client = SVOr.CustCode;
+        SVHistr.Vlastnik = SVOr.Vlastnik;
+        recordinsert(SVHistr,true);
+      end;
+    end;
+  end;
+
+
+return;
+end;
+
+
+global function string 200 DuplicateSVOSerial(string Serial)
+begin
+record SVOHistSerialVc SVHistr;
+string 200 tstr;
+boolean testf;
+
+    testf = true;
+    tstr = "";
+    SVHistr.SerialNr = Serial;
+    while(loopmain(SVHistr,1,testf))begin
+      if(SVHistr.SerialNr!=Serial) then begin testf=false; end;
+      if(testf and SVHistr.Qty>-1)then begin
+        if(nonblank(tstr))then begin
+          tstr = tstr & "," & SVHistr.TransNr;
+        end else begin
+          tstr = SVHistr.TransNr;
+        end;
+      end;
+    end;
+DuplicateSVOSerial = tstr;
+
+return;
+end;

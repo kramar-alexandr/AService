@@ -1,0 +1,29 @@
+remote updating function Boolean RecordAction_raArchiveFromArchive(var record ArchiveVc,record RLinkVc,Integer,string);
+remote updating function Boolean RecordAction_raWebNavLinkFromArchive(var record ArchiveVc,record RLinkVc,Integer,record RcVc);
+remote updating function Integer RecordAction_raMailFromArchive(var record MailVc,record RLinkVc,Integer);
+remote updating function Boolean RecordAction_raNoteFromArchive(var record NotepadVc,record RLinkVc,Integer);
+remote updating function Boolean RecordAction_raActionFromArchive(var record ActionVc,record RLinkVc,Integer);
+
+global
+procedure NoteFromArchiveWsm()
+BEGIN
+  Integer wn,mwn,nwn,thewn;
+  record RcVc RepSpec;
+  record NotepadVc Noter;
+  
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec);
+  if (blank(RepSpec.f1)) then begin goto LNoteFromArchiveWsm; end;
+  RecordNew(Noter);
+  Noter.FromRecidStr = RepSpec.f1;
+  mwn = MotherWindow(wn);
+  thewn = mwn;
+  if (thewn==0) then begin thewn = wn; end;
+  Noter.CompanyNr = WindowCompanyNr(thewn);
+  nwn = OpenWindow("NotepadDClass",1,wn,"","",Noter);
+  //millisleep(100);
+  deselectwindow(nwn,false);
+  PutWindowString(nwn,"NotepadRLinkComment",CurrentDate & " " & currentuser); //Edit***************************Sasha2,12:03 03.06.2015
+	LNoteFromArchiveWsm:;
+  RETURN;
+END;

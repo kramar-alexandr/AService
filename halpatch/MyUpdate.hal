@@ -1,0 +1,446 @@
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+external procedure RebuildStockMn(record RcVc);
+external function Boolean GetItemPriceDiscount3(string,val,var record INVc,string,val,val,val,val,val,string,string,string,string,
+                                                var val,var string,var val,var string,var val,var string,Integer,var Boolean,Date,
+                                                string,Boolean,var Boolean,string,var string,var val,string);
+external function Boolean PasteItemInSVO(var record SVOVc,Integer);
+external function Boolean PasteCUInSVO(var record SVOVc,var string);
+external function roundmode SetRoundModeD(Integer);
+
+
+global updating procedure ARRStock()
+begin
+record RcVc RepSpec;
+
+  ReportDefaults(RepSpec,"RebuildStockVClass");
+  RepSpec.repname = "RebuildStockMn";
+  RepSpec.flags[1] = 1;
+  RepSpec.flags[2] = 0;
+  RunMaintenance(RepSpec);
+
+return;
+end;
+
+global
+procedure MyMyPrintSMRecord(record SMVc SMr,Integer type,Val Curr)
+BEGIN
+  row SMVc SMrw;
+  Integer i,rwcnt;
+  string 255 dblstr;
+ 
+  rwcnt = MatRowCnt(SMr);
+  for (i=0;i<rwcnt;i= i+1) begin
+    MatRowGet(SMr,i,SMrw);
+    StartFormat(15);
+    OutLongInt(0,0,SMr.SerNr,false);
+    OutDate(100,0,SMr.TransDate,false);
+    OutString(200,0,SMr.RefStr,false);
+    switch (type)  begin
+      case 1: dblstr = "DblAT2UnitVc";
+    end;
+    OutString(280,dblstr,SMr.Comment,false);
+    OutString(1,0,SMr.Sign,true);
+    EndFormat;
+    rwcnt = MatRowCnt(SMr);
+    for (i = 0 ; i<rwcnt ;i=i+1) begin
+      MatRowGet(SMr,i,SMrw);
+      StartFormat(15);
+      OutString(20,0,SMrw.AccNumber,false);
+      OutString(80,0,SMrw.Objects,false);
+      OutString(170,0,SMrw.Comment,false);
+      OutVal(380,0,round(SMrw.DebVal*Curr,SetRoundModeD(0)),M4Val,true);
+      OutVal(465,0,round(SMrw.CredVal*Curr,SetRoundModeD(0)),M4Val,true);
+      OutString(480,0,SMrw.VATCode,true);
+      EndFormat;
+    end;
+    Black_Divider(300,480);
+    StartFormat(15);
+    OutVal(380,0,round(SMr.DSum*Curr,SetRoundModeD(0)),M4Val,true);
+    OutVal(465,0,round(SMr.CSum*Curr,SetRoundModeD(0)),M4NegVal,true);
+    EndFormat;    
+  end;
+  Gray_Divider(0,1);
+  RETURN;
+END;
+
+Global updating procedure MyConvertCur(var record CashVc Cashr)
+BEGIN
+integer i,rwcnt;
+row CashVc Cashrw;
+val frrate,to1,to2,br1,br2;
+date curdate;
+String 5 curcode;
+
+curdate=Cashr.TransDate;
+curcode="UAH";
+
+GetFullCurncyRate(curcode,curdate,frrate,to1,to2,br1,br2);
+to1=to1*100;
+rwcnt=MatrowCnt(Cashr);
+For (i=0;i<rwcnt;i=i+1) begin
+Matrowget(Cashr,i,Cashrw);
+
+Cashrw.Amount=round(Cashrw.Amount*to1/frrate/100,DefaultCurRoundoff);
+MatRowPut(Cashr,i,Cashrw);
+end;
+Cashr.Total=round(Cashr.Total*to1/frrate/100,defaultcurroundoff);
+
+RecordStore(Cashr,true);
+
+RETURN;
+END;
+
+
+Global updating procedure MyConvertCurBal(var record CashierBalVc Cashr)
+BEGIN
+integer i,rwcnt;
+row CashierBalVc Cashrw;
+val frrate,to1,to2,br1,br2;
+date curdate;
+String 5 curcode;
+record POSCurncyBlock PCb;// Edit ************************** Wednesday, 13 April 2011 12:27:35
+
+
+curdate=Cashr.TransDate;
+blockLoad(PCb);// Edit ************************** Wednesday, 13 April 2011 12:25:34
+  curcode=PCb.CurncyCode;// Edit ************************** Wednesday, 13 April 2011 12:29:19
+//curcode="UAH";
+
+GetFullCurncyRate(curcode,curdate,frrate,to1,to2,br1,br2);
+to1=to1*100;
+rwcnt=MatrowCnt(Cashr);
+For (i=0;i<rwcnt;i=i+1) begin
+Matrowget(Cashr,i,Cashrw);
+
+Cashrw.Amount=round(Cashrw.Amount*to1/frrate/100,defaultcurroundoff);
+MatRowPut(Cashr,i,Cashrw);
+end;
+Cashr.EndBal=round(Cashr.EndBal*to1/frrate/100,defaultcurroundoff);
+
+RecordStore(Cashr,true);
+
+RETURN;
+END;
+
+
+procedure Gen0EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+a;
+  i3 = asc(mid(str,3,1))+a;
+  i4 = asc(mid(str,4,1))+a;
+  i5 = asc(mid(str,5,1))+a;
+  i6 = asc(mid(str,6,1))+a;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen1EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+a;
+  i3 = asc(mid(str,3,1))+b;
+  i4 = asc(mid(str,4,1))+a;
+  i5 = asc(mid(str,5,1))+b;
+  i6 = asc(mid(str,6,1))+b;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen2EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+a;
+  i3 = asc(mid(str,3,1))+b;
+  i4 = asc(mid(str,4,1))+b;
+  i5 = asc(mid(str,5,1))+a;
+  i6 = asc(mid(str,6,1))+b;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen3EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+a;
+  i3 = asc(mid(str,3,1))+b;
+  i4 = asc(mid(str,4,1))+b;
+  i5 = asc(mid(str,5,1))+b;
+  i6 = asc(mid(str,6,1))+a;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen4EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+b;
+  i3 = asc(mid(str,3,1))+a;
+  i4 = asc(mid(str,4,1))+a;
+  i5 = asc(mid(str,5,1))+b;
+  i6 = asc(mid(str,6,1))+b;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen5EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+b;
+  i3 = asc(mid(str,3,1))+b;
+  i4 = asc(mid(str,4,1))+a;
+  i5 = asc(mid(str,5,1))+a;
+  i6 = asc(mid(str,6,1))+b;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen6EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+b;
+  i3 = asc(mid(str,3,1))+b;
+  i4 = asc(mid(str,4,1))+b;
+  i5 = asc(mid(str,5,1))+a;
+  i6 = asc(mid(str,6,1))+a;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen7EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+b;
+  i3 = asc(mid(str,3,1))+a;
+  i4 = asc(mid(str,4,1))+b;
+  i5 = asc(mid(str,5,1))+a;
+  i6 = asc(mid(str,6,1))+b;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen8EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+b;
+  i3 = asc(mid(str,3,1))+a;
+  i4 = asc(mid(str,4,1))+b;
+  i5 = asc(mid(str,5,1))+b;
+  i6 = asc(mid(str,6,1))+a;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+  res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+procedure Gen9EAN(string str, var string res)
+begin
+integer i,i0,i1,i2,i3,i4,i5,i6,a,b,c;
+  i0 = asc(mid(str,0,1));
+  a=17;
+  b=27;
+  c=49;
+  res = res & chr(i0);
+  i1 = asc(mid(str,1,1))+a;
+  i2 = asc(mid(str,2,1))+b;
+  i3 = asc(mid(str,3,1))+b;
+  i4 = asc(mid(str,4,1))+a;
+  i5 = asc(mid(str,5,1))+b;
+  i6 = asc(mid(str,6,1))+a;
+  res = res & chr(i1) & chr(i2) & chr(i3) & chr(i4) & chr(i5) & chr(i6) & "*";
+  for(i=7;i<13;i=i+1) begin
+    res = res & chr(asc(mid(str,i,1))+c);
+  end;
+  res = res & "+";
+end;
+
+global function CreateEAN128(var string str)
+begin
+string 255 res,res1;
+integer ksum,sum,c,lenth,i;
+val csum;
+area arr;
+  res = "";
+  sum = 0;
+  res = res & chr(195) & chr(144);
+  sum = sum+103;
+  lenth = len(str);
+  for(i=0;i<lenth;i=i+1)begin
+    c = asc(mid(str,i,1));
+    c = c - 32;
+    sum = sum + c*(i+1);
+  end;
+  csum = sum/103;
+  if(csum<round(csum,SetRoundModeD(0))) then begin ksum = round(csum,SetRoundModeD(0))-1; end else begin
+    ksum = round(csum,SetRoundModeD(0));
+  end;
+  sum = sum-(ksum*103);
+  res = res & str;
+  if(sum<95) then begin
+    If(sum==0) then begin
+      res = res & chr(195) & chr(148);
+    end else begin
+      res = res & chr(sum+32);
+    end;  
+  end else begin
+  res = res & chr(195) & chr(sum+41);
+  end;
+  //res = res & chr(211);
+  //res = res & chr(211);
+  res = res & chr(195) & chr(147);
+  addtexttoarea(res,arr);
+  writeareatofile(arr,"888",0);
+  str = res;
+return;
+end;
+
+global function CreateEAN13(var string str)
+begin
+integer lenth,i,c;
+string 5 c0,ci;
+string 20 res;
+boolean testf;
+  lenth = len(str);
+  testf = true;
+  if(lenth!=13) then begin testf = false; end;
+  for(i=0;i<lenth;i=i+1)begin
+    c=asc(mid(str,i,1));
+    if(c<48 or c>57) then begin testf = false; end;
+  end;
+  res = "";
+  if(testf) then begin
+    c0 = mid(str,0,1);
+    switch(c0) begin
+      case "0":Gen0EAN(str,res);
+      case "1":Gen1EAN(str,res);
+      case "2":Gen2EAN(str,res);
+      case "3":Gen3EAN(str,res);
+      case "4":Gen4EAN(str,res);
+      case "5":Gen5EAN(str,res);
+      case "6":Gen6EAN(str,res);
+      case "7":Gen7EAN(str,res);
+      case "8":Gen8EAN(str,res);
+      case "9":Gen9EAN(str,res);
+    end;
+  end;
+str = res;
+return
+end;
+
+
+
+
+global procedure CreateEAN128C(var string str)
+begin
+string 255 res,res1;
+integer ksum,sum,c,lenth,i;
+val csum;
+area arr;
+  res = "";
+  sum = 0;
+  res = res & chr(195) & chr(146);
+  sum = sum+105;
+  lenth = len(str);
+  for(i=0;i<lenth;i=i+1)begin
+    c = asc(mid(str,i,1));
+    c = c - 32;
+    sum = sum + c*(i+1);
+  end;
+  csum = sum/103;
+  if(csum<round(csum,SetRoundModeD(0))) then begin ksum = round(csum,SetRoundModeD(0))-1; end else begin
+    ksum = round(csum,SetRoundModeD(0));
+  end;
+  sum = sum-(ksum*103);
+  res = res & str;
+  if(sum<95) then begin
+    If(sum==0) then begin
+      res = res & chr(195) & chr(148);
+    end else begin
+      res = res & chr(sum+32);
+    end;  
+  end else begin
+  res = res & chr(195) & chr(sum+41);
+  end;
+  res = res & chr(195) & chr(147);
+  str = res;
+return;
+end;

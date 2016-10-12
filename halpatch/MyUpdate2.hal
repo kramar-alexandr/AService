@@ -1,0 +1,296 @@
+external procedure ExtractObj(string,var Integer,var string);
+external function Boolean SetInSet2(string,string);
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+global procedure SENDSMS(record SVOVc SVOr,record SVOVc SVO2r)
+begin
+	string 255 subject,body,subphone;
+	array string 100 phone,normphone;
+	integer i,lenth,cnt,k;
+	area a_subject,a_body;
+	
+	if(currentcompany==8)then begin
+		if(nonblank(SVOr.PlanShip) and blank(SVO2r.PlanShip))then begin
+			cnt = 0;
+			subphone = SVOr.Kontinfo1;
+			lenth = len(subphone);
+			For(i=0;i<lenth;i=i+1) begin
+				if(mid(subphone,i,1)==",")then begin
+						cnt = cnt+1;
+				end else begin
+					phone[cnt] = phone[cnt] & mid(subphone,i,1);
+				end;
+			end; 
+			cnt = cnt+1;
+			for(k=0;k<cnt;k=k+1)begin
+				lenth = len(phone[k]);
+				normphone[k] = NormalizePhoneNumber(phone[k]);
+				if(len(normphone[k])==10)then begin
+					normphone[k] = "38" & normphone[k];
+				end;
+				if(len(normphone[k])==11)then begin
+					normphone[k] = "3" & normphone[k];
+				end;
+				if(len(normphone[k])!=12)then begin
+					messagebox(0,"ERROR PHONE");
+					goto LSENDSMS;
+				end;
+			end;
+			subject = "9c7e332509201516 ";
+			For(i=0;i<cnt;i=i+1) begin
+				subject = subject & normphone[i] & ",";
+			end; 
+			subject = mid(subject,0,len(subject)-1);
+			addtexttoarea(subject,a_subject);
+			writeareatofile(a_subject,"SMS/sms_subj.txt",0);
+			body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт " & SVOr.SerNr & " готов.[/SMS]";
+			//body = convertstringfromcodepage("WINDOWS-1251",body);
+			addtexttoarea(body,a_body);
+			writeareatofile(a_body,"SMS/sms_body.txt",0);
+			runprogram("SMS/sendSRVSMS.sh","");
+			logtext(0,"SEND SMS");
+		end;
+	end;
+	LSENDSMS:;
+return;
+end;
+
+global procedure SENDFIRSTSMS(record SVOVc SVOr)
+begin
+	string 255 subject,body,subphone;
+	array string 100 phone,normphone;
+	integer i,lenth,cnt,k;
+	area a_subject,a_body;
+	
+	if(currentcompany==8)then begin
+			cnt = 0;
+			subphone = SVOr.Kontinfo1;
+			lenth = len(subphone);
+			For(i=0;i<lenth;i=i+1) begin
+				if(mid(subphone,i,1)==",")then begin
+						cnt = cnt+1;
+				end else begin
+					phone[cnt] = phone[cnt] & mid(subphone,i,1);
+				end;
+			end; 
+			cnt = cnt+1;
+			for(k=0;k<cnt;k=k+1)begin
+				lenth = len(phone[k]);
+				normphone[k] = NormalizePhoneNumber(phone[k]);
+				if(len(normphone[k])==10)then begin
+					normphone[k] = "38" & normphone[k];
+				end;
+				if(len(normphone[k])==11)then begin
+					normphone[k] = "3" & normphone[k];
+				end;
+				if(len(normphone[k])!=12)then begin
+					messagebox(0,"ERROR PHONE");
+					goto LSENDSMS;
+				end;
+			end;
+			subject = "9c7e332509201516 ";
+			For(i=0;i<cnt;i=i+1) begin
+				subject = subject & normphone[i] & ",";
+			end; 
+			subject = mid(subject,0,len(subject)-1);
+			addtexttoarea(subject,a_subject);
+			writeareatofile(a_subject,"SMS/sms_subj.txt",0);
+			if(SVOr.SerNr>=9000000)then begin
+				body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-4515451.[/SMS]";
+			end else begin
+				if(SVOr.SerNr>=8000000)then begin
+					body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2229293.[/SMS]";
+				end else begin
+					body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+				end;
+			end;
+			//body = convertstringfromcodepage("WINDOWS-1251",body);
+			addtexttoarea(body,a_body);
+			writeareatofile(a_body,"SMS/sms_body.txt",0);
+			runprogram("SMS/sendSRVSMS.sh","");
+			logtext(0,"SEND SMS");
+	end;
+	
+	LSENDSMS:;
+return;
+end;
+
+global updating procedure UnreservOldOrdersMn()
+begin
+  record ORVc ORr;
+  row ORVc ORrw;
+  record RetVc Retr;
+  row RetVc Retrw;
+  boolean TrHs,testf,TrHs1;
+  integer mtrw,i,rescnt,mtrw1,j;
+  
+  
+  
+  ORr.Reserved = 1;
+  TrHs = true;
+  while(loopkey("Reserved",ORr,1,TrHs))begin
+    testf = true;
+    if(ORr.Reserved<1)then begin  TrHs = false; testf = false;  end;
+    
+    if(testf)then begin
+      rescnt = 0;
+      mtrw = matrowcnt(ORr);
+      for(i=0;i<mtrw;i=i+1)begin
+        matrowget(ORr,i,ORrw);
+        rescnt = rescnt + ORrw.Quant - ORrw.Shipd2;
+        
+        if((ORrw.Quant-ORrw.Shipd2)>0)then begin
+          Retr.OrdNr = ORr.SerNr;
+          TrHs1=true;
+          while(loopkey("OrdNr",Retr,1,TrHs1))begin
+            if(Retr.OrdNr!=ORr.SerNr)then begin TrHs1=false; end;
+            if(TrHs1)then begin
+              mtrw1 = matrowcnt(Retr);
+              for(j=0;j<mtrw1;j=j+1)begin
+                matrowget(Retr,j,Retrw);
+                if(Retrw.ArtCode==ORrw.ArtCode and Retrw.OrdRow==i)then begin
+                  rescnt = rescnt - Retrw.Quant;
+                end;
+              end;
+            end;
+          end;
+          resetloop(Retr);
+        end;
+      end;
+      
+      if(rescnt==0)then begin
+        ORr.Reserved=0;
+        RecordStore(ORr,true);
+        logtext(0,currentcompany & " Unreserv Order " & ORr.SerNr);
+      end;
+      
+    end;
+  end; 
+
+return;
+end;
+
+
+global updating procedure FixReservesMn()
+begin
+	record ORVc ORr;
+	row ORVc ORrw;
+	record ItemStatusVc ISr;
+	boolean TrHs,testf,TrHs1;
+	integer mtrw,i,rescnt,mtrw1,j;
+	
+	ISr.Code = "";
+	while(loopmain(ISr,1,true))begin
+		if(ISr.RsrvQty!=0)then begin
+			ISr.RsrvQty = 0;
+			recordStore(ISr,true);
+		end;
+	end;
+	
+	ORr.Reserved = 1;
+  TrHs = true;
+	while(loopkey("Reserved",ORr,1,TrHs))begin
+    testf = true;
+    if(ORr.Reserved<1)then begin  TrHs = false; testf = false;  end;
+    if(ORr.Closed==1)then begin testf = false;  end;
+    
+    if(testf)then begin
+      rescnt = 0;
+      mtrw = matrowcnt(ORr);
+    		for(i=0;i<mtrw;i=i+1)begin
+        matrowget(ORr,i,ORrw);
+        if((ORrw.Quant-ORrw.Shipd1)>0)then begin
+        		ISr.Code = ORrw.ArtCode;
+        		ISr.Location = ";;;";
+        		if(readfirstmain(ISr,2,true))then begin
+        			ISr.RsrvQty = ISr.RsrvQty + (ORrw.Quant-ORrw.Shipd1);
+        			recordstore(ISr,true);
+        		end;
+        		ISr.Code = ORrw.ArtCode;
+        		ISr.Location = ORr.Location;
+        		if(nonblank(ORrw.Location))then begin
+        			ISr.Location = ORrw.Location;
+        		end;
+        		if(readfirstmain(ISr,2,true))then begin
+        			ISr.RsrvQty = ISr.RsrvQty + (ORrw.Quant-ORrw.Shipd1);
+        			recordstore(ISr,true);
+        		end;
+        end;
+      end;   		
+    end;
+	end;
+
+return;
+end;
+
+
+
+global //Edit***************************Sasha2,17:37 15.04.2015 {
+updating procedure ImportWebItemsIn()
+begin
+string 100 artcode,classtoadd,classtodel,tempstr,newdisps;
+record INVc INr;
+record DIVc DIr;
+boolean testf;
+integer cnt,pos;
+record WebSyncRegVc WSRr;
+
+	cnt = 0;
+	while (TestEOF()==false) begin
+		artcode = ImportField;
+		classtoadd = ImportField; 
+		classtodel = ImportField;
+		
+		if(nonblank(artcode))then begin
+			WSRr.ArtCode = artcode;
+			if(readfirstmain(WSRr,1,true))then begin
+			  testf = false;
+			  			  
+			  if (NonBlank(classtodel)) then begin
+			    testf = true;
+			              
+  			  pos = 0;
+  			  newdisps = "";
+          ExtractObj(WSRr.Available,pos,tempstr);
+          while (nonblank(tempstr)) begin
+            if (SetInSet2(tempstr,classtodel)==false) then begin
+              if (Blank(newdisps)) then begin
+                newdisps = tempstr;
+              end else begin
+                newdisps = newdisps & "," & tempstr;
+              end;
+            end;
+            ExtractObj(WSRr.Available,pos,tempstr);
+          end; 
+          //if (NonBlank(newdisps)) then begin
+            WSRr.Available = newdisps; 
+          //end;
+			  end;
+			  
+			  if (NonBlank(classtoadd)) then begin
+			    testf = true;
+			    			    
+  			  if (NonBlank(WSRr.Available)) then begin
+  			  	if(!setinset(classtoadd,WSRr.Available))then begin
+							WSRr.Available = WSRr.Available & "," & classtoadd;
+  				  end;
+  				end else begin
+  				  WSRr.Available = classtoadd;
+  				end;
+			  end; 
+
+				if (testf) then begin
+					WSRr.DateChange = currentdate;
+				  recordStore(WSRr,true);
+				end;
+ LSomeErrorInDI:; 			
+			end;
+		end;
+	NextImportLine(true);   
+  end; 
+
+LImportNewItemsWithClassIn:;
+	
+return;
+end; //Edit***************************Sasha2,17:37 15.04.2015 }

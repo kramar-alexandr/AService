@@ -1,0 +1,2557 @@
+/* s5eng.hal */
+
+#ifdef HAL
+
+//event startup
+begin
+
+  SetLangMode(LangUkrainian,"UKR",0); 
+
+  SString(21999,"Збереження записів із майбутніми датами не рекомендовано");
+  SString(22000,"Збереження записів із майбутніми датами не дозволено");
+  SString(22001,"Дата не може бути пустою.");
+  SString(22002,"Customer Service for the date exists");
+  SString(22003,"Цей тип використовувати не можна");
+  SString(22004,"Per Click available for Monthly Only");  
+  SString(22005,"Demo Vouchers are only used in Service Defaults.");  
+  SString(22006,"Всі серійні номери");
+  SString(22007,"Всі причини");
+  SString(22008,"Причина");
+  SString(22009,"Бал: ");//Forward
+  SString(22010,"У користувача немає поштової скриньки");
+  SString(22011,"E-mail заблоковано");
+  SString(22014,"Please specify both Hostname or IP and Port");
+  SString(22015,"Демо Сервер Server");
+  SString(22016,"Продуктивність");//Heading for KPI:s on Windows 8
+  SString(22017,"Ярлики");//Heading for Personal Desktop on Windows 8
+  
+  SString(22021,"Bank Account must contain eight digits only");
+  SString(22022,"Sort Code must contain six digits only");
+
+  SString(22030,"Regional Perception Taxes for the period already exist");
+  SString(22031,"Specify Region");
+  SString(22032,"Specify Withholdings Tax Code");
+  
+  SString(22033,"Expense with this #Supplier# Invoice No. already exists"); 
+  SString(22034,"Не може бути негативним");
+  SString(22035,"Locations that demands position cannot be used");
+  SString(22036,"This Via Location is not allowed");
+  SString(22037,"Слад, на якому вимагаються позиції не дозволено вказувати в полі Через склад");
+  SString(22039,"Not allowed when Positions at this Location entered");
+  SString(22040,"Not allowed when not all Locations entered");
+  SString(22041,"Stock Revaluation Variance Account missing"); 
+  SString(22042,"Returned Goods to Supplier Variance Account missing, check Account Usage Stock"); 
+  SString(22043,"Disassemble Variance Account missing, check Account Usage Stock");
+  SString(22044,"Account for Cost of Sales Accruals A/C not found, check Account Usage Stock");
+  SString(22045,"Invoice with this Supplier Invoice No. already exists");
+  SString(22046,"Account for Tax Matrix Variance not found, check VAT Codes");
+  SString(22047,"Oking record with negative total is not allowed");
+  SString(22048,"Не задано рахунок відхилень, перевірте Настройки склада");
+
+//1274 replacment
+  SString(22049,"Crediting diffrent Invoices is not supported");
+  SString(22050,"You cannot OK this Invoice because the GP% is below the minimum allowed.");
+  SString(22051,"You cannot use Account with Balance as Group Account.");
+  SString(22052,"Credit Notes only");
+  SString(22053,"Un OKing Internal Movements is not allowed");
+  SString(22054,"You cannot Delete Reservation with Status 1");
+  SString(22055,"You cannot Delete Occupied Position");
+  SString(22056,"You cannot Delete Production Orders when Production Created");
+  SString(22057,"Please, select row");
+  SString(22058,"Payment is connected to Invoice");
+  SString(22059,"Invoice Amount is not the same as Open Invoice Amount");
+  SString(22060,"Receipt is connected to Invoice");
+  SString(22061,"Pasting Customer to Quotation failed");
+  SString(22062,"Not allowed when Order Closed");
+  SString(22063,"Занадто багато знаків");
+  SString(22064,"Not allowed in update mode or new mode");
+  SString(22065,"Not allowed when there are Reservations made against this record.");
+  SString(22066,"There are more Reservations made against this Purchase Order than is currently ordered on this Purchase Order.");
+  SString(22067,"Зарезервована кількість більша, ніж замовлена.  Оновіть резервування.");
+  SString(22068,"Якщо ви хочете роздрукувати декілька контактів, вкажіть діапазон або зірочку (*) в полі клієнта");
+  SString(22069,"Контакт закритий: ");
+  SString(22070,"Недозволено якщо запсис закрито");
+  SString(22071,"Функція не виконана");
+  SString(22072,"Неможл. створити відвант. із замовл. на пряму поставку");
+  SString(22073,"Неможл. створити оповіщ. про відвант.");
+  SString(22074,"Не можл. створ. накл. із замовл. на пряму поставку до накл. постач.");
+  SString(22075,"Не можл. створ. надходж. із замовл. постач. на пряму пост.");
+  SString(22076,"Treated quantity is greater than qty requested");
+  SString(22077,"К-ть накладної можливо перерахувати лише якщо опція Передавати кожен рядок окремо вибрана в Настройках актів/накл. постачальників");
+  SString(22078,"Неможливо змінити статус вир-ва.");
+  SString(22079,"Виробництво скасоване");
+  SString(22080,"Запис виробництва не існує");
+  SString(22081,"Усі товари вже переміщені");
+  SString(22082,"Account is not protected by sub-ledger control: ");
+  SString(22083,"Retention Account missing, check Account Usage in Job Costing");
+  SString(22084,"Визначте проект");
+  SString(22085,"Не можливо створити кред. акт/накл.");
+  SString(22086,"Дочірній проект не існує");
+  SString(22087,"Невірний материнський проект");
+  SString(22088,"Неможливо зберегти КП тому що ВД% нижчий за дозволений.");
+
+  SString(22089,"Податкова накладна не мое будти створена."); 
+  SString(22090,"Не вдалося створити податкову накладу"); 
+  SString(22091,"Податкова накладна вже існує,"); 
+  SString(22092,"VAT Correction available for Prepayments only"); 
+  SString(22093,"Вид документа вже використано на податковій накладній."); 
+
+  SString(22095,"You are not allowed to sell Plain Items");
+  SString(22096,"You are not allowed to sell Stocked Items");
+  SString(22097,"You are not allowed to sell Structured Items");
+  SString(22098,"You are not allowed to sell Service Items");
+  SString(22099,"You are not allowed to run this report");
+
+//fiscprnt
+  SString(22100,"Printer Busy");
+  SString(22101,"Printer Error (Serial Port Communication Error)");
+  SString(22102,"Printer Offline");
+  SString(22103,"Paper Error");
+  SString(22104,"Main Paper Error");
+  SString(22105,"Incoming Buffer Full");
+  SString(22106,"Printer opened");
+  SString(22107,"Cash Box closed or absent");
+  SString(22108,"Transmit Buffer is empty");
+  SString(22109,"Receipt Buffer is empty");
+  SString(22110,"Fiscal Memory Error");
+  SString(22111,"Internal Buffer Error");
+  SString(22112,"Unknown Command");
+  SString(22113,"Invalid Data");
+  SString(22114,"Invalid Command");
+  SString(22115,"Total Overflow");
+  SString(22116,"Memory full, blocked or disconnected");
+  SString(22117,"Memory almost full");
+  SString(22118,"Erroneous Date");
+  SString(22119,"Document Already Opened");
+  SString(22120,"Nonfiscal Document Already Opened");
+  SString(22121,"STATPRN");
+  SString(22122,"Incorrect Manufacturing ID Code");
+  SString(22123,"Serial Port Device not defined");
+  SString(22124,"Registers overflow");
+  SString(22125,"Clock failure or incorrect date and hour format");
+  SString(22126,"Opened fiscal receipt");
+  SString(22127,"Payment residue account");
+  SString(22128,"Opened non-fiscal receipt");
+  SString(22129,"Registered a payment but opened fiscal receipt"); 
+  SString(22130,"DTR line is active");
+  SString(22131,"RTS line is active");
+  SString(22132,"DSR line is active");
+  SString(22133,"CTS line is active");
+  SString(22134,"Battery low");
+  SString(22135,"Daily report necessary");
+  SString(22136,"Goods Return");
+  SString(22137,"TOTAL");
+  
+/*TAPI*/
+  SString(22140,"TAPI: TSP not set");
+  SString(22141,"TAPI: API negotiation failed");
+  SString(22142,"TAPI: Stringformat is not unicode");
+  SString(22143,"TAPI: Could not open line");
+  SString(22144,"TAPI: Line initialization failed");
+
+/* fiscal */
+  SString(22150,"Incorrect password");
+  SString(22151,"Illegal command");
+  SString(22152,"Illegal command due to zero daily report");
+  SString(22153,"Syntax error");
+  SString(22154,"Syntax error - input registers overflow");
+  SString(22155,"Syntax error - zero input registers");
+  SString(22156,"Unavailable transaction for correction");
+  SString(22157,"Insufficient amount on hand");
+  SString(22158,"Printer not on");
+  SString(22159,"Printer not ready");
+  SString(22160,"24 hours without daily report blocked");
+  SString(22161,"Printer overheat");
+  SString(22162,"Power down");
+  SString(22163,"Electronic journal overflow");
+  SString(22164,"Not enough conditions met");
+  SString(22165,"Будь-ласка, перевірте з'єднання з принтером");
+  SString(22166,"Зміна дати/часу під час відкритої сесії не дозволена");
+  SString(22167,"Коди ПДВ в программі так на принтері мають співпадати");
+  SString(22168,"Не дозволено друк частково сплачених чеків");
+  
+  SString(22170,"Already Clocked-In");
+  SString(22171,"You have not Clocked-In");
+  SString(22172,"Clocked-In");
+  SString(22173,"and");
+  SString(22174,"Clocked-Out");
+  SString(22175,"late");
+
+  SString(22200,"Charging not allowed"); 
+  SString(22201,"Discount Item not defined. Check Hotel Settings"); 
+  SString(22202,"Room Type does not exist");
+  SString(22203,"Incorrect Reservation Type"); 
+  SString(22204,"Parent Reservation does not exist"); 
+  SString(22205,"You cannot delete reservation with subreservations"); 
+  SString(22206,"Room Location must match Group Reservation Location"); 
+  SString(22207,"Reservations with active folios may not be deleted.");
+
+  SString(22250,"This Receipt has been already printed");
+
+  SString(22260,"Specified credit limit days exceeded");
+  SString(22261,"Забагато записів");
+  SString(22262,"Вже існують записи операцій із пізнішою датою ");
+  SString(22263,"Неправильна дата акт/накл. Перевірте дату акт/накл..");
+
+/* WebNG */  
+  SString(22900,"Invalid node. Node must have a name.");
+  SString(22901,"Folders are structural elements only and cannot be shown in the browser.");
+  SString(22902,"You must save the record first.");
+  SString(22903,"Style does not link to a content handler node in the structure.");
+  SString(22904,"Translations of this origin cannot yet be shown on web directly.");
+  SString(22905,"Comment is required for logging access");
+
+  SString(23000,"Maximum number of concurrent users already logged in. Please contact  " & ProductName & "  to purchase more users.");
+
+/*SmartApps*/
+  SString(23001,"Previous"); // previous (attached) picture
+  SString(23002,"Next"); // next (attached) picture
+  SString(23003,"Take Picture");
+  SString(23004,"Record Comment");
+  SString(23005,"Play Comment");
+  SString(23006,"SmartApps will now close as a result of changes made. Restart the application to continue.");
+  SString(23007,"Help");
+  SString(23008,"Synchronising, please wait");
+  SString(23009,"Update position");
+  SString(23010,"Latitude: ");
+  SString(23011,"Longitude: ");
+  SString(23012,"Altitude: ");
+  SString(23013,"Your device does not support this functionality");
+  SString(23014,"Downloading update, please wait");
+  SString(23015,"Record Sync Info");
+  SString(23016,"Sync Check");
+
+/*DriveLog*/
+  SString(23050,"Настройки");
+  SString(23051,"Експорт завершено");
+  SString(23052,"This program has expired. Please get a new installation file from OVI Store.");
+  SString(23053,"Nothing to show"); //For empty lists
+  
+/*WayListEn (DriveLog export)*/
+  SString(23068,"No.");
+  SString(23069,"Date");
+  SString(23070,"Driver");
+  SString(23071,"Car Code");
+  SString(23072,"Dist.");
+  SString(23073,"Comment");
+  SString(23074,"Purpose");
+  SString(23075,", begin"); //DistUnit & ", begin"
+  SString(23076,", end"); //DistUnit & ", end"
+  SString(23077,"Dist. "); //"Dist. " & DistUnit
+  SString(23078,"Cost, ");//"Cost, " & DistUnit
+  SString(23079,"Total, cost");
+
+/*Cheq*/  
+  SString(23080,"Incorrect Cheque state");
+  SString(23081,"Cheque "); 
+  SString(23082,"Use Batch Deposit to deposit this #cheque#");
+  SString(23083,"Incorrect Temporary Account"); 
+  SString(23084,"Не вірна валюта");
+  SString(23085,"Вже використано"); 
+
+/* Automatic Update */
+  SString(23096,"Autoupdate failed to run the downloaded installation file"); //Android installation instruction. 
+  SString(23097,"There are currently no updates available for your version of #HansaWorld Long Product Name#.");
+
+  SString(23099,"Download new installation package");
+  SString(23100,"There is a newer client available, autoupdate client?");
+  SString(23101,"Client and server not compatible, autoupdate client?");
+  SString(23102,"Auto update failed to move new files.");
+  SString(23103,"Auto update failed to move old files.");
+  SString(23104,"Auto update failed to download file.");
+  SString(23105,"Could not restart the program automatically, the program has to be restarted manually.")
+  SString(23106,"Завантаж. нової версії.");
+  SString(23107,"Обновити зараз");
+  SString(23108,"Закрити");
+  SString(23109,"Обновити пізніше");
+  
+/*Startup Checks*/
+  SString(23110,ProductName & " cannot start, because the folder where it was invoked is not writable. Please check that the application wasn't invoked from the installation image (DMG).");
+  
+  SString(23120,"File download failed, make sure the attachment exists.");
+  SString(23121,"Не можл. прієн. до нов. запису, спочатку треба зберегти");
+
+/*Books*/
+  SString(22300,"Books by HansaWorld");
+  SString(22301,"Books Professional");
+  SString(22302,"Books Professional Advanced");
+  SString(22303,"Books Job Costing");
+  SString(22304,"Books Accounting");
+  SString(22305,"Books POS");
+
+/*HWMoney*/
+  SString(22308,"HansaWorld Money");
+  SString(22309,"POS Standalone");
+  
+/*CRM*/
+  SString(22310,"HansaWorld CRM Basic");
+
+/*Acceptance*/
+  SString(22399,"Approval Rules do not exist");
+  SString(22400,"Вже відправлено для затвердження");
+  SString(22401,"Ще не затвержено");
+  SString(22402,"Відхилено");
+  SString(22403,"Вже затверджено");
+  SString(22404,"Затвердження непотрібне");
+  SString(22405,"Будь ласка, вкажіть вид оповіщення");
+  SString(22406,"May not be cancelled");
+  SString(22407,"May not be edited");
+  SString(22408,"Acceptance Activity exists");
+  SString(22409,"Затвердження для ВСІ для ручного затвердження не дозволено. Автоматичне налаштування."); 
+  
+  SString(22410,"Будь ласка, затвердіть");
+  SString(22411,"Замовлення постачальнику");
+  SString(22412,"Акт/накладну постачальника");
+  SString(22413,"Авансовий звіт");
+  SString(22414,"Внутрішнє замовлення");
+  SString(22415,"Комерційну пропозицію");
+  SString(22416,"Рахунок клієнту");
+  SString(22417,"Акт/накладну");
+  SString(22418,"Бюджет проекту");
+  SString(22419,"Надходження на склад");
+  SString(22420,"Особа");
+  SString(22421,"Постачальник");
+  SString(22422,"Клієнт");
+  SString(22423,"Сума");
+  SString(22424,"Проект");
+
+  SString(22425,"Списання зі складу");
+  SString(22426,"Інвентаризацію");
+  SString(22427,"Платіж постачальнику");
+  SString(22428,"Leave Application");
+  SString(22429,"Leave Transfer");
+  
+  SString(22430,"днів");
+  SString(22435,"Журнал подорожів"); 
+  SString(22436,"Жур-л/Подорож.");
+  
+/*ToDoWClass*/
+  SString(23150,"Тип");
+  SString(23151,"Завдання");
+  SString(23152,"Керівник");
+  SString(23153,"Проект");
+  SString(23154,"Контакт");
+  SString(23155,"Телефон");
+  SString(23156,"Дата");
+
+  SString(23165,"Діяльність затверджено");
+  
+  SString(23168,"Please check your Internet connection."); //Sberbank product key older than 24 hrs 
+  SString(23169,"Ця база даних може бути відкрита лише з серверною версією програми");
+  /* Remote Backups - Error Codes */
+  /* Remote backups */
+  SString(23170,"Зв'язок перервано");
+  SString(23171,"Login Failed");
+  SString(23172,"Login Failed - Incorrect Password");
+  SString(23173,"Login Failed - Unknown User");
+  SString(23174,"Login Failed - Closed User");
+  SString(23175,"Download Failed - File Exists");
+  SString(23176,"Зв'язок втрачено");
+  
+  /* Remote Backups - Status Codes */
+  SString(23190,"У процесі");
+  SString(23191,"Завершено");
+  SString(23192,"Помилка");
+  
+  /* Job Status Report */
+  SString(23209,"Статус задачі");
+  SString(23210,"Задача");
+  SString(23211,"Тип");
+  SString(23212,"On"); // = performed on, NOT "active"
+  SString(23213,"Статус");
+  SString(23214,"Прогрес");
+  SString(23215,"Action");
+  SString(23216,"Resume");
+  
+  /* Sync Status Report */
+  SString(23220,"Reg/Blk");
+  SString(23221,"Comp. No.");
+  SString(23222,"Status");
+  SString(23223,"Init. Sts.");
+  SString(23224,"L. Pos");
+  SString(23225,"Snt. Pos");
+  SString(23226,"Ack. Pos");
+  SString(23227,"O. Frm Svr");
+  SString(23228,"O. To Svr");
+  SString(23229,"Sent");
+  
+  /*InvType*/
+  SString(23250,"Дебет нота");
+
+  SString(23300,"Не вдалося затвердити надходження номер");
+  SString(23301,"Переміщення більшої кількості, ніж отримано не дозволено.");
+  SString(23302,"Не корректний тип переміщення складу");
+  SString(23303,"Не коррект. фоновий розмір"); 
+  
+/*Documents*/  
+  SString(23350,"№ передплати"); 
+  SString(23351,"Дата передплати");
+  SString(23352,"Не акцизний");
+  SString(23353,"Період акт/накл.");
+  SString(23354,"Період тех. обсл-ня"); 
+  SString(23355,"Копія оригінального документу");
+  SString(23356,"Посібник"); 
+  SString(23357,"Док. лише для навчальних цілей");
+  SString(23358,"Демо компанія"); 
+  SString(23359,"Font size for Document type field is too small"); 
+  SString(23360,"Не вистачая деякіх полів"); 
+  SString(23361,"Не платник ПДВ");
+
+  SString(23400,"Form field missing"); 
+  SString(23401,"Document not valid as an invoice"); 
+  SString(23402,"Fields overlap"); 
+
+/*DocType*/
+  SString(23450,"Sales Invoice"); 
+  SString(23451,"Credit Note"); 
+  SString(23452,"Cash Note"); 
+  SString(23453,"Interest Invoice"); 
+  SString(23454,"Quotation"); 
+  SString(23455,"POS Invoice"); 
+  SString(23456,"Sales Order"); 
+  SString(23457,"Delivery"); 
+  SString(23458,"Return Goods"); 
+  SString(23459,"Stock Movement"); 
+  SString(23460,"Picking List"); 
+  SString(23461,"Proforma Invoice, Quotation"); 
+  SString(23462,"Повернення товарів постачальнику");  
+  SString(23463,"Спрощений акт/накл."); 
+  SString(23464,"Діяльність");
+  SString(23465,"Договір");
+  SString(23466,"Статус ОЗ");
+  SString(23467,"Списання ОЗ"); 
+  SString(23469,"Зміна базової ціни");
+  SString(23470,"Клієнт/Постач. ярлик"); 
+  SString(23471,"Витрати");
+  SString(23472,"Виплати спіроб.");
+  SString(23473,"акт/накл./Платіж");
+
+  /* Toolbar items 23500-23589 */
+  SString(23500,"Увійти під іншим користувачем");
+  SString(23501,"Communicate"); 
+  SString(23502,"Manuals");
+  SString(23503,"e-Learning");
+  SString(23504,"Website");
+  SString(23505,"Pin To");
+  SString(23506,"Start");
+  SString(23507,"Main Menu");
+  SString(23508,"Preview");
+  SString(23509,"Print");
+
+  /* Extended title bar (found in Windows 8) */
+  SString(23590,"Company: ");
+  SString(23591,"User: ");
+  SString(23592,"Mode: ");
+  
+  /* Royalty Reporting */
+  SString(23600,"Customer or Serial Number required");
+  SString(23601,"Invalid Serial Number");
+  SString(23602,"Not the same as on contract");
+  SString(23603,""); //available
+  SString(23604,"Cannot approve record");
+  SString(23605,"Royalty % does not match setting");
+  SString(23606,"Invalid product type");
+  SString(23607,"Item is for a different product type");
+  SString(23608,"Cannot approve this record. Record not OKed.");
+  SString(23609,"Cannot approve this record while using Standard Contracts.");
+  SString(23610,"Cannot insert invalidated record");
+  SString(23611,"Cannot invalidate unapproved record");
+  SString(23612,""); //available
+  SString(23613,"Cannot find Configuration Package for item");
+  SString(23614,"Cannot approve record with discount");
+  
+  /* Royalty Report - internal report: no need to translate */
+  SString(23630,"Royalty Report");
+  SString(23631,"Consolidated Royalty Report");
+  SString(23632,"Approved");
+  SString(23633,"Not Approved");
+  SString(23634,"Invoiced");
+  SString(23635,"Not Invoiced");
+  SString(23636,"OKd");
+  SString(23637,"Not OKed");
+  SString(23638,"Paid");
+  SString(23639,"Not Paid");
+  SString(23640,"Closed");
+  SString(23641,"Not Closed");
+  SString(23642,"Include");
+  SString(23643,"Future Records");
+  SString(23644,"Licences");
+  SString(23645,"Maintenance");
+  SString(23646,"TOTAL");
+  SString(23647,"Avg.");
+  SString(23648,"Royalty");
+  SString(23649,"Doc");
+  SString(23650,"Customer");
+  SString(23651,"Contract");
+  SString(23652,"Amount");
+  SString(23653,"Royalty %");
+  SString(23654,"Amount");
+  SString(23655,"OK");
+  SString(23656,"Appr.");
+  SString(23657,"Invoice");
+  SString(23658,"Paid");
+  SString(23659,"Total");
+  SString(23660,"Future");
+  SString(23661,"All Product Types");
+  SString(23662,"Part.");
+  SString(23663,"Over");
+  
+  /* Apple GSX Integration */
+  SString(23700,"Будь-ласка, оберіть рядок із Сер. №");
+  SString(23701,"No parts found.");
+  SString(23702,"This is not an Apple Care Product");
+  SString(23703,"Specify Main Serial Number");
+  SString(23704,"Not eligible for Apple Care Protection Plan sale.");
+  SString(23705,"Eligible for Apple Care Protection Plan sale.");
+  SString(23706,"Apple Care Protection Plan for this Serial Number has been sold already.");
+  SString(23707,"Apple Care Protection Plan for this Serial Number has been cancelled.");
+  SString(23708,"Apple Care Protection Plan for this Serial Number has been requested already.");
+
+  SString(23710,"Not sent");
+  SString(23711,"Sent");
+  SString(23712,"Cancelled");
+  
+  /* UploadWaitClass */
+  SString(23750,"Attaching "); //Will be followed by a filename, please translate to accommodate this, if that is not possible
+  SString(23751,"Завантаження "); //please file a bug report.
+  SString(23752,ProductName & " Upload");
+  SString(23753,ProductName & " Download");
+  SString(23754,"Transferred "); //Will be concatenated to "Transferred xKB of yKb". If that translation is not possible,
+  SString(23755," of "); //please file a bug report.
+  
+  /* Books Uninstaller */
+  SString(23770,"Books by HansaWorld successfully uninstalled");
+  SString(23771,"Uninstall failed to remove files, please check that Books by HansaWorld is not running and try again");  
+  SString(23772,"Are you sure you want to delete all your data? This cannot be undone.");
+  SString(23773,"Books.app was not found in the Applications folder");
+
+  /* Tool tips */
+  SString(24000,"Check Box");
+  SString(24001,"Radio Button");
+  SString(24002,"Scrollbar");
+  SString(24003,"Click to select this tab");
+  SString(24004,"Flip Tab");
+  SString(24005,"Icon Button");
+  SString(24006,"Press CMD - ENTER for list of values"); //mac
+  SString(24007,"Press Ctrl - ENTER for list of values"); //windows
+  SString(24008,"Click to sort");
+  SString(24009,"Click to drill down");
+  
+  /* FedEx Internet Service */
+  SString(24050,"No freight company specified");
+  SString(24051,"Freight company Web Service not set up");
+  SString(24052,"No packages defined");
+  
+  SString(24070,"Post VAT from Receipts Write Offs does not work with Post Receipt VAT");
+
+  SString(24080,"Not possible to calculate Withholding Taxes.Incorrrect Sent Currency.");
+
+  SString(24091,"VAT Correction Type does not exist");
+  SString(24092,"Make Update Mark first");
+
+  SString(24100,"Missing server.hob");
+
+  SString(24150,"Create Delivery first");
+  SString(24151,"Delivered Items have already been Invoiced");
+  SString(24152,"Create Goods Receipt first");
+  SString(24153,"Received Items have already been Invoiced");
+  SString(24154,"Serial Number cannot contain colon or semicolon or space ");
+
+  SString(24160,"Звузьте Ваші пошукові критерії");
+
+/*POS*/
+  SString(24165,"Новий рахунок");
+  SString(24166,"На баланс");
+  SString(24167,"Device Serial No.");
+  SString(24168,"Prepayment No.: ");
+  SString(24169,"Номер повернення: ");
+  SString(24170,"Користувач належіть до іншої сесії");
+  SString(24171,"ВСЬОГО");
+  SString(24172,"РЕШТА");
+  SString(24173,"ПДВ");
+  SString(24174,"Товар(и)");
+  SString(24175,"Рядок анульовано");
+  SString(24176,"К-ть");
+  SString(24177,"Вимагається повна оплата");
+  SString(24178,"Серійний №");
+  SString(24179,"Розділити");
+  SString(24180,"Кількість не може бути відмінною від 1 для товарів з серійними номерами"); 
+  SString(24181,"MBDSC");
+  SString(24182,"LOYPOINTS");
+  SString(24183,"LOYBONUS");
+  SString(24184,"Сума перевищуе суму до сплати");
+  if (GuiType==kGuiCocoa) then begin
+    SString(24185,"Cmd"); //command key on keyboard
+  end else begin
+    SString(24185,""); //control key on keyboard
+  end;
+  SString(24186,"Shift"); //shift key on keyboard
+  SString(24187,"Визначте найменув.");
+  SString(24188,"Визначте номер картки");
+  SString(24189,"Ліміть знижки досягнуто");
+  SString(24190,"Не заданий товар знижки");
+  SString(24191,"Невірна сума");
+  SString(24192,"Assisted by: ");
+  SString(24193,"До сплати");
+  SString(24194,"Продан. подарунк. сертиф-т");
+  SString(24195,"Визначте суму");
+  SString(24196,"Послуги");
+  SString(24197,"Повернення на суму, більше ніж загальна сума рахунку не дозволено");
+  SString(24198,"Сесія вже закрита");
+  SString(24199,"Select Payment Mode with Received Cheques Type");
+
+/*Tax Template*/
+  SString(24200,"Шаблон податку не існує");
+  SString(24201,"Вкажіть шаблон податку");
+
+  SString(24218,"VAT Code ");
+  SString(24219," not allowed for Account ");
+  SString(24220,"Bank Rate Gain Account missing, check Account Usage");
+  SString(24221,"Bank Rate Loss Account missing, check Account Usage");
+  SString(24222,"On Account VAT Account or I/P A/C missing, check Account Usage or VAT Code Setting."); 
+
+  SString(24230,"Контракт закрито: ");
+
+  /* HAL customizations old range 24100 - 24299 */
+  
+  /* HAL Compiler 24300 - 24399*/
+  SString(24300,"HAL compiler errors, check hal.log");
+  
+  /* Latvian Payroll 24400 - 25399, (HW Lat & Janis Z.) */
+
+/*POS*/
+  SString(24600,"Накладні ЕККА");
+  SString(24601,"Подарункові чеки");
+  SString(24602,"Credit Card Slips");
+  SString(24603,"Події ЕККА");
+  SString(24604,"Баланси ЕККА");
+  SString(24605,"Події каси");
+  SString(24606,"Виданий подарунковий сертифікат");
+  SString(24607,"Проданий подарунковий сертифікат");
+  SString(24608,"Отриманий подарунковий сертифікат");
+
+  SString(24620,"Не коррекнт. поштовий індекс. Очікуваний формат  ****-***");
+  SString(24621,"***** - Complement");
+  SString(24622,"Вул. не знайдена");
+  SString(24623,"Municipality not found");
+  SString(24624,"Поштовий індекс не в форматі: *****-***");
+
+/*LatEUSalesRn*/
+  SString(24630,"VAT Declaration Annex VAT2");
+  SString(24631,"Country");
+  SString(24632,"Customer");
+  SString(24633,"Name");
+  SString(24634,"Amount");
+  SString(24635,"Type");
+  SString(24636,"Total Cash: ");
+  
+  /* XBRL Report */
+  SString(25400,"XBRL Report");
+  SString(25401,"Field Name");
+  SString(25402,"Result");
+  
+  /* HTML Editor 25450 - 25410 */
+  SString(25450,"Please save the mail before adding images.");
+  SString(25451,"Please save the signature before adding images.");
+  SString(25452,"Please save the record before adding images.");
+  SString(25453,"HTML не дозволено.");
+  SString(25454,"HTML опція має бути обрана.");
+  SString(25455,"An attached HTML document was found, and will replace the current text content. To prevent this, cancel editing and delete the attached HTML file before you enable HTML Formatting.");
+  SString(25456,"The mail must be saved before it is changed to plain-text");
+  SString(25457,"This mail has a HTML part that cannot be displayed. Changes to the plain-text part of this mail may not be noticed by all users.");
+  SString(25458,"This letter has a HTML part that cannot be displayed. Changes to the plain-text part of this letter may not be noticed by all users.");
+  SString(25459,"The record must be saved before it is changed to plain-text");
+  SString(25460,"On"); // HTML Mail reply: "On 2011-02-04, at 11:31, Ludvig A Norin wrote:"
+  SString(25461,"at"); // If this can't be translated, please file a bug report
+  SString(25462,"wrote");
+  SString(25463,"Begin forwarded message:");
+  SString(25464,"This is an html email, which this platform does not support, or is disabled in this system.");
+  SString(25465,"This e-mail can't be sent externally because there is no sender e-mail address defined."); 
+  
+  /* Credit card processing */
+  SString(25500,"No Account IDs set up");
+  SString(25501,"No Card-Not-Present Account ID set up");
+  SString(25502,"Refund transaction not possible.");
+  SString(25503,"No Transaction ID found.");
+  SString(25504,"Credit card payment service not set up");
+  SString(25505,"Deferred Credit Card Transaction exists");
+  
+  /* Item Classification List Report */
+  SString(25550,"Item Classifications List");
+  SString(25551,"Code");
+  SString(25552,"Name");
+  SString(25553,"Type");
+  SString(25554,"Comment");
+  SString(25555,"Classification");
+  SString(25556,"Sorted by Classification");
+  SString(25557,"Sorted by Type");
+  SString(25558,"Classification Type");
+
+  /* Printing Reervations */
+  SString(25570,"Confirmed Booking");
+  SString(25571,"days");
+  SString(25572,"Arriving");
+  SString(25573,"Departing");
+  SString(25574,"Adults");
+  SString(25575,"Children");
+  SString(25576,"Unit Type");
+  SString(25577,"Ref.");
+  SString(25578,"Guest");
+  SString(25579,"Additional Items");
+  SString(25580,"Downpayment Rsrv. No.:");
+  SString(25581,"Inv. No.:");
+  SString(25590,"Резервація");
+  SString(25591,"Запит на резервацію");
+
+  /* IVDClass */
+  SString(25600,"Будь ласка, визначте клієнта");
+  SString(25601,"Клієнт не зареєстрований: ");
+  SString(25602,"Фіксована ціна та знижка не можуть бути використані одночасно");
+  SString(25603,"Сума перевищила баланс");
+  SString(25604,"Другий сер. номер");
+  SString(25605,"Альтернат.ID номер пристрою");
+  
+  /* Argentinian E-Invoicing part II */
+  SString(25700,"Invalid Region Code (DST_pais)");
+  SString(25701,"Invalid Bank (Forma_pago)");
+  SString(25702,"Invalid Delivery Term (Incoterms)");
+  SString(25703,"Invalid Language Code (Idioma_cbte) ");
+  SString(25704,"Invalid Currency (Moneda_ID)");
+  SString(25705,"Invalid EKN Code on Item (Pro_umed)");
+  SString(25706,"Cannot send credit invoice without 'Credit of Invoice' line");
+  SString(25707,"Cannot unOK invoices that have received a CAE/CAEA");
+  SString(25708,"CAEA has been already obtained for current period");
+  SString(25709,"This is CAEA Invoice");
+  SString(25710,"CAEA has not been enabled");
+  SString(25711,"Incorrect VAT Code");
+  SString(25712,"Incorrect Tax Type");
+  SString(25713,"Invalid Country");
+  SString(25714,"Incorrect Serie");
+  SString(25715,"Incorrect Number"); 
+  SString(25716,"Official Number may not be blank");
+
+/* Live Sync*/
+  SString(25750,"Ця кнопка не може бути використана на Live Sync клієнті");
+  SString(25751,"Файл не може бути прикріплений у режимі offline"); 
+  SString(25752,"(Offline)");
+  
+  SString(25800,"Видалити посилання?");
+  
+  /* WelcomeWClass */
+  SString(25900,"An installation already exists");
+  SString(25901,"This feature is not available in the demo version of the product.");
+
+  /*TESA HT28*/
+  SString(25920,"Connection Failed");
+  SString(25921,"Select Electronic Locking System Type");
+  SString(25922,"Card encoded");
+  SString(25923,"Checked out");
+  SString(25924,"Unknown TESA HT28 reply");
+  SString(25925,"TESA HT28 reply error");
+  
+  /* Customer Status Report */
+  SString(26000,"Used Credit:");
+  SString(26001,"Available Credit:");
+
+  /* HRM */
+  SString(26100,"All Employees");
+  SString(26101,"Employees ");
+  SString(26102,"All Skills");
+  SString(26103,"Skills ");
+  SString(26104,"All Ratings");
+  SString(26105,"Ratings ");
+  SString(26106,"All Employment Contracts");
+  SString(26107,"Employment Contracts ");
+  SString(26108,"All Job Titles ");
+  SString(26109,"Job Titles ");
+  
+  /* Chronology */
+  SString(26200,"Вже існують записи, що поновлюють склад із датою раніше за вказану. В даному записі Ви можете вказати дату не раніше за ");
+  SString(26201,"В даному записі Ви можете вказати дату не раніше за");
+  
+  SString(26210,"Будь ласка, оберіть один товар");
+  SString(26211,"Група складів");
+  SString(26212,"Класифікація складу");
+  SString(26213,"Не вказаний склад");
+  SString(26214,"Не можливо створити акт/накл., Ключ не дійсний");
+  
+  /* Trip Sheet */
+  SString(26300,"Trip Sheet");
+  SString(26301,"(empty)");
+  SString(26302,"Type");
+  SString(26303,"No.");
+  SString(26304,"Route");
+  SString(26305,"Destination");
+  SString(26306,"Name");
+  SString(26307,"Volume");
+  SString(26308,"Weight");
+  SString(26309,"Signature");
+  SString(26310,"Item");
+  SString(26311,"Description");
+  SString(26312,"Qty.");
+  SString(26313,"Unit");
+  SString(26314,"Serial No.");
+  SString(26315,"Total");
+  
+  /* About Enterprise */
+  SString(26320,"Warning: This program is protected");
+  SString(26321,"by copyright law and international");
+  SString(26322,"treaties. Unauthorised reproduction");
+  SString(26323,"or distribution of this program, or");
+  SString(26324,"any portion of it, may result in");
+  SString(26325,"severe civil and criminal penalties,");
+  SString(26326,"and will be prosecuted to the maximum");
+  SString(26327,"extent possible under the law.");
+  SString(26328,"Build "); //Build number will be appended to this string
+  
+  /*checking*/
+  SString(26350,"Doc. Type.");
+  SString(26351,"Subsystems Checking");
+  SString(26352,"Transaction Checking");
+  SString(26353,"No N/L Transaction for");
+  SString(26354,"Pay. Mode");
+  SString(26355,"Comment");
+  SString(26356,"Supplier");
+  SString(26357,"Name");
+  SString(26358,"Location");
+  SString(26359,"Person");
+  SString(26360,"Name");
+  SString(26361,"From Loc.");
+  SString(26362,"Corresp. Mode");
+  SString(26363,"Specification");
+  SString(26364,"Via Loc.");
+  
+  /* Headers */
+  SString(26380,"Товар");
+  SString(26381,"Група товарів");
+  SString(26382,"Класифікація товару");
+  SString(26383,"Склад");
+  SString(26384,"Группа складу");
+  SString(26385,"Класифікація складу");
+  SString(26386,"Клієнт");
+  SString(26387,"Категорія клієнта");
+  SString(26388,"Класифікація клієнта");
+  SString(26389,"Постачальник");
+  SString(26390,"Категорія постачальника");
+  SString(26391,"Класифікація постачальника");
+
+  /* EULA */
+  SString(26400,"You must accept these terms and conditions to be authorised to use this application. The application will now quit.");
+  SString(26401,"Please select a country from the list by pressing cmd + enter");
+  SString(26402,"Please select a country from the list by pressing ctrl + enter");
+ 
+  /* Loyalty Cards */
+  SString(26430,"From Points can't be more than To Points");
+  SString(26431,"Invalid Membership Level");
+  SString(26432,"Invalid Discount Matrix");
+  SString(26433,"Invalid Price List");
+  SString(26434,"Обрана накопичувальна картка недійсна");
+  SString(26435,"Невірна накопичувальна картка");
+  SString(26436,"Клієнт закритий ");
+  SString(26437,"Не є клієнтом ");
+  SString(26438,"Термін дії накопичувальної картки закінчився");
+  SString(26439,"Не вказана накопичувальна картка");
+
+  /* COINStatisticsRn */
+  SString(26450,"Contract Item Statistics");
+  SString(26451,"Contract Class");
+
+  /* COCUServiceStatRn */
+  SString(26455,"OKd");
+  SString(26456,"Not OKed");
+  SString(26457,"Accepted");
+  SString(26458,"Not Accepted");
+  SString(26459,"Date");
+  SString(26460,"All Products");
+  SString(26461,"Product");
+  SString(26462,"All Companies");
+  SString(26463,"Company");
+  SString(26464,"Status");
+  SString(26465,"Showing only functions");
+  SString(26466,"Excluding functions");
+  SString(26467,"Number of Contracts");
+  SString(26468,"Contract No.");
+  SString(26469,"Package No.");
+  SString(26470,"Customer");
+  SString(26471,"Name");
+  SString(26472,"Qty");
+  SString(26473,"Sum");
+  SString(26474,ProductName & " Contracts Statistics");
+  SString(26475,"TOTAL");
+
+  /* COCUWrongInvRn */
+  SString(26480,"Paid");
+  SString(26481,"Invoiced");
+  SString(26482,"Issued");
+  SString(26483,"Incorrectly Invoiced Contracts");
+  SString(26484,"Contract");
+  SString(26485,"Customer");
+  SString(26486,"Class");
+  SString(26487,"CO History");
+  SString(26488,"Calc. Qty");
+  SString(26489,"CO Qty");
+  
+  /*Portugal*/
+  SString(26560,"Total Number of Invoices:");
+  SString(26561,"Total Number of POS Invoices:");
+
+  /*BarTabJnRn*/
+  SString(26562,"Guest: ");
+  SString(26563,"Room: ");
+  SString(26564,"Room Location: ");
+  SString(26566,"No.");
+  SString(26567,"Trans.Date");
+  SString(26568,"Customer");
+  SString(26569,"Guest");
+  SString(26570,"Room");
+  SString(26571,"Amount");
+  SString(26572,"Status");
+  SString(26573,"Include Open");
+  SString(26574,"Local Machine Code");
+  SString(26575,"Include Open Invoices");
+  SString(26576,"Total Number of POS Invoices:");
+  SString(26577,"Closed");
+  SString(26578,"Open");
+  SString(26579,"Total Amount");
+  SString(26580,"Bar Tab Journal");
+
+  /*SuplWithHoldRn*/
+  SString(26590,"Withholding Tax: ");
+  SString(26591,"Calculation Formulae: ");
+  SString(26592,"Calculation Formulae: ");
+  SString(26593,"Seq.No");
+  SString(26594,"Supp.VAT Reg.No.");
+  SString(26595,"Supplier Name");
+  SString(26596,"W.Tax Formula Code");
+  SString(26597,"Amount Paid");
+  SString(26598,"Rate");
+  SString(26599,"W.Tax Amount");
+  SString(26600,"Total");
+
+  /*Portugal SAFT XML Export*/
+  SString(26700,"Generated by Certified Software");
+  SString(26701,"Not filled in");
+  SString(26702,"Internal Document Only");
+  SString(26703,"Document without Tax calculation");
+  SString(26710,"Cannot Export SAFT for Different Fiscal Years"); 
+  
+  /*PriceCalcRn*/
+  SString(27000,"Price Calculation Report");
+  SString(27001,"Reservation");
+  SString(27002,"Date");
+  SString(27003,"Check In");
+  SString(27004,"Check Out");
+  SString(27005,"Adults");
+  SString(27006,"Children");
+  SString(27007,"Calculation");
+  SString(27008,"Price Rules/Item");
+  SString(27009,"Total");
+  SString(27010,"Package");
+  SString(27011,"Room");
+  SString(27012,"Nights");
+  SString(27013,"Customer");
+  SString(27014,"Total Stay");
+  SString(27015,"Rack Rate");
+  SString(27016,"Total");
+  SString(27017,"n/a");
+  SString(27018,"Unknown");
+  SString(27019,"Total");
+  SString(27020,"Accom");
+  SString(27021,"Reservation Total");
+  SString(27022,"Price formula not found");
+  SString(27023,"Invalid price formula.");
+  SString(27024,"This group has no subreservations.");
+
+/* AlphalistRn */
+  SString(27050,"Withholding Tax: ");
+  SString(27051,"ATC Code: ");
+  SString(27052,"Calculation Formulae: ");
+  SString(27053,"Seq.No");
+  SString(27054,"Payee's TIN");
+  SString(27055,"Payee's Registered Name");
+  SString(27056,"ATC Code");
+  SString(27057,"Amount of Income Payment");
+  SString(27058,"Rate of Tax");
+  SString(27059,"Amount of Tax Withheld");
+  SString(27060,"Total");
+  SString(27061,"Alphalist");
+  SString(27062,"TIN");
+
+  /*NrsperMachineRn*/
+  SString(27080,"Numbers per Machine");
+  SString(27081,"Local Machine");
+  SString(27082,"Database ID");
+  SString(27083,"Register");
+  SString(27084,"Invoice Numbers Range");
+  SString(27085,"Last Number used");
+
+  /* Web Client */
+  SString(27200,"Cannot print document: ");
+  SString(27201,"Delete");
+  SString(27202,"Invalidate");
+  SString(27203,"PERSONAL");
+  SString(27204,"Calendar");
+  SString(27205,"Mail");
+  SString(27206,"Tasks");
+  SString(27207,"Conferences");
+  SString(27208,"COMPANY");
+  SString(27209,"Company");
+  SString(27210,"Resources");
+  SString(27211,"SmartApps");
+  SString(27212,"Modules");
+  SString(27213,"ROUTINES");
+  SString(27214,"Reports");
+  SString(27215,"Documents");
+  SString(27216,"Settings");
+  SString(27217,"Routines");
+  SString(27218,"Logoff");
+  SString(27219,"First"); //27219 - 27222 links in browse lists
+  SString(27220,"Попер."); //Previous
+  SString(27221,"Натупний");
+  SString(27222,"Останній");
+  SString(27223,"Зв'язок із сервером нормальний.");
+  SString(27224,"Останнє з'єднання із сервером.");
+  SString(27225,"Відкрити");
+  SString(27226,"Редагувати");
+  SString(27227,"Реєстри");
+  SString(27228,"Сховати Меню");
+  SString(27229,"Показати Меню");
+  SString(27230,"Спеціальна вставка");
+  SString(27231,"Вікриття вікна");
+  SString(27232,"Запус звіта");
+  SString(27233,"Увійти"); 
+    
+  /* E-Payments */
+  SString(27300,"Payment already sent to E-payments queue");
+  SString(27301,"Signing Failed. Card is not in Reader or PIN2 code is wrong");
+  SString(27302,"This payment needs more signatures");
+  SString(27303,"payment.ddoc not found");
+  SString(27304,"Signing requirements already met. Signed by");
+  SString(27305,"User has already signed this payment");
+  SString(27306,"Signature added");
+  SString(27307,"Electronic Payment signed");
+  SString(27308,"Payment cannot be OKed");
+
+  SString(27309,"Remitter IBAN code is not formatted correctly");
+  SString(27310,"Folder missing in tmp Folder");
+  SString(27311,"Bank Account missing");
+  SString(27312,"Not valid IBAN Bank Account");
+  SString(27313,"SWIFT missing");
+  SString(27314,"Description missing");
+  SString(27315,"Payment currency is not formatted correctly - it has to be 3 characters long and contain only letters");
+  SString(27316,"Beneficiary Name is not formatted correctly - it can be up to 200 characters long");
+  SString(27317,"Details/Text is not formatted correctly - in can be up to 300 characters long");
+  SString(27318,"Reference number is not formatted correctly - it can be up to 20 characters long");
+  SString(27319,"Beneficiary IBAN code is not formatted correctly");
+  
+  SString(27320,"Рахунок");
+  SString(27321,"Стіл зайнятий");
+  SString(27322,"Стіл закріплено за іншим офіціантом");
+  SString(27323,"Визначте");
+  SString(27324,"Стіл зазначений за іншою філією");
+  SString(27325,"Замовлення");
+  SString(27326,"Клас не існує");
+
+  SString(27330,"More Single User Companies than allowed. Program is now in Restricted Mode.");
+  SString(27331,"More Consolidated Companies than allowed. Program is now in Restricted Mode.");
+  SString(27332,"More Non-Consolidated Companies than allowed. Program is now in Restricted Mode.");
+  SString(27333,"Single User Server and Beep for each message checkboxes may not be ticked at the same time");
+  
+  SString(27334,"SQL live mode is enabled, but not in configuration"); 
+  SString(27335,"SQL shadow mode is enabled, but not in configuration"); 
+
+/*POS Pole Display*/  
+  SString(27350,"To Pay");
+  
+  SString(27351,"invoice cannot be stored");
+  SString(27352,"Not possible to save because Item type changed on an Item that has been used");
+  SString(27353,"Item of type Plain is not allowed here");
+  SString(27354,"No items can be returned");
+  
+/* ORVcRecordCheck */
+  SString(27370,"Номер TREO не може буті не заповненим.");
+  
+  /* Credit card processing Yomani */
+  SString(27368,"Specify Original Transaction Timestamp");
+  SString(27369,"Specify Transaction ID");
+  SString(27370,"");
+  SString(27371,"Chip-card inserted");
+  SString(27372,"Waiting for mag.stripe (fallback)");
+  SString(27373,"Mag.stripe read");
+  SString(27374,"Manually entered card number");
+  SString(27375,"Language selection");
+  SString(27376,"Application selection");
+  SString(27377,"CVM (PIN entry)");
+  SString(27378,"Authorization");
+  SString(27379,"Transaction initialization");
+  SString(27380,"Transaction preparation");
+  SString(27381,"Data authentication");
+  SString(27382,"Question for acceptance (a response from ECR requested)");
+  SString(27383,"Transaction Ready, waiting for card removal.");
+  
+  SString(27390,"Status is ok, no errors nor problems");
+  SString(27391,"Cardholder's date of birth in extra info field, six digits, YYMMDD");
+  SString(27392,"Incorrect PIN given, retry still possible");
+  SString(27393,"PIN Blocked");
+  SString(27394,"Authorization cancel failed, transaction will be cancelled but authorization should be cancelled by phone. Please call the authorizer");
+  SString(27395,"Original transaction not found");
+  SString(27396,"Reversal/Refund not allowed");
+  SString(27397,"Terminal Error");
+
+  SString(27410,"Perform manual authorization. Please call Phone No. displayed in Extra Info Field");
+  SString(27411,"PIN Bypass.");
+  SString(27412,"Personal identification will be checked.");
+  SString(27413,"Chip read failed.");
+  
+/* PUJRn */
+  SString(27450,"Including TREO Items");
+  SString(27451,"Excluding TREO Items");
+  SString(27452,"Treo Items Only");
+  
+/* Business Communicator Button*/
+  SString(27500,"Communicate");
+
+/*Receipt Printing*/
+  SString(27510,"Phone"); //!!TRANSLATE
+  SString(27511,"Extension"); //!!TRANSLATE
+  SString(27512,"SIP"); //!!TRANSLATE
+  SString(27513,"Mobile"); //!!TRANSLATE
+  SString(27514,"Skype"); //!!TRANSLATE
+  SString(27515,"E-mail"); //!!TRANSLATE
+
+/*Receipt Printing*/
+  SString(27520,"This serves as an GIFT RECEIPT");
+  SString(27521,"This serves as an OFFICIAL RECEIPT");
+  SString(27522,"Thank you for shopping!");
+  
+/* ASP Hosting */
+  SString(27550,"Couldn't determine the location of the hosting center. Please wait while the system attempts to re-connect.");
+  SString(27551,"The server couldn't be setup in the hosting center, please contact HansaWorld for assistance."); // Couldn't create customer card on CC
+  SString(27552,"Please wait while the system attempts to re-connect.");
+  SString(27553,"Preparing your server...");
+  SString(27554,"Exporting your data...");
+  SString(27555,"Allocating space in the hosting center...");
+  SString(27556,"Your server was setup successfully, the program will now restart.");
+  SString(27557,"Couldn't locate your server, please try again later or contact HansaWorld for assistance.");
+  SString(27558,"The invitation code is invalid, please make sure you have entered it correctly.");
+  SString(27559,"The invitation code has expired.");
+  SString(27569,"Couldn't activate invitation code, please try again later.");
+
+  /* POS sync messages */
+  SString(27580,"Can not check credit limit, communications error to server");
+  
+  SString(27700,"");
+  
+/* SLVATUkrRn */
+  SString(28000,"VAT Report (Ukraine)");
+  SString(28001,"Code");
+  SString(28002,"Amount Excl. VAT");
+  SString(28003,"VAT Amount");
+  SString(28004,"Appendix Code");
+  SString(28005,"VAT Credit");
+  SString(28006,"VAT Liabilities");
+  SString(28007,"Budget Receivables/Payables for the Reporting Period");
+
+  SString(28011,"D1");
+  SString(28012,"D2");
+  SString(28013,"D3");
+  SString(28014,"D4");
+  SString(28015,"D5");
+  SString(28016,"D6");
+  SString(28017,"D7");
+
+  SString(28021,"Text 1");
+  SString(28022,"Text 2");
+  SString(28023,"Text 2.1");
+  SString(28024,"Text 2.2");
+  SString(28025,"Text 3");
+  SString(28026,"Text 4");
+  SString(28027,"Text 5");
+  SString(28028,"Text 6");
+  SString(28029,"Text 6.1");
+  SString(28030,"Text 7");
+  SString(28031,"Text 8");
+  SString(28032,"Text 8.1");
+  SString(28033,"Text 8.1.1");
+  SString(28034,"Text 8.2");
+  SString(28035,"Text 9");
+  SString(28036,"Text 10");
+  SString(28037,"Text 10.1.1");
+  SString(28038,"Text 10.1.2");
+  SString(28039,"Text 11");
+  SString(28040,"Text 11.1");
+  SString(28041,"Text 11.2");
+  SString(28042,"Text 12");
+  SString(28043,"Text 12.1");
+  SString(28044,"Text 12.2");
+  SString(28045,"Text 12.3");
+  SString(28046,"Text 12.4");
+  SString(28047,"Text 13");
+  SString(28048,"Text 13.1");
+  SString(28049,"Text 13.2");
+  SString(28050,"Text 13.3");
+  SString(28051,"Text 14");
+  SString(28052,"Text 14.1");
+  SString(28053,"Text 14.2");
+  SString(28054,"Text 15");
+  SString(28055,"Text 15.1");
+  SString(28056,"Text 15.2");
+  SString(28057,"Text 16");
+  SString(28058,"Text 16.1");
+  SString(28059,"Text 16.2");
+  SString(28060,"Text 16.3");
+  SString(28061,"Text 16.4");
+  SString(28062,"Text 17");
+  
+/* CollectionsAnalysisRn */
+  SString(28100,"Collections Analysis");
+  SString(28101,"Pay. Mode");
+  SString(28102,"Sales");
+  SString(28103,"Collections");
+  SString(28104,"Difference");
+  SString(28105,"Local Machine");
+  SString(28106,"Total");
+  SString(28107,"All Local Machines");
+  SString(28108,"Local Machine");
+  SString(28109,"All Payment Modes");
+  SString(28110,"Payment Mode");
+  
+/* SLVATUkrRn */
+  SString(28120,"Item Price List Statistics");
+  SString(28121,"Item");
+  SString(28122,"Name");
+  SString(28123,"Quant");
+  SString(28124,"Avg. Price");
+  SString(28125,"Base Price");
+  SString(28126,"Profit");
+  SString(28127,"GP%");
+  SString(28128,"Turnover");
+  SString(28129,"Price List");
+  SString(28130,"NONE");
+  
+/* INMultiBuyStatRn */
+  SString(28140,"Item Multi-Buy Statistics");
+  SString(28141,"Multi-Buy Discount");
+  
+/* ActCalendarRn */
+  SString(28150,"Попередня");
+  SString(28151,"Наступна");
+  SString(28152,"Місяць");
+  SString(28153,"Тиждень");
+  SString(28154,"День");
+
+/* Fiscal Printer */
+  SString(28155,"Новий");
+  SString(28156,"Обновити");
+  SString(28157,"Зроблено");
+  SString(28158,"Щоденник");
+
+/* Fiscal Printer */
+  SString(28300,"CC Number");
+  SString(28301,"Customer Name");
+  
+/*UserRn*/
+ SString(28350,"Exclude Closed Persons");
+  
+/* DisplayRecordDetailsRA_UKR */
+  SString(28200,"Рахунок: ");
+  SString(28201,"Каса: ");
+  SString(28202,"Клієнт: ");
+  SString(28203,"Накопичув, картка: ");
+  SString(28204,"Стіл: ");
+  SString(28205,"Місць: ");
+  SString(28206,"Дата звіту:");
+  SString(28207,"Клас: ");
+  SString(28208,"Номер замовлення: ");
+  SString(28209,"Печатка"); 
+
+/*APRollFwdRn*/
+  SString(28250,"Purchase Ledger Roll Forward");
+  SString(28251,"Дата");
+  SString(28252,"Тип");
+  SString(28253,"Номер");
+  SString(28254,"Сума");
+  SString(28255,"Сума операції");
+  SString(28256,"Відхилення");
+  SString(28257,"Оригінальн. акт/накладна відсутня");
+  SString(28258,"для атка/накл.");
+  SString(28259,"Кредит нота");
+  SString(28260,"Акт/накладна");
+  SString(28261,"Акт/накладна відсутня");
+  SString(28262,"Платіж");
+  SString(28263,"Платіж відсутній");
+  SString(28264,"Запис операції");
+  SString(28265,"Запис операції відстуній");
+
+/*ARRollFwdRn*/
+  SString(28270,"Sales Ledger Roll Forward");
+  SString(28271,"Дата");
+  SString(28272,"Тип");
+  SString(28273,"Номер");
+  SString(28274,"Сума");
+  SString(28275,"Сума в гол. книзі");
+  SString(28276,"Відхилення");
+  SString(28277,"Кредит нота відсутня");
+  SString(28278,"");
+  SString(28279,"Кредит нота");
+  SString(28280,"Акт/накладна");
+  SString(28281,"Акт/накладна відсутня");
+  SString(28282,"Платіж клієнта");
+  SString(28283,"Платіж кл. відсутній");
+  SString(28284,"Запис операції");
+  SString(28285,"Запис операції відстуній");
+
+/*APCheckRn*/
+  SString(28300,"Перевірка книги покупок");
+  SString(28301,"Дата");
+  SString(28302,"Головна книга");
+  SString(28303,"Книга покупок");
+  SString(28304,"Відхилення");
+
+/*ARCheckRn*/
+  SString(28310,"Перевірка книги продажів");
+  SString(28311,"Дата");
+  SString(28312,"Головна книга");
+  SString(28313,"Книга продажів");
+  SString(28314,"Відхилення");
+
+/*Approval Status*/
+  SString(28340,"Approval Status");
+  SString(28341,"Requested Date");
+  SString(28342,"Person");
+  SString(28343,"Result");
+  SString(28344,"Decision Date");
+  SString(28345,"Pending");
+
+/*ExpStatusRn*/
+  SString(28360,"Expense Status");
+  SString(28361,"Всі витрати");
+  SString(28362,"Витрати");
+
+/*OPStatusRn*/
+  SString(28370,"Payment Status");
+
+/*LTStatusRn*/
+  SString(28380,"Leave Trasfer Status");
+
+/*LAStatusRn*/
+  SString(28390,"Leave Application Status");
+
+/*PUStatusRn*/
+  SString(28400,"Goods Receipt Status");
+
+/*SDStatusRn*/
+  SString(28410,"Статус списання зі складу");
+
+/*ApprovalStatusRn*/
+  SString(28420,"Approval Status");
+  SString(28421,"Pending");
+  SString(28422,"Approved");
+  SString(28423,"Rejected");
+  SString(28424,"Not needed");
+  SString(28425,"Orig. Record");
+  SString(28426,"No.");
+  SString(28427,"Request Date");
+  SString(28428,"Approver");
+  SString(28429,"Approval Status");
+  SString(28430,"Requesting Person");
+  SString(28431,"Amount");
+  SString(28432,"Cancelled");
+  SString(28433,"Forwarded");
+
+  SString(28440,"Expense");
+  SString(28441,"Goods Receipt");
+  SString(28442,"Internal Order");
+  SString(28443,"Leave Application");
+  SString(28444,"Leave Transfer");
+  SString(28445,"Payment");
+  SString(28446,"Project Budget");
+  SString(28447,"Purchase Invoice");
+  SString(28448,"Purchase Order");
+  SString(28449,"Quotation");
+  SString(28450,"Invoice");
+  SString(28451,"Sales Order");
+  SString(28452,"Списання зі складу");
+
+/*StockRevJRn*/
+  SString(28460,"Stock Revaluation Journal");
+  SString(28461,"Account");
+  SString(28462,"Location");
+  SString(28463,"Trans. Date");
+  SString(28464,"Ser. No");
+  SString(28465,"Objects");
+  SString(28466,"Qty");
+  SString(28467,"Qty 2");
+  SString(28468,"Comment");
+  SString(28469,"Old Cost");
+  SString(28470,"New Cost");
+  SString(28471,"Diff.");
+  SString(28472,"Comment");
+
+/*CloudServiceCoListRn*/
+  SString(28480,"Created");
+  SString(28481,"Accepted");
+  SString(28482,"Received");
+
+/* Mexican e-invoicing */
+  SString(28490,"This routine cannot be used at the moment. Please make sure that E-Invoice Type is set to CDFI in the Electronic Invoices Setting."); 
+
+  SString(28350,"RCH Flea error");
+  SString(28351,"Currency must be USD. Make sure that either Base Currency 1 or Base Currency 2 is set to USD.");
+  SString(28352,"No response from Printer.");
+  SString(28353,"Printer is out of paper.");
+  SString(28354,"VAT code not found for Item");
+  SString(28355,"Department not set for VAT Code");
+  
+/* DisplayRecordDetailsRA_UKR */
+  SString(28220,"Proforma Invoice Journal");
+  SString(28221,"No.");
+  SString(28222,"Official No.");
+  SString(28223,"Date");
+  SString(28224,"Customer");
+  SString(28225,"Amount");
+  SString(28226,"Name");
+  
+//iPad Navigation buttons
+  SString(28240,"Навігація");
+  SString(28241,"Особисте");
+  SString(28242,"Ролі");
+  SString(28243,"Active posts");
+  SString(28244,"Більше...");
+  SString(28245,"Save changes and close screen");
+  SString(28246,"Leave screen open with unsaved changes");
+  SString(28247,"Discard changes");
+  SString(28248,"More...");
+  SString(28249,"Save and continue");
+  SString(28250,"Go back to screen");  
+
+  SString(28600,"Share and print");
+  SString(28601,"Search");
+  SString(28602,"Communicator");
+  SString(28603,"Visible fields");
+  SString(28604,"Help");
+  
+  SString(28610,"Print");
+  SString(28611,"Print preview");
+  SString(28612,"Pin to personal");
+  SString(28613,"Email");
+  SString(28614,"Send fax");
+  SString(28615,"Ви не можете змінювати це поле"); 
+  SString(28616,"Друк не налаштований");
+
+// ITVATRn
+  SString(28670,"ПДВ групи товарів");
+  SString(28671,"Група товарів");
+  SString(28672,"Назва");
+  SString(28673,"Кількість");
+  SString(28674,"Вартість");
+  SString(28675,"ВД");
+  SString(28676,"Реаліз.");
+  SString(28677,"ПДВ до спл.");
+  SString(28678,"Нуль/Без ПДВ");
+  SString(28679,"ПДВ"); 
+
+// CashierStatsRn
+  SString(28690,"Статистика касира");
+  SString(28691,"Філія");
+  SString(28692,"Касир");
+  SString(28693,"Готівка"); 
+  SString(28694,"На баланс");
+  SString(28695,"№ акт./накл.");
+  SString(28696,"Всього"); 
+  SString(28697,"Вибр. філію"); 
+  SString(28700,"Withholding Calculation is below the Taxed Minimum Amount"); 
+  SString(28701,"Account from Purchase Invoice is not applicable for Withholding Tax calculation"); 
+  SString(28702,"Please assign Payment Mode to Withholding Tax"); 
+  SString(28703,"Check Payment Mode Type for Withholding Tax *With Tax Code*");
+  SString(28704,"Missing Region code for Regional Withholding Tax *With. Tax Code*");
+   
+  /* NLBRate1Mn */
+  SString(28705,"Переоцінка Осн. вал. 1"); 
+
+/*MailReadRn*/
+  SString(28710,"Особистий робочий стіл");
+  
+  SString(28711,"Мова"); //Windows master control 
+  SString(28712,"Новий рядок"); //Android matrix 
+  
+  /* 29000 - 29999 reserved */
+  /* In-App Purchases GUI, new numbers */
+
+  // old was 7400,7401,7402,7403,7404 etc.
+
+  // User
+  
+ 
+  /* reserverd from 29000 until 29999 in SKUukr.hal*/
+  
+
+/*StatusRn*/
+  SString(30060,"Статус");
+  SString(30061,"Звіт");
+  SString(30062,"Корист.");
+  SString(30063,"Запуск");
+  SString(30064,"відмін."); 
+  SString(30070,"Є більше сер. номерів");
+
+//fiscprnt
+  
+  SString(30210,"Міс. звіт заборонено, коли відкрита зміна");
+  SString(30211,"Річний звіт заборонено, коли відкрита зміна");
+  SString(30212,"Період. звіт заборонено, коли відкрита зміна");
+
+// ConsTrialEn
+
+  SString(32020,"Номер рахунку");
+  SString(32021,"Назва рахунку");
+  SString(32022,"Дебет у Вал 1");
+  SString(32023,"Кредит у Вал 1");
+  SString(32024,"Дебет у вал. консолідації");
+  SString(32025,"Кредит у вал. консолідації");
+  SString(32026,"Валюта");
+  SString(32027,"Баз. курс");
+  SString(32028,"P&L курс");
+  SString(32029,"Реєстр. номер компанії:");
+
+  //System
+  SString(30220,"Код запрошення:");
+  SString(30221,"Неможливо відправити запрошення по  e-mail: поле email порожнє."); 
+  SString(30222,"Неможливо відправити запрошення по  e-mail, нема адреси: з настройки системи."); 
+  SString(30223,"Неможливо відправити SMS запрошення, за відсутністю номеру мобільного телефону чи коду запрошення"); 
+  SString(30224,"Could not send Invitation due to blank Mobile Number or Email Address"); 
+  SString(30225,"Window not in Inspect Mode");
+  SString(30226,"Invitation Code Sending Initiated from Server");
+  SString(30227,"Enable");
+  SString(30228,"Extra user");
+  SString(30229,"Invalid E-Mail Address");
+
+  //Privacy policy
+  SString(30230,"Особисте");
+  SString(30231,"Змінити мову");
+
+/*ActTypeCheckRn*/
+  SString(30250,"Activity Type Check");
+  SString(30251,"Company");
+  SString(30252,"Activities");
+  SString(30253,"NO");
+  SString(30254,"YES");
+
+/*LinkedRecsRn*/
+  SString(30260,"Missing Linked Records");
+  SString(30261,"Record Missing");
+
+/*ConectedRecsRn*/
+  SString(30265,"Missing Records from Connected Registers");
+  SString(30266,"Record Missing");
+
+/*UserLogRn*/
+  SString(30270,"User Log History");
+  SString(30271,"Користувач");
+  SString(30272,"Comp");
+  SString(30273,"Дата");
+  SString(30274,"Час");
+  SString(30275,"What Happend");
+  SString(30276,"Allowed");
+  SString(30277,"Old");
+  SString(30278,"New");
+  SString(30279,"N");
+  SString(30280,"Y");
+
+/*ActUserCompRn*/
+  SString(30290,"Activities in Other Companies per User");
+  SString(30291,"Company");
+  SString(30292,"Activities");
+
+/*AccessControlRn*/
+  SString(31100,"Статус платіжного доручення");
+  SString(31101,"Клієнт Всього");
+  SString(31102,"Всього");
+  SString(31103,"№");
+  SString(31104,"Дата");
+  SString(31105,"Не сплачені");
+  SString(31106,"Всього");
+  SString(31107,"ПДВ"); 
+  SString(31108,"Сплачені");
+  SString(31109,"Акт/накл.");
+  SString(31110,"Передплати");
+  SString(31111,"Клієнт");
+  SString(31112,"Назва");
+
+/*AccessControlRn*/
+  SString(31200,"Access Control");
+  SString(31201,"User");
+  SString(31202,"Name");
+  SString(31203,"Job");
+  SString(31204,"Country");
+  SString(31205,"Manager");
+  SString(31206,"Status");
+  SString(31207,"Active");
+  SString(31208,"Closed");
+  SString(31209,"Access Groups");
+  SString(31210,"Company");
+  SString(31211,"Access");
+  SString(31212,"Created");
+
+/*FilesInContainerRn*/
+  SString(31220,"Files in Container");
+  SString(31221,"Назва");
+  SString(31222,"Розмір");
+  SString(31223,"Excluded From Backup");
+  
+/*PurchaseProgressWClass*/
+  SString(31240,"Перегляд статусу продукту");
+  SString(31241,"Продукт");
+
+/*ASSubmissionStatRn*/
+  SString(31250,"Статус подання");
+  SString(31251,"PM");
+  SString(31252,"Дата");
+  SString(31253,"Продукт");
+  SString(31254,"Магазин");
+  SString(31255,"Країна");
+  SString(31256,"Статус");
+  SString(31257,"Дата версії");
+  SString(31258,"Статус магазину");
+  
+/*PurchaseProgressWClass*/
+  SString(31300,"Початок покупки"); 
+  SString(31301,"Запросити оплату"); 
+  SString(31302,"Оплата завершена"); 
+
+/*Record list loading*/
+  SString(31319,"*завантаження*");
+  
+  //MarketPlaceMacinApp
+  SString(31320,"Add new User"); 
+  SString(31321,"Please enter your Registration User ID, Password and Confirm Password and then click ""Retrieve Existing Registration""");
+  SString(31322,"In-Apps");
+  SString(31323,"Active Until"); 
+  SString(31324,"Days Remaining");
+  SString(31325,"Do not show this report again for 30 Days");
+  SString(31326,"In-Apps that are about to Expire");
+  SString(31327,"Open the Marketplace now");
+  SString(31328,"In-Apps that have expired most recently in the past");
+  SString(31329,"Days in the Past"); 
+  SString(31330,"Negative value not valid");
+  SString(31331,"Configure Users");
+  SString(31332,"Person Register");
+  SString(31333,"Unable to charge the specified number of users for the current period. Please purchase additional user months, or open the Configure Users setting and decrease the number of users to charge");
+  SString(31334,"More active users than have been charged for the current period. Please open the Configure Users setting and increase the number of users to charge, or open the Persons register and deactivate any extra users");
+
+/*XML Export*/
+  SString(31400,"XML Schema Definition does not exist");
+  SString(31401,"Unknown record");
+  SString(31402,"Record does not exist");
+  SString(31403,"Unknown or unavailable row type");
+  SString(31404,"Field unavailable");
+  SString(31405,"Matrix Start row without corresponding Matrix End");
+  SString(31406,"Matrix End row without corresponding Matrix Start");
+  SString(31407,"Digital signature with non-valid start or end point");
+  SString(31408,"#VAT# Per #VAT# Code Start row without corresponding #VAT# Per #VAT# Code End");
+  SString(31409,"#VAT# Per #VAT# Code End row without corresponding #VAT# Per #VAT# Code Start");
+  SString(31410,"CIS Server not responding");
+  SString(31411,"Wrong XML Schema for record type");
+  SString(31412,"Please enter a Reference number");
+
+/*PLVAT2Rn*/
+  SString(31991,"III. Tax for the Goods Supplied and Services Supplied");
+  SString(31992,"Тим опер.");
+  SString(31993,"Тип док.");
+  SString(31994,"Box No in #VAT# Declaration");
+  
+/*BasicHotel*/
+  SString(32011,"Invoice Item already exists with the same Code as the Room Code"); 
+  SString(32012,"Basic Hotel Room Type");
+  SString(32013,"Unable to save Room Type");
+  SString(32014,"Invalid Room Inspect Window");
+  SString(32015,"Basic Hotel Room Plain Item");
+  SString(32016,"This item is linked to Room : ");
+  SString(32017,"ROOMS"); // No spaces: Max 5 characters
+  
+  SString(32030,"Half Year");
+
+/*SysRun_DueReport*/
+  SString(32040,"Sales Ledger Due Report: ");
+
+/* C code 32100 - 32500 */
+  
+  SString(32100,"Service Call failed authentication");
+  SString(32101,"Service Call to non-existant function");
+  SString(32102,"Service Call incorrect parameters");
+  SString(32103,"Service Call malformed message");
+  
+  SString(32110,"You can only change password while connected to the server");
+  SString(32111,"Could not connect to the server. Please try again later");
+  SString(32112,"Done");
+  SString(32113,"Head"); //iPhone main tile button
+  SString(32114,"Paste"); //iOS Paste bar 
+  SString(32115,"Trying to connect. Server software not running, or port blocked or not setup properly."); 
+  SString(32116,"Connection to software server established but no reply before timeout. Suggested to restart the server.");
+  SString(32117,"Server:");
+  SString(32118,"Port:");
+  SString(32119,"Connection to server established, waiting for reply ");
+  SString(32120,"Record locked by you on a different client"); 
+  
+/* System */
+
+/* Find server */
+  SString(32502,"Unable to locate that server.");
+
+/* E-purchase invoice */
+  SString(32510,"#Purchase Order# and E-#Purchase Invoice# totals don't match");
+  SString(32511,"#Purchase Invoice# already exists for this E-#Purchase Invoice#");
+
+/* System */
+  SString(32521,"Папкі не існує: ");
+  SString(32522,"Файл сертифікату відсутній");
+  SString(32523,"Файл особ. клча відсутн."); 
+  SString(32524,"You cannot get an enabler for a test system"); //!!TRANSLATE
+  
+/*Prod Plan*/
+  SString(32600,"Створений");
+  SString(32601,"Анульований");
+  SString(32602,"Почато");
+  SString(32603,"Завершено");
+  SString(32604,"Завершено і відкладено");
+  SString(32605,"Машина");
+  SString(32606,"Процес");
+  SString(32607,"HansaWorld Enterprice - Виробництво");
+  SString(32608,"Рецепт");
+  SString(32610,"Редаг. операцію"); 
+  SString(32611,"№ операції");
+  SString(32612,"3 виробніцтва");
+  SString(32613,"Код машини");
+  SString(32614,"Дата початку");
+  SString(32615,"Час початку");
+  SString(32616,"Тривалість");
+  SString(32617,"Заморожено");
+  SString(32618,"Дата закінч.");
+  SString(32619,"Час закінч.");
+  SString(32620,"Дні");
+  SString(32621,"Машини");
+  SString(32622,"Група");
+  SString(32623,"Виробництво ");
+  SString(32624,"Усі");
+  SString(32625,"-");
+  SString(32626,"Зберегти");
+  SString(32627,"Новий план");
+  SString(32628,"План");
+  SString(32629,"Факт");
+  SString(32630,"План");
+  SString(32631,"Операція");
+  SString(32632,"Кількість:");
+  SString(32633,"Почати:");
+  SString(32634,"Закінчити:");
+  SString(32635,"Пріоритетність"); 
+  SString(32636,"Головна операція:");
+  SString(32637,"Машина:");
+  SString(32638,"Наступ. операція:"); 
+  
+  SString(32641,"Пон.");
+  SString(32642,"Вівт.");
+  SString(32643,"Сер.");
+  SString(32644,"Чет.");
+  SString(32645,"П'ят7");
+  SString(32646,"Суб7");
+  SString(32647,"Нед.");
+  SString(32648,"тиждень");
+  SString(32649,"Ok"); 
+  SString(32650,"Відмінити");
+  SString(32651,"Вибрати тиждень");
+  SString(32652,"Перерахувати");
+  SString(32653,"Зберегти план перед перерахувнням");
+  SString(32660,"Кількість");
+  SString(32661,"Розділ. інфо.");
+  SString(32662,"!! Просроч.");
+  SString(32663,"CC : ");
+  SString(32664,"PN : ");
+  SString(32665,"PD : ");
+  SString(32666,"Показати машини"); 
+  SString(32667,"Усі");
+  SString(32668,"З операціями");
+  SString(32669,"Без операцій");
+  SString(32670,"Машини");
+  SString(32671,"Процеси");
+  SString(32672,"Інструкції");
+  SString(32673,"Фільтр");
+  SString(32674,"Розташування");
+  SString(32675,"Стандартні опер.");
+  SString(32676,"Користувач");
+  SString(32677,"Каталог групи");
+  SString(32678,"Процес ver.,rev.");
+  SString(32679,"Spec. ver.,rev."); 
+  SString(32680,"Додати");
+  SString(32681,"Простій");
+  SString(32682,"H. зміни");
+  SString(32683,"Заповнити усі поля");
+  SString(32684,"Створити діяльність");
+  SString(32685,"Створити зміни робоч. часу");
+
+  SString(32690,"Понеділок початок"); 
+  SString(32691,"Вівторок початок");
+  SString(32692,"Середа початок");
+  SString(32693,"Четвер початок");
+  SString(32694,"П'ятниця початок");
+  SString(32695,"Субота початок");
+  SString(32696,"Неділя початок");
+  SString(32697,"для "); 
+
+  SString(32700,"Вихідний матеріал");
+  SString(32701,"Операція");
+  SString(32702,"Не корр. дата"); 
+  SString(32703,"Час перевищує 24 години");
+  SString(32704,"Коеф. ефективності");
+  SString(32705,"Оптимальна кількість");
+  SString(32706,"M Р");
+  SString(32707,"Деталі"); 
+  SString(32708,"Інструменти");
+  SString(32709,"Інфо.");
+  
+  SString(32712,"Друк");
+  SString(32713,"Версія процесу."); 
+  SString(32714,"Перегляд процесу"); 
+  SString(32715,"Версія специф.");
+  SString(32716,"Перегляд специф");
+  SString(32718,"Статус");
+  SString(32719,"Зроблено");
+  SString(32728,"Редагувати"); 
+  SString(32729,"Розділити");
+  SString(32730,"Відмінити розділення"); 
+  SString(32731,"Undo Move");
+  SString(32732,"Редагувати");
+  SString(32733,"Заморозити");
+  SString(32734,"Відмінити заморозку");
+  SString(32735,"Та сама машина!");
+
+/*ProdOperPlanRn*/
+
+  SString(32740,"Планування виробничої операції");
+  SString(32741,"Машина : ");
+  SString(32742,"План : ");
+  SString(32743,"Послідовність");
+  SString(32744,"Машина");
+  SString(32745,"Виробництво");
+  SString(32746,"Початок");
+  SString(32747,"Закінчення");
+  SString(32748,"Кільк.");
+  SString(32749,"Твар");
+  SString(32750,"Операція");
+  SString(32751,"Віробництво");
+  SString(32752,"Особа : _____________________");
+  SString(32753,"Почав у : _____________");
+  SString(32754,"Закінчів у : _____________");
+  SString(32755,"Виробив : ________");
+  SString(32756,"Коментар :");
+
+/*DAJRn*/
+  SString(32760,"Журнал добових");
+  SString(32761,"Усі добові");
+  SString(32762,"Добові");
+  SString(32763,"№");
+  SString(32764,"Дата");
+  SString(32765,"Назва");
+  SString(32766,"Коментар");
+  SString(32767,"Компенсація");
+  SString(32768,"День");
+  SString(32769,"Країна");
+  SString(32770,"Сніданок");
+  SString(32771,"Обід");
+  SString(32772,"Вечеря");
+  SString(32773,"Сума"); 
+  SString(32774,"Всього");
+
+/*PLVATPARn*/
+  SString(32800,"Податкова накладна");
+  SString(32801,"Номер ПДВ"); //RUC spa 
+  SString(32802,"PayDeal");
+  SString(32803,"№ акту/накл");
+  SString(32804,"Дата акт/накл."); 
+  SString(32805,"Постачальник");
+  SString(32806,"База для ПДВ");
+  SString(32807,"ПДВ");
+  SString(32808,"Всього");
+  SString(32809,"Всього");
+  SString(32810,"TOTAL");
+  SString(32811,"Підсумок");
+  SString(32812,"Invalid Invoice");
+
+/*PANExport43En*/
+  SString(32820,"Тип");
+  SString(32821,"Номер ПДВ");
+  SString(32822,"DV"); //VAT Id Control Digit 
+  SString(32823,"Постач.");
+  SString(32824,"№ акт/накл.");
+  SString(32825,"Дата акт/нал.");
+  SString(32826,"Concept");
+  SString(32827,"Придбання");
+  SString(32828,"Всього");
+  SString(32829,"ПДВ всього"); 
+
+/*SLVATPARn*/
+  SString(32840,"Тип");
+  SString(32841,"№ ПДВ");
+  SString(32842,"DV"); //VAT Id Control Digit 
+  SString(32843,"Клієнт"); 
+  SString(32844,"№ акт/накл.");
+  SString(32845,"Дата акт/накл.");
+  SString(32846,"Concept"); 
+  SString(32847,"Придбання"); 
+  SString(32848,"Всього"); 
+  SString(32849,"ПДВ всього");
+  SString(32850,"Всього");
+  SString(32851,"Підсумок");
+  SString(32852,"Invalid Invoice");
+  SString(32853,"Сума");
+ 
+/* PANReport72y94En */
+  SString(32860,"Тип"); 
+  SString(32861,"№ ПДВ");
+  SString(32862,"DV"); //VAT Id Control Digit 
+  SString(32863,"Постач"); 
+  SString(32864,"Спосіб оплати"); 
+  SString(32865,"Concept");
+  SString(32866,"Сума");
+  SString(32867,"Період");
+
+/* SLVATNIRn */
+  SString(32880,"Податкова накладна"); 
+  SString(32881,"Номер ПДВ");
+  SString(32882,"PayDeal");
+  SString(32883,"№ акт/накл.");
+  SString(32884,"Дата акт/накл.");
+  SString(32885,"Клієнт");
+  SString(32887,"#ПДВ#");
+  SString(32889,"Всього");
+  SString(32890,"ВСЬОГО");
+  SString(32891,"Підсумок");
+  SString(32892,"Знижка");
+  SString(32893,"Invalid Invoice"); 
+  SString(32894,"Лише закінчений місяц");
+
+/* PrintHASARPL23FPANReceipt */
+  SString(32900,"IV");
+  SString(32901,"CN"); 
+  SString(32902,"DN"); 
+  SString(32903,"Pay Deal: ");
+  SString(32904," SalesMan: ");
+  SString(32905," Cashier: ");
+  SString(32906,"Command: ");
+  SString(32907,"Printer Busy");
+  SString(32908,"Printer Error (serial comunication error)"); 
+  SString(32909,"Offline Printer"); 
+  SString(32910,"Secondary Paper Error"); 
+  SString(32911,"Main Paper Error");
+  SString(32912,"Incomming Buffer Almost Full (printer send back the command to you if 1)");
+  SString(32913,"Empty Buffer (sucessfull command)");
+  SString(32914,"Top of the Printer Opened");
+  SString(32915,"Cash Box Closed or non existent"); 
+  SString(32916,"Logic OR for 2 to 5, 8 and 14");
+  SString(32917,"*** HASAR Printer Status ERROR: ");
+  SString(32918,"CRITICAL Fiscal Memory Fail");
+  SString(32919,"Unrecognized Command"); 
+  SString(32920,"Invalid Field Data"); 
+  SString(32921,"Invalid Command");
+  SString(32922,"Total Overflow");
+  SString(32923,"CRITICAL Fiscal Memory Full"); 
+  SString(32924,"Date Set Fail"); 
+  SString(32925,"Slip Open"); 
+  SString(32926,"Receipt Open");
+  SString(32927,"* * * HASAR Fiscal Status ERROR: ");
+  SString(32928,"Printer Status: ");
+  SString(32929,"Wrong answer: "); 
+  SString(32930,"Fiscal Status: ");
+  SString(32931,"DC4- Out of Paper");
+  SString(32932," R1: "); 
+  SString(32933," R2: ");
+  SString(32934,"* * HASAR Open Port: ");
+  SString(32935,"* * HASAR Close Port"); 
+  SString(32936,"* * * HASAR ONLINE");
+  SString(32937,"TimeOut: ");
+  SString(32938,"* * * HASAR CheckHASARClock");
+  SString(32939,"Invoice Data are sending to fiscal printer, please wait...");
+  SString(32940,"CheckHASARClock * Error on print date");
+  SString(32941,"CheckHASARClock * Error");
+  SString(32942,"* * * HASAR OpenFiscalReceipt, ");
+  SString(32943,"* * * HASAR SetHeader, Delete Header: ");
+  SString(32944,"* * * HASAR SetHeader, line: ");
+  SString(32945,"* * * HASAR SetTrailer, Delete Trailer: ");
+  SString(32946,"* * * HASAR SetTrailer, line: ");
+  SString(32947,"* * * HASAR PrintLastItemDiscount"); 
+  SString(32948,"* * * HASAR PrintFiscalText");
+  SString(32949,"* * * HASAR PrintItemLine: ");
+  SString(32950,"* * * HASAR TotalTender -Global Disc: ");
+  SString(32951,"* * * ERROR Item does not exist: ");
+  SString(32952,"Unit: ");
+  SString(32953," BarCode: ");
+  SString(32954,"Fiscal Text Error, line: "); 
+  SString(32955,"Batch Nr.: ");
+  SString(32956,"Fiscal Text Error, line: ");
+  SString(32957,"Item Data Error, line: ");
+  SString(32958,"Discount Error, line: ");
+  SString(32959,"Fiscal Text Error, line: ");
+  SString(32960,"* * * HASAR SubTotal"); 
+  SString(32961,"* * * HASAR CloseFiscalReport");
+  SString(32962,"* * * HASAR StatusExtra");
+  SString(32963,"HASAR Doc.No: "); 
+  SString(32964,"* * * HASAR GetSerial");
+  SString(32965,"HASAR Printer ID: ");
+  SString(32966,"* * * HASAR CANCEL");
+  SString(32967,"INVALID Document, please check settings and make a new invoice."); 
+  SString(32968,"Address:  ");
+  SString(32969,"* * * HASAR SetCustExtraData, "); 
+  SString(32970,"* * * HASAR SetCustExtraData, res: ");
+  SString(32971,"Document.No.");
+  SString(32972,"* * * HASAR Report X"); 
+  SString(32973,"* * *  HASAR Report Z");
+  
+/*RepCRD151Rn*/
+  SString(33000,"Постачальник");
+  SString(33001,"Всього");
+  SString(33002,"Всього:");
+
+/*ExpCRD151En*/
+  SString(33010,"Expenses Report D-151");
+  SString(33011,"Expenses Report D-151 Overview");
+  SString(33012,"Period: ");
+  SString(33013," al ");
+  SString(33014,"Values expressed in: ");
+  SString(33015,"Supplier");
+  SString(33016,"Total");
+
+/*PLVATGTRn*/
+  SString(33020,"Purchase #VAT# Book"); 
+  SString(33021,"WRONG PERIOD, must be monthly.");
+  SString(33022,"YOU MUST SPECIFY INITIAL TRANSACTION NUMBER.");
+  SString(33023,"YOU MUST SPECIFY INVOICE QUANTITY PER PAGE.");
+  SString(33024,"Invalid Invoice");
+  SString(33025,"IV"); //Invoice 
+  SString(33026,"CR"); //Credit Invoice 
+  SString(33027,"SI"); //Special Invoice 
+  SString(33028,"DN"); //Debit Note 
+  SString(33029,"Period: "); 
+  SString(33030,"Purchase #VAT# Book");
+  SString(33031,"#VAT# Id: ");
+  SString(33032,"Values expressed in");
+  SString(33033,"Дата");
+  SString(33034,"Тип"); 
+  SString(33035,"Номер");
+  SString(33036,"Номер ПДВ");
+  SString(33037,"Назва"); 
+  SString(33038,"TRANS.NO: ");
+  SString(33039,"Base Tax");
+  SString(33040,"Base Exempt");
+  SString(33041,"Товари"); 
+  SString(33042,"Послуги");
+  SString(33043,"Імпот");
+  SString(33044,"ПДВ"); 
+  SString(33045,"Всього");
+  SString(33046,"Перегляд");
+  SString(33047,"Taxed Goods: ");
+  SString(33048,"Taxed Services: "); 
+  SString(33049,"Exempt Goods: "); 
+  SString(33050,"Exempt Services: "); 
+  SString(33051,"Import Goods: "); 
+  SString(33052,"#VAT#: "); 
+  SString(33053,"TOTAL Quantities:");
+  SString(33054,"Invoices:"); 
+  SString(33055,"Special Invoices:");
+  SString(33056,"Balance"); 
+  SString(33057,"Totals");
+
+/*SLVATGTRn*/
+  SString(33070,"Sales #VAT# Book"); 
+  SString(33071,"WRONG PERIOD, must be monthly."); 
+  SString(33072,"YOU MUST SPECIFY INITIAL TRANSACTION NUMBER.");
+  SString(33073,"YOU MUST SPECIFY INVOICE QUANTITY PER PAGE.");
+  SString(33074,"Balance");
+  SString(33075,"IV"); //Invoice
+  SString(33076,"CR"); //Credit Invoice 
+  SString(33077,"SI"); //Special Invoice 
+  SString(33078,"DN"); //Debit Note 
+  SString(33079,"Period: "); 
+  SString(33080,"Detailed"); 
+  SString(33081,"Overview");
+  SString(33082,"Values expressed in"); 
+  SString(33083,"Date");
+  SString(33084,"Type");
+  SString(33085,"Number"); 
+  SString(33086,"#VAT# Id");
+  SString(33087,"Name");
+  SString(33088,"TRANS.NO: ");
+  SString(33089,"Base Tax");
+  SString(33090,"Base Exempt");
+  SString(33091,"Goods");
+  SString(33092,"Services");
+  SString(33093,"Export");
+  SString(33094,"#VAT#");
+  SString(33095,"Total");
+  SString(33096,"SUMMARY");
+  SString(33097,"Taxed Goods: ");
+  SString(33098,"Taxed Services: ");
+  SString(33099,"Exempt Goods: ");
+  SString(33100,"Exempt Services: ");
+  SString(33101,"Export Goods: ");
+  SString(33102,"#VAT#: ");
+  SString(33103,"TOTAL Quantities:");
+  SString(33104,"Invoices:");
+  SString(33105,"Invalid Invoice");
+  SString(33106,"Balance");
+  SString(33107,"Totals"); 
+  SString(33108,"#VAT# Id: ");
+  SString(33109,"Consolidated: ");
+  SString(33110,"Document from: ");
+  SString(33111,"From Serie: ");
+  SString(33112,"Numbers from: ");
+  SString(33113,"to "); 
+
+/*PLVATNIRn*/
+  SString(33230,"Податкова накладна"); //SPA: "Libro IVA Compras" 
+  SString(33231,"Номер ПДВ"); //SPA: "RUC" 
+  SString(33232,"PayDeal"); 
+  SString(33233,"№ акт/накл."); 
+  SString(33234,"Дата акт/накл."); 
+  SString(33235,"Постач."); 
+  SString(33236,"ПДВ"); 
+  SString(33237,"Concept"); 
+  SString(33238,"%"); 
+  SString(33239,"Всього"); 
+  SString(33240,"ВСЬОГО"); 
+  SString(33241,"Subtotal");
+  SString(33242,"ЗНИЖКА"); 
+  SString(33243,"Invalid Invoice");
+  SString(33244,"Only Complete Months"); 
+  SString(33245,"Ministry of Finance and Public Credit"); //SPA: "Ministerio de Hacienda y Credito Publico" 
+  SString(33246,"DGI"); //SPA: "Direccion General de Ingresos"
+  SString(33247,"Annex Tax Credit Statement"); //SPA: "Anexo al Credito Fiscal Declaracion"
+  SString(33248,"Total of Statement"); //SPA: "Anexo al Credito Fiscal Declaracion" 
+
+/*PLVATSLVRn*/
+  SString(33260,"#VAT#"); 
+  SString(33263,"Invoice Nr"); 
+  SString(33264,"Inv.Date");
+  SString(33265,"Doc. No.");
+  SString(33266,"#VAT Reg. No.#");
+  SString(33267,"#Supplier#");
+  SString(33269,"Name");
+  SString(33270,"Exempt Purchases"); 
+  SString(33271,"Taxed Purchases");
+  SString(33272,"Domestic"); 
+  SString(33273,"Imports");
+  SString(33274,"#VAT#"); 
+  SString(33275,"Withh."); 
+  SString(33276,"Total"); 
+  SString(33277,"Withh. 3rds"); 
+  SString(33278,"Empty"); 
+
+/*PLRetSLVRn*/
+  SString(33290,"Monthly Purchase Witholdinds Report"); 
+  SString(33291,"WRONG PERIOD, must be monthly.");
+  SString(33292,"Values expressed in "); 
+  SString(33293,"Month: "); 
+  SString(33294,"Register No.");
+  SString(33295,"No."); 
+  SString(33296,"VAT id"); 
+  SString(33297,"Name");
+  SString(33298,"Inv.Date"); 
+  SString(33299,"Doc.No.");
+  SString(33330,"WithHolding");
+  SString(33331,"Total: "); 
+
+/*SLRetSLVRn*/
+  SString(33340,"Monthly Sales Witholdinds Report"); 
+  SString(33341,"WRONG PERIOD, must be monthly."); 
+  SString(33342,"Values expressed in "); 
+  SString(33343,"Month: ");
+  SString(33344,"Register No.");
+  SString(33345,"No."); 
+  SString(33346,"VAT id"); 
+  SString(33347,"Name"); 
+  SString(33348,"Inv.Date"); 
+  SString(33349,"Doc.No.");
+  SString(33350,"WithHolding");
+  SString(33351,"Total: ");
+
+/*GTVATEn*/
+  SString(33360,"Некор. період");
+
+/*SLVATBaseSLVRn*/
+  SString(33370,"База звіту ПДВ");
+  SString(33371,"День");
+  SString(33372,"З № док.");
+  SString(33373,"До № док.");
+  SString(33374,"Без ПДВ"); 
+  SString(33375,"Експорт");
+  SString(33376,"База"); 
+  SString(33377,"Всього");
+
+/*SLVATSLVRn*/
+  SString(33390,"Звіт ПДА реаліз.");
+  SString(33391,"Дата");
+  SString(33392,"№ док");
+  SString(33393,"Назва");
+  SString(33394,"Реєстр. №");
+  SString(33395,"База");
+  SString(33396,"ПДВ"); 
+  SString(33397,"БЕз ПДВ");
+  SString(33398,"Всього");
+
+/*PANReport73En*/
+  SString(33410,"Тип");
+  SString(33411,"Номер ПДВ"); 
+  SString(33412,"DV"); //VAT Id Control Digit 
+  SString(33413,"Постач"); 
+  SString(33414,"Всього");
+  
+/*EShipPRTDsm*/  
+  SString(33420,"Electronic Shipment Settings are Incomplete"); 
+  SString(33421,"TEST");
+  SString(33422,"LIVE");
+  SString(33423,"Electronic Shipment Successfully sent.");
+  SString(33424,"Electronic Shipment Error."); 
+  
+/*OwnCheckRn*/
+  SString(33440,"Issued Date"); 
+  SString(33441,"Clearing Date");
+  SString(33442,"Cancelled Date");
+  SString(33443,"Bounced Date");
+  SString(33444,"Accepted Date");
+  SString(33445,"Deposited Date");
+  SString(33446,"Batch Deposit No.");
+  SString(33447,"Endorsed Date");
+  SString(33448,"Endorse Register");
+  SString(33449,"Debit Note"); 
+
+/*ConvToMultiLocationMn*/
+  SString(33460,"Specify Location"); 
+
+/*GuestBookRn*/
+  SString(33480,"№."); 
+  SString(33481,"Адреса");
+  SString(33482,"Чол.");
+  SString(33483,"Жін.");
+
+/*ConsTaxSumRn*/
+  SString(33590,"Consumption Taxes Summmary"); 
+  SString(33591,"№"); 
+  SString(33592,"Опис");
+  SString(33593,"Код");
+  SString(33594,"База");
+  SString(33595,"Ставка"); 
+  SString(33596,"Под.");
+  SString(33597,"Назва компанії");
+  SString(33598,"Дата");
+  SString(33599,"AddАдресаress");
+  SString(33600,"ПДВ реєстр. номер"); 
+  SString(33601,"рахунок банку");
+  SString(33602,"Дата отримання");
+  SString(33603,"Регіон");
+  SString(33604,"Місто"); 
+  SString(33605,"Ім'я адміністратора");
+
+/*GuestNationStatRn*/
+  SString(33610,"Статистика гостей за національністю"); 
+  SString(33611,"Країна"); 
+  SString(33612,"Національність");
+  SString(33613,"Опіс"); 
+  SString(33614,"Прибуття");
+  SString(33615,"Sleepovers");
+  SString(33616,"Невідомо"); 
+
+/* Mexican E-Invoicing */
+  SString(33630,"Invoice queued for registering electronically.");
+  SString(33631,"Invoices queued for registering electronically.");
+  SString(33632,"Invoices queued for registering electronically (some invoices did not need to be registered)."); 
+  SString(33633,"This invoice does not need to be registered electronically.");
+  SString(33634,"None of selected invoices need to be registered electronically.");
+
+/*WebStatRn*/
+  SString(33660,"Web Статистика");
+  SString(33661,"Країна");
+  SString(33662,"Відвідувачі");
+  SString(33663,"Сторінка/Візит");
+  SString(33664,"Всього");
+  SString(33665,"Опис");
+  SString(33666,"Код"); 
+  SString(33667,"Підрах");
+
+  SString(33670,"Visits per Location");
+  SString(33671,"Most visited Pages");
+  SString(33672,"Visitors Sources");
+  SString(33673,"Master Control Banners");
+  SString(33674,"Visitors E-learnings");
+
+/*FVImpFilter*/
+  SString(33690,"Import File is not Correct. Missing Element");
+  SString(33691,"Multiple Account Import is not Supported."); 
+  SString(33693,"There are no Transactions");
+  SString(33694,"Not Processed Payments");
+  SString(33695,"Processed Payments"); 
+  SString(33696,"There were");
+  SString(33697,"Payments Successfully Imported, skipped");
+  SString(33698,"Payments"); 
+
+  SString(33705,"(VOIDED)"); 
+  
+  /* /install redirects */
+  SString(33706,"Відсутні ПДВ рахунки для ПДВ кодів: "); 
+  
+  SString(33707,"Ви не можете виконати цю дію."); 
+  SString(33708,"Вартість у Кредитовому Авізо не може перевищувати вартість у акт."); 
+  SString(33709,"Індикатор грошової схеми ПДВ:  ");
+  SString(33710,"Індикатор платежів третьої сторони:  "); 
+  
+  /*INSClass paste quantity*/
+  SString(33711,"Ця функція можлива лише для різних товарів."); 
+  
+  /* Sberbank 33720 - 33800 */
+  
+  SString(33720,"Відсутнє з'єднання з сервером"); 
+  SString(33721,"Клієнта не знайдено");
+  SString(33722,"Немає активних підписок для цього користувача та пароля");
+  SString(33723,"Є невідома проблема"); 
+  SString(33724,"Невірний пароль");
+  SString(33725,"Будь ласка, введіть E-mail та пароль");
+  
+  //WSTranRn
+  SString(33810,"Операції таблиці робіт");
+  SString(33811,"Усі замовлення на обслуговування"); 
+  SString(33812,"Замовлення на обслуговування: ");
+  SString(33813,"Всі товари"); 
+  SString(33814,"Товар: "); 
+  SString(33815,"Усі співробітники"); 
+  SString(33816,"Співробітник: "); 
+  SString(33817,"Номер SVO"); 
+  SString(33818,"Дата"); 
+  SString(33819,"Товар"); 
+  SString(33820,"Опис");
+  SString(33821,"Тип"); 
+  SString(33822,"Реєстр");
+  SString(33823,"Співроб.");
+  SString(33824,"Клієнт");
+  SString(33825,"Акт/накл."); 
+  SString(33826,"Таблиця робіт"); 
+  SString(33827,"Діяльність"); 
+  SString(33828,"Поверн. товару");
+  SString(33829,"Виставити"); 
+  SString(33830,"Гарантія");
+  SString(33831,"Контракт"); 
+  SString(33832,"За власний рахунок"); 
+
+  /* PLESPInVATRn */
+  SString(33840,"Код ПДВ");
+  SString(33841,"Назва"); 
+  SString(33842,"Акт/нкл.з постач");
+  SString(33843,"Дата");
+  SString(33844,"Дата акт./накл");
+  SString(33845,"Базова ціна");
+  SString(33846,"ПДВ %"); 
+  SString(33847,"СумаПДВ"); 
+  SString(33848,"Всього");
+  SString(33849,"Вхідний ПДВ");
+   
+  /* SLESPOutVATRn */
+  SString(33850,"Код ПДВ"); 
+  SString(33851,"Назва");
+  SString(33852,"Акт./накл.");
+  SString(33853,"Дата"); 
+  SString(33854,"Дата акт/накл."); 
+  SString(33855,"Базова ціна");
+  SString(33856,"ПДВ %"); 
+  SString(33857,"Сума ПДВ");
+  SString(33858,"Всього");
+  SString(33859,"Вхідний ПДВ");
+  
+  SString(33870,"Your Auto Reply is Active");
+  SString(33871,"Alarm");
+  SString(33872,"Unable to send System e-mails. From System Setting Field is Blank!");
+
+/*CalculateVATDecl*/
+  SString(33880,"M"); 
+  SString(33881,"Кв.");
+  SString(33882,"Р"); 
+
+  /* CustomerVersionsRn */
+  SString(33972,"Customer Standard Versions"); 
+  SString(33973,"Last Version"); 
+  SString(33974,"Current Version");
+
+/* PurchasedInAppRn */
+  
+  SString(34000,"In-App"); 
+  SString(34001,"Version"); 
+  SString(34002,"Count");
+  SString(34003,"Purchased In-Apps");
+  SString(34004,"Country"); 
+  SString(34005,"Customer");
+  SString(34006,"Amount");
+  SString(34007,"All");
+  
+ /* ArgGrIncPerc1Rn */
+ 
+  SString(34017,"Gross Income Perceptions (SI.FE.RE)");
+  SString(34020,"Tax Rule Code: "); 
+  SString(34021,"Tax Region");
+  SString(34022,"Fortnight: ");
+  SString(34023,"Credit Notes Included");
+  SString(34024,"Total Fortnight ");
+  SString(34025,"Total "); 
+  SString(34026,"VAT Reg. No.");
+  SString(34027,"Trans. Date"); 
+  SString(34028,"Invoice Type");
+  SString(34029,"Letter"); 
+  SString(34030,"Branch Number");
+  SString(34031,"Inv. Number");
+  SString(34032,"Total Gross Inc."); 
+
+  SString(34050,"Travel Log Not OKed."); 
+  SString(34051,"Travel Log is Cancelled.");
+  SString(34052,"Save this Record First."); 
+  SString(34053,"Travel Log Settings: To Conference is blank!"); 
+  SString(34054,"Traveller");
+  SString(34055,"From");
+  SString(34056,"To");
+  SString(34057,"Date of travel");
+  SString(34058,"Time of Departure");
+  SString(34059,"Date of Arrival");
+  SString(34060,"Time of Arrival");
+  SString(34061,"Flight number");
+  SString(34062,"Ticked No");
+  SString(34063,"Transport Co.");
+  SString(34064,"Booking Ref");
+  SString(34065,"Who approved travel?");
+  SString(34066,"Decision Date");
+  SString(34067,"Payment Date");
+  SString(34068,"No Access to OK Travel Log!");
+  SString(34069,"Comment");
+  
+  SString(34080,"Create #Project Invoices#"); 
+
+  /* /install redirects */
+  SString(34100,"Please try again later");
+  SString(34101,"A suitable "); //Output is "34101 platform name 34101". If that doesn't work in your language, please report a bug 
+  SString(34102," client for this server is being prepared, please wait."); 
+  SString(34103,"Redirecting to iTunes"); 
+  SString(34104,"No suitable client found");
+  SString(34105,"The server found no suitable "); //Output is "34105 platform name 34106". If that doesn't work in your language, please report a bug 
+
+  /* BI */
+  SString(34110,"This function is not compatible with the Internet Explorer version installed on this computer. <a href=\"http://www.microsoft.com/internetexplorer\">Click here</a> to check for an updated version."); //!!TRANSLATE
+
+  SString(34150,"Void quantity cannot be greater than quantity of selected row"); 
+  SString(34152,"Duration times need to be in accending order"); 
+
+  SString(34180,"Invalid Stripe request"); 
+  SString(34181,"Stripe API error"); 
+  SString(34182,"Credit card error"); 
+  SString(34183,"Unknown Stripe error"); 
+  SString(34184,"Connection to Stripe server failed"); 
+  SString(34185,"Invalid token returned from Stripe server");
+  SString(34186,"Invalid transaction id returned from Stripe server"); 
+  SString(34187,"Please try again later");
+  SString(34188,"Payment was processed, but the address verification for the card failed"); 
+  SString(34189,"Invalid customer id returned from Stripe server"); 
+  
+ /*Latvia - FidaVista import*/
+  SString(34200,"File is not supported. Could not find starting element."); 
+  SString(34201,"Import from multiple accounts is not supported.");
+  SString(34203,"There are no Transactions.");
+  SString(34204,"Receipts not associated");
+  SString(34205,"Associated Receipts"); 
+  SString(34206,"Imported"); 
+  SString(34207,"transactions, skipped"); 
+  SString(34208,"transactions");  
+  /*Latvia - Fidavista import end */
+  
+  SString(34220,"Control account already specified");  
+
+ /* Simple/Full Update */
+  SString(34300,"Database file is locked at path:");
+  SString(34301,"Please make sure that the old server is not running");
+  SString(34302,"Can't read db version from file at path:"); 
+  SString(34303,"The database versions differ. New version: "); 
+  SString(34304,"Old version:"); 
+  SString(34305,"Simple Update can't be used for this update. Please use Full Update instead (--full-update-to-exe)"); 
+  SString(34306,"Could not open database file at path:");
+  SString(34307,"No database found at path:"); 
+  SString(34308,"No server executable found at path:");
+  SString(34309,"Hal files found. Check that hal files are compatible with the new version, and rerun with --halfiles-checked if they are");
+  SString(34310,"Updating version at path:");
+  SString(34311,"Backing up old files to");
+  SString(34312,"Backup path not specified. Please set one using --oldfiles-path=");
+  SString(34313,"Copying new files");
+  SString(34314,"Done. You can now run the updated server");
+  SString(34315,"Full Update is not supported on this platform"); 
+  SString(34316,"Exporting database");
+  SString(34317,"The export exited abnormaly"); 
+  SString(34318,"Importing data");
+  SString(34319,"Temporarily moving parameters.txt out of the way");
+  SString(34320,"Restoring parameters.txt");
+
+/*CloudServiceCoListRn*/
+  SString(34330,"Cloud Services Contracts List");
+  SString(34331,"No."); 
+  SString(34332,"Customer");
+  SString(34333,"Service");
+  SString(34334,"Start Date");
+  SString(34335,"End Date");
+  SString(34336,"Type");
+  SString(34337,"No Invoicing"); 
+  SString(34338,"Closed");
+  SString(34339,"Monthly"); 
+  SString(34340,"Voucher"); 
+  SString(34341,"Demo Voucher");
+
+  SString(34350,"Pipeline Overview Setting");
+  SString(34351,"not defined");
+
+  SString(34380,"Fill in the Global Transport Number"); 
+  SString(34381,"Wrong Format, should be XXXXX XXXX/ZZZZ or XXXX/ZZZZ"); 
+  
+  SString(34390,"Please follow up ");
+
+/* AccList */  
+  SString(34400,"Closed");
+  
+  SString(34430,"Status not Allowed"); 
+
+  SString(34440,"All Projects"); 
+  
+/*ConfVc*/
+  SString(34460,"Conference has contents"); //!!TRANSLATE
+  
+/*POCOVc*/
+  SString(34470,"This row has been ordered already, it cannot be changed."); //!!TRANSLATE
+  
+/*JobStatusClass*/
+  SString(34480,"Operation"); //!!TRANSLATE
+  SString(34481,"On"); //!!TRANSLATE
+  SString(34482,"Status"); //!!TRANSLATE
+  SString(34483,"Progress"); //!!TRANSLATE
+  SString(34484,"%"); //!!TRANSLATE
+  
+/* General */
+  SString(34500,"This record cannot be invalidated"); //!!TRANSLATE
+  SString(34501,"Int Inv"); //!!TRANSLATE
+  SString(34502,"Order cannot be closed if downpayment exists:"); //!!TRANSLATE
+
+/* Journaling Messages */
+  SString(34520,"Journaling is on"); //!!TRANSLATE
+  SString(34521,"Journaling is off"); //!!TRANSLATE
+  SString(34522,"Trying to start journaling: Already started"); //!!TRANSLATE
+  SString(34523,"Trying to stop journaling, but journaling was not started"); //!!TRANSLATE
+  SString(34524,"Trying to start journaling, journals already existing"); //!!TRANSLATE
+  SString(34525,"Trying create additional journal file, journal not present"); //!!TRANSLATE
+  
+/* e-mail alias report */
+  SString(34540,"No E-mail aliases"); //!!TRANSLATE
+  SString(34541,"No Mailbox"); //!!TRANSLATE
+  SString(34542,"User without Mailboxes/E-mail Aliases"); //!!TRANSLATE
+  SString(34543,"E-mail aliases"); //!!TRANSLATE
+  SString(34544,"Mailbox / Pop3 Serv."); //!!TRANSLATE
+  SString(34545,"Field"); //!!TRANSLATE
+  SString(34546,"Name / Match"); //!!TRANSLATE
+  
+  return;
+end;
+
+#endif

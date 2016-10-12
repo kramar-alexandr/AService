@@ -1,0 +1,498 @@
+external function roundmode SetRoundModeD(Integer);
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+procedure CR(var area areply)
+begin
+
+//AddTextToArea(chr(13) & chr(10),areply);
+WebOutString("<BR>");
+
+return;
+end;
+
+
+global updating procedure WebISTOREShopArtCode()
+begin
+area areply;
+Boolean TrHs,testf,comma;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+record PLVc PLr; //Edit***************************Sasha2,14:39 26.06.2014
+integer lenth,i;//,price;
+longint price;
+string 50 partno;
+string 5 char;
+string 50 artcode;
+record INVc INr;
+
+	artcode = webgetarg("artcode");
+
+	
+  logtext(0,"WebSyncConnect_ISTORE_ArtCode " & artcode);
+  
+  blockload(WSBb); //Edit***************************Sasha2,14:38 26.06.2014
+  SetCompany(1,false);
+  INr.Code = artcode;
+  if(nonblank(artcode) and readfirstmain(INr,1,true))then begin
+		SetAreaZerosize(areply);
+		WebSetContentType("application/binary");		
+		WebOutString("[");
+		
+		WSRr.ArtCode = INr.Code;
+		
+		Trhs = true;
+		if(readfirstmain(WSRr,1,TrHs))begin
+      WebOutString("{");
+      partno = "";
+      lenth = len(WSRr.ArtCode);
+      for(i=0;i<lenth;i=i+1)begin
+        char = "";
+        char = mid(WSRr.ArtCode,i,1);
+        if(char=="\"")then begin
+          char = "\\" & char; 
+        end;
+        partno = partno & char;
+      end;
+      WebOutString("\"article\":" & "\"" & partno & "\",");
+      price = round(WSRr.Price,SetRoundModeD(0));
+      WebOutString("\"price\":" & "" & price & ",");
+      WebOutString("\"accessibility\":" & "[" & WSRr.Available & "]");
+      WebOutString("}");
+    end else begin //Edit***************************Sasha2,14:47 26.06.2014 {
+      PLr.ArtCode = artcode;
+      PLr.PLCode = WSBb.DefPriceList;
+      if(readfirstmain(PLr,2,true))then begin
+        WebOutString("{");
+        partno = "";
+        lenth = len(artcode);
+        for(i=0;i<lenth;i=i+1)begin
+          char = "";
+          char = mid(artcode,i,1);
+          if(char=="\"")then begin
+            char = "\\" & char; 
+          end;
+          partno = partno & char;
+        end;
+        WebOutString("\"article\":" & "\"" & partno & "\",");
+        price = round(PLr.ExVatPrice,SetRoundModeD(0));
+        WebOutString("\"price\":" & "" & price & ",");
+        WebOutString("\"accessibility\":[]");
+        WebOutString("}");
+      end;
+      //comma = true;
+    end; //Edit***************************Sasha2,14:47 26.06.2014 }
+		WebOutString("]");
+  end;
+  ResetCompany(1);
+  
+return;
+end;
+
+global updating procedure WebISTOREShop()
+begin
+area areply;
+Boolean TrHs,testf,comma;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+integer lenth,i;
+longint price;
+string 50 partno;
+string 5 char;
+  
+  logtext(0,"WebSyncConnect_ISTORE");
+  
+  SetCompany(1,false);
+  
+  blockload(WSBb);
+  
+  SetAreaZerosize(areply);
+  
+  WebSetContentType("application/binary");
+  //WebSetContentType("application/binary");
+  
+  WebOutString("[");
+  WSRr.DateChange = CurrentDate;
+  
+  Trhs = true;
+  comma = false;
+  While(loopbackkey("DateChange",WSRr,1,TrHs))begin
+    testf = true;
+    if(WSRr.DateChange<addday(WSBb.DateLastTime,-30))then begin TrHs=false; testf = false; end;// Edit ************************** Friday, 13 March 2015 15:56:42
+    
+    if(testf)then begin
+      if(comma)then begin
+       WebOutString(",");
+      end;
+      
+      WebOutString("{");
+      
+      partno = "";
+      lenth = len(WSRr.ArtCode);
+      for(i=0;i<lenth;i=i+1)begin
+        char = "";
+        char = mid(WSRr.ArtCode,i,1);
+        if(char=="\"")then begin
+          char = "\\" & char; 
+        end;
+        partno = partno & char;
+      end;
+      
+      WebOutString("\"article\":" & "\"" & partno & "\",");
+      
+      price = round(WSRr.Price,SetRoundModeD(0));
+      WebOutString("\"price\":" & "" & price & ",");
+      
+      WebOutString("\"accessibility\":" & "[" & WSRr.Available & "]");
+      
+      WebOutString("}");
+      
+      comma = true;
+    end;
+    
+  end;
+  WebOutString("]");
+  
+  WSBb.DateLastTime = currentdate;
+  blockstore(WSBb);
+  //WebOutArea(areply);
+  //writeareatofile(areply,"111.txt",0);
+  ResetCompany(1);
+  
+return;
+end;
+
+global updating procedure WebITEKShop()
+begin
+area areply;
+Boolean TrHs,testf,comma;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+integer lenth,i;
+longint price;
+string 50 partno;
+string 5 char;
+  
+  
+  weboutarea(areply);
+  
+  logtext(0,"WebSyncConnect_IPOINT");
+  SetCompany(2,false);
+  blockload(WSBb);
+  SetAreaZerosize(areply);
+  
+  WebSetContentType("application/binary");
+  //WebSetContentType("application/binary");
+  
+  WebOutString("[");
+  WSRr.DateChange = CurrentDate;
+  
+  Trhs = true;
+  comma = false;
+  While(loopbackkey("DateChange",WSRr,1,TrHs))begin
+    testf = true;
+    if(WSRr.DateChange<addday(WSBb.DateLastTime,-5))then begin TrHs=false; testf = false; end;// Edit ************************** Friday, 13 March 2015 15:56:58
+    
+    if(testf)then begin
+      if(comma)then begin
+       WebOutString(",");
+      end;
+      WebOutString("{");
+      partno = "";
+      lenth = len(WSRr.ArtCode);
+      for(i=0;i<lenth;i=i+1)begin
+        char = "";
+        char = mid(WSRr.ArtCode,i,1);
+        if(char=="\"")then begin
+          char = "\\" & char; 
+        end;
+        partno = partno & char;
+      end;
+      WebOutString("\"article\":" & "\"" & partno & "\",");
+      price = round(WSRr.Price,SetRoundModeD(0));
+      WebOutString("\"price\":" & "" & price & ",");
+      WebOutString("\"accessibility\":" & "[" & WSRr.Available & "]");
+      WebOutString("}");
+      comma = true;
+    end;
+    
+  end;
+  WebOutString("]");
+  
+  WSBb.DateLastTime = currentdate;
+  blockstore(WSBb);
+  //WebOutArea(areply);
+  //writeareatofile(areply,"111.txt",0);
+  ResetCompany(2);
+  
+return;
+end;
+
+//*************** 
+
+global updating procedure WebITEKShopArtCode()
+begin
+area areply;
+Boolean TrHs,testf,comma;
+record WebSyncRegVc WSRr;
+record WebSyncBlock WSBb;
+integer lenth,i;
+longint price;
+string 50 partno;
+string 5 char;
+string 50 artcode;
+record INVc INr;
+
+	artcode = webgetarg("artcode");
+
+	
+  logtext(0,"WebSyncConnect_ITEK_ArtCode " & artcode);
+  
+  SetCompany(2,false);
+  INr.Code = artcode;
+  if(nonblank(artcode) and readfirstmain(INr,1,true))then begin
+		SetAreaZerosize(areply);
+		WebSetContentType("application/binary");		
+		WebOutString("[");
+		
+		WSRr.ArtCode = INr.Code;
+		
+		Trhs = true;
+		comma = false;
+		While(loopmain(WSRr,1,TrHs))begin
+			testf = true;
+			if(WSRr.ArtCode!=artcode)then begin TrHs=false; testf = false; end;
+			if(testf)then begin
+				if(comma)then begin
+				 WebOutString(",");
+				end;
+				WebOutString("{");
+				partno = "";
+				lenth = len(WSRr.ArtCode);
+				for(i=0;i<lenth;i=i+1)begin
+					char = "";
+					char = mid(WSRr.ArtCode,i,1);
+					if(char=="\"")then begin
+						char = "\\" & char; 
+					end;
+					partno = partno & char;
+				end;
+				WebOutString("\"article\":" & "\"" & partno & "\",");
+				price = round(WSRr.Price,SetRoundModeD(0));
+				WebOutString("\"price\":" & "" & price & ",");
+				WebOutString("\"accessibility\":" & "[" & WSRr.Available & "]");
+				WebOutString("}");
+				comma = true;
+			end;
+		end;
+		WebOutString("]");
+  end;
+  ResetCompany(2);
+  
+return;
+end;
+
+//***************
+
+Global updating procedure WebCreateCustomer()
+begin
+  area xmlarea,workarea;
+	xml getxml;
+	integer i,cui,ri,cucnt,rwcnt;
+	integer sem,chil;
+	string 200 name,sername,card_number,phone,email,birthday,city,is_seminar,is_children,job,equipments;
+	
+	record CUVc CUr;
+  
+  logtext(0,"WEBreceivedCustomer");
+  
+  SetCompany(1,false);
+	ri = 0;
+	WEBGETPOSTDATA(xmlarea);
+	getxml = ParseXmlArea(xmlarea);
+	cucnt = XMLCOUNTCHILDREN(getxml,"buyers");
+	for(cui = 1;cui<=cucnt;cui = cui+1) begin
+		name =	XmlGet(getxml,"buyers/buyer" & cui & "/name");
+		sername = XmlGet(getxml,"buyers/buyer" & cui & "/sername");
+		card_number = XmlGet(getxml,"buyers/buyer" & cui & "/card_number");
+		phone = XmlGet(getxml,"buyers/buyer" & cui & "/phone");
+		email = XmlGet(getxml,"buyers/buyer" & cui & "/email");
+		birthday = XmlGet(getxml,"buyers/buyer" & cui & "/birthday");
+		city = XmlGet(getxml,"buyers/buyer" & cui & "/city");
+		is_seminar = XmlGet(getxml,"buyers/buyer" & cui & "/is_seminar");
+		is_children = XmlGet(getxml,"buyers/buyer" & cui & "/is_children");
+		job = XmlGet(getxml,"buyers/buyer" & cui & "/job");
+		equipments = XmlGet(getxml,"buyers/buyer" & cui & "/equipments");
+		
+		CUr.Code = card_number;
+		if(ReadFirstMain(CUr,1,true))then begin
+		  CUr.Name = sername & " " & name;
+		  CUr.Phone = phone;
+		  CUr.eMail = email;
+		  CUr.BirthDate = birthday;
+		  CUr.InvAddr1 = city;
+		  sem=0;
+		  if(is_seminar=="true")then begin
+		    sem=1;
+		  end;
+		  CUr.Smoking = sem;
+		  chil=0;
+		  if(is_children=="true")then begin
+		    chil=1;
+		  end;
+		  CUr.Blacklist = chil;
+		  CUr.Profesion = job;
+		  CUr.Comment = equipments;
+		  
+		  if(recordstore(CUr,true))then begin
+		    ri=ri+1;
+		  end;
+		end;
+	end;
+	
+	WeboutString("Hansa received " & ri & "from " cucnt);//ТУТ ОШИБКА, но с ней работает, а без нее нет :)
+	
+	writeareatofile(xmlarea,"web.txt",0);
+    
+ResetCompany(1);
+
+return;
+end;
+
+
+Global procedure WebGetSVOStatus()
+begin
+	string 50 sernr,phone;
+	record SVOVc SVOr;
+	
+	setwebheaders("Access-Control-Allow-Origin: http://www.a.com");
+	
+	
+	//WebSetContentType("application/binary");
+	
+	//WeboutString("Access-Control-Allow-Origin: http://www.a.com");
+	
+	sernr = webgetarg("sernr");
+	phone = webgetarg("phone");
+	
+	logtext(0,"WebGetSVOStatus " & sernr & " " & phone);
+	
+	
+	SetCompany(8,false);
+	
+	SVOr.SerNr = evaltoval(sernr);
+	if(readfirstmain(SVOr,1,true))then begin
+		if(SVOr.Kontinfo1==phone)then begin
+			switch(SVOr.OrderStatus)begin
+				case 0:WeboutString("Ваше устройство принято в ремонт и передано мастеру для проведения диагностики.");
+				case 1:WeboutString("Диагностика Вашего устройства завершена. Ожидайте завершения ремонта.");
+				case 4:WeboutString("Диагностика Вашего устройства завершена. В ближайшее время с Вами свяжется представитель компании для согласования стоимости");
+							 WeboutString(" ремонта, а также сроков его выполнения.");
+				case 3:WeboutString("Ожидается поставка запчасти для выполнения последующего ремонта Вашего устройства. Вы будете проинформированы сразу после завершения");
+							 WeboutString(" ремонта с помощью SMS-сообщения.");
+				case 2:WeboutString("Ремонт Вашего устройства завершен. Внимание! Для получения устройства в сервисном центре обязательно наличие оригинала расписки.");
+			end;
+			/*if(nonblank(SVOr.PlanShip))then begin
+				WeboutString("Ваш ремонт готов");
+			end else begin
+				WeboutString("Ваш ремонт на диагностике");
+			end;*/
+		end else begin
+			WeboutString("Не верный номер телефна");
+		end;
+	end else begin
+		WeboutString("Не верный номер ремонта");
+	end;
+	ResetCompany(8);
+return;
+end;
+
+
+
+
+Global updating procedure WebCreateCustomeriCenter()
+begin
+  area xmlarea,workarea;
+	xml getxml;
+	integer i,cui,ri,cucnt,rwcnt;
+	integer sem,chil;
+	string 200 name,sername,card_number,phone,email,birthday,city,is_seminar,is_children,job,equipments;
+	record LoyaltyCardVc LCr,oldLCr;
+	record CUVc CUr;
+  
+  logtext(0,"WebCreateCustomeriCenter");
+  
+  SetCompany(4,false);
+	ri = 0;
+	WEBGETPOSTDATA(xmlarea);
+	writeareatofile(xmlarea,"webcricentr.txt",0);
+	
+	getxml = ParseXmlArea(xmlarea);
+	cucnt = XMLCOUNTCHILDREN(getxml,"buyers");
+	for(cui = 1;cui<=cucnt;cui = cui+1) begin
+		name =	XmlGet(getxml,"buyers/buyer" & cui & "/name");
+		sername = XmlGet(getxml,"buyers/buyer" & cui & "/sername");
+		card_number = XmlGet(getxml,"buyers/buyer" & cui & "/card_number");
+		phone = XmlGet(getxml,"buyers/buyer" & cui & "/phone");
+		email = XmlGet(getxml,"buyers/buyer" & cui & "/email");
+		birthday = XmlGet(getxml,"buyers/buyer" & cui & "/birthday");
+		city = XmlGet(getxml,"buyers/buyer" & cui & "/city");
+		is_seminar = XmlGet(getxml,"buyers/buyer" & cui & "/is_seminar");
+		is_children = XmlGet(getxml,"buyers/buyer" & cui & "/is_children");
+		job = XmlGet(getxml,"buyers/buyer" & cui & "/job");
+		equipments = XmlGet(getxml,"buyers/buyer" & cui & "/equipments");
+		
+		CUr.Code = card_number;
+		if(ReadFirstMain(CUr,1,true))then begin
+		  CUr.Name = sername & " " & name;
+		  CUr.Phone = phone;
+		  CUr.eMail = email;
+		  CUr.BirthDate = birthday;
+		  CUr.InvAddr1 = city;
+		  sem=0;
+		  if(is_seminar=="true")then begin
+		    sem=1;
+		  end;
+		  CUr.Smoking = sem;
+		  chil=0;
+		  if(is_children=="true")then begin
+		    chil=1;
+		  end;
+		  CUr.Blacklist = chil;
+		  CUr.Profesion = job;
+		  CUr.Comment = equipments;
+		  if (CUr.blockedFlag==1) then begin
+		    CUr.blockedFlag = 0;
+		  end;
+		  
+		  if(recordstore(CUr,true))then begin
+		    LCr.SerNr = CUr.Code;
+		    if (ReadFirstMain(LCr,1,true)) then begin
+		      if (LCr.Closed==1) then begin
+		        RecordCopy(oldLCr,LCr);
+            LCr.Closed = 0;
+            if (RecordUpdate(oldLCr,LCr,true)==0) then begin end;
+		      end;
+		    end else begin
+		      RECORDNEW(LCr);
+		      LCr.SerNr = CUr.Code;
+		      LCr.CustName = CUr.Code; 
+		      LCr.CustName = CUr.Name;
+		      LCr.LCMLevel = "PROGRAM_1";
+		      RECORDSTORE(LCr,false);
+		    end;
+		    ri=ri+1;
+		  end;
+		end;
+	end;
+	
+	WeboutString("Hansa received " & ri & " from " & cucnt);
+	
+	WeboutString("<BR>" & cucnt);
+	
+	//weboutarea(xmlarea);
+	    
+ResetCompany(4);
+
+return;
+end;

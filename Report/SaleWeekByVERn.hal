@@ -1,0 +1,416 @@
+external function LongInt DateDiff(Date,Date);
+external procedure ExtractObj(string,var Integer,var string);
+external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode);
+external function val AbsoluteVal(val);
+external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
+external function roundmode SetRoundModeD(Integer);
+external procedure CollectCostMyInvoice(record IVVc,integer,var array val,var array val,var array string,var array val,var array date,var array string,var array string,var array val,var integer,integer,longint,var array val,var array val,var array val,var array val, var array val,var array val,var array string,var array string,var array string,record BaseCurBlock);
+
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+function string 255 GetIStoreVendor(string vendor,string code,string serialnr)
+begin
+  record ItemHistVc IHr;
+  record PUVc PUr;
+  string 20 outvendor;
+  Integer currcomp;
+  Boolean TrHs,testf;
+    
+    outvendor = vendor;
+    if (blank(code) or blank(serialnr)) then begin
+      goto LGetIStoreVendor;
+    end;
+    currcomp = CurrentCompany;
+    if (SetCompany(1,false)) then begin
+      IHr.ArtCode = code;
+      IHr.SerialNr = serialnr;
+      IHr.TransDate = CurrentDate;
+      TrHs = true;
+      while (LoopBackKey("CodeSerialNrArtCode",IHr,2,TrHs)) begin
+        testf = true;
+        if (IHr.ArtCode!=code or IHr.SerialNr!=serialnr) then begin TrHs = false; testf = false; end;
+        if (IHr.StockAffectf==0) then begin testf = false; end;
+        if (testf) then begin
+          PUr.SerNr = IHr.InSerNr;
+	        ReadFirstMain(PUr,1,true);
+	        outvendor = PUr.VECode;
+	        TrHs = false;
+	        testf = false;
+        end;
+      end;
+      resetcompany(currcomp);
+    end;
+    
+LGetIStoreVendor:;
+
+    GetIStoreVendor = outvendor;
+  return;
+end;
+
+global procedure SaleWeekByVERn(record RcVc RepSpec)
+begin
+	integer i,mtrw;
+	record IVVc IVr;
+	row IVVc IVrw;
+	record CUVc CUr;
+	record INVc INr;
+	record ITVc ITr;
+	record DIVc DIr;
+	record ItemStatusVc ISr;
+	record ItemHistVc IHr;
+	record SerBalVc SerBalr;
+	record BaseCurBlock BCb;
+	record PUVc PUr;
+	date sd,ed,blankd;
+	integer j,pos,ressize;
+	val fr,to1,to2,br1,br2;
+	val invfr,invto1,invto2,invbr1,invbr2;
+	boolean TrHs,TrHs1,testf,testf1,filter;
+	array val rate,qty,cost,curcost;
+	array date indate;
+	val t,sumcur,sumusd,sumcostcur,sumcostusd,foundqty;
+	integer cred;
+	longint CredInvNo;
+	roundmode rnd;
+	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
+	array string 5 uahpurate,uahcurrate;
+	array string 100 comment,itemlist,vendorlist,vecode,serial,curncy;
+	vector Boolean itemInList,vendorInList;
+	vector val saleditems,returneditems,leftitems;
+	string 200 object,index,location,IHkey;
+	val sold,returned,instock;
+	
+	if (blank(RepSpec.f4)) then begin
+	  startformat(15);
+		  outstring(0,0,"Введіть постачальника",false);
+		endformat;
+	  goto LSaleWeekByVERn;
+	end;
+	
+	pos = 0;
+	ExtractObj(RepSpec.f4,pos,object);
+	while (NonBlank(object)) begin
+	  if (vendorInList[object]==false) then begin
+		  vendorlist[vendorlist.length] = object;
+		  vendorInList[object] = true;
+		end;
+	  ExtractObj(RepSpec.f4,pos,object);
+	end;
+	
+	blockload(BCb);
+	
+	sd = RepSpec.sStartDate;
+	ed = RepSpec.sEndDate;
+	
+	rnd = DefaultValRoundoff;
+  rnd.decimals = 3;
+  rnd.step = kRoundingStepNone;
+  rnd.mode = kRoundingModeHalfUp; 
+  
+	startreportnoheaderjob("Звіт по продажам і залишкам за тиждень");
+	
+		startformat(15);
+		  pos = 0;
+		  outstring(pos,0,"Період:",false); pos = pos + 70;
+		  outstring(pos,0,sd & " : " & ed,false); pos = pos + 70;
+		endformat;  
+		startformat(15);
+		  pos = 0;
+		  outstring(pos,0,"Постачальник:",false); pos = pos + 70;
+		  outstring(pos,0,RepSpec.f4,false); pos = pos + 70;
+		endformat;
+		startformat(15);
+		  pos = 0;
+			outstring(pos,0,"Склади:",false); pos = pos + 70;
+			outstring(pos,0,RepSpec.f7,false); pos = pos + 70;
+		endformat;
+	
+		startformat(15);
+		  pos = 0;
+		  outstring(pos,0,"Постачальник",false); pos = pos + 70;
+		  outstring(pos,0,"Партномер",false); pos = pos + 70;
+			outstring(pos,0,"Продано(шт.)",false); pos = pos + 70;
+			outstring(pos,0,"Повернено(шт.)",false); pos = pos + 70;
+			outstring(pos,0,"Залишок на кінець тижня(шт.)",false); pos = pos + 70;
+		endformat;
+	
+	
+  	TrHs = true;
+  	IVr.InvDate = sd;
+  	while(loopkey("InvDate",IVr,1,TrHs)) begin
+  		testf = true;
+  		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
+  		if(IVr.Invalid==1)then begin testf = false; end;
+  		if(IVr.OKFlag==0)then begin testf = false; end;
+  		if(nonblank(RepSpec.f7) and (!setinset(IVr.Location,RepSpec.f7) or Blank(IVr.Location)))then begin testf = false; end;
+  		
+  		cred = 1;
+  		if(IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales) then begin 
+        cred=-1;
+        matRowGet(IVr,0,IVrw);
+        if(IVrw.stp==3) then begin
+          CredInvNo = IVrw.OrdRow;
+        end;
+      end;
+  		If(testf) then begin
+  			/*CUr.Code = IVr.CustCode;
+  			readfirstmain(CUr,1,true);
+  			invfr = IVr.FrRate;
+  			invto1 = IVr.ToRateB1;
+  			if(IVr.CurncyCode==BCb.BaseCur2)then begin
+  				invfr = IVr.BaseRate2;
+  				invto1 = IVr.BaseRate1;
+  			end;
+  			if(invfr==0 or invto1==0)then begin
+  				invfr = 1;
+  				invto1 = 1;
+  			end;*/
+  			
+  			mtrw = matrowcnt(IVr);
+  			For(i=0;i<mtrw;i=i+1) begin
+  				matrowget(IVr,i,IVrw);
+  				if(IVrw.stp==kInvoiceRowTypeNormal and nonblank(IVrw.ArtCode))then begin
+  					INr.Code = IVrw.ArtCode;
+  					readfirstmain(INr,1,true);
+  					testf = true;
+  					
+  					if (nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group) then begin testf = false; end;
+  					if(testf)then begin
+  					
+							location = "";
+							if(nonblank(IVrw.Location))then begin
+								location = IVrw.Location;
+							end else begin
+								location = IVr.Location;
+							end;
+							CollectCostMyInvoice(IVr,i,cost,curcost,curncy,rate,indate,vecode,serial,qty,ressize,cred,CredInvNo,realcostbase,realcostuah,
+																	 realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb);		
+					
+							foundqty = 0;
+							For(j=0;j<ressize;j=j+1) begin
+								foundqty = foundqty + qty[j];
+							end;
+						
+							For(j=0;j<ressize;j=j+1) begin
+								filter = true;
+								if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+									vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+								end;
+								if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
+								if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
+								if(filter)then begin
+									index = vecode[j] & IVrw.ArtCode;
+									if (itemInList[IVrw.ArtCode]==false) then begin
+										itemlist[itemlist.length] = IVrw.ArtCode;
+										itemInList[IVrw.ArtCode] = true;
+									end;
+								
+									if (qty[j]>0) then begin
+										saleditems[index] = saleditems[index] + qty[j];
+									end else begin
+										returneditems[index] = returneditems[index] - qty[j];
+									end;
+								
+								end;
+							end;
+						
+							if(foundqty*cred<IVrw.Quant)then begin
+								filter = true;
+								if (CurrentCompany==10 and vecode[j]=="ISMART" and INr.SerNrf>0) then begin
+									vecode[j] = GetIStoreVendor(vecode[j],IVrw.ArtCode,IVrw.SerialNr);
+								end;
+								if(nonblank(RepSpec.f3) and RepSpec.f3!=IVrw.ArtCode)then begin filter = false; end;
+								if(nonblank(RepSpec.f4) and (!setinset(vecode[j],RepSpec.f4) or blank(vecode[j])))then begin filter = false; end;
+								if(filter)then begin
+									index = vecode[j] & IVrw.ArtCode;
+									if (itemInList[IVrw.ArtCode]==false) then begin
+										itemlist[itemlist.length] = IVrw.ArtCode;
+										itemInList[IVrw.ArtCode] = true;
+									end;
+								
+									if (qty[j]>0) then begin
+										saleditems[index] = saleditems[index] + (IVrw.Quant*cred - foundqty);
+									end else begin
+										returneditems[index] = returneditems[index] - (IVrw.Quant*cred - foundqty);
+									end;
+								
+								end;
+							end;
+						end;
+  				end;	 
+  			end; 
+  	  end;
+    end;
+    
+    
+    RepSpec.d1 = blankd;
+    if (blankdate(RepSpec.d1)) then begin
+  		IHkey = "ActiveQty";
+  	end else begin
+  		IHkey = "ArtCode";	
+  	end;
+  	
+    TrHs = true;
+    INr.Code = "";
+  	while (LoopMain(INr,1,TrHs)) begin
+  		testf = true;
+  		if (NonBlank(RepSpec.f3) and !SetInSet(INr.Code,RepSpec.f3)) then begin testf = false; end;
+  		if (INr.Terminated<>0) then begin testf = false; end;
+  		if (INr.ItemType!=kItemTypeStocked) then begin testf = false; end;
+  		if (nonblank(RepSpec.f2) and RepSpec.f2!=INr.Group) then begin testf = false; end;
+  		
+  		
+  		if (testf) then begin
+  			TrHs1 = true;
+  			IHr.ArtCode = INr.Code;
+  			while (LoopKey(IHkey,IHr,1,TrHs1)) begin
+  				testf1 = true;
+  				if (IHr.ArtCode!=INr.Code) then begin TrHs1 = false; testf1 = false; end;
+  				if (nonblank(RepSpec.f7) and !setinset(IHr.Location,RepSpec.f7)) then begin testf1 = false; end; 
+  				if (nonblankdate(RepSpec.d1) and RepSpec.d1<IHr.TransDate) then begin testf1 = false; end;
+  				if (IHr.StockAffectf!=1) then begin testf1 = false; end;
+  				if (testf1) then begin
+    				if (blankdate(RepSpec.d1)) then begin
+    					SerBalr.Item = IHr.ArtCode;							
+    					SerBalr.Location = IHr.Location;
+    					SerBalr.Serial = IHr.SerialNr;
+    					if (INr.SerNrf==0 or (ReadFirstMain(SerBalr,3,true) and (SerBalr.Quant>0))) then begin
+    						if (INr.SerNrf!=0) then begin //for backdated stock depreciations	
+									ISr.Code = INr.Code;
+									ISr.Location = IHr.Location;
+									if (ReadFirstMain(ISr,2,true) and ISr.Instock>0) then begin
+										PUr.SerNr = IHr.InSerNr;
+	                  ReadFirstMain(PUr,1,true);
+	                  vecode[0] = PUr.VECode;
+	                  if (CurrentCompany==10 and PUr.VECode=="ISMART" and INr.SerNrf>0) then begin
+          					  vecode[0] = GetIStoreVendor(PUr.VECode,SerBalr.Item,SerBalr.Serial);
+          					end;
+                    if (nonblank(RepSpec.f4) and nonblank(vecode[0]) and setinset(vecode[0],RepSpec.f4)) then begin
+                      if (itemInList[IHr.ArtCode]==false) then begin
+            					  itemlist[itemlist.length] = IHr.ArtCode;
+            					  itemInList[IHr.ArtCode] = true;
+            					end;
+                      leftitems[vecode[0] & INr.Code] = leftitems[vecode[0] & INr.Code] + IHr.RemQty;
+                    end;
+									end;
+								end else begin
+    							PUr.SerNr = IHr.InSerNr;
+                  ReadFirstMain(PUr,1,true);
+                  if (nonblank(RepSpec.f4) and nonblank(PUr.VECode) and setinset(PUr.VECode,RepSpec.f4)) then begin
+                    if (itemInList[IHr.ArtCode]==false) then begin
+          					  itemlist[itemlist.length] = IHr.ArtCode;
+          					  itemInList[IHr.ArtCode] = true;
+          					end;
+                    leftitems[PUr.VECode & INr.Code] = leftitems[PUr.VECode & INr.Code] + IHr.RemQty;
+                  end;
+    						end;	
+    					end;
+    				end else begin
+    					//CollectPUVc(IVr,IHr);
+    				end;				
+  				end;
+  			end; RESETLOOP(IHr);
+  		end;	
+  	end;
+    
+    for (i=0;i<itemlist.length;i=i+1) begin
+      for (j=0;j<vendorlist.length;j=j+1) begin
+  		  index = vendorlist[j] & itemlist[i];
+  		  sold = saleditems[index];
+  		  returned = returneditems[index];
+  		  instock = leftitems[index];
+  		  if (sold!=BlankVal or returned!=BlankVal or instock!=BlankVal) then begin
+  		    if (sold==BlankVal) then begin
+  		      sold = 0;
+  		    end;
+  		    if (returned==BlankVal) then begin
+  		      returned = 0;
+  		    end;
+  		    if (instock==BlankVal) then begin
+  		      instock = 0;
+  		    end;
+    		  startformat(15);
+      		  pos = 0;
+      		  outstring(pos,0,vendorlist[j],false); pos = pos + 70;
+      		  outstring(pos,0,itemlist[i],false); pos = pos + 70;
+      			outstring(pos,0,sold,false); pos = pos + 70;
+      			outstring(pos,0,returned,false); pos = pos + 70;
+      			outstring(pos,0,instock,false); pos = pos + 70;
+      		endformat;
+  		  end;
+      end;
+    end;
+	
+	endjob;
+	
+LSaleWeekByVERn:;
+
+return;
+end;
+
+global procedure SaleWeekByVEEn()
+begin
+
+	record RcVc RepSpec;
+string 50 filename;
+date repdate;
+integer compnr;
+  
+      compnr = currentcompany;
+      
+      if(GetDateId(currentdate)==1)then begin
+      
+        switch(compnr)begin
+        	case 1: filename = "Reports/1/IstoreSaleWeek.xls";
+        	case 10: filename = "Reports/10/GulliverSaleWeek.xls";
+
+        end;
+        recordnew(RepSpec);
+        
+        delete_file(filename);
+        CreateFile(filename);
+        closefile;
+        millisleep(150);
+        openexportfile(filename,true);
+        ReportDefaults(RepSpec,"SaleWeekByVERClass");
+        repdate = addday(Currentdate,-7);
+        
+        RepSpec.sStartDate = repdate;
+        RepSpec.sEndDate = currentdate;
+        RepSpec.f2 = "APPLE";
+        RepSpec.f4 = "ERC_IS,ASBIS";
+        switch compnr begin
+        	case 1:RepSpec.f7 = "EXB_LV,EXB_LV_ST,INV#1_LV,INV#1_LVST,INV#1";
+        	case 10 :RepSpec.f7 = "EXB_GL,EXB_GL_ST,INV1_GL,INV1_GLST";
+        end;
+        
+        RepSpec.Media = 20;
+        SaleWeekByVERn(RepSpec);
+                
+        
+        closefile;
+        millisleep(100);
+        switch(compnr)begin
+        	case 1: RunProgram("Reports/1/IstoreSaleWeek.sh","");
+        	case 10: RunProgram("Reports/10/GulliverSaleWeek.sh","");
+        end;
+			end;
+return;
+end;
+
+global webpublic procedure WebSaleWeekByVEEn()
+begin
+	
+	  if (SetCompany(1,false)) then begin
+	  	SaleWeekByVEEn;
+	  	resetcompany(1);
+	  end;
+	  if (SetCompany(10,false)) then begin
+	  	SaleWeekByVEEn;
+	  	resetcompany(10);
+	  end;
+
+
+return;
+end;

@@ -1,0 +1,72 @@
+global
+function LongInt INVcRecordCheck(var record INVc INr,record INVc IN2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	transaction Boolean gSynchServToOfflineSettingsm;
+	record SamsungItemsBlock SIb;
+  row SamsungItemsBlock SIrw;
+  integer i,mtrw;
+  vector boolean findf;
+  string 100 codefind;
+	
+	
+	//logtext(0,"INVcREcorSync");
+	
+	res = 0; 
+  if(gSynchServToOfflineSettingsm==false)then begin
+		res = inner.INVcRecordCheck(INr,IN2r,stat,long4);
+  end;
+  if(res==0)then begin
+  	if(currentcompany==9)then begin
+  		blockload(SIb);
+			mtrw = matrowcnt(SIb);
+			For(i=0;i<mtrw;i=i+1) begin
+				matrowget(SIb,i,SIrw);
+				findf[SIrw.ArtCode] = true;
+			end; 
+  		
+  		if(INr.Group=="SAMSU" or INr.Group=="SMG_A")then begin
+  			if(blank(INr.EUCodex))then begin
+					codefind = INr.Code;
+				end else begin
+					codefind = INr.EUCodex;
+				end;
+				if(findf[codefind]==false)then begin
+					RecordCheckError(31083,"",-1,"Code");      
+					res = -1; 
+				end;
+			end;
+  		
+  	end;
+  	
+  end;
+  
+  INVcRecordCheck = res;
+  return;
+end;
+
+
+global 
+function Boolean INVcRecordShouldBeSynchronised(record INVc INr,string tagstr)
+begin
+  Boolean res;
+  
+  //logtext(0,"INVcRecordShouldBeSynchronised");
+  
+  res = true;
+  INVcrecordShouldBeSynchronised = res;
+  return;
+end;
+
+global 
+function Boolean INVcRecordSync(record INVc INr,string tagstr)
+begin
+  Boolean res;
+  
+  
+  //logtext(0,"INVcRecordSync");
+  
+  res = true;
+  INVcRecordSync = res;
+  return;
+end;

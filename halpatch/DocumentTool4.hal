@@ -1,0 +1,89 @@
+external function Boolean FindCustomerRelation(string,string,var record CUVc);
+external function Date FindDueDateInAccPeriod(Date);
+external procedure GetSerRange(string,LongInt,var LongInt,var LongInt);
+external function LongInt DateDiff(Date,Date);
+external function Integer GetVATLaw();
+external function Boolean GetPD(var record PDVc);
+external procedure GetUserAccessGroup(string,var string);
+
+global
+function Boolean FindFormcode(Integer OKFlag,Integer Typ)
+BEGIN
+  Boolean res;
+  
+  res = true;
+  switch (Typ) begin
+    case 1: if (OKFlag==0) then begin res = false; end;
+    case 2: if (OKFlag!=0) then begin res = false; end;
+  end;
+  FindFormcode = res;
+  RETURN;
+END;
+
+global
+function Boolean Getformcode(Integer rowno,Integer defintdocnr,string defformcode,string defusergroup,string deflangcode,
+                             LongInt defsernr,LongInt sernr,string defprintgroupcode,
+                             string vclangcode,Integer intdocnr,string vcname,var string resfromcode)
+BEGIN
+  Boolean res;
+  Boolean langtest,sertest,intnrtest,usergrtest,printertest;// Edit ************************** Thursday, 14 August 2014 13:17:29
+  LongInt serstart,serend;
+  string 5 usergroup;
+  record LocalMachineBlock LMb;// Edit ************************** Thursday, 14 August 2014 13:17:34
+  
+  blockload(LMb);// Edit ************************** Thursday, 14 August 2014 13:17:34
+  
+  langtest = false;
+  sertest = false;
+  intnrtest = false;
+  usergrtest = false;
+    
+  GetUserAccessGroup(CurrentUser,usergroup);
+  GetSerRange(vcname,sernr,serstart,serend);
+//  StopAlert("defsernr1 " & defsernr & " serstart " & serstart & " serend " & serend);
+  if (intdocnr==defintdocnr) then begin intnrtest = true; end;
+  if ((intdocnr==1) and (defintdocnr==-1)) then begin intnrtest = true; end;
+  if ((defsernr==-1) or
+      ((defsernr>=serstart) and (defsernr<=serend))) then begin
+    sertest = true;
+  end;
+  if (vclangcode==deflangcode) then begin
+    langtest = true;
+  end;
+/*  
+make sequence of documents print invoice,
+put language on invoice print it, 
+I changed the code befor calling Getformcode
+  if (((blank(deflangcode)) and (intdocnr==1)) or 
+      (vclangcode==deflangcode)) then begin
+    langtest = true;
+  end;
+*/  // Edit Start ---------------------------------------------- Edit Start
+	//Thursday, 14 August 2014 13:46:34
+	
+	printertest = true;
+	if(nonblank(defprintgroupcode))then begin
+		if(nonblank(LMb.DefPrinter))then begin
+			if(defprintgroupcode!=LMb.DefPrinter)then begin
+				printertest = false;
+			end;
+		end;
+	end;
+	
+	
+	// Edit End ---------------------------------------------- Edit End
+	
+  if ((blank(defusergroup)) or 
+      (usergroup==defusergroup) or
+      (CurrentUser == defusergroup)) then begin
+    usergrtest = true;
+  end;
+  
+  if (langtest and sertest and intnrtest and usergrtest/* and printertest*/) then begin// Edit ************************** Thursday, 14 August 2014 13:18:00
+    SetPrinter(defprintgroupcode);  
+    resfromcode = defformcode;
+    res = true;
+  end;
+  Getformcode = res;
+  RETURN;
+END;

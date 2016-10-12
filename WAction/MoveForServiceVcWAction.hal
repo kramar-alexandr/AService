@@ -1,0 +1,358 @@
+global
+function Boolean MoveForServiceLClassOnOpenWindow(Integer wn)
+begin
+  string 5 subset;
+
+  if (CurrentCompany!=8) then begin
+    subset = CurrentCompany & "";
+    SetWindowSubset(wn,subset); 
+  end;
+  
+  MoveForServiceLClassOnOpenWindow = false;
+  return;
+end;
+
+function Boolean MoveForServiceDClassFromCompNameEFAfter(Integer wn,Boolean changedf)
+begin  
+  record MoveForServiceVc MoveForServicer;
+  record CompaniesBlock CBb;
+  row CompaniesBlock CBrw;
+  Integer i,rwcnt;
+
+  if (changedf) then begin  
+    GetWindowRecord(wn,MoveForServicer);
+    MoveForServicer.FromCompNr = -1;
+    BlockLoad(CBb);
+    rwcnt = MatRowCnt(CBb);
+    for (i=0;i<rwcnt;i=i+1) begin
+      MatRowGet(CBb,i,CBrw);
+      if (CBrw.CompName==MoveForServicer.FromCompName) then begin
+        MoveForServicer.FromCompNr = CBrw.CompCode;
+        i = rwcnt;
+      end;
+    end;
+    PutWindowRecord(wn,MoveForServicer);
+  end;
+  MoveForServiceDClassFromCompNameEFAfter = true;
+  return;
+end;
+
+function Boolean MoveForServiceDClassToCompNameEFAfter(Integer wn,Boolean changedf)
+begin  
+  record MoveForServiceVc MoveForServicer;
+  record CompaniesBlock CBb;
+  row CompaniesBlock CBrw;
+  Integer i,rwcnt;
+
+  if (changedf) then begin  
+    GetWindowRecord(wn,MoveForServicer);
+    MoveForServicer.ToCompNr = -1;
+    BlockLoad(CBb);
+    rwcnt = MatRowCnt(CBb);
+    for (i=0;i<rwcnt;i=i+1) begin
+      MatRowGet(CBb,i,CBrw);
+      if (CBrw.CompName==MoveForServicer.ToCompName) then begin
+        MoveForServicer.ToCompNr = CBrw.CompCode;
+        i = rwcnt;
+      end;
+    end;
+    PutWindowRecord(wn,MoveForServicer);
+  end;
+  MoveForServiceDClassToCompNameEFAfter = true;
+  return;
+end;
+
+function Boolean MoveForServiceDClassSendQuantEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  Boolean res;
+  
+  res = true;
+  if ((changed!=0) and (rownr>=0)) then begin
+    GetWindowRecord(wn,MoveForServicer);
+    MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+    MoveForServicerw.SendUser = CurrentUser;
+    MoveForServicerw.SendDate = CurrentDate;
+    MatRowPut(MoveForServicer,rownr,MoveForServicerw);
+    PutWindowRecord(wn,MoveForServicer);    
+  end;
+  MoveForServiceDClassSendQuantEFAfter = res;
+  RETURN;
+END;
+
+function Boolean MoveForServiceDClassReceivedQuantEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  Boolean res;
+  
+  res = true;
+  if ((changed!=0) and (rownr>=0)) then begin
+    GetWindowRecord(wn,MoveForServicer);
+    MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+    MoveForServicerw.ReceivedUser = CurrentUser;
+    MoveForServicerw.ReceivedDate = CurrentDate;
+    MatRowPut(MoveForServicer,rownr,MoveForServicerw);
+    PutWindowRecord(wn,MoveForServicer);    
+  end;
+  MoveForServiceDClassReceivedQuantEFAfter = res;
+  RETURN;
+END;
+
+function Boolean MoveForServiceDClassSendBackQuantEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  Boolean res;
+  
+  res = true;
+  if ((changed!=0) and (rownr>=0)) then begin
+    GetWindowRecord(wn,MoveForServicer);
+    MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+    MoveForServicerw.SendBackUser = CurrentUser;
+    MoveForServicerw.SendBackDate = CurrentDate;
+    MatRowPut(MoveForServicer,rownr,MoveForServicerw);
+    PutWindowRecord(wn,MoveForServicer);    
+  end;
+  MoveForServiceDClassSendBackQuantEFAfter = res;
+  RETURN;
+END;
+
+function Boolean MoveForServiceDClassReceivedBackQuantEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  Boolean res;
+  
+  res = true;
+  if ((changed!=0) and (rownr>=0)) then begin
+    GetWindowRecord(wn,MoveForServicer);
+    MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+    MoveForServicerw.ReceivedBackUser = CurrentUser;
+    MoveForServicerw.ReceivedBackDate = CurrentDate;
+    MatRowPut(MoveForServicer,rownr,MoveForServicerw);
+    PutWindowRecord(wn,MoveForServicer);    
+  end;
+  MoveForServiceDClassReceivedBackQuantEFAfter = res;
+  RETURN;
+END;
+function Boolean MoveForServiceDClassArtCodeEFAfter(Integer wn,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  record INVc INr;
+  Boolean res;
+  
+  res = true;
+  if ((changed!=0) and (rownr>=0)) then begin
+    GetWindowRecord(wn,MoveForServicer);
+    MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+    INr.Code = MoveForServicerw.ArtCode;
+    ReadFirstMain(INr,1,true);
+    MoveForServicerw.Spec = INr.Name;
+    MatRowPut(MoveForServicer,rownr,MoveForServicerw);
+    PutWindowRecord(wn,MoveForServicer);    
+  end;
+  MoveForServiceDClassArtCodeEFAfter = res;
+  RETURN;
+END;
+
+global
+function Boolean MoveForServiceDClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
+BEGIN
+  Boolean res;
+
+  switch (fieldname) begin
+    case "FromCompName": res = MoveForServiceDClassFromCompNameEFAfter(wn,changed!=0);
+    case "ToCompName": res = MoveForServiceDClassToCompNameEFAfter(wn,changed!=0);
+    case "SendQuant": res = MoveForServiceDClassSendQuantEFAfter(wn,fn,rownr,changed);
+    case "ReceivedQuant": res = MoveForServiceDClassReceivedQuantEFAfter(wn,fn,rownr,changed);
+    case "SendBackQuant": res = MoveForServiceDClassSendBackQuantEFAfter(wn,fn,rownr,changed);
+    case "ReceivedBackQuant": res = MoveForServiceDClassReceivedBackQuantEFAfter(wn,fn,rownr,changed);
+    case "ArtCode": res = MoveForServiceDClassArtCodeEFAfter(wn,fn,rownr,changed);
+  end;
+  MoveForServiceDClassAfterEditField = res;
+  RETURN;
+END;
+
+global
+function Boolean MoveForServiceDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
+BEGIN
+  Boolean res;
+  record MoveForServiceVc MoveForServicer;
+  record MoveForServiceVc MoveForService2r;
+  row MoveForServiceVc MoveForServicerw;
+  row MoveForServiceVc MoveForService2rw;
+  string 200 tstr;
+  
+  res = true;
+
+  GetWindowRecord(wn,MoveForServicer);
+  switch (wnst) begin
+    case Rs_insert:
+      switch (fieldname) begin
+        case " ": 
+      end;
+    case Rs_update:
+      GetPrevWindowRecord(wn,MoveForService2r);
+      if (MoveForService2r.Closed!=0) then begin
+        switch (fieldname) begin
+          case "":
+          otherwise
+            //res = false;
+        end;
+      end;
+  end;
+  if (res) then begin
+    if (rownr>-1) then begin
+      switch (fieldname) begin
+        case "Comment":
+        case "ServiceSerialNr":
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.ReceivedQuant>0) then begin
+              res = false;
+            end;
+          end;
+        case "SendQuant":
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.ReceivedQuant>0 or (NonBlank(MoveForService2rw.SendUser) and MoveForService2rw.SendUser!=CurrentUser)) then begin
+              res = false;
+            end;
+          end;
+        case "ReceivedQuant":
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.ReceivedQuant>0 and CurrentUser!=MoveForService2rw.SendUser) then begin
+              res = false;
+            end;
+          end;
+        case "SendBackQuant":
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.ReceivedBackQuant>0 or (NonBlank(MoveForService2rw.SendBackUser) and MoveForService2rw.SendBackUser!=CurrentUser)) then begin
+              res = false;
+            end;
+          end;
+        case "ReceivedBackQuant":
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.ReceivedBackQuant>0 and CurrentUser!=MoveForService2rw.SendBackUser) then begin
+              res = false;
+            end;
+          end;
+        otherwise
+          if (wnst==Rs_update) then begin
+            MatRowGet(MoveForService2r,rownr,MoveForService2rw);
+            if (MoveForService2rw.SendQuant>0 or MoveForService2rw.ReceivedQuant>0 or MoveForService2rw.SendBackQuant>0 or MoveForService2rw.ReceivedBackQuant>0) then begin
+              res = false;
+            end;
+          end;
+      end;
+    end;
+  end;
+  if (res) then begin
+    if (wnst==Rs_update) then begin
+      if (MoveForService2r.Closed!=0) then begin
+        res = false;
+        if (changed!=0) then begin
+          MessageBox(1067,tstr);
+        end;
+      end;
+    end;
+    if (wnst==Rs_insert and MoveForServicer.Closed!=0) then begin
+      res = false;
+      if (changed!=0) then begin
+        MessageBox(1067,tstr);
+      end;
+    end;
+  end;
+  
+  MoveForServiceDClassActiveEditField = res;
+  RETURN;
+END;
+
+global
+function Boolean MoveForServiceDClassInsertRowTest(Integer wn,Integer rownr)
+begin
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  Boolean res;
+  
+  res = true;
+  switch (WindowState(wn)) begin
+    case Rs_normal:
+      GetWindowRecord(wn,MoveForServicer);
+      if (MoveForServicer.Closed!=0) then begin
+        res = false;
+      end;
+    case Rs_insert:
+      if (MoveForServicer.Closed!=0) then begin
+        res = false;
+      end;
+    case Rs_update:
+      GetPrevWindowRecord(wn,MoveForServicer);
+      if (MoveForServicer.Closed!=0) then begin
+        res = false;
+      end;
+    otherwise
+      res = false;
+  end;
+  if (res) then begin
+  end;
+  
+  MoveForServiceDClassInsertRowTest = res;
+  return;
+end;
+
+global
+function Boolean MoveForServiceDClassDeleteRowTest(Integer wn,Integer rownr)
+begin
+  record MoveForServiceVc MoveForServicer;
+  row MoveForServiceVc MoveForServicerw;
+  Boolean res;
+  record INVc INr;
+  Integer i,rwcnt;
+  Integer updatemode;
+  
+  updatemode = 2;//Rs_normal
+  res = true;  LogText(0,"MoveForServiceDClassDeleteRowTest");
+  switch (WindowState(wn)) begin
+    case Rs_update:
+      GetPrevWindowRecord(wn,MoveForServicer);    
+      if (MoveForServicer.Closed!=0) then begin
+        res = false;
+      end;
+      if (rownr>-1) then begin
+        MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+        if (MoveForServicerw.SendQuant>0 or MoveForServicerw.ReceivedQuant>0 or MoveForServicerw.SendBackQuant>0 or MoveForServicerw.ReceivedBackQuant>0) then begin
+          res = false;
+        end;
+      end;
+    case Rs_insert:
+      GetWindowRecord(wn,MoveForServicer);
+      if (MoveForServicer.Closed!=0) then begin
+        res = false;
+      end;    
+    case Rs_normal:
+      GetWindowRecord(wn,MoveForServicer);
+      if (MoveForServicer.Closed!=0) then begin
+        res = false;
+      end; 
+      if (rownr>-1) then begin 
+        MatRowGet(MoveForServicer,rownr,MoveForServicerw);
+        if (MoveForServicerw.SendQuant>0 or MoveForServicerw.ReceivedQuant>0 or MoveForServicerw.SendBackQuant>0 or MoveForServicerw.ReceivedBackQuant>0) then begin
+          res = false;
+        end;
+      end;  
+  end;
+  if (res) then begin
+  end;
+  
+LMoveForServiceDClassDeleteRowTest:;  
+  
+  MoveForServiceDClassDeleteRowTest = res;
+  return;
+end;

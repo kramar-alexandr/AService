@@ -1,0 +1,14 @@
+global
+function LongInt UserVcRecordCheck(var record UserVc USr,record UserVc US2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	transaction Boolean gSynchServToOfflineSettingsm;
+	
+	res = 0; 
+  if(gSynchServToOfflineSettingsm==false)then begin
+		res = inner.UserVcRecordCheck(USr,US2r,stat,long4);
+  end;
+  
+  UserVcRecordCheck = res;
+  return;
+end;

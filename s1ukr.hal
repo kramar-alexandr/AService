@@ -1,0 +1,4250 @@
+/* s1eng.hal */
+
+#ifdef HAL
+
+//event startup
+begin
+
+  SetLangMode(LangUkrainian,"UKR",0); 
+
+// ShopBaskJourRn
+  SString(12000,"Folio Журнал");
+  SString(12001,"Дата");
+  SString(12002,"Товар");
+  SString(12003,"Опис");
+  SString(12004,"Кіл.");
+  SString(12005,"Ціна");
+  SString(12006,"% зниж");
+  SString(12007,"Знижка");
+  SString(12008,"Кліент");
+  SString(12009,"Ціна");
+  SString(12010,"Загалом");
+  SString(12011,"Загалом кіл-ть: ");
+  SString(12012,"Загалом сума: ");
+  SString(12013,"Загалом середнє: ");
+  SString(12014,"Загалом реєстрів: ");
+  SString(12015,"Загалом знижка: ");
+  SString(12016,"Оціночно");
+   
+// UpDownGradeRn
+  SString(12020,"Зміни прі заселенні");
+  SString(12021,"Ціна");
+  SString(12022,"Тип");
+  SString(12023,"Вимога");
+  SString(12024,"Дата");
+  SString(12025,"№ резерв.");
+  SString(12026,"Найм.");
+  SString(12027,"Дійсн.");
+  SString(12028,"Нор.");
+  SString(12029,"Знижка");
+
+// HotelStatRn
+  SString(12030,"Статистика по кімнаті");
+  SString(12031,"Кімнати");
+  SString(12032,"Наявність");
+  SString(12033,"Гості");
+  SString(12034,"Сер.Кімната");
+  SString(12035,"Надх./");
+  SString(12036,"Дата");
+  SString(12037,"Взято");
+  SString(12038,"Разом");
+  SString(12039,"Ціна");
+  SString(12040,"Ступінь");
+  SString(12041,"Розташ.");
+  SString(12042,"Загалом гостей : ");
+  SString(12043,"Загалом ночей  : ");
+  SString(12044,"Загалом надх/кімната   : ");
+  SString(12045,"Середня зайнятість : ");
+  SString(12046,"В середн. гостей в день: ");
+  SString(12047,"Загалом кімнат: ");
+
+// ChannelStatRn
+  SString(12050,"Статистика каналів");
+  SString(12051,"Канал");
+  SString(12052,"Опис");
+  SString(12053,"Кількість");
+
+// StayStatsRn
+  SString(12061,"Тривалість перебування"); 
+  SString(12062,"Тривлість");
+  SString(12063,"Переб. ()");
+  SString(12064,"Частота");
+  SString(12065,"Середн. переб.: ");
+  SString(12066,"Дата скасування");
+  SString(12067,"Відсоток");
+
+// AsigRoomsRn
+  SString(12070,"Кімнати, що прізнач.");
+  SString(12071,"№");
+  SString(12072,"Тип");
+  SString(12073,"Клас");
+  SString(12074,"Спосіб");
+  SString(12075,"Зниж.");
+  SString(12076,"Макс. перс.");
+
+// ExportCashFlowEn
+  SString(12090,"Акти/накладні клієнтам");
+  SString(12091,"Акти/накладні постач.");
+  SString(12092,"Внески  при продажу");
+  SString(12093,"Внески  при придбанні");
+  SString(12094,"Received Чеки");
+  SString(12095,"Власні чеки");
+  SString(12096,"Резенвування");
+  SString(12097,"Рахунки клієнтам");
+  SString(12098,"Замовлення постачальникам");
+  SString(12099,"Вхідні");
+  SString(12100,"Вихідні");
+  SString(12101,"Сальдо");
+  SString(12102,"Не знайдено внесків");
+  SString(12103,"Поновити");
+  SString(12104,"Створити внесок");
+
+// GuestListRn
+  SString(12110,"Перелік гостей");
+  SString(12111,"Гість");
+  SString(12112,"E-mail");
+  SString(12113,"Моб.");
+  SString(12114,"Тел.");
+  SString(12115,"Факс");
+
+// GuestObserRn
+  SString(12121,"Послуги гостю");
+  SString(12122,"Кімната");
+  SString(12123,"Ім'я");
+  SString(12124,"Послуги");
+  SString(12125,"Загальне");
+  SString(12126,"Опис");
+  SString(12128,"Послуги гостю по кімнаті: ");
+  SString(12129,"Дата");
+  
+// HouseKeepingRn
+  SString(12140,"Планування прибирання");
+  SString(12141,"Неприбрано");
+  SString(12142,"Пріор звільнення");
+  SString(12143,"Вибуття");
+  SString(12144,"Загалом");
+  SString(12145,"Прибиральниця");
+  SString(12146,"День");
+  SString(12147,"Прибиральниця");
+  SString(12148,"Ім'я");
+  SString(12149,"Заплан. год.");
+  SString(12150,"Прибирання");
+  SString(12151,"Періодичність");
+  SString(12152,"Перевірка");
+  SString(12153,"Перебуваняя");
+  SString(12154,"Інше");
+  SString(12155,"Тип");
+  SString(12156,"Статус");
+  SString(12157,"Стан");
+  SString(12158,"Загальна кіл.");
+  SString(12159,"Зміна");
+
+// AssignCLadyRn
+  SString(12160,"Призначення прибиральниць");
+  SString(12161,"Обраний день:");
+  SString(12162,"Оберіть одну з наст. прибиральниць:");
+  SString(12163,"Корист.");
+  SString(12164,"Ім'я");
+  SString(12165,"Признач. час");
+  SString(12166,"Доступно час");
+  SString(12167,"Кімнати для прибирання:");
+  SString(12168,"Кімната");
+  SString(12169,"Зниж.");
+  SString(12170,"Час прибирання");
+  SString(12171,"Прибиральниця");
+  SString(12172,"Резерв");
+  SString(12173,"Звільнення");
+  SString(12174,"Реєстрація");
+  SString(12175,"Розклад:");
+
+/*Clean Cash messages*/  
+  SString(12380,"No response from Clean Cash");    
+  SString(12381,"Error reported by Clean Cash: ");    
+  SString(12382,"Writing to COM port failed");    
+  SString(12383,"Opening COM port failed");    
+  SString(12384,"Longitudinal Redundancy Check of reply is incorrect");    
+  SString(12385,"POS-ID does not match CleanCash control unit POS-ID. Check Local Machine Setting");    
+  SString(12386,"Invalid data sent to the CleanCash Control Unit");    
+  SString(12387,"More than 4 VAT Rates");    
+  SString(12388,"Invoice registered in CleanCash Control Unit");    
+  SString(12389,"CleanCash does not allow mixing of positive and negative values on a receipt");
+
+/*Fiscal Printers messages*/  
+  SString(12399,"Run Daily report or too many rows on invoice. ");    
+  SString(12400,"No response from Printer. ");
+  SString(12401,"Incorrect Printer reply");
+  SString(12402,"Computer and Printer dates are not the same.");
+  SString(12403,"Printer date:   ");
+  SString(12404,"Computer date:   ");
+  SString(12405,"No VAT definition in fiscal printer.");
+  SString(12406,"Printing fiscal report");
+  
+ /*EncerrRn*/
+  SString(12407,"VAT included");
+  SString(12408,"Cash");
+  SString(12409,"Cash up report");
+  SString(12410,"Price"); 
+  SString(12411,"Total Sales"); 
+  SString(12412,"Total without VAT");
+  SString(12413,"Balance Diference");
+  SString(12414,"PAYMENTS");
+  SString(12415,"ITEMS");
+  SString(12416,"Average Price");
+  SString(12417,"RETURNS");
+  SString(12418,"DELIVERY");
+  SString(12419,"AMOUNT");
+
+/* ProdOrdRn */
+  SString(12420,"Журнал замовлень на виробництво");
+  SString(12421,"Номер");
+  SString(12422,"До дати");
+  SString(12423,"Коментар");
+  SString(12424,"Завершено");
+  SString(12425,"Структура");
+  SString(12426,"Товар");
+  SString(12427,"Затрачено");
+  SString(12428,"Вихід");
+  SString(12429,"Черга");
+  SString(12430,"Коментар");
+  SString(12431,"Кіл. вироб.");
+  SString(12432,"Машина");
+  SString(12433,"Вироблено:");
+  SString(12434,"Скасовано:");
+  SString(12435,"Залишілось вироб.:");
+  SString(12436,"Наступне виробництво");
+  SString(12437,"Всі замовлення на виробництво");
+  SString(12438,"Замовлення на виробництво");
+
+/* FollowUpJRn */
+  SString(12440,"Журнал наступних подій");
+  SString(12441,"№");
+  SString(12442,"Рез. №");
+  SString(12443,"Дата");
+  SString(12444,"Агент");
+  SString(12445,"Кліент");
+  SString(12446,"Коментар");
+  SString(12447,"OK");
+  SString(12448,"Сума");
+  SString(12449,"Загалом");
+  SString(12450,"Статус");
+  SString(12451,"Особа");
+
+/* HotelCashRn */
+  SString(12459,"Нічний аудит");
+  SString(12460,"Реєстр готівки готелю");
+  SString(12461,"Док.");
+  SString(12462,"№");
+  SString(12463,"Дата");
+  SString(12464,"Рез.№");
+  SString(12465,"Кліент");
+  SString(12466,"Сума");
+  SString(12467,"Перед."); // Prepaid, I think....
+  SString(12468,"Сплачено"); 
+  SString(12469,"Сума");
+  SString(12470,"Загалом по способу платежу");
+  SString(12471,"Спосіб платежу");
+
+/* HotelCashRn */
+  SString(12480,"Бронювання ресторану");
+  SString(12481,"Гості");
+  SString(12482,"Максимум гстей згідно з настройкою:");
+  SString(12483,"Кімната");
+  SString(12484,"Прибувші гості");
+  SString(12485,"Планування ресторану");
+  SString(12486,"Кількість");
+  SString(12487,"Клієнт");
+  SString(12488,"Контакт");
+  SString(12489,"Телефон");
+  SString(12490,"Тип");
+  SString(12491,"Покриває");
+  SString(12492,"Закінчується");
+  SString(12493,"Не відкрито");
+  SString(12494,"Таблиця");
+
+/* ResTypeAvailRn */
+  SString(12500,"Доступність у період");
+  SString(12501,"Код");
+  SString(12502,"Ім'я");
+  SString(12503,"Загалом");
+  SString(12504,"Резерв");
+  SString(12505,"Доступно");
+  SString(12506,"Загалом");
+
+/* ChangeCustJobRn */
+  SString(12520,"Redistribute Folio Товари");
+  SString(12521,"Оберіть один з наступних рахунків:");
+  SString(12522,"Рахунок");
+  SString(12523,"Ім'я");
+  SString(12524,"Поточні Folio Entries:");
+  SString(12525,"Ви обрали клієнта ");
+  SString(12526,"New Folio");
+  SString(12527,"Визначте резервування");
+  SString(12528,"Move Folio Items to another Reservation");
+  SString(12529,"Визначте резервування");
+  SString(12530,"Визначте групове резервування");
+  SString(12531,"Резервування");
+  SString(12532,"Визначте місце резервування");
+
+/*BarCashRn*/
+  SString(12533,"Дб. Трнсф.");
+  SString(12534,"Пуста група");
+  SString(12535,"Кіл-сть");
+  SString(12536,"Підрах.");
+  SString(12537,"Має бути");
+  SString(12538,"Списання");
+  SString(12539,"Кінцеве сальдо");
+  SString(12540,"Звіт по готівці");
+  SString(12541,"Каса");
+  SString(12542,"Грошова скринька");
+  SString(12543,"Відкрита о");
+  SString(12544,"Закрита о");
+  SString(12545,"Не заверш. подія");
+  SString(12546,"Подія");
+  SString(12547,"Спосіб платежу");
+  SString(12548,"Сума");
+  SString(12549,"Інкасація");
+  SString(12550,"Різниця");
+  SString(12551,"Сума");
+  SString(12552,"Зазальна сума перенесена в Книгу Продажів не включ. рахунки ресторану");
+  SString(12553,"Рахунок бару");
+  SString(12554,"Надходження");
+  SString(12555,"Видача");
+  SString(12556,"Не затверджено");
+  SString(12557,"Списання");
+  SString(12558,"Баланс до підрахунку");
+  SString(12559,"Відкр. баланс");
+  SString(12560,"Баланс");
+  SString(12561,"Коментар");
+  SString(12562,"Коли");
+  SString(12563,"Баланс ЕККА");
+  SString(12564,"Закрити сесію");
+  SString(12565,"Відкрити сесію");
+  SString(12566,"Накладна ЕККА");
+  SString(12567,"БАР");
+  SString(12568,"ЕККА - Розрах. з кл.");
+  SString(12569,"Новий день");
+  SString(12570,"Продажів врах. ПДВ");
+  SString(12571,"ПДВ");
+  SString(12572,"Разом ПДВ");
+  SString(12573,"Баланс ЕККА №"); // Z Balans in Swedish
+  SString(12574,"Час");
+
+/*SVOEMStatRn*/
+  SString(12575,"Таблиці часу");
+  SString(12576,"Діяльність");
+
+  SString(12580,"Детально зап. опер.");
+  SString(12581,"Запис операції");
+  SString(12582,"Кінець операцції");
+  SString(12583,"Події після останнього балансу ЕККА не будуть відображені в рахунках, доки не буде створено наступний баланс");
+
+/*ConvertVERn,ConvertVEMn*/
+  SString(12585,"Конвертація Постачальник -> Клієнт");
+  SString(12586,"Клієнт з №:");
+  SString(12587,"існує. Будь ласка запустіть звіт для перевірки кодів Постачальників.");
+  SString(12588,"Ви не зможете запустити обслуговування. Будь ласка конвертуйте наступних Постачальників та спробуйте ще раз");
+  SString(12589,"Конвертація Постачальник -> Клієнт безпечна.");
+  SString(12590,"Помилка. Обслуговування припинено. Будь ласка ретельно перевірте Постачальників Клієнтів.");
+  SString(12591,"Компанії з однаковим ІПН");
+  SString(12592,"Мі пропонуємо конвертувати код Постачальника в код Контакта до обслуговуванння");
+  SString(12593,"Клієнт");
+  SString(12594,"Постачальник");
+  SString(12595,"ПДВ №");
+  SString(12596,"Компанії з однаковим ІПН та кодом");
+  SString(12597,"В карточку клієнта буде додано інформацію про постачальника");
+  SString(12598,"Компанії з однаковим кодом. Виправте ІПН постачальника при необхідності.");
+  SString(12599,"Найменування");
+
+/* SalesTimeRn */
+  SString(12600,"Щоденна статистика готелю");
+  SString(12601,"Середне");
+  SString(12602,"Пн");
+  SString(12603,"Вт");
+  SString(12604,"Ср");
+  SString(12605,"Чет");
+  SString(12606,"Пт");
+  SString(12607,"Сб");
+  SString(12608,"Нд");
+  SString(12609,"Загалом");
+  SString(12610,"Фіск. рік");
+  SString(12611,"Витрачено загалом");
+  SString(12612,"Щоденна статистика ресторану");
+
+/* SalesTimeRn */
+  SString(12620,"Статус оренди клієнтів");
+  SString(12621,"№");
+  SString(12622,"Ім'я");
+  SString(12623,"Ліміт кредиту");
+  SString(12624,"Борг");
+  SString(12625,"Макс. один.");
+  SString(12626,"Вид. один.");
+  SString(12627,"Макс. сума");
+  SString(12628,"Сума вид.");
+  SString(12629,"Макс. варт.");
+  SString(12630,"Варт. вид.");
+
+/* ObsPerTypeRn */
+  SString(12638,"Всі типи послуг");
+  SString(12639,"Тип послуги");
+  SString(12640,"Послуга за типом");
+  SString(12641,"Гість");
+  SString(12642,"Час");
+  SString(12643,"Коментар");
+  SString(12644,"Кімната");
+  SString(12645,"Тип");
+  SString(12646,"Кіл.");
+  SString(12647,"Загалом");
+
+/* ObsPerTypeRn */
+  SString(12660,"Прейскурант оренди");
+  SString(12661,"Товар оренди");
+  SString(12662,"Товар нарах.");
+  SString(12663,"Тип нарах.");
+  SString(12664,"Прейскурант");
+  SString(12665,"Ціна");
+  SString(12666,"Всього");
+  SString(12667,"Сер. №");
+  SString(12668,"Аксесуари");
+
+/* PUReconRn */
+  SString(12680,"Узгодження надходжень");
+
+/* VarEnqRn */
+  SString(12700,"Запит різновидів");
+  SString(12701,"На руках");
+  SString(12702,"Продано ");
+  SString(12703,"Товар: ");
+  SString(12704,"Товар постачальника: ");
+  SString(12705,"Всі склади");
+  SString(12706,"Склад: ");
+  SString(12707,"Будь ласка, визначте товар!");
+  SString(12708,"Ціна");  
+  SString(12709,"Код постачальника: ");
+  SString(12710,"Постачальник: ");
+  SString(12711,"Усьго");
+  SString(12712,"Товар");
+  SString(12713,"Найменування");
+
+/* GiftCerRn */
+  SString(12720,"Подарункові ваучери");
+  SString(12721,"Сортувати за клієнтом");
+  SString(12722,"Сортувати за статусом");
+  SString(12723,"Сортувати за сумою");
+  SString(12724,"Клієнт");
+  SString(12725,"Склад ");
+  SString(12726,"Сума=");
+  SString(12727,"Все");
+  SString(12728,"Випущені");  
+  SString(12729,"Продано");
+  SString(12730,"Отримано");
+  
+  SString(12731,"Номер");
+  SString(12732,"Сума");
+  SString(12733,"немає накл.");
+  SString(12734,"Найменування");
+  SString(12735,"Статус");
+  SString(12736,"Дата продажу");
+  SString(12737,"Загалом");
+  SString(12738,"Нетто");
+  SString(12739,"Дата вип.");
+  SString(12740,"Дата отрим.");
+
+/* SVOListRn */
+  SString(12750,"Товар");
+  SString(12751,"Кіл.");
+  SString(12752,"Опис");
+  SString(12753,"Сер. №");
+  SString(12754,"Ціна");
+  SString(12755,"ПДВ");
+  SString(12756,"№");
+  
+// EventJourRn
+  SString(12765,"Послуга гостю");
+
+// EventHistRn
+  SString(12766,"Історія події");
+  SString(12767,"Опис");
+  SString(12768,"До");
+
+
+/*SLCashupRn*/
+  SString(12775,"Звіт по інкасації");
+  SString(12776,"Каса");
+  SString(12777,"Скринька");
+  SString(12778,"Відкрита о");
+  SString(12779,"Закрита о");
+  SString(12780,"Подія не завершена");
+  SString(12781,"Подія");
+  SString(12782,"Сп. сплати");
+  SString(12783,"Сума");
+  SString(12784,"Підраховано");
+  SString(12785,"Різн.");
+  SString(12786,"Сума");
+  SString(12787,"Всього");
+  SString(12788,"Накладні");
+  SString(12789,"Надходження");
+  SString(12790,"Видачі");
+  SString(12791,"Почат. сальдо");
+  SString(12792,"На кредит");
+  SString(12793,"Платежі клієнтів");
+  SString(12794,"Reg. No.");
+  SString(12795,"Manufacturing No.");
+  SString(12796,"Invoices No.");
+  SString(12797,"Fiscal Control Report (Sweden)");
+  SString(12798,"Payment Mode");
+
+
+/*ItemAtSiteRn*/
+  SString(12800,"Товар на місці");
+  SString(12801,"Товар");
+  SString(12802,"Опис");
+  SString(12803,"Сер.№");
+  SString(12804,"Резерв");
+  SString(12805,"Рахунок клієнту №");
+  SString(12806,"Клієнт");
+  SString(12807,"Найм.");
+  SString(12808,"Адреса 1");
+
+/*DeptAssetRn*/
+  SString(12810,"Поновлення відділу в ОЗ");
+  SString(12811,"ОЗ");
+  SString(12812,"Сер. №");
+  SString(12813,"Опис");
+  SString(12814,"Відділ");
+  SString(12815,"Склад");
+
+/*MissingAssetRn*/
+  SString(12820,"Відсутні ОЗ в товарах оренди");
+  SString(12821,"Сер. №");
+  SString(12822,"Товар");
+  SString(12823,"Опис");
+
+/*MissedrentOppRn*/
+  SString(12830,"Відсутні можливості оренди");
+  SString(12831,"Клієнт");
+  SString(12832,"Наймен.");
+  SString(12833,"Телефон");
+  SString(12834,"Контакт");
+  SString(12835,"Обіг");
+  SString(12836,"Днів");
+
+/*CurRentResRn*/
+  SString(12840,"Поточне резервування оренди");
+  SString(12841,"Товар");
+  SString(12842,"Сер. №");
+  SString(12843,"Угода");
+  SString(12844,"Резерв");
+  SString(12845,"Клієнт");
+  SString(12846,"Дата поч.");
+  SString(12847,"Ціна");
+  SString(12848,"Разом товарів");
+
+/*RentResTransRn*/
+  SString(12860,"Записи резервування по оренді");
+  SString(12861,"Склад");
+  SString(12862,"Вкл.");
+  SString(12863,"Викл.");
+  SString(12864,"Поточний");
+  SString(12865,"Rev. Per");
+  SString(12866,"Rev. YTD");
+  SString(12867,"Разом:");
+
+/*RentResHistRn*/
+  SString(12870,"Історія резервування оренди");
+  SString(12871,"Товар");
+  SString(12872,"Сер. №");
+  SString(12873,"Угода");
+  SString(12874,"Резерв");
+  SString(12875,"Клієнт");
+  SString(12876,"Дата поч.");
+  SString(12877,"Дата завер.");
+  SString(12878,"Разом товарів");
+
+/* Some strings for different Rental Quotation Reports */
+  SString(12880,"Разом");
+  SString(12881,"ПДВ");
+  SString(12882,"Разом нето");
+  SString(12883,"Оренда");
+  SString(12884,"Зміни (Склад)");
+  SString(12885,"Обслуговування");
+  SString(12886,"Тип нарахувань");
+  SString(12887,"Разом вага");
+  SString(12888,"Об'єкти");
+  SString(12889,"Зміни (Вільні)");
+
+/*UncOffHireRn*/
+  SString(12890,"Спісання неповернень");
+  SString(12891,"Клієнт");
+  SString(12892,"Резер");
+  SString(12893,"Дата завер.");
+  SString(12894,"Сер. №");
+  SString(12895,"Товар");
+  SString(12896,"Склад");
+  SString(12897,"Днів");
+  SString(12898,"Разом товарів");
+  SString(12899,"Середня кіл. днів");
+
+/*CredStatusRn*/
+  SString(12910,"Статус кредиту клієнта");
+  SString(12911,"Клієнт");
+  SString(12912,"Найм.");
+  SString(12913,"Ліміт");
+  SString(12914,"Сальдо");
+  SString(12915,"%");
+
+/*BarCashRn*/
+
+/*Tax100Rn*/
+  SString(12920,"Розрахунок податкового звіту");
+  SString(12921,"Помилка у визначенні звіту");
+  SString(12922,"Разом");
+  SString(12923,"Консолідуюча компанія");
+  SString(12924,"Визначте експорт податкового звіту");
+
+/*MidStatChangeMn*/
+  SString(12930,"Таблиці змін ");
+  
+/*InvShopRn*/
+  SString(12940,"Invoice Audit Trail");
+  SString(12941,"Акт/накладна");
+  SString(12942,"Товар");
+  SString(12943,"Кількість");
+  SString(12944,"Ціна");
+  SString(12945,"Разом");
+  SString(12946,"Кошик №");
+  SString(12947,"Дата");
+  SString(12948,"Разом по накл.");
+  SString(12949,"Разом по кошику");
+
+  SString(13000,"Склад");
+  SString(13001,"Товар");
+  SString(13002,"Опис");
+  SString(13003,"Сер. №");
+  SString(13004,"Acq Cost");
+  SString(13005,"Current NBV");
+  SString(13006,"Inv since acq");
+  SString(13007,"% Earning Ratio");
+  SString(13008,"Days on YTD");
+  SString(13009,"Days avail YTD");
+  SString(13010,"% Rental");
+  SString(13011,"Days on since acq");
+  SString(13012,"Days since acq");
+
+  SString(13020,"Статус cер. № товару");
+  SString(13021,"Товар: ");
+  SString(13022,"Склад: ");
+  SString(13023,"Група товарів: ");
+  SString(13024,"Сер. №");
+  SString(13025,"Статус");
+  SString(13026,"Клієнт");
+  SString(13027,"Hire");
+  SString(13028,"Transit");
+  SString(13029,"Active");
+  SString(13030,"Обслуг.");
+  SString(13031,"Перевірка");
+  SString(13032,"Товар");
+  SString(13033,"Опис");
+
+  SString(13040,"Статус вибуття товарів");
+  SString(13041,"Склад: ");
+  SString(13042,"Клієнт: ");
+  SString(13043,"Видача");
+  SString(13044,"Дата");
+  SString(13045,"Угода");
+  SString(13046,"Клієнт");
+  SString(13047,"Разом відкритих: ");
+  SString(13048,"Склад");
+
+  SString(13060,"Статус надходження товарів");
+  SString(13061,"Склад: ");
+  SString(13062,"Клієнт: ");
+  SString(13063,"Отримання");
+  SString(13064,"Дата");
+  SString(13065,"Угода");
+  SString(13066,"Клієнт");
+  SString(13067,"Разом відкрито: ");
+  SString(13068,"Склад");
+
+  SString(13080,"Статус повернення");
+  SString(13081,"Склад: ");
+  SString(13082,"Клієнт: ");
+  SString(13083,"Всі відкриті поверн.");
+  SString(13084,"Замовлені поверн.");
+  SString(13085,"Не замовлені поверн.");
+  SString(13086,"Повернення");
+  SString(13087,"Дата");
+  SString(13088,"Угода");
+  SString(13089,"Клієнт");
+  SString(13090,"Склад");
+  SString(13091,"Разом відкрито: ");
+
+  SString(13100,"Статус внутрішнього переміщення");
+  SString(13101,"З складу: ");
+  SString(13102,"На склад: ");
+  SString(13103,"Переміщення");
+  SString(13104,"Дата");
+  SString(13105,"З складу:");
+  SString(13106,"На склад:");
+  SString(13107,"Разом відкрито: ");
+
+  SString(13115,"Статус перевірки ");
+  SString(13116,"Особа: ");
+  SString(13117,"Особа");
+  SString(13118,"Дата");
+  SString(13119,"Товар");
+  SString(13120,"Сер. №");
+  SString(13121,"Разом відкрито: ");
+
+  SString(13130,"Rental Revenue Report");
+  SString(13131,"Резервування");
+  SString(13132,"Сер. №");
+  SString(13133,"Дата завер.");
+  SString(13134,"Не нарахов");
+  SString(13135,"Прогноз");
+  SString(13136,"Разом");
+  SString(13137,"Разом");
+  SString(13138,"Invoiced Off Hired this month:");
+  SString(13139,"Revenue");
+  
+  SString(13199,"Додатково");
+  SString(13200,"Група доступу особи");
+  SString(13201,"Особа");
+  SString(13202,"Ім'я");
+  SString(13203,"Група доступу");
+  SString(13204,"Група доступу до конф.");
+  SString(13205,"Немає доступу");
+  SString(13206,"Повний доступ");
+  SString(13207,"Тип");
+  SString(13208,"Товар");
+  SString(13209,"Рівень");
+  SString(13210,"Модуль");
+  SString(13211,"Реєстр");
+  SString(13212,"Настройка");
+  SString(13213,"Звіт");
+  SString(13214,"Документ");
+  SString(13215,"Експорт");
+  SString(13216,"Імпорт");
+  SString(13217,"Обслуговування");  
+  SString(13218,"Дія");  
+  SString(13219,"Група відображення");
+  SString(13220,"Повний");
+  SString(13221,"Читання");
+  SString(13222,"Читання/Нове");
+  SString(13223,"Перегляд");
+  SString(13224,"Перегляд/Нове");
+  SString(13225,"Обмежено");  
+  SString(13226,"Ні ");  
+  SString(13227,"Коментар");
+  SString(13228,"Розпочати з ");
+  SString(13229,"Сортувати за ");
+  SString(13230,"Група доступу детально");
+  SString(13231,"Створено");
+  SString(13232,"Компанія");
+  SString(13233,"Найменування компанії");
+  SString(13234,"Стисло");
+  SString(13235,"Ключ кодування");
+  SString(13236,"Конференція");
+  SString(13237,"User and Access per Company");
+  SString(13238,"All Companies Access per User");
+  SString(13239,"User Mail Access");
+  SString(13240,"Доступ до конференцій");
+  SString(13241,"Conference Access per User");
+  SString(13242,"Access Groups per Company");
+  SString(13243,"No User At All!!");
+  SString(13244,"Контроль доступа");
+
+/*MonthConsultRn*/
+  SString(13400,"Щомісячна консультація");
+  SString(13401,"Визначте особу");
+  SString(13402,"Прогноз не знайдено");
+  SString(13403,"Годин використано, прогноз та рез. табл.");
+  SString(13404,"Прогноз");
+  SString(13405,"Результат");
+  SString(13406,"A.Консультування");
+  SString(13407,"B.Програмування");
+  SString(13408,"C.Управління проектом");
+  SString(13409,"D.Тренінг");
+  SString(13410,"E.Сплачується");
+  SString(13411,"F.Конс. без підтр.");
+  SString(13412,"G.Можл. сплати");
+  SString(13413,"I.Підтримка");
+  SString(13414,"J.Безкоштовно");
+  SString(13415,"K.Використ. на клієнті");
+  SString(13416,"L.Конс. з підтр.");
+  SString(13417,"M.Утілізація");
+  SString(13418,"Власні розробки 1");
+  SString(13419,"Власні розробки 2");
+  SString(13420,"Нотатки");
+  SString(13421,"Продаж існуючим клієнтам ");
+  SString(13422,"Ліцензії");
+  SString(13423,"Сервіси");
+  
+/*MonthSupportRn*/
+  SString(13430,"Щомісячна підтримка");
+  SString(13431,"Визначте особу");
+  SString(13432,"Прогноз не знайдено");
+  SString(13433,"Таблиці прогнозів та результатів");
+  SString(13434,"Клієнти");
+  SString(13435,"% робочих годин на підтримку");
+  SString(13436,"Прогноз");
+  SString(13437,"Результат");
+  SString(13438,"Холодні дзвінки");
+  SString(13439,"Дзвінків підтримки");
+  SString(13440,"1.Новий вказівки");
+  SString(13441,"2.Нові пропозиції");
+  SString(13442,"3.Середній розмір нових пропозицій");
+  SString(13443,"Розробка 1");
+  SString(13444,"Розробка 2");
+  SString(13445,"Заралом продаж");
+
+/*MonthSalesRn*/
+  SString(13448,"Прогноз");
+  SString(13449,"Результат");
+  SString(13450,"Щомісячні продажі");
+  SString(13451,"визначте особу");
+  SString(13452,"Прогноз не знайдено");
+  SString(13453,"1.Табл. прогнозів та результатів - кількість, пріоритет та якість");
+  SString(13454,"Прямі");
+  SString(13455,"Непрямі");
+  SString(13456,"Вказівки");
+  SString(13457,"Зустрічі");
+  SString(13458,"Пропозиції");
+  SString(13459,"Середн. розм. пропозицій");
+  SString(13460,"Продаж ліцензій");
+  SString(13461,"Продаж консультацій");
+  SString(13462,"Обіг");
+  SString(13463,"Прибуток");
+  SString(13464,"Нове");
+  SString(13465,"Існуючі");
+  SString(13466,"Можливі клієнти");
+  SString(13467,"2. Невідкладні питання");
+  SString(13468,"3. Партнери");
+  SString(13469,"найважлив. потенц. клієнт");
+  SString(13470,"найважлив. потенц. партнер");
+  SString(13471,"1й");
+  SString(13472,"2й");
+  SString(13473,"3й");
+  SString(13474,"Власна розробка 1");
+  SString(13475,"Власна розробка 2");
+  SString(13476,"Суми в EUR");
+  SString(13477,"Клієнти");
+  SString(13478,"Партнери");
+
+ /*SLVATCURn*/  
+  SString(13480,"ПДВ по клієнту");
+  SString(13481,"Клієнт");
+  SString(13482,"Місцевий");
+  SString(13483,"В межах ЄС");
+  SString(13484,"За межами ЄС");
+
+ /*SearchItemRn*/  
+  SString(13500,"Пошук товару");    
+  SString(13501,"Будь-яке поле: ");
+  SString(13502,"Код: ");
+  SString(13503,"Опис: ");
+  SString(13504,"Група: ");
+  SString(13505,"Альт. код: ");
+  SString(13506,"Ціна: ");
+  SString(13507,"Товар");
+  SString(13508,"Опис");
+  SString(13509,"Група");
+  SString(13510,"Ціна");  
+  SString(13511,"Кіл. товарів");  
+  
+  /*SearchCuRn*/  
+  SString(13512,"Пошук клієнта");    
+  SString(13513,"Будь-яке поле: ");
+  SString(13514,"Код: ");
+  SString(13515,"Найм.: ");
+  SString(13516,"Стисло: ");
+  SString(13517,"Категорія: ");
+  SString(13518,"Тел.: ");
+  SString(13519,"Контакт: ");
+  SString(13520,"Відділ: ");
+  SString(13521,"Код");
+  SString(13522,"Наймен.");  
+  SString(13523,"Тел.");  
+  SString(13524,"Кіл. клієнтів");  
+    
+ /*SearchContactRn*/  
+  SString(13525,"Пошук контактної особи");    
+  SString(13526,"Будь-яке поле: ");
+  SString(13527,"Компанія: ");
+  SString(13528,"Наймен.: ");
+  SString(13529,"Код: ");
+  SString(13530,"Посада: ");
+  SString(13531,"Відділ: ");
+  SString(13532,"Тел.: ");
+  SString(13533,"ПІБ");
+  SString(13534,"Компанія");
+  SString(13535,"Тел.");  
+  SString(13536,"Кіл. контактів");  
+  SString(13537,"Пошук листів");    
+  SString(13538,"Пошук постачальника");    
+  
+ /*INPosRn*/  
+  SString(13550,"Товари на місцях");
+  SString(13551,"Позиції");
+  SString(13552,"Склад");
+  SString(13553,"Товар");
+  SString(13554,"Опис");
+  SString(13555,"На складі");
+  SString(13556,"Переміщ. по складу");
+  SString(13557,"Сер. №");
+  SString(13558,"Статус");
+  SString(13559,"В переміщ. по складу"); 
+
+/* AccrualRn */
+  SString(13560,"Звіт про прибуткі/збитки майб. періодів");
+  SString(13561,"Початкове сальдо ");
+  SString(13562,"Сальдо");
+  SString(13563,"Разом за період");
+  SString(13564,"Прибутки майб. періодів");
+  SString(13565,"№");
+  SString(13566,"Дт");
+  SString(13567,"Кт");
+  SString(13568,"Збитки майб. періодів");
+  SString(13569,"Разом, очікуване");
+
+/* RecCntRn */
+  SString(13575,"Лічильник записів");
+  SString(13576,"№");
+  SString(13577,"Для всіх компаній");
+  SString(13578,"Imp/Exp Level");
+  SString(13579,"Найм.");
+  SString(13580,"Для компанії");
+  
+  SString(13700,"Статус активу на дату");
+  SString(13701,"Склад");
+  SString(13702,"Актив");
+  SString(13703,"Опис");
+  SString(13704,"Вартість");
+  SString(13705,"Нак. знос");
+  SString(13706,"NBV");
+  SString(13707,"Дата придбання");
+  SString(13708,"Загалом");
+  SString(13709,"Дата");
+  SString(13710,"Відділ");
+
+/* PurchProgRn */
+  SString(13720,"Прогноз закупок");
+  SString(13721,"Товар");
+  SString(13722,"Дата");
+  SString(13723,"На складі");
+  SString(13724,"Замовлено");
+  SString(13725,"В зам. пост.");
+  SString(13726,"Дата ост. зам.");
+  SString(13727,"На складі");
+  SString(13728,"Замов.");
+  SString(13729,"Мін рівень: ");
+  SString(13730,"На складі");
+  SString(13731,"Скасовано: ");
+
+/* PurchProgOrdRn */
+  SString(13740,"Прогнози замовлень постачальникам");
+
+/* PurchProgEn */
+  SString(13760,"Товар");
+  SString(13761,"Запис");
+  SString(13762,"Склад");
+  SString(13763,"Запл. відв.");
+  SString(13764,"Знадобиться");
+  SString(13765,"Потрібно замовити");
+  SString(13766,"На складі");
+  SString(13767,"Потрібна кіл");
+  SString(13768,"В замов.");
+  SString(13769,"Буде");
+  SString(13770,"Пропон. зам.");
+  SString(13771,"Ціна за од.");
+  SString(13772,"Вартість разом");
+  SString(13773,"Постач.");
+  SString(13774,"Днів на дост.");
+  SString(13775,"Товар");
+  SString(13776,"Товар");
+  SString(13777,"Товар");
+  SString(13778,"Товар");
+  SString(13779,"Замовлено: ");
+  SString(13780,"Має бути: ");
+  
+/* ProgListRn */
+  SString(13790,"Перелік прогнозів");
+  SString(13791,"Товар");
+  SString(13792,"Група товарів");
+  SString(13793,"Склад");
+  SString(13794,"Найм.");
+  SString(13795,"Потрібно");
+  SString(13796,"Дата замовл.");
+  SString(13797,"Кіл.");
+  SString(13798,"Разом");
+  SString(13799,"Структура");
+  SString(13801,"Коментар");
+  
+/* RegVATCodeJRn */
+  SString(13820,"Звіт контролю електроних акт/накл.");
+  SString(13821,"Акт/накл. No.");
+  SString(13822,"Клієнт"); 
+  SString(13823,"Назва"); 
+  SString(13824,"Дата акт/накл.");
+  SString(13825,"Сплатити до");
+  SString(13826,"IBAN код"); 
+  SString(13827,"Сума");
+  
+/* RegVATCodeJRn */
+  SString(13830,"Регіональні податки");
+  SString(13831,"(empty)");
+  SString(13832,"Назва компанії: ");
+  SString(13833,"ІПН: ");
+  SString(13834,"Реєстр.№: ");
+  SString(13835,"Період: ");
+//  SString(13836,"Base Currency 1");
+//  SString(13837,"Base Currency 2");
+  SString(13838,"Валюта: ");
+  SString(13839,"Регіон: ");
+  SString(13840,"Дата опер.");
+  SString(13841,"Офіц.сер.№");
+  SString(13842,"Регіон");
+  SString(13843,"EAN коментар");
+  SString(13844,"% податку");
+  SString(13845,"% рег. податку");
+  SString(13846,"Сума");
+  SString(13847,"Податок");
+  SString(13848,"не визн.");
+  SString(13849,"Разом");
+ 
+ /* CustWithHoldRn */
+  SString(13850,"Утримання по клієнту");
+  SString(13851,"Назва компанії: ");
+  SString(13852,"ІПН: ");  
+  SString(13853,"Період: ");
+ // SString(13854,"Base Currency 1");
+ // SString(13855,"Base Currency 2");
+  SString(13856,"Валюта: "); 
+  SString(13857,"Спосіб сплати: ");  
+  SString(13858,"Дата опер."); 
+  SString(13859,"Спосіб спл."); 
+  SString(13860,"Посилання"); 
+  SString(13861,"Оф.сер.№"); 
+  SString(13862,"ІПН"); 
+  SString(13863,"Клієнт"); 
+  SString(13864,"Отримано"); 
+  SString(13865,"Разом"); 
+  
+/* SuplWithHoldRn */
+  SString(13870,"Утримання по постачальнику");
+  SString(13871,"Назва компанії: ");
+  SString(13872,"ІПН: ");  
+  SString(13873,"Період: ");
+  SString(13874,"Значення в: "); 
+  SString(13875,"Withholding Tax");  
+  SString(13876,"Calculation Formulae: "); 
+  SString(13877,"Дата платежу"); 
+  SString(13878,"Calc.Form."); 
+  SString(13879,"With.Ser.No."); 
+  SString(13880,"Sup.Inv.No"); 
+  SString(13881,"ІПН"); 
+  SString(13882,"Постачальник"); 
+  SString(13883,"Сума");
+  SString(13884,"Разом");
+  
+/* ArgPurchVATRn */
+  SString(13885,"Argentinian Purchase VAT");
+  SString(13886,"Company Name: ");
+  SString(13887,"VAT Reg.No.: ");  
+  SString(13888,"Period: ");
+  SString(13889,"Values in: ");   
+  SString(13890,"Inv.Date");  
+  SString(13891,"Sup.Inv.Number"); 
+  SString(13892,"VAT Reg.No"); 
+  SString(13893,"Supplier");   
+  SString(13894,"Total"); 
+  SString(13895,"VAT Cd."); 
+  SString(13896,"Base Amount"); 
+  SString(13897,"% VAT"); 
+  SString(13898,"0% Base Am.");
+  SString(13899,"Total Perc.");
+  SString(13900,"Fisc.Cred.Tot.");
+  SString(13901,"no vatnr");
+  SString(13902,"not specified");
+  SString(13903,"Reg.No.2");
+  SString(13904,"VAT Amount"); 
+  SString(13905,"Exempt"); 
+  SString(13906,"Perceptions"); 
+  SString(13907,"Taxed"); 
+  SString(13908,"Місц. податки");
+  SString(13909,"Курс");
+/* RPTaxJRn */
+  SString(13910,"Отримання дод. податків)");
+  SString(13911,"Назва компанії: ");
+  SString(13912,"ІПН: ");
+  SString(13913,"Період: ");
+  SString(13914,"Дод. податки - отримання ПДВ");
+  SString(13915,"Рег. отримання");
+  SString(13916,"Валюта: ");
+  SString(13917,"Регіон");
+  SString(13918,"Дата опер.");
+  SString(13919,"ОФ.сер.№");
+  SString(13920,"ІПН");
+  SString(13921,"Клієнт");
+  SString(13922,"Дод. податок");
+  SString(13923,"Рег. отр.");
+  SString(13924,"Разом");
+  SString(13925,"Сума");
+  SString(13926,"Net Amount");
+
+/* InStaExportEst */
+  SString(14100,"Викл.");
+  SString(14101,"Вкл.");
+  SString(14102,"Перелік налаштувань");
+  SString(14103,"Модуль");
+  SString(14104,"Поле");
+  SString(14105,"Значення");
+
+/* PositionsForSHRn */
+  SString(14110,"Відвант. Місця");
+  SString(14111,"Відвант.");
+  SString(14112,"Місце");
+  SString(14113,"Товар");
+  SString(14114,"Замовл.");
+  SString(14115,"Всі місця");
+  SString(14116,"Місця ");
+  SString(14117,"Визначте № відв.");
+
+/* ForkLiftQueErrRn */
+  SString(14120,"Forkдift Que Errors");
+  SString(14121,"№ ");
+  SString(14122,"З");
+  SString(14123,"To");
+  SString(14124,"Fork Lft");
+  SString(14125,"Transp. No.");
+
+/* PositionErrRn */
+  SString(14130,"Position Errors");
+  SString(14131,"Місце");
+  SString(14132,"Зона");
+  SString(14133,"Коментар");
+  SString(14134,"Висота");
+
+/* PositionHistRn */
+  SString(14140,"Історія місця");
+  SString(14141,"Визначте місце");
+  SString(14142,"Надходження");
+  SString(14143,"Переміщення");
+  SString(14144,"Місце");
+  SString(14145,"№ ");
+  SString(14146,"Товар");
+  SString(14147,"Кіл.");
+
+/* SHForPURn */
+  SString(14150,"Deliveries for Purchase");
+  SString(14151,"Надходження");
+  SString(14152,"Відвант.");
+  SString(14153,"Клієнт");
+  SString(14154,"Телефон");
+  SString(14155,"E-Mail");
+  SString(14156,"Визначте надходження");
+
+/* TransNoObjRn */
+  SString(14160,"Запис операції без об'єктів");
+  SString(14161,"Запис операції");
+  SString(14162,"Компанія");
+
+/* AT2RespPersRn */
+  SString(14170,"Перелік мат. відповідальних");
+  SString(14171,"Актив");
+  SString(14172,"Особа");
+  SString(14173,"Активи без мат. відповідальних");
+  SString(14174,"Закрито");
+  SString(14175,"Списано");
+
+/* NT7000 error messages */
+  SString(14211,"Wrong Order Number");
+  SString(14212,"Unknown Source Position");
+  SString(14213,"Unknown Destinantion Position");
+  SString(14214,"Mismatch between requested function and order type");
+  SString(14215,"Order number does already exist in AGVCS");
+  SString(14216,"Order number does not exist in AGVCS");
+  SString(14217,"Given source position is still active in transport order");
+  SString(14218,"Order buffer in AGVCS is full");
+  SString(14219,"Other errror AGVCS");
+  SString(14220,"Load pickup at source position not possible. Source not ready");
+  SString(14221,"Load pickup at source position not possible. Source is empty");
+  SString(14222,"Other error AGVCS");
+  SString(14223,"Unload at destination position not possible. Destination not ready");
+  SString(14224,"Unload at destination position not possible. Destination not empty");
+  SString(14225,"Load disappeared from vehicle. Destination not empty");
+  SString(14226,"Other error AGVCS");
+  SString(14227,"Other error AGVCS");
+  SString(14228,"Other error AGVCS");
+  SString(14229,"Other error AGVCS");
+  SString(14230,"Internal eror AGVCS");
+  
+  SString(14240,"Використання форм офіц. накл.");
+  SString(14241,"Пропускати анульовані накл.");
+  SString(14242,"Початкове сальдо :");
+  SString(14243,"Серія");
+  SString(14244,"З");
+  SString(14245,"Пo");
+  SString(14246,"Кільк. актів/накл.");
+  SString(14247,"Разом :");
+  SString(14248,"Кількість :");
+  SString(14249,"Форм накл. використано :");
+  SString(14250,"Форм накл. анульовано :");
+  SString(14251,"Форм накл. залишилось/доступно :");
+  SString(14252,"Форм отримано : ");
+
+/* InStaExportEst, InStaExportPuEst */
+  SString(14260,"kp");
+  SString(14261,"Deklarant");
+  SString(14262,"Saatjariik");
+  SString(14263,"PвА∞ritoluriik");
+  SString(14264,"Kauba kirjeldus");
+  SString(14265,"Valuuta");
+  SString(14266,"Valuuta summa");
+  SString(14267,"Summa EEK");
+  SString(14268,"Valuuta");
+  SString(14269,"Tarneklausel");
+  SString(14270,"Transp.liik");
+  SString(14271,"Kaubakood");
+  SString(14272,"Netomass");
+  SString(14273,"Tehingu liik");
+  SString(14274,"Kogus");
+  SString(14275,"stats");
+  SString(14276,"Stat. Value");
+
+/* UserActCheckRn */    
+  SString(14280,"Activities check,Persons");
+  SString(14281,"Дата");
+  SString(14282,"Корист.");
+  SString(14283,"Найм.");
+  SString(14284,"Час");
+  SString(14285,"Час поч.");
+  SString(14286,"Час зак.");
+  SString(14287,"Вид діял.");
+  SString(14288,"Коментар");
+  SString(14289,"Варт. часу");
+  SString(14290,"Меньше годин ніж");
+  SString(14291,"Більше годин ніж");
+  SString(14292,"Всі дні");
+  SString(14293,"Не враховувати вихідні");
+  SString(14294,"Лише вихідні");
+
+/* IncExpBookRn */    
+  SString(14300,"Надходження та витрати");
+  SString(14301,"Рядок");
+  SString(14302,"Дата");
+  SString(14303,"№ ");
+  SString(14304,"Компанія");
+  SString(14305,"Опис");
+  SString(14306,"Інше");
+  SString(14307,"Адреса");
+  SString(14308,"Товари");
+  SString(14309,"Послуги");
+  SString(14310,"Інше");
+  SString(14311,"Дохід");
+  SString(14312,"Примітки");
+  SString(14313,"Дохід");
+  SString(14314,"Витрата");
+  SString(14315,"Дохід");
+  SString(14316,"Сума");
+  SString(14317,"Куплено");
+  SString(14318,"Товари");
+  SString(14319,"Контакт");
+
+/* VATPurchRn */
+  SString(14320,"Постач.");
+  SString(14321,"Код пост.");
+  SString(14322,"Найм. товару");
+  SString(14323,"Дата і номер товару");
+  SString(14324,"Ціна");
+  SString(14325,"ПДВ");
+  SString(14326,"Товари придб., VAT (Литва)");
+  SString(14327,"Тип товару : ");
+  SString(14328,"Вільний, ");
+  SString(14329,"Надх. на склад, ");
+  SString(14330,"Структури, ");
+  SString(14331,"Роботи, ");
+  SString(14332,"Разом");
+
+/* PLVATLitRn */
+  SString(14343,"Рядок");
+  SString(14344,"Дата акту/накл.");
+  SString(14345,"Акт/накладна");
+  SString(14346,"ІПН");
+  SString(14347,"Постач.")
+  SString(14348,"Не врах. ПДВ");
+  SString(14349,"ПДВ");
+  SString(14350,"Звіт по ПДВ (Литва)");
+  SString(14351,"Разом");
+
+/* SLVATLitRn */
+  SString(14360,"Звіт по ПДВ (Литва)");
+  SString(14361,"Рядок");
+  SString(14362,"Дата акту/накл.");
+  SString(14363,"Акт/накладна");
+  SString(14364,"ІПН");
+  SString(14365,"Клієнт");
+  SString(14366,"Не врах. ПДВ");
+  SString(14367,"ПДВ");
+  SString(14368,"Разом");
+
+/* CashBookLitRn */
+  SString(14375,"Касова книга");
+  SString(14376,"Відсутній рах.готівки");
+  SString(14377,"Обіг: ");
+  SString(14378,"Баланс по готівці: ");
+  SString(14379,"Стипендії та зар. плат.: ");
+  
+/* SalesTimeRn*/  
+  SString(14380,"Кімнат разом");  
+  SString(14381,"Кімнат Let");  
+  SString(14382,"Кімнат O.o.O.");  
+  SString(14383,"Кімнат Comp.");  
+  SString(14384,"Кімнат To Staff");  
+  SString(14385,"Meeting Rooms");  
+  SString(14386,"Av Room Rate");  
+  SString(14387,"Зайнятість %");  
+  SString(14388,"No. of Sleep");  
+  SString(14389,"Sleep Occ %");  
+
+/*TargTimeJRn*/
+  SString(14400,"Цільовий час");
+  SString(14401,"Групи");
+  SString(14402,"Особа");
+  SString(14403,"Дата");
+  SString(14404,"Ім'я");
+  SString(14405,"Тип діяльн.");
+  SString(14406,"Текст");
+  SString(14407,"Днів");
+  SString(14408,"Годин");
+
+/*MonthSalesResRn*/
+  SString(14415,"Щомісячний результат по продажах");
+  SString(14416,"Країна/Наймен.");
+  SString(14417,"% продажу");
+  SString(14418,"Напрями");
+  SString(14419,"Зустрічі");
+  SString(14420,"Продажу разом");
+  SString(14421,"Прибуток");
+  SString(14422,"Останні 3 місяці");
+  SString(14423,"Разом по компанії");
+  SString(14424,"Всього");
+  SString(14425,"Середнє по компанії");
+  SString(14426,"Середне");
+
+/*MonthConsultResRn*/
+  SString(14430,"Щомісячний результат по консультаціях");
+  SString(14431,"Країна/Наймен.");
+  SString(14432,"% консульт.");
+  SString(14433,"Плата");
+  SString(14434,"Використано");
+  SString(14435,"Продажі");
+  SString(14436,"Випер. оплати");
+  SString(14437,"Обіг");
+  SString(14438,"Прибуток");
+  SString(14439,"3 місяці");
+  SString(14440,"Разом по компанії");
+  SString(14441,"Середнє по компанії");
+  SString(14442,"Всього");
+  SString(14443,"Середнє");
+
+
+/*EventHistJobRn*/
+  SString(14450,"Перелік подій");
+  SString(14451,"Подія");
+  SString(14452,"Transfer");
+  SString(14453,"День");
+  SString(14454,"?");
+  SString(14455,"Година");
+  SString(14456,"Опис");
+
+/* AcceptanceRn*/
+  SString(14460,"Статус прийняття");
+  SString(14461,"Не стосується");
+  SString(14462,"Прийнято");
+  SString(14463,"Відхилено");
+  SString(14464,"Не обов'язково");
+  SString(14465,"Прийняття планів");
+  SString(14466,"Акт/накладна постач.");
+  SString(14467,"Прийняти весь акт/накл.");
+  SString(14468,"Відхилити веь акт/накл.");
+  SString(14469,"Прийнято");
+  SString(14470,"Рядок прийнято");
+  SString(14471,"Процес прийняття не розпочато");
+  SString(14472,"Відхилено");
+  SString(14473,"Прийняти рядок");
+  SString(14474,"Задачу поставлено");
+  SString(14475,"Режим опису");
+  SString(14476,"Сума накл. постач.");
+  SString(14477,"коментар");
+  SString(14478,"Всі");
+  SString(14479,"послідовність");
+  SString(14480,"Замовлення постачальнику");
+  SString(14481,"Прийняти все зам. пост.");
+  SString(14482,"Відхилити все зам. пост.");
+  SString(14483,"Внутрішнє замовлення");
+  SString(14484,"Прийняти все внутр. зам.");
+  SString(14485,"Відхилити все внутр. зам.");
+  SString(14486,"Сума зам. пост.");
+  SString(14487,"Сума внутр. зам.");
+  SString(14488,"Інші завдання");
+  SString(14489,"Завдання нижчиш рівнів");
+  SString(14490,"Акти/накладні постачальників");
+  SString(14491,"Замовлення постачальникам");
+  SString(14492,"Внутрішні замовлення");
+
+/* OrdersToForkLiftRn*/
+  SString(14500,"Завдання на навантажувач");
+  SString(14501,"Товар до навантаження");
+  SString(14502,"Кількість до навантачення");
+  SString(14503,"Перемістити на позицію ");
+  SString(14504,"Зона");
+  SString(14505,"Місце");
+
+/* Aged #Stock# Analysis */
+  SString(14520,"Історичний аналіз складу");
+  SString(14521,"Дата останнього надходження");
+  SString(14522,"Дата останнього продажу");
+  SString(14523,"Ціна");
+  SString(14524,"Зал. к-сть");
+
+  SString(14530,"Виробництво");
+  SString(14531,"Дата");
+  SString(14532,"Особа");
+  SString(14533,"Вага");
+  SString(14534,"Кіл.виробн.");
+
+/*PLVATHunRn*/
+  SString(14539,"Звіт по ПДВ по продажам (Угорщина)");
+  SString(14540,"Звіт по ПДВ по придбанням (Угорщина)");
+  SString(14541,"Інвент. №");
+  SString(14542,"Дата");
+  SString(14543,"Постачальник");
+  SString(14544,"Найменування");
+  SString(14545,"Місцевий");
+  SString(14546,"ЄС");
+  SString(14547,"Експорт");
+  SString(14548,"Нетто");
+  SString(14549,"ПДВ");
+
+/* Internal Order Status */
+  SString(14550,"Статус внутрішнього замовлення");
+  SString(14551,"Внутр. зам. №");  
+  SString(14552,"Всі внутр. зам.");
+  SString(14553,"Внутрішні замовлення");
+  SString(14554,"Замовл. №");
+  SString(14555,"Дата опер.");
+  SString(14556,"Замовлено");
+  SString(14557,"Заплан. відвант.");
+  SString(14558,"Кіл.");
+  SString(14559,"Оброблено");
+  SString(14560,"Відвант.");
+  SString(14561,"Переміщення");
+  SString(14562,"№");
+  SString(14563,"З");
+  SString(14564,"на");
+  SString(14565,"Списання зі складу");
+  SString(14566,"№");
+  SString(14567,"Склад");
+  SString(14568,"Рах. витрат");
+  SString(14569,"Замовлення пост.");
+  SString(14570,"№");
+  SString(14571,"Постачальник");
+  SString(14572,"Дата опер.");
+  SString(14573,"Вислано");
+  SString(14574,"Зам.пост.");
+  SString(14575,"All Users");
+
+/*RetGoodsJRn*/
+  SString(14580,"Журнал повернень постачальникам");
+  SString(14581,"Всі повернені товари");
+  SString(14582,"Повернені тоари");
+  SString(14583,"№");
+  SString(14584,"Дата");
+  SString(14585,"Замовл. №");
+  SString(14586,"Постач.");
+  SString(14587,"Найм.");
+  SString(14588,"Товар");
+  SString(14589,"Найм.");
+  SString(14590,"Ціна одиниці");
+  SString(14591,"Дод. витрати");
+  SString(14592,"Вартість");
+  SString(14593,"Кіл.");
+  SString(14594,"Разом");
+
+/* IntORStockRn */
+  SString(14600,"Не оброб.");
+  SString(14601,"Частково оброб.");
+  SString(14602,"Не відвант.");
+  SString(14603,"Частково відвант.");
+  SString(14604,"Перелік внутр.зам.");
+  SString(14605,"Перелік внутр.зам.");
+  SString(14606,"№");
+  SString(14607,"Дата");
+  SString(14608,"Особа");
+  SString(14609,"Сума");
+  SString(14610,"Товар");
+  SString(14611,"Кільк.");
+  SString(14612,"Оброблено");
+  SString(14613,"Відправл.");
+  SString(14614,"Відвант.");
+  SString(14615,"Зам. пост.");
+  SString(14616,"Заплан. видвант.");
+  SString(14617,"Залишілось");
+  SString(14618,"Ціна одиниці");
+  SString(14619,"Всього товарів");
+// Crash with strings below (from 4.2)
+  SString(14620,"Разом");
+
+/* AcceptGroupRn */
+  SString(14630,"Перелік груп прийняття");
+  SString(14631,"Особа");
+  SString(14632,"Група товару");
+  SString(14633,"Група прийняття");
+  SString(14634,"Наймен.");
+  SString(14635,"Наступна група:");
+  SString(14636,"Групи товарів ");
+  SString(14637,"сортування за ");
+  SString(14638,"Групи прийняття ");
+  SString(14639,"Ліміт");
+  SString(14640,"Всі групи прийняття");
+  SString(14641,"Будь-який ліміт");
+  SString(14642,"Більше за ");
+  SString(14643,"Менш ніж ");
+  SString(14644," та менш ніж ");
+  SString(14645,"Межі задано некоректно.");
+  SString(14646," та менш ніж ");
+  SString(14647,"Невизначена група товарів");
+  SString(14648,"Особи");
+  SString(14649,"Реєстри:");
+  SString(14650,"Внутрішні замовлення");
+  SString(14651,"Замовлення постачальникам");
+  SString(14652,"Акти/накладні постачальників");
+
+// Moved a chunk of messages to s4eng.hal
+// 14652 - 14699 Declared in s4eng.hal
+
+  SString(14700,"Shares Information");
+  SString(14701,"Buy for");
+  SString(14702,"Sell for");
+  SString(14703,"Avail. to Sell");
+  SString(14704,"Avail. to Buy");
+  SString(14705,"Buy/Sell Diff");
+  SString(14706,"Total Number of Shares");
+  SString(14707,"Price Per Share");
+  SString(14708,"Total Value");
+  SString(14709,"According to Shareholders");
+  SString(14710,"According to Official Value");
+  SString(14711,"According to Company");
+  SString(14712,"According to Main Shareholder");
+  SString(14713,"Власник");
+  SString(14714,"Ім'я");
+  SString(14715,"Коментар");
+  SString(14716,"Set Your Bids to Buy");
+  SString(14717,"Set Your Sales Prices");
+  SString(14718,"Your Number of Shares");
+  SString(14719,"Your Ordered Purchases");
+  SString(14720,"Your Ordered Sales");
+  SString(14721,"Your Preliminary Net Total");
+  
+  /* Chat Log Rr*/
+  SString(14730,"Chat log");
+  SString(14731,"Date");
+  SString(14732,"No");
+  SString(14733,"");
+  SString(14734,"");
+  SString(14735,"");
+  SString(14736,"");
+  SString(14737,"");
+  SString(14738,"");
+  SString(14739,"");
+  
+  SString(14800,"Невірний серійний номер.");
+
+  SString(14801,"Select at least one status for OKd");
+  SString(14802,"Select at least one status for Accepted");
+  SString(14803,"Усі поля обов'язкові для заповнення.");
+
+  SString(15000,"Черга на виробництво");
+  SString(15001,"Замовлення на виробництво");
+  SString(15002,"Структура");
+  SString(15003,"Наймен.");
+  SString(15004,"Залиш. вироб.");
+  SString(15005,"Машина");
+  SString(15006,"Місце в черзі");
+  SString(15007,"Всі машини");
+
+  SString(15010,"План на виробництво");
+  SString(15011,"Замовлення на виробництво");
+  SString(15012,"Структура");
+  SString(15013,"Машина");
+  SString(15014,"Коментар");
+  SString(15015,"Кіл");
+  SString(15016,"Запланована дата");
+  SString(15017,"№ замов. на виробн.");
+  SString(15018,"Склад");
+  SString(15019,"Структура");
+  SString(15020,"Гр.товрів");
+  SString(15021,"Машина");
+
+/*ProdOrderQueueRn*/
+  SString(15030,"Черга виробництва");
+  SString(15031,"Замовл. постач.");
+  SString(15032,"Структура");
+  SString(15033,"Машина");
+  SString(15034,"Коментар");
+  SString(15035,"Залишилось");
+  SString(15036,"Кіл.");
+  SString(15037,"Кіл. замовлень на виробництво");
+  SString(15038,"Склад");
+  SString(15039,"Групи товарів");
+  SString(15040,"Машина");
+  SString(15041,"Розпочато");
+  SString(15042,"Прийнять");
+  SString(15043,"До дати");
+  SString(15044,"Розпочаті та прийняті");
+  SString(15045,"Черга");
+
+/*KrediidiinfoRn*/
+  SString(15050,"Credit History");
+  SString(15051,"Start Date");
+  SString(15052,"End Date");
+  SString(15053,"Sum");
+  SString(15054,"Max sum");
+  SString(15055,"Sector");
+  SString(15056,"Rating");
+  SString(15057,"Error");
+  SString(15058,"Makseh√§ireregistri info");
+  SString(15059,"Muud krediteerijad");
+  SString(15060,"Debt From");
+  SString(15061,"Баланс");
+  SString(15062,"Interest");
+  SString(15063,"Tax debts");
+  SString(15064,"Tax debts to Tax and Customs Board are checked monthly and listed in report since the beginning of 1999.");
+  SString(15065,"Debts that are less than 10 000EEK are not listed in this report.");
+  SString(15066,"Debts to Customs");
+  SString(15067,"Customs debts to Tax and Customs Board are checked monthly.");
+  SString(15068,"Debts that are less than 500 EEK are not listed in this report.");
+  SString(15069,"Payment-trouble Registry information");
+  SString(15070,"Payment-trouble is debtors financial responsibility that is due more than 45 days from the payment term.");
+  SString(15071,"Payment-trouble is defined as a debt greater than 500 EEK including interest and interest invoice sums.");
+  SString(15072,"Information about delayed payment are from Payment-trouble Registry members or from other persons.");
+  SString(15073,"Information below describes payment-trouble startdate, enddate, approximate amount and origin.");
+  SString(15074,"Payment-trouble last amount is the latest registered amount range in Payment-trouble Registry.");
+  SString(15075,"Payment-trouble maximum amount shows the maximum amount range registered in Payment-trouble Registry.");
+  SString(15076,"Amounts are in EEK and are divided as follows: 501 - 1000, 1 001 вАУ 5 000, 5 001 вАУ 10 000,");
+  SString(15077,"10 001 вАУ 50 000, 50 001 вАУ 200 000, 200 001 вАУ 1 000 000, 1 000 001 and more");
+  SString(15078,"Other Creditors");
+  SString(15079,"Інформація, предствалена у звіті, зібрана із public джерел.");
+  SString(15080,ProductName & " не може гарантувати надійність джерел чи точність даних.");
+  SString(15081,ProductName & " не несе відповідальності за будь-які помилки, спричинені використанням даного звіту.");
+  
+/*HTSStatRn*/
+  SString(15092,"Успішна");
+  SString(15093,"Помилка");
+  SString(15094,"Посилання банку");
+  SString(15095,"рядок");
+  SString(15096,"Отрим.");
+  SString(15097,"В процесі");
+  SString(15098,"Наймен.");
+  SString(15099,"Electronic Payment Status");
+  SString(15100,"Статус електронних накл.");
+  SString(15101,"Відправлено");
+  SString(15102,"Підтверджено");
+  SString(15103,"Відхилено");
+  SString(15104,"Разом");
+  SString(15105,"Клієнт");
+  SString(15106,"Акт/накл.");
+  SString(15107,"Коментар");
+  SString(15108,"Дата");
+  SString(15109,"Не відправлено");
+
+/*CloudServiceStatusRn*/
+  SString(15110,"Customer Services Status");
+  SString(15111,"Active Only");
+  SString(15112,"Customer");
+  SString(15113,"Item");
+  SString(15114,"Start");
+  SString(15115,"End");
+
+/*ServiceUsageRn*/
+  SString(15120,"Service Usage");
+  SString(15121,"Customer");
+  SString(15122,"Service");
+  SString(15123,"Date");
+  SString(15124,"Time");
+  SString(15125,"Status");
+  SString(15126,"Qty");
+  SString(15127,"Name");
+
+/*HAL Profiling*/
+  SString(15140,"HAL Profiling");
+  SString(15141,"Function name");
+  SString(15142,"Calls");
+  SString(15143,"Local Steps");
+  SString(15144,"Total Steps");
+  SString(15145,"Local I/O");
+  SString(15146,"Total I/O");
+
+/*ProdStatRn*/
+  SString(15150,"Статистика виробництва");    
+  SString(15151,"З: ");
+  SString(15152,"по: ");
+  SString(15153,"Структура: ");
+  SString(15154,"Машина: ");
+  SString(15155,"Структура");
+  SString(15156,"Одиниця");
+  SString(15157,"Коментар");
+  SString(15158,"Кіл");
+  SString(15159,"Вага");
+  SString(15160,"Кіл. разом");
+  SString(15161,"Вага разом");
+
+/*ProdStatDiscRn*/
+  SString(15169,"Розібрано");
+  SString(15170,"Статистика браку");    
+  SString(15171,"Структура");
+  SString(15172,"Коментар");
+  SString(15173,"Кіл.");
+  SString(15174,"Вага");
+  SString(15175,"Кіл. разом");
+  SString(15176,"Вага разом");
+  SString(15177,"Структура: ");
+  SString(15178,"Машина: ");
+  SString(15179,"Група товарів: ");
+  SString(15180,"Виробництво");
+  SString(15181,"Машина");
+  SString(15182,"Замов. на вир.");
+  SString(15183,"Товар");
+  SString(15184,"Найменування");
+  SString(15185,"План. к-ть");
+  SString(15186,"Вироб. к-ть");
+  SString(15187,"Знищено");
+  SString(15188,"% знищ.");
+  SString(15189,"Вартість");
+
+/*ProdStatDiscRn*/
+  SString(15190,"Планування залишків складу");    
+  SString(15191,"Товар");    
+  SString(15192,"На складі");    
+  SString(15193,"Відвант.");    
+  SString(15194,"Надх.");    
+  SString(15195,"Нове сальдо");    
+  SString(15196,"Мін. рівень");    
+  SString(15197,"Різниця");    
+ 
+/*CustPS2Rn*/
+  SString(15210,"Закрито актом/накл.");
+  SString(15211,"Частково закрито актом/накл.");
+  SString(15212,"Закрито");
+  SString(15213,"Повністю відвантажено");
+  SString(15214,"Не повністю відвантажено");
+  SString(15215,"Не відвантажено");
+  SString(15216,"Статус");
+  SString(15217,"Проект");
+  SString(15218,"Рахунок");
+  SString(15219,"Відкрито");
+  SString(15220,"Відхилено");
+  SString(15221,"Прийнято");
+  SString(15222,"SMS");
+  SString(15223,"SMS Доставлено");
+  SString(15224,"SMS Не доставлено");
+  SString(15225,"SMS звіт");
+
+ /*SearchItemRn*/  
+  SString(15240,"Знайти проект");    
+  SString(15241,"Проект");
+  SString(15242,"Назва");
+  SString(15243,"Керівник");
+  SString(15244,"Клієнт");
+  SString(15245,"Кіль-ть проектів");
+  
+/* */
+  SString(15800,"Заплановане надходження");
+  SString(15801,"Придбання");
+  SString(15802,"Запланована дата");
+  SString(15803,"Кількість");
+  SString(15804,"Постачальник");
+  SString(15805,"Наймен.");
+  SString(15806,"Заплановані відвантаження");
+  SString(15807,"Рахунок");
+  SString(15808,"Клієнт");
+  SString(15809,"На місцях");
+
+/*WhoPresentRn*/
+  SString(15820,"Активні користувачі");
+
+/*PLVAT2Rn*/
+  SString(15999,"Платіж");
+  SString(16000,"ПДВ звіт");
+  SString(16001,"ПДВ перегляд");
+  SString(16002,"на період");  
+  SString(16003,". рік ");
+  SString(16004,"Компанія:");  
+  SString(16005,"Реєстр. номер :");  
+  SString(16006,"I Товари та послуги від місцевих постач.");  
+  SString(16007,"№");  
+  SString(16008,"Постач.");  
+  SString(16009,"ІПН");  
+  SString(16010,"без ПДВ");  
+  SString(16011,"ПДВ");  
+  SString(16012,"Найм.");  
+  SString(16013,"Серія");
+  SString(16014,"№");
+  SString(16015,"Дата");
+  SString(16016,"Разом: ");
+  SString(16017,"Мін сума : ");
+  SString(16018,"Валюта");
+  SString(16019,"II Товари з країн ЄС");  
+  SString(16020,"Сума");
+  SString(16021,"Передп.");
+  SString(16022,"Платіж");
+  SString(16023,"Чек");
+  SString(16024,"Акт/накладна");
+  SString(16025,"Кред. акт/накл.");
+  SString(16026,"Чек");
+  SString(16027,"Посилання(документ)");
+  SString(16028,"Акт");
+  SString(16029,"Опер. на суму, меншу за");
+
+/* SLVATArgRn */
+  SString(16030,"Argentinean Sales VAT");
+  SString(16031,"VAT No.: ");
+  SString(16032,"Date");
+  SString(16033,"Off. No.");
+  SString(16034,"VAT No.");
+  SString(16035,"Name");
+  SString(16036,"No VAT No.");
+  SString(16037,"Ext. Tax");
+  SString(16038,"Total");
+  SString(16039,"Reg. Perc.");
+  SString(16040,"Not specified");
+  SString(16041,"Invalidated");
+  SString(16042,"Series");
+  SString(16043,"Total");
+  SString(16044,"TAX2");
+  SString(16045,"TAX1");
+  SString(16046,"VAT");
+  SString(16047,"V-Cd");
+  SString(16048,"Reg No. 2");
+  SString(16049,"Sum");
+  SString(16050,"Type");
+  SString(16051,"Base Amount");
+  SString(16052,"%Base Amount");
+  SString(16053,"Inv");
+  SString(16054,"Cred");
+  SString(16055,"Deb");
+  SString(16056,"Description");
+  SString(16057,"Exempt");
+  SString(16058,"TAX3");
+
+/* InvFactEn */
+// These looked wrong, so I changed them back...
+// If they are supposed to have wierd characters instead of √§ please tell me.
+// We should not have foreign strings in English translations anyway....
+  SString(16060,"HansaInvoicesForFactoringSummary.txt");
+  SString(16061,"NORDEA RAHOITUS SUOMI OY");
+  SString(16062,"LASKULUETTELO");
+  SString(16063,"Myyntisaatavien Palvelut");
+  SString(16064,"SIIRTOLUETTELO");
+  SString(16065,"Siirtoluettelon numero");
+  SString(16066,"0000001");
+  SString(16067,"Myyj√§n nimi");
+  SString(16068,"Myyj√§n numero");
+  SString(16069,"000447");
+  SString(16070,"Tekem√§mme laskusaatavien rahoitussopimuksen persuteella panttaame Nordea");
+  SString(16071,"Rahoitus Suomi Oy:lle j√§ljemp√§n√§ yksil√ґidyt saatavat. Oheiset saatavat pantataan toissijaisesti");
+  SString(16072,"Nordea Pankki Suomi Oyj:lle. Laskuainesto on toimitettu Nordea Rahoitus Suomi Oy:lle konekielisesti / liitten√§");
+  SString(16073,"Numerot");
+  SString(16074,"Lukum√§√§r√§");
+  SString(16075,"Euruoa");
+  SString(16076,"Veloituslaskut:");
+  SString(16077,"Hyvituslaskut:");
+  SString(16078,"Erotus");
+  SString(16079,"Paikka ja P√§iv√§ys");
+  SString(16080,"Toiminimi ja allekirjoitus");
+  SString(16081,"KANKAANP√Д√Д");
+
+/* BankRecRn */
+  SString(16090,"Звірка банку");
+  SString(16091,"Кінцеве сальдо з банку");
+  SString(16092,"Протерміновані платежі постачальникам");
+  SString(16093,"Протерміновані платежі клієнтів");
+  SString(16094,"Разом");
+  SString(16095,"Звірена банківська виписка");
+  SString(16096,"Компє'ютерний баланс");
+  SString(16097,"Відміни");
+  SString(16098,"Банківські нарахування");
+  SString(16099,"Банківський рахунок");
+
+/* UserConfAccessRn */
+  SString(16110,"User Conference Access");
+  SString(16111,"User");
+  SString(16112,"Name");
+  SString(16113,"Group");
+  SString(16114,"Conference");
+
+/*TTRRn*/
+  SString(16120,"Tax Transactions for Registers");
+  SString(16121,"No.");
+  SString(16122,"Date");
+  SString(16123,"A/C");
+  SString(16124,"Cur. Val.");
+  SString(16125,"Base Val.");
+
+// ORReservRn
+  SString(16126,"Reserve Back to Back Purchase Order");
+  SString(16127,"Нормальний");
+  SString(16128,"Високий");
+  SString(16129,"Низький");
+  SString(16130,"Резервування");
+  SString(16131,"Рахунок");
+  SString(16132,"Дата");
+  SString(16133,"Клієнт"); /* Translation someone */
+  SString(16134,"Найменування");
+  SString(16135,"Запл. відвант.");
+  SString(16136,"Товар");
+  SString(16137,"Замовлено");
+  SString(16138,"Найменування");
+  SString(16139,"Сума");
+  SString(16140,"Вже зарезервовано");
+  SString(16141,"Зарезервувати");
+  SString(16142,"Резервування");
+  SString(16143,"Реєстр");
+  SString(16144,"№");
+  SString(16145,"Інформація");
+  SString(16146,"Зарезервовано");
+  SString(16147,"Активні резервування");
+  SString(16148,"Недійсне");
+  SString(16149,"Замовл. постач.");
+  SString(16150,"Замовлен. постач.");
+  SString(16151,"Внутр. замовл.");
+  SString(16152,"Настпне замовл. постач.");
+  SString(16153,"У рахунку");
+  SString(16154,"Залишок");
+  SString(16155,"Рахунок клієнту");
+  SString(16156,"Усі товари уже зарезервовані");
+  SString(16157,"Not Applicable");
+  SString(16158,"Склад");
+  SString(16159,"Склад");
+  SString(16160,"Отримано");
+  SString(16161,"Автоматично резервувати із наст. замовл. посчтач.");
+  SString(16162,"Докладно");
+  SString(16163,"Резервування замовл. постач.");
+  SString(16164,"Резервув. взагалі (не прив'яз до замовл.)");
+  SString(16165,"Доставлено");
+  SString(16166,"Не зарезервовано");
+  SString(16167,"Не дозволено");
+  SString(16168,"На складі");
+  SString(16169,"Release");
+  SString(16170,"Reserve All Lines Automatically");
+  SString(16171,"Release All Reservations");
+  SString(16172,"Net");
+  SString(16173,"Автоматично");
+  SString(16174,"Резервування склада");
+  SString(16175,"Пріоритет");
+  SString(16176,"Вручну");
+  SString(16177,"Нагору");
+  SString(16178,"Вниз");
+  SString(16179,"Вручну");
+
+/*CustConfInfoRn*/
+  SString(16180,"Customer Configuration Info");
+  SString(16181,"Named Users");
+  SString(16182,"Any Number of Named Users");
+  SString(16183,"Concurrent Users");
+  SString(16184,"Any Number of Concurrent Users");
+  SString(16185,"Customer");
+  SString(16186,"Name");
+  SString(16187,"Named");
+  SString(16188,"Concurent");
+
+// ORReservRn Continues...
+  SString(16191,"Incorrect Reservations made for Items not on this Purchase Order");
+
+/*SettingsListRn*/
+  SString(16201,"Calendar");
+  SString(16202,"Cash Book");
+  SString(16203,"Cheques");
+  SString(16204,"Consolidation");
+  SString(16205,"Contracts");
+  SString(16206,"CRM");
+  SString(16207,"Customs Declaration");
+  SString(16208,"Database Maintenance");
+  SString(16209,"EDI");
+  SString(16210,"E-mail");
+  SString(16211,"Expenses");
+  SString(16212,"Fixed Assets");
+  SString(16213,"Hotel");
+  SString(16214,"Internal Stock");
+  SString(16215,"Job Costing");
+  SString(16216,"Loans");
+  SString(16217,"Nominal Ledger");
+  SString(16218,"ЕККА");
+  SString(16219,"ЕККА офлайн");
+  SString(16220,"Pricing");
+  SString(16221,"Production");
+  SString(16222,"Purchase Ledger");
+  SString(16223,"Purchase Orders");
+  SString(16224,"Purchase Prognosis");
+  SString(16225,"Quotations");
+  SString(16226,"Rental");
+  SString(16227,"Report Generator");
+  SString(16228,"Resort");
+  SString(16229,"Resource Planning");
+  SString(16230,"Restaurant");
+  SString(16231,"Sales Ledger");
+  SString(16232,"Sales Orders");
+  SString(16233,"Service Orders");
+  SString(16234,"Stock");
+  SString(16235,"System");
+  SString(16236,"Task Manager");
+  SString(16237,"Technics");
+  SString(16238,"Telephone");
+  SString(16239,"User Settings");
+  SString(16240,"WEB");
+  SString(16241,"Warehouse Managment");
+  SString(16242,"Business Alerts");
+  SString(16243,"World Bank Reporting");
+  SString(16244,"Human Resources Management");
+  SString(16245,"Production Scheduling");
+  SString(16246,"ASP");
+  SString(16247,"AppStore");
+  SString(16248,"Business Alerts");
+  SString(16249,"Course Booking"); 
+  SString(16250,"Data Integrity");
+  SString(16251,"E-mail and Conferences");
+  SString(16252,"Enablers"); 
+  SString(16253,"HansaWorld Contracts");
+  SString(16254,"Integration"); 
+  SString(16255,"Operations Reporting"); 
+  SString(16256,"SmartApps Designer");
+  SString(16257,"Web Shop and CMS"); 
+
+/*TestServicesRn*/
+  SString(16260,"Test Services");
+  SString(16261,"Lookup is down");
+  SString(16262,"Up");
+  SString(16263,"Down");
+  SString(16264,"Service");
+  SString(16265,"Host");
+  SString(16266,"Port");
+  SString(16267,"Status");
+
+/*LookupToTXRn*/
+  SString(16280,"Lookup To TX Call");
+  SString(16281,"Service");
+  SString(16282,"IP");
+  SString(16283,"Port");
+  SString(16284,"Date");
+  SString(16285,"Time");
+
+/*TAccBalRn*/
+  SString(16290,"Tax Account Balances");
+  SString(16291,"Account");
+  SString(16292,"Description");
+  SString(16293,"Баланс");
+  SString(16294,"Total");
+  SString(16295,"No.");
+  SString(16296,"NL No.");
+  SString(16297,"Date");
+  SString(16298,"Amount");
+  SString(16299,"Tax Account Transacion List");
+
+/*ComisionIVRn*/
+  SString(16305,"Commision Invoices");
+  SString(16306,"Dealer");
+  SString(16307,"Customer");
+  SString(16308,"Commision");
+  SString(16309,"Price");
+  SString(16310,"Org. Inv. No.");
+
+/*SalesFCompRn*/
+  SString(16312,"See Detailed Calculations Behind");
+  SString(16313,"Detailed Calculations Step by Step");
+  SString(16314,"Basic Item Requirements");
+  SString(16315,"Create Production Plan - Preview");
+  SString(16316,"Create Purchase Order Plan - Preview");
+  SString(16317,"Incorrect selection, defaulting stock date to start date");
+  SString(16318,"Stock Levels based on Stock Policy");
+  SString(16319,"Calculated Month Closing Stock Levels");
+  SString(16320,"Sales Forecast Accuracy");
+  SString(16321,"Item");
+  SString(16322,"Comment");
+  SString(16323,"Quantity");
+  SString(16324,"Sales");
+  SString(16325,"Forecast");
+  SString(16326,"Actual");
+  SString(16327,"Diff");
+  SString(16328,"Sales Forecast");
+  SString(16329,"Expected Arrivals");
+
+/*UserHistRn*/
+  SString(16330,"User Login History");
+  SString(16331,"User");
+  SString(16332,"Event");
+  SString(16333,"Date");
+  SString(16334,"Time");
+  SString(16335,"TCP/IP Address");
+  SString(16336,"Company");
+  SString(16337,"INCORRECT USER");
+  SString(16338,"Failed Login");
+  SString(16339,"Login");
+  SString(16340,"Logout");
+  SString(16341,"Client Type");
+  SString(16342,"Client OS");
+  SString(16343,"Name");
+
+/*UserHistRn*/
+  SString(16350,"Connection Log");
+  SString(16351,"User");
+  SString(16352,"Date");
+  SString(16353,"Time");
+  SString(16354,"Measure Time");
+  SString(16355,"Messages");
+  SString(16356,"Working");
+  SString(16357,"Waiting");
+  SString(16358,"In Network");
+  SString(16359,"Server Time");
+  SString(16360,"Illegal Selection");
+  SString(16361,"Average Time");
+  SString(16362,"All time units in seconds");
+  SString(16363,"Details");
+  SString(16364,"Connection Log for Slow Messages");
+  SString(16365,"AC");
+  SString(16366,"Latency Details");
+
+  SString(16370,"Revaluation");
+  SString(16371,"Depreciation");
+  SString(16372,"Write off");
+  SString(16373,"Put in use");
+
+/* ProdPlanInfoRn */
+  SString(16380,"Інформ. по плану на вир-во");
+  SString(16381,"Товар");
+  SString(16382,"Замовл. на вир.");
+  SString(16383,"Опис");
+  SString(16384,"Кіл-ть");
+  SString(16385,"Дата замовл.");
+  SString(16386,"Днів на вир-во");
+  SString(16387,"На дату");
+  SString(16388,"Днів на доставку");
+
+/* POPlanInfoRn */
+  SString(16390,"Purchase Order Plan Info");
+  SString(16391,"Item");
+  SString(16392,"Pur. Ord.");
+  SString(16393,"Create Purchase Orders - Preview");
+  SString(16394,"Create Productions - Preview");
+
+  SString(16395,"All Item Classifications");
+  SString(16396,"Item Classification");
+
+/* ProStatRn */
+  SString(16400,"По факту / Бюджет");
+  SString(16401,"Вартість / По факту");
+  SString(16402,"Витр. по факту / бюджетні витр.");
+  SString(16403,"Бюджет / По факту");
+  SString(16404,"Витрачено / Бюджет");
+  SString(16405,"Постач.");
+  SString(16406,"Наймен.");
+  SString(16407,"Усьго");
+  SString(16408,"Вист. акт/накл.");
+
+
+/* VeInRn */
+  SString(16405,"");
+
+/*RoutingPrForm*/
+  SString(16410,"Created");
+  SString(16412,"Started");
+  SString(16413,"Finished");
+  SString(16414,"Cancelled");
+  SString(16415,"Discarded");
+
+/*ProcessFlowRn*/
+  SString(16430,"Process Flow");
+  SString(16431,"Comment");
+  SString(16432,"Sequence");
+  SString(16438,"Qty");
+  SString(16439,"Cost");
+  SString(16440,"Time");
+  SString(16441,"Days");
+  SString(16442,"Minutes");
+  SString(16443,"Item");
+  SString(16444,"Specify Production");
+  SString(16445,"In progress or finished");
+  SString(16446,"Cancelled");
+  SString(16447,"Discarded");
+
+/*ProdStatusRn*/
+  SString(16450,"Production Status");
+  SString(16451,"Comment");
+  SString(16452,"Sequence");
+  SString(16453,"Status");
+  SString(16454,"In");
+  SString(16455,"Out");
+  SString(16456,"Cost");
+  SString(16457,"Production In Progress Only");
+  SString(16458,"Item");
+  SString(16459,"Comment");
+
+/*ProdOperationsRn*/
+  SString(16460,"Create Production Operations");
+  SString(16461,"Production Operation");
+  SString(16462,"All Production Operation");
+  SString(16463,"Production");
+  SString(16464,"All Productions");
+
+/*BankStRn*/
+  SString(16480,"Bank Statement");
+  SString(16481,"No.");
+  SString(16482,"Type");
+  SString(16483,"Date");
+  SString(16484,"Comment");
+  SString(16485,"Reference");
+  SString(16486,"Description");
+  SString(16487,"Debit");
+  SString(16488,"Credit");
+  SString(16489,"Баланс");
+  SString(16490,"Payment");
+  SString(16491,"Receipt");
+  SString(16492,"P.Payment");
+  SString(16493,"Transactions");
+
+/*TransTaxIVRn*/
+  SString(16510,"Transaction Tax Invoices");
+  SString(16511,"Inv. Date");
+  SString(16512,"No.");
+  SString(16513,"Amount");
+  SString(16514,"Tax");
+  SString(16515,"VAT No.");
+
+/*PLVATBolRn*/
+  SString(16520,"VAT Report Purchases");
+  SString(16521,"VAT No. N/A");
+  SString(16522,"Inv. Date");
+  SString(16523,"VAT No.");
+  SString(16524,"Name");
+  SString(16525,"No.");
+  SString(16526,"Tax Auth.");
+  SString(16527,"Total");
+  SString(16528,"Input");
+  SString(16529,"Exempt");
+  SString(16530,"ICE");
+  SString(16531,"I");
+  SString(16532,"Other");
+  SString(16533,"Specify VAT Codes");
+  SString(16534,"Net");
+  SString(16535,"Con. Code");
+  SString(16536,"Chief Accountant");  
+  SString(16537,"Document ID");  
+
+/*SLVATBolRn*/
+  SString(16540,"VAT Report Sales");
+  SString(16541,"VAT No. N/A");
+  SString(16542,"Inv. Date");
+  SString(16543,"VAT No.");
+  SString(16544,"Name");
+  SString(16545,"No.");
+  SString(16546,"Tax Auth.");
+  SString(16547,"Total");
+  SString(16548,"Input");
+  SString(16549,"Exempt");
+  SString(16550,"ICE");
+  SString(16551,"I");
+  SString(16552,"Other");
+  SString(16553,"Specify VAT Codes");
+  SString(16554,"Net");
+  SString(16555,"Offic. No.");
+  SString(16556,"Amounts in Bolivianos");
+  SString(16557,"Статус накладної");
+  SString(16558,"Недійсний");
+
+/*CallHistoryRn*/
+  if (BuildProductCode=="StandardCRM") then begin
+    SString(16570,"Історія діяльності");
+  end else begin
+    SString(16570,"Історія дзвінку");
+  end;
+  SString(16571,"Дата");
+  SString(16572,"Початок");
+  SString(16573,"Кінець");
+  SString(16574,"Коментар");
+  SString(16575,"Котакт");
+  SString(16576,"Усі контакти");
+
+/*BankTRRn*/
+  SString(16580,"Банківські операції");
+  SString(16581,"Дата");
+  SString(16582,"Вал.");
+  SString(16583,"Дебет");
+  SString(16584,"Кредит");
+  SString(16585,"Коментар");
+  SString(16586,"Найменування платника");
+  SString(16587,"Посилання");
+  SString(16588,"Реєстр. № платника");
+  SString(16589,"Найменування отримувача");
+  SString(16590,"Посилання");
+  SString(16591,"Банківський рахунок");
+  SString(16592,"Банківський рахунок Г/К");
+
+/*IVPerHourRn*/
+  SString(16600,"Sales per Hour");
+  SString(16601,"Hours");
+  SString(16602,"Sales");
+  SString(16603,"No. of Inv.");
+  SString(16604,"Avg Sales");
+  SString(16605,"No. of Inv. Rows");
+  SString(16606,"Avg. Rows");
+
+/*IVPerLocRn*/
+  SString(16610,"Sales per Location");
+  SString(16611,"Location");
+  SString(16612,"Amount");
+
+/*VEAnaRn*/
+  SString(16620,"Supplier Analysis");
+  SString(16621,"Item");
+  SString(16622,"Pur. Ord.");
+  SString(16623,"Goods Rec.");
+  SString(16624,"Inv.");
+  SString(16625,"Cost of Sales");
+  SString(16626,"GP");
+  SString(16627,"Item Group");
+  SString(16628,"Supplier with no Name");
+
+/*Electronic #VAT# declaration Internet Service*/
+  SString(16640,"You can assign Boxes only to lines with have a valid Code and a Definition.");
+  SString(16641,"You may not specify any one box on more than one line.");
+  SString(16642,"Submit VAT declaration electronically");
+  SString(16643,"You can only submit VAT for a single month. If you want to submit more than 1 month, submit each month seperatly.");
+  SString(16644,"The reporting period must begin on the first day of a month and end on the last day of the same or another month.");
+  SString(16645,"Company details are not complete. You need Company Name, Address and VAT Number set up in Company Info in System.");
+  SString(16646,"Electronic VAT Declaration Settings not configured properly.");
+  SString(16647,"VAT Declarations can only be made in GBP. Please run the VAT report in currency GBP.");
+  SString(16648,"Boxes are not set up correctly in VAT Report Definition");
+  SString(16649,"VAT Declaration successfully submitted.");
+  SString(16650,"VAT Declaration Error");
+  SString(16651,"The reporting period must define either a single month or a calendar quarter.");
+  SString(16652,"The reporting period must start at the beginning of a calendar quarter.");
+  SString(16653,"Company VAT No not in Elster format. Must be 13 digits long.");
+  SString(16654,"The following fields must either both be present or both be absent in report definition:");
+  SString(16655,"Path to Java executable is not valid");
+  SString(16656,"Elster application not found (elster/HansaElster.jar)");
+
+  /*SearchHTSIVRn*/  
+  SString(16660,"Search for Invoice");    
+  SString(16663,"Any field: ");
+  SString(16664,"Name: ");
+  SString(16665,"Customer: ");
+  SString(16666,"VAT No.: ");
+  SString(16667,"Reg. No.: ");
+  SString(16668,"Invoice No.: ");
+  SString(16669,"Date: ");
+  SString(16670,"Time: ");
+  SString(16671,"No.");
+  SString(16672,"Name");  
+  SString(16673,"Phone");  
+  SString(16674,"No of Invoices");  
+
+  /*CourseBookingStatusRn*/  
+  SString(16680,"Course Booking Status");  
+  SString(16681,"Course");  
+  SString(16682,"All open");  
+  SString(16683,"Only not above minimum");  
+  SString(16684,"Only above minimum");  
+  SString(16685,"Event");  
+  SString(16686,"Date");  
+  SString(16687,"Max");  
+  SString(16688,"Min");  
+  SString(16689,"Signed up");  
+  SString(16690,"Total");  
+
+  /*CourseEventJournalRn*/  
+  SString(16700,"Course Events Journal");  
+  SString(16701,"Course");  
+  SString(16702,"All Course Events");  
+  SString(16703,"Only Open");  
+  SString(16704,"Only Finished");  
+  SString(16705,"Only Cancelled");  
+  SString(16706,"All Countries");  
+  SString(16707,"Country");  
+  SString(16708,"All Salesmen");  
+  SString(16709,"Salesman");  
+  SString(16710,"Event");  
+  SString(16711,"Country");  
+  SString(16712,"Date");  
+  SString(16713,"Trainer");  
+  SString(16714,"Seats");  
+  SString(16715,"Part.");  
+  SString(16716,"Canc.");  
+  SString(16717,"Value");  
+  SString(16718,"Participant");  
+  SString(16719,"Reference");  
+  SString(16720,"Status");  
+  SString(16721,"Cancelled");  
+  SString(16722,"Non Paying");  
+  SString(16723,"Total");  
+  SString(16724,"Participants");  
+  SString(16725,"COUNTRY TOP LIST IN PERIOD");  
+  SString(16726,"SALES MAN TOP LIST IN PERIOD");  
+  SString(16727,"Open");  
+  SString(16728,"Finished");  
+  SString(16729,"Preliminary");  
+ 
+  /*UnivTestResRn*/  
+  SString(16740,"Test Results");
+  SString(16741,"All Tests");
+  SString(16742,"Test");
+  SString(16743,"Have Passed");
+  SString(16744,"Have not Passed");
+  SString(16745,"Name");
+  SString(16746,"Date");
+  SString(16747,"Time");
+  SString(16748,"Answers");
+  SString(16749,"Questions");
+  SString(16750,"No. of persons");
+
+  /*DoCashForm*/  
+  SString(16760,"Cash Out");
+  SString(16761,"Cash In");
+  SString(16762,"Cash Writeoff");
+
+/*InvoiceServiceRn*/
+  SString(16780,"Invoice Service");
+  SString(16781,"Item");
+  SString(16782,"Qty");
+  SString(16783,"Specification");
+  SString(16784,"Price");
+  SString(16785,"Act. Qty");
+  SString(16786,"Inv. Date");
+  SString(16787,"Due Date");
+  SString(16788,"Subtotal");
+  SString(16789,"Total");
+  SString(16790,"Sum");
+  SString(16791,"Internet Services");
+
+/* CourseEventPartRn*/
+
+  SString(16800,"Participant List");
+  SString(16801,"Course Eent");
+  SString(16802,"Course");
+  SString(16803,"Course Date");
+  SString(16804,"Name");
+  SString(16805,"Address");
+  SString(16806,"Phone");
+  SString(16807,"Email");
+  SString(16808,"Phone/Email");
+  SString(16809,"Customer");
+  SString(16810,"Customer Name");
+  SString(16811,"Учасники");
+
+/* ServicesTestRn*/
+  SString(16819,"You should be able to use Service");
+  SString(16820,"Services Test");
+  SString(16821,"Specify Service");
+  SString(16822,"Database Status");
+  SString(16823,"Unknown");
+  SString(16824,"Test");
+  SString(16825,"Database Status");
+  SString(16826,"Electronic Data Exchange Stopped");
+  SString(16827,"Sending Electronic Payments off");
+  SString(16828,"Sending Direct Debit off");
+  SString(16829,"Sending Direct Invoices off");
+  SString(16830,"Receiving Bank Statement off");
+  SString(16831,"Account ID missing");
+  SString(16832,"Merchant ID missing");
+  SString(16833,"Credit Card Types missing");
+
+/*KrediidiinfoRn*/
+  SString(16850,"Limit");
+  SString(16851,"Recomended Credit Limit");
+  SString(16852,"Company Information");
+  SString(16853,"Company Status");
+  SString(16854,"Moms");
+  SString(16855,"Registered as Employer");
+  SString(16856,"Share Capital");
+  SString(16857,"F-Tax");
+  SString(16858,"Registration Date");
+  SString(16859,"President");
+  SString(16860,"Company Group");
+  SString(16861,"Authorised Signers");
+  SString(16862,"Annual Report");
+  SString(16863,"Currency");
+  SString(16864,"Turnover");
+  SString(16865,"Result before Taxes");
+  SString(16866,"Yearly Result");
+  SString(16867,"Liquidity");
+  SString(16868,"Solidity");
+  SString(16869,"Payment Remarks");
+  SString(16870,"Quant");
+  SString(16871,"Sum");
+  SString(16872,"Date");
+  SString(16873,"Appplication");
+  SString(16874,"Court Roulings");
+  SString(16875,"Debts");
+  SString(16876,"Repoed");
+  SString(16877,"Rating");
+  SString(16878,"Rating Text");
+
+  SString(16900,"Contract Info");
+  SString(16901,"Serial No.");
+  SString(16902,"Customer");
+  SString(16903,"Name");
+  SString(16904,"Product");
+  SString(16905,"Package");
+  SString(16906,"Comment");
+  SString(16907,"Function");
+  SString(16908,"Invoiced Tot.");
+  SString(16909,"Open Sum");
+  SString(16910,"Periodic Sum");
+  SString(16911,"Total");
+  SString(16912,"Total Invoiced");
+  SString(16913,"Total Open Balance");
+  SString(16914,"Next Invoice");
+  SString(16915,"Event");
+  SString(16916,"Trans. Date");
+  SString(16917,"Inv Date");
+  SString(16918,"Valid Until");
+  SString(16919,"Item");
+  SString(16920,"Quantity");
+  SString(16921,"Total Sum");
+  SString(16922,"Open Bal.");
+  SString(16923,"B.Fwd. Paid");
+  SString(16924,"Paid");
+  SString(16925,"Invoiced");
+  SString(16926,"Next Invoice");
+  SString(16927,"Contract Package Info");
+  SString(16928,"Specify Old Period Days");
+  SString(16929,"Specify New Period Days");
+
+/* CourseEventIVRn */
+  SString(17000,"Invoiceable Course Event");
+  SString(17001,"Course Event");
+  SString(17002,"Course");
+  SString(17003,"Customer");
+  SString(17004,"Participant");
+  SString(17005,"Price");
+  SString(17006,"All Courses");
+  SString(17007,"Courses");
+  SString(17008,"All Course Events");
+  SString(17009,"Course Events");
+
+/* PolicyForecastRn */
+  SString(17020,"15. Final Results");
+  SString(17021,"2. With the Stock Policy Appended");
+  SString(17022,"With the Display Selection added");
+  SString(17023,"After existing Purchase Orders");
+  SString(17024,"3. Forecast");
+  SString(17025,"4. PO Plan");
+  SString(17026,"5. Prod Plan");
+  SString(17027,"6. Forecast plus Production and Purchase Plan (used in the next step) for period");
+  SString(17028,"7. Current Stock on");
+  SString(17029,"minus Forecast and Production Plan from");
+  SString(17030,"until");
+  SString(17031,"1. The Forecast Array");
+  SString(17032,"With the Raw Materials needed from the Production Plan appended");
+  SString(17033,"After adding all affected Purchase Items");
+  SString(17034,"8. With the Stock Level and Forecast Appended");
+  SString(17035,"12. With the Purchase Plan Appended");
+  SString(17036,"The Purchase Order Plan Array");
+  SString(17037,"13. With the Production Plan Appended");
+  SString(17038,"14. But first appending assumed correct monthly plans");
+  SString(17039,"Added Fictional Planned Productions");
+  SString(17040,"9. Next calculation will take Projected Stock Levels from Previous Month");
+  SString(17041,"10. Minus: Stock Policy for next month");
+  SString(17042,"11. Minus: Forecast of this month, resulting in:");
+  SString(17043,"Stock on Date of Real Stock Level");
+  SString(17043,"");
+  
+/* IVMediaStatusRn */
+  SString(17050,"Invoice Media Status");
+  SString(17051,"Printed");
+  SString(17052,"Not Printed");
+  SString(17053,"Sent");
+  SString(17054,"Not Sent");
+  SString(17055,"No.");
+  SString(17056,"Date");
+  SString(17057,"Customer");
+  SString(17058,"Type");
+  SString(17059,"Status");
+  SString(17060,"E-Inv. Status");
+  SString(17061,"No Status");
+  
+// DoOwnCheckFOrm
+  SString(17070,"Non Transferable");
+  
+  /*SearchToDoWRn*/  
+  SString(17080,"Search for Activity");    
+  SString(17081,"No. of Activities");
+  SString(17082,"Comment");
+  SString(17083,"Comment: ");
+
+  /*QualConRn*/  
+  SString(17100,"Batch Quality Control Tests");    
+  SString(17101,"Analyse Date");
+  SString(17102,"Item");
+  SString(17103,"Name");
+  SString(17104,"Serial No.");
+  SString(17105,"Analyse Date");
+  SString(17106,"Register");
+  SString(17107,"No.");
+
+  SString(17111,"Production");
+  SString(17112,"Production Oper.");
+  SString(17113,"Stock Depr.");
+  SString(17114,"Goods Receipt");
+  SString(17115,"Return Goods");
+  SString(17116,"Return Goods to Supp");
+  
+/* ItemTurnRn */
+  SString(17119,"Total");
+  SString(17120,"Item Location Status");
+  SString(17121,"Location");
+  SString(17122,"Stock");
+  SString(17123,"Min.L");
+  SString(17124,"Aver");
+  SString(17125,"Tot");
+  SString(17126,"N.Dem");
+  SString(17127,"S.Ord");
+  SString(17128,"P.Ord");
+  SString(17129,"S.Price");
+
+  /*QualConResRn*/  
+  SString(17130,"Batch Quality Control Results");    
+  SString(17131,"Test");    
+  SString(17132,"Comment");    
+  SString(17133,"Unit");    
+  SString(17134,"From");    
+  SString(17135,"To");    
+  SString(17136,"Result");    
+ 
+  /*QualConResRn*/  
+  SString(17150,"Batch Quality Reclamations");
+  SString(17151,"Customer");
+  SString(17152,"Reclamation");
+  SString(17153,"Sales");
+  SString(17154,"Qty");
+  SString(17155,"Amount");
+  SString(17156,"Location");
+  SString(17157,"Name");
+  SString(17158,"Total");
+  SString(17159,"Location Sorting Only");
+  SString(17160,"Sorting");
+  SString(17161,"Customer");
+  SString(17162,"Location");
+  SString(17163,"Item");
+  SString(17164,"Register");
+  SString(17165,"Returned Goods");
+  SString(17166,"Return Goods to Supplier");
+  SString(17167,"Stock Depreciations");
+  
+  
+  /*MonthSalesHistCURn*/
+  SString(17179,"Monthly Salesman History");
+  SString(17180,"Customer Sales History");
+  SString(17181,"Supplier Purchase History");
+  SString(17182,"Salesman Turnover History");
+  SString(17183,"Code");
+  SString(17184,"Name");
+  SString(17185,"Salesman");
+  SString(17186,"Turnover");
+  SString(17187,"Profit");
+  SString(17188,"GP %");
+  SString(17189,"Purchases");
+  SString(17190,"Sales");
+  SString(17191,"Year/Month");
+  SString(17192,"Total");
+  SString(17193,"Average");
+  SString(17194,"You must specify one Supplier");
+  SString(17195,"You must specify one Salesman");
+  SString(17196,"Monthly Customer Sales History");
+  SString(17197,"You must specify one #Supplier#"); 
+  
+  /*SalesPriceCheckRn*/
+  SString(17200,"Sales Price Control");
+  SString(17201,"Sorted by Discount Value");
+  SString(17202,"Invoice Nr.");
+  SString(17203,"Item Nr.");
+  SString(17204,"Name");
+  SString(17205,"Invoice Price");
+  SString(17206,"Base Price");
+  SString(17207,"List Price");
+  SString(17208,"Disc. %");
+  SString(17209,"Disc. Value");
+
+/*SerialItemStatRn*/
+  SString(17222,"Invoice Date");
+  SString(17223,"GP %");
+  SString(17224,"Location");
+  SString(17225,"Age");
+  SString(17226,"GR Date");
+  SString(17227,"Sold Price");
+  SString(17228,"Retail Price");
+  SString(17229,"Unit Cost");
+  SString(17230,"Serial No Item Sales Statistics");
+  SString(17231,"Item");
+  SString(17232,"Name");
+  SString(17233,"Serial No.");
+  SString(17234,"Qty");
+  SString(17235,"Cost");
+  SString(17236,"Pur. Ord.");
+  SString(17237,"Ref.");
+  SString(17238,"Inv. No.");
+  SString(17239,"Include Consignment Stock");
+  SString(17240,"Exclude Consignment Stock");
+  SString(17241,"Consignment Stock Only");
+  SString(17242,"Supplier");
+  SString(17243,"Supp. Name");
+  SString(17244,"Supp. Item Code");
+  SString(17245,"Supp. Serial No.");
+  SString(17246,"Unit");
+  SString(17247,"Stock Type");
+  SString(17248,"Item Group");
+  SString(17249,"Item Class");
+
+/*PortTaxXmlEn*/
+  SString(17250,"FT");
+  SString(17251,"VD");
+  SString(17252,"NC");
+  SString(17253,"ND");
+  SString(17254,"C");
+  SString(17255,"F");
+  SString(17256,"I");
+  SString(17257,"Freight");
+  SString(17258,"Incorrect Period");
+  SString(17259,"Invalidated");
+  SString(17260,"BLANK_ITEM");
+  SString(17261,"BLANK_GROUP");
+  SString(17262,"No Description");
+  SString(17263,"POS Invoice");
+  SString(17264,"S");
+  SString(17265,"P");
+  SString(17266,"DA");
+  SString(17267,"AA");
+  SString(17268,"E");
+  SString(17269,"FR");
+
+/*AllVATRn*/
+  SString(17270,"Ав.зв. No");
+  SString(17271,"Надх.гот. No");
+  SString(17272,"Вид.гот. No");
+  SString(17273,"Сума платеж.");
+  SString(17274,"№ платежа");
+  SString(17275,"Передпл.");
+  SString(17276,"Усьго платеж.");
+
+/*DanTRJRn*/
+  SString(17280,"Template Transaction Journal");
+  SString(17281,"No.");
+  SString(17282,"Trans. Date");
+  SString(17283,"OKed");
+  SString(17284,"Not OKed");
+  SString(17285,"Date");
+  SString(17286,"BM");
+  SString(17287,"Type");
+  SString(17288,"Invoice");
+  SString(17289,"Account");
+  SString(17290,"Debet");
+  SString(17291,"Credit");
+  SString(17292,"PM");
+  SString(17293,"Code");
+  SString(17294,"Desc.");
+  SString(17295,"Account 2");
+  SString(17296,"Tr. No.");
+  SString(17297,"Doc. No.");
+
+/* CredManInfoRn */
+  SString(17300,"Period");
+  SString(17301,"Issued");
+  SString(17302,"Due");
+  SString(17303,"Start Balance");
+  SString(17304,"Instalment");
+  SString(17305,"Interest");
+  SString(17306,"Fees");
+  SString(17307,"Tot. Month");
+  SString(17308,"End Balance");
+  SString(17309,"Type");
+  SString(17310,"Interest");
+  SString(17311,"Rate %");
+  SString(17312,"Months");
+  SString(17313,"Total");
+  SString(17314,"Deposit");
+  SString(17315,"Start Date");
+  SString(17316,"End Date");
+  SString(17317,"Agreement");
+  SString(17318,"Create Date");
+  SString(17319,"Credit Agreement Info");
+  SString(17320,"Planned Payment Plan");
+  SString(17321,"Actual Payment Plan");
+  SString(17322,"Issued");
+  SString(17323,"Paid");
+  SString(17324,"Comment");
+  SString(17325,"Date");
+  SString(17326,"Daily Details of Planned Payments");
+  SString(17327,"Accr. Bal.");
+  SString(17328,"Add Interest");
+  SString(17329,"Payment");
+  SString(17330,"Interest");
+  SString(17331,"Accr. Int.");
+
+/*TaxForm*/
+  SString(17330,"");
+  SString(17331,"");
+
+/*AT2PortFormRn*/
+  SString(17350,"IRC Model 31");
+  SString(17351,"Normal");
+  SString(17352,"Written-off");
+  SString(17353,"Fiscal Year");
+  SString(17354,"Depreciation Method");
+  SString(17355,"Straight Line");
+  SString(17356,"Declining Balance");
+  SString(17357,"Tangible Assets");
+  SString(17358,"Intangible Assets");
+  SString(17359,"Investments Assets");
+  SString(17360,"Short Term Assets");
+  SString(17361,"Model 32.1 - IRC");
+
+
+/*FinIntIVEn*/
+  SString(17400,"VAT No.");
+  SString(17401,"Period");
+  SString(17402,"Direction");
+  SString(17403,"Name");
+  SString(17404,"Commodity Code");
+  SString(17405,"Transaction Code");
+  SString(17406,"Country");
+  SString(17407,"Origin Country");
+  SString(17408,"Ship Mode");
+  SString(17409,"Net Weight");
+  SString(17410,"Supplementary Unit");
+  SString(17411,"Invoice Amount");
+  SString(17412,"Statistical Value");
+  SString(17413,"Reference");
+
+/*GerIntIVEn*/
+  SString(17430,"VAT No.");
+  SString(17431,"Period");
+  SString(17432,"Direction");
+  SString(17433,"Name");
+  SString(17434,"Commodity Code");
+  SString(17435,"Transaction Code");
+  SString(17436,"Country");
+  SString(17437,"Origin Country");
+  SString(17438,"Ship Mode");
+  SString(17439,"Net Weight");
+  SString(17440,"Supplementary Unit");
+  SString(17441,"Invoice Amount");
+  SString(17442,"Statistical Value");
+  SString(17443,"Reference");
+  SString(17444,"Consecutive Number");
+  SString(17445,"Number of the sending company");
+
+/*TradeBookRn*/
+  SString(17460,"Trade Book (Serbia)");
+  SString(17461,"Seq");
+  SString(17462,"Date");
+  SString(17463,"Comment");
+  SString(17464,"In");
+  SString(17465,"Out");
+  SString(17466,"Pay. Date");
+  SString(17467,"Amount");
+  SString(17468,"Balance");
+  SString(17469,"Fwd. Balance");
+  SString(17470,"Signature");
+  SString(17471,"Price Change");
+  SString(17472,"Cash Event");
+
+/*CashReceiptRn*/
+  SString(17480,"Cash Receipts");
+  SString(17481,"Overview");
+  SString(17482,"Detailed, Sorted by Payment Mode");
+  SString(17483,"Detailed, Sorted by Register Type");
+  SString(17484,"Payment Mode");
+  SString(17485,"Amount");
+  SString(17486,"Total Invoices");
+  SString(17487,"Total Receipts");
+  SString(17488,"Total Downpayments");
+  SString(17489,"Grand Total");  
+  SString(17490,"Downpayment");
+  SString(17491,"Receipt");
+  SString(17492,"Date");
+  SString(17493,"Customer Name");
+  SString(17494,"Reference");
+  SString(17495,"Register");
+  SString(17496,"Amount");
+  SString(17497,"Invoices");
+  SString(17498,"Downpayments");
+  SString(17499,"Receipts");
+  SString(17500,"Order Class");
+  SString(17501,"Invoice");
+  SString(17502,"No.");
+
+/*QTAnalysisRn*/
+  SString(17510,"Аналіз пропозицій");
+  SString(17511,"Based on the following");
+  SString(17512,"Пропозиції");
+  SString(17513,"These items were quoted");
+  SString(17514,"Кількість");
+  SString(17515,"Сума");
+  SString(17516,"These items should have been quoted");
+  SString(17517,"Sugg");
+  SString(17518,"Фактично");
+  SString(17519,"Результат");
+  SString(17520,"Всього");
+  SString(17521,"Всього к-сть %");
+  SString(17522,"Всього сума %");
+  SString(17523,"Сервіс/Ліцензії");
+
+// BuyBackJRn
+  SString(17530,"BuyBack Journal");
+  SString(17531,"No.");
+  SString(17532,"Price");
+  SString(17533,"BB Price");
+  SString(17534,"Debit");
+  SString(17535,"Credit");
+  SString(17536,"Diff.");
+  SString(17537,"Comm.");
+  SString(17538,"BuyBack Ref.");
+  SString(17539,"Including Invalidate Records");
+  SString(17540,"Item");
+  SString(17541,"Name");
+  SString(17542,"Inv. No.");
+  SString(17543,"Supp. Inv. No.");
+  SString(17544,"Quant");
+  SString(17545,"Serial No.");
+  SString(17546,"Sort by");
+  SString(17547,"Customer");
+  SString(17548,"Reference");
+  SString(17549,"No Reference");
+
+// INCostAnalyseRn
+  SString(17550,"Item Cost Price Analysis");
+  SString(17551,"Item");
+  SString(17552,"Name");
+  SString(17553,"Cost Pr.");
+  SString(17554,"Last Price");
+  SString(17555,"Weig. Av.");
+  SString(17556,"Last Cost");
+  SString(17557,"Diff.");
+  SString(17558,"Stock Revaluation");
+  SString(17559,"Instock");
+
+/* BonusRn */
+  SString(17570,"Приб");
+  SString(17571,"Приб %");
+  SString(17572,"Вар-сть");
+  SString(17573,"База");
+  SString(17574,"Ціна");
+  SString(17575,"Ціна зі знижк.");
+  SString(17576,"Відобр. вар-сть");
+  SString(17577,"Exclude Debit Notes");
+
+/* AppleGDVInvR */
+  SString(17580,"Apple GDV склад");
+  SString(17581,"Дата");
+  SString(17582,"ID магазину");
+  SString(17583,"Регіон");
+  SString(17584,"Товар");
+  SString(17585,"Найменування");
+  SString(17586,"К-сть");
+  SString(17587,"Повернення");
+  SString(17588,"Серійн. номер");
+
+/* AppleGDVSellRn */
+  SString(17600,"Apple GDV продажі");
+  SString(17601,"Дата");
+  SString(17602,"ID магазину");
+  SString(17603,"Регіон");
+  SString(17604,"Товар");
+  SString(17605,"Найменування");
+  SString(17606,"К-сть");
+  SString(17607,"Валюта");
+  SString(17608,"Серійн. номер");
+
+/* DfncyStockRn */
+  SString(17620,"Слад дефіциту");
+  SString(17621,"Товар");
+  SString(17622,"Постачальник");
+  SString(17623,"Товар постачальн.");
+  SString(17624,"Склад");
+  SString(17625,"К-сть");
+
+/* UKContactValidityRn */
+  SString(17700,"UK Contact Validity");
+  SString(17701,"The following contacts don't appear to have a valid address:");
+  SString(17702,"Code");
+  SString(17703,"Name");
+  
+/* ToolWebNGSearchRn */
+  SString(17710,"Search for Web Contents");
+  SString(17711,"Search for Web Translations");
+  SString(17712,"Search for Web Pages");
+  SString(17713,"Search for Web Elements");
+  SString(17714,"Records that contain the phrase:");
+  SString(17715,"Nodes where web element is shown");
+  SString(17716,"Web element:");
+  SString(17717,"Web page:");
+  SString(17718,"Link to page (click to open in browser)");
+  SString(17719,"Nodes where web page is shown");
+  SString(17720,"No links to the requested web page were found.");
+  SString(17721,"(no comment)");
+  SString(17722,"Translation");
+  SString(17723,"Content");
+
+/* BASMSStatusRn */
+  SString(17730,"SMS Status Report");
+  SString(17731,"Customer");
+  SString(17732,"Customer name");
+  SString(17733,"Created");
+  SString(17734,"Last status at");
+  SString(17735,"Last status");
+  SString(17736,"Showing");
+  SString(17737,"Sort by");
+  SString(17738,"Sent to server");
+  SString(17739,"Pending");
+  SString(17740,"Delivered to recipient");
+  SString(17741,"Failed");
+  SString(17742,"Customer code");
+  SString(17743,"Status");
+  SString(17744,"Date");
+
+/* PersTelHisRn */
+  SString(17760,"Calls per Person");
+  SString(17761,"Departament");
+  SString(17762,"Extension");
+  SString(17763,"Room");
+  SString(17764,"Person");
+  SString(17765,"Min.");
+
+/*CouponReconRn*/  
+  SString(17780,"Credit Card Slips Reconciliation");  
+  SString(17781,"Batch");  
+  SString(17782,"Received");  
+  SString(17783,"Deposited");  
+  SString(17784,"Credited");  
+  SString(17785,"Bounced");  
+  SString(17786,"Cancelled");  
+  SString(17787,"Status");  
+  SString(17788,"No.");  
+  SString(17789,"Amount");  
+
+/* EncerrRn */
+  SString(17840,"No Cashier Count on");  
+
+/* CustCatRn */
+  SString(17850,"Перелік клієнтів");
+  
+/* ResRn */
+  SString(17870,"Попередній результат");
+
+/*POSUpdStockMn*/
+  SString(17810,"Накладні ЕККА");
+  SString(17811,"для машини");
+  SString(17812,"в періоді");
+
+/*POSSessionRn*/
+  SString(17820,"Звіт по сесії ЕККА");
+  SString(17821,"Машина");
+  SString(17822,"Скриня");
+  SString(17823,"Користувач");
+  SString(17824,"Дата");
+  SString(17825,"Час");
+  SString(17826,"Номер");
+  SString(17827,"Тип");
+  SString(17828,"Відкрити сесію");
+  SString(17829,"Закрити сесію");
+
+/* PurLocRn */
+  SString(17880,"Звіт по дефіциту по складам");
+  SString(17881,"В рахунках");
+  SString(17882,"Склад дефіц.");
+  SString(17883,"На складі");  
+  SString(17884,"Перемістити всі товари на склад дефіциту");  
+
+/* SoftFactAnalysisRn */
+  SString(17900,"Soft Factors Analysis");
+  SString(17901,"Employee");
+  SString(17902,"Name");
+  SString(17903,"Count");
+  SString(17904,"Last");
+  SString(17905,"Since");
+  SString(17906,"Neg.");
+  SString(17907,"As Exp.");
+  SString(17908,"Pos.");
+  SString(17909,"Rep. Minus");          
+  SString(17910,"Soft Factor Count");
+  SString(17911,"Negatives");
+  SString(17912,"As Expected");
+  SString(17913,"Positive");
+  SString(17914,"Loyalty");
+  SString(17915,"Attitude");
+  SString(17916,"Learning");
+  SString(17917,"Cust.Rel");
+  SString(17918,"Sales");
+  SString(17919,"Work");
+  SString(17920,"Respons.");
+  SString(17921,"Int.Train");
+  SString(17922,"Private");
+  SString(17923,"Negative");
+  SString(17924,"Learning Curve");
+  SString(17925,"Contact Relations");
+  SString(17926,"Sales Effort");
+  SString(17927,"Work Effort");
+  SString(17928,"Responsibility");
+  SString(17929,"Internal Support");
+  SString(17930,"Private Life");
+  
+/*PurOrdQTRn*/
+  SString(17950,"Purchase Quotations Journal");
+  SString(17951,"Purchase Quotation No. ");
+  SString(17952,"All Purchase Quotations");
+  SString(17953,"Purchase Order Class ");
+
+  SString(17960,"All Contact Classifications");
+  SString(17961,"Contact Classification ");
+
+/*POReservRn*/
+  SString(17970,"PO No.");
+  SString(17971,"Supplier");
+
+/* CheckOutRn */
+  if (ValuePack(11)) then begin
+    SString(17980,"Room Location");
+    SString(17981,"All Room Locations");
+    SString(17982,"Room Classification");
+    SString(17983,"All Room Classifications");
+  end else begin
+    SString(17980,"");
+    SString(17981,"");
+    SString(17982,"");
+    SString(17983,"");
+  end;
+
+  SString(18010,"Goods Receipt/Purchase Invoice Comparison");
+  SString(18011,"GR No.");
+  SString(18012,"PI No.");
+  SString(18013,"Item");
+  SString(18014,"GR Amount");
+  SString(18015,"PI Amount");
+  SString(18016,"Diff.");
+
+/*ARAPRn*/
+  SString(18030,"Sales & Purchase Ledger");
+  SString(18031,"#Purchase Invoices#");
+
+/*TRSloEn*/
+  SString(18050,"Account");
+  SString(18051,"Description");
+  SString(18052,"Date");
+  SString(18053,"Date");
+  SString(18054,"Number");
+  SString(18055,"Reference");
+  SString(18056,"Comment");
+  SString(18057,"Debet");
+  SString(18058,"Credit");
+  SString(18059,"Comment");
+  SString(18060,"Nominal Ledger.txt");
+  SString(18061,"Input VAT.txt");
+  SString(18062,"Output VAT.txt");
+  
+/*VIMexEn*/
+  SString(18071,"Supplier Type");
+  SString(18072,"Operation Type");
+  SString(18073,"RCF");
+  SString(18074,"VAT Reg. No.");
+  SString(18075,"Supplier Name");
+  SString(18076,"Residence Country");
+  SString(18077,"Nationality");
+  SString(18078,"Base Paid V-cd 1");
+  SString(18079,"Base paid not credited  V-cd 1");
+  SString(18080,"Base Paid V-cd 2");
+  SString(18081,"Base paid not credited  V-cd 2");
+  SString(18082,"Base Paid Export V-cd 1");
+  SString(18083,"Base paid Export not credited  V-cd 1");
+  SString(18084,"Base Paid Export V-cd 2");
+  SString(18085,"Base paid Export not credited  V-cd 2");
+  SString(18086,"Exempt");
+  SString(18087,"Base Paid V-cd 3");
+  SString(18088,"Base Paid no VAT");
+  SString(18089,"VAT Withhold");
+  SString(18090,"VAT for Discounts");
+
+/*PLVATHonRn*/
+  SString(18100,"VAT Report Purchases");
+  SString(18101,"Inv. No.");
+  SString(18102,"Date");
+  SString(18103,"Supplier");
+  SString(18104,"Name");
+  SString(18105,"Supp. Inv. No.");
+  SString(18106,"VAT Reg. No.");
+  SString(18107,"Taxed");
+  SString(18108,"VAT");
+  SString(18109,"Exempt");
+  SString(18110,"Total");
+  SString(18111,"Objects");
+  SString(18112,"V-Cd");
+  SString(18113,"VAT %");
+  SString(18114,"Sum");
+  SString(18115,"VAT");
+  SString(18116,"Total");
+
+/*SLVATHonRn*/
+  SString(18120,"VAT Report Sales");
+  SString(18121,"Inv. No.");
+  SString(18122,"Date");
+  SString(18123,"Customer");
+  SString(18124,"Name");
+  SString(18125,"VAT Reg. No.");
+  SString(18126,"Objects");  
+  SString(18127,"Taxed");
+  SString(18128,"VAT");
+  SString(18129,"Exempt");
+  SString(18130,"Total");
+  SString(18131,"V-Cd");
+  SString(18132,"VAT %");
+  SString(18133,"Sum");
+  SString(18134,"VAT");
+  SString(18135,"Total");
+  
+/*Attach2Rn*/
+ SString(18150,"List of Windows");
+
+/*VATTransJRn*/  
+ SString(18160,"VAT Transaction Journal");
+ SString(18161,"Account");
+ SString(18162,"Trans. No.");
+ SString(18163,"Amount");
+ SString(18164,"VAT");
+ SString(18165,"Total");
+ SString(18166,"VAT Outputs Payable");
+ SString(18167,"VAT Inputs Receivable");
+ SString(18168,"To pay/Get back");
+
+/*VATTransJRn*/  
+ SString(18178,"Причина");
+ SString(18179,"Номер");
+ SString(18180,"Звіт відмін");
+ SString(18181,"Номер");
+ SString(18182,"Дата");
+ SString(18183,"Товар");
+ SString(18184,"Користувач");
+ SString(18185,"Відмінено");
+ SString(18186,"Опис");
+ SString(18187,"Сума");
+ SString(18188,"Рах. ресторану");
+ SString(18189,"Акти/накладні");
+  
+/*VEEvalRn*/
+  SString(18190,"Оцінка постачальника");
+  SString(18191,"Номер зам. постач.");
+  SString(18192,"Затримка");
+  SString(18193,"Відх. у к-сті");
+  SString(18194,"Відх. у к-сті(%)");
+  SString(18195,"Відх. у ціні");
+  SString(18196,"Відх. у ціні(%)");
+  SString(18197,"Всього");
+  
+/* POPlanRn */
+  SString(18200,"Date of real Stock Level");
+  SString(18201,"Улас");
+  SString(18202,"План");
+  SString(18203,"Факт");
+  SString(18204,"Всі класи");
+  
+/* RsrtEventAvailRn */
+  SString(18210,"Available Events");
+  SString(18211,"Event Type");
+  SString(18212,"Resource");
+  SString(18213,"Start");
+  SString(18214,"End");
+  SString(18215,"Min.");
+  SString(18216,"Max.");
+  SString(18217,"Avail.");
+  SString(18218,"Res. Location");
+  SString(18219,"Event Type");
+  SString(18220,"Time");
+  SString(18221,"Pers.");
+  SString(18222,"Reservation No.: ");
+  SString(18223,"Booked");
+  SString(18224,"Package");
+  SString(18225,"Price");
+  SString(18226,"Packaged");
+  SString(18227,"Show all Events for Reservation");
+  
+/* PRRevRecRn */
+  SString(18230,"Project Revenue Recognition");
+  SString(18231,"Project");
+  SString(18232,"Description");
+  SString(18233,"Start");
+  SString(18234,"End");
+  SString(18235,"Customer");
+  SString(18236,"Sales Gr.");
+  SString(18237,"Budget");
+  SString(18238,"% Compl.");
+  SString(18239,"Rev. Rec.");
+  SString(18240,"Cost");
+  SString(18241,"Currency");
+  SString(18242,"Base Currency");
+
+/*OwnCheckRn*/
+  SString(18260,"Sorted by : Clearing Date");
+  SString(18261,"Period : Due Date");
+  SString(18262,"Unused");
+  SString(18263,"Issued");
+  SString(18264,"Cleared");
+  SString(18265,"Cancelled");
+  SString(18266,"Bounced");
+  
+/*PLVATMexRn*/
+  SString(18270,"VAT Report Purchases");
+  SString(18271,"VAT No.:");
+  SString(18272,"Values in");
+  SString(18273,"Sorted by");
+  SString(18274,"Payment Date");
+  SString(18275,"Document Date");
+  SString(18276,"Pmt. No");
+  SString(18277,"Doc. Date");
+  SString(18278,"Doc. No.");
+  SString(18279,"Supplier");
+  SString(18280,"Total Paid");
+  SString(18281,"Base Paid");
+  SString(18282,"Rate");
+  SString(18283,"Exempt");
+  SString(18284,"VAT paid");
+  SString(18285,"Concept");
+  SString(18286,"Base paid");
+  SString(18287,"Pay Date");
+  SString(18288,"Subtotals per VAT Code");
+  SString(18289,"VAT Code");
+  SString(18290,"Total VAT");
+  SString(18291,"Total VAT");
+
+/*PRActBudRn*/ 
+  SString(18300,"Project Actual vs Budget");
+  SString(18301,"Project Classification");
+  SString(18302,"Project Leader");
+  SString(18303,"Income");
+  SString(18304,"Cost");
+  SString(18305,"GP");
+  SString(18306,"Actual");
+  SString(18307,"Budgeted");
+  SString(18308,"Project");
+  SString(18309,"Name");
+  SString(18310,"Project Phase");
+  SString(18311,"Amonuts in Base Currency");
+  SString(18312,"Amonuts in Currency");
+  SString(18313,"Total");
+  SString(18314,"Purchases");
+  SString(18315,"Stock");
+  SString(18316,"Difference");
+  SString(18317,"Services");
+  
+  SString(18319,"Material");
+  
+/* OrdRn */ 
+  SString(18350,"Skip Closed");
+  SString(18351,"Closed Only");
+  SString(18352,"TREO Number");
+  SString(18353,"TREO Expiry Date");
+  
+/* CustPSRn */
+  SString(18370,"Сальдо");
+
+/* IncExpBookRn */    
+  SString(18400,"Other");
+  SString(18401,"Expense");
+  SString(18402,"Cash");
+  SString(18403,"Payment");
+  SString(18404,"Other");
+  SString(18405,"Expense");
+  SString(18406,"Expense");
+  SString(18407,"Sum");
+
+/* IncExpBookRn */    
+  SString(18412,"(2)");
+  SString(18413,"(3)");
+  SString(18414,"(4)");
+  SString(18415,"(5)");
+  SString(18416,"(6)");
+  SString(18417,"(7)");
+  SString(18418,"(8)");
+  SString(18419,"(9)");
+  SString(18420,"(10)");
+  SString(18421,"(11)");
+  SString(18422,"(12)");
+  SString(18423,"(13)");
+  SString(18424,"(14)");
+  SString(18425,"(15)");
+  SString(18426,"(16)");
+
+/* HotNatStatRn */    
+  SString(18440,"Nationality Statistics");
+  SString(18441,"Per Country");
+  SString(18442,"Per Region");
+  SString(18443,"Detailed");
+  SString(18444,"Country");
+  SString(18445,"Name");
+  SString(18446,"No. of Guests");
+  SString(18447,"Total");
+  
+/* TourismLevyRn */    
+  SString(18460,"Tourism Levy");
+  SString(18461,"Branch Total Number of");
+  SString(18462,"Rooms/Bungalows/Units");
+  SString(18463,"Beds");
+  SString(18464,"Beds Available");
+  SString(18465,"Total Number sold this Month");
+  SString(18466,"Visit Purposes");
+  SString(18467,"Branch");
+  SString(18468,"Accommodation Sold");
+  SString(18469,"Type");
+  SString(18470,"No. of Bednights");
+  SString(18471,"Revenue");
+  SString(18472,"Levy %");
+  SString(18473,"Levy");
+  SString(18474,"Purpose");
+  
+/* WorkHoursAnaRn */    
+  SString(18480,"Hours Worked Analysis");
+  SString(18481,"Date/User");
+  SString(18482,"User Name");
+  SString(18483,"Type");
+  SString(18484,"Clock In");
+  SString(18485,"Clock Out");
+  SString(18486,"Clock Out Date");
+  SString(18487,"Total");
+  SString(18488,"Actual");
+  SString(18489,"Total Actual");
+
+/* IdleTaskListRn */    
+  SString(18550,"Idle Tasks List");
+  SString(18551,"Code");
+  SString(18552,"Name");
+  SString(18553,"Argument");
+  SString(18554,"Function");
+  SString(18555,"Callback");
+  SString(18556,"On");
+  SString(18557,"Every");
+
+/* SyncClientStatusRn */    
+  SString(18560,"Sync Client Status"); 
+  SString(18561,"Machine Code"); 
+  SString(18562,"Left for client to receive"); 
+  SString(18563,"*** not set up ***"); 
+  SString(18564,"*** disconnected ***"); 
+
+ /*INPosRn*/  
+  SString(18570,"Вілне");
+  SString(18571,"Зайняте");
+  SString(18572,"Товар у дор.");
+  SString(18573,"Помилка");
+  SString(18574,"Всі");
+
+/* AT2ReevalMn */    
+  SString(18590,"Фіск. переоцін.");
+
+/* SLVATMexRn */    
+  SString(18600,"Mexican Sales VAT");
+  SString(18601,"Values in");
+  SString(18602,"Sorted by");
+  SString(18603,"Recovery Date");
+  SString(18604,"Document Date");
+  SString(18605,"Coll. Date");
+  SString(18606,"Rec. No.");
+  SString(18607,"Doc. Date");
+  SString(18608,"Doc. No.");
+  SString(18609,"Customer");
+  SString(18610,"Total paid");
+  SString(18611,"Base paid");
+  SString(18612,"Rate");
+  SString(18613,"Exempt");
+  SString(18614,"VAT paid");
+  SString(18615,"Concept");
+  SString(18616,"found CN");
+  SString(18617,"Subtotals per VAT Code");
+  SString(18618,"VAT Code");
+  SString(18619,"Rate");
+  SString(18620,"Total VAT");
+  SString(18621,"Total");
+  SString(18622,"VAT No.");
+
+/* Document string */    
+  SString(18630,"Original");
+  SString(18631,"Copy");
+  SString(18632,"Duplicate as of");
+
+/* UpdRecepyMn */    
+  SString(18640,"Replace In Item does not exist");
+  
+/* TimeLogEn */    
+  SString(18650,"№.");
+  SString(18651,"Користувач");
+  SString(18652,"Найменування");
+  SString(18653,"Коментар");
+  SString(18654,"Дата");
+  SString(18655,"Дата заверш.");
+  SString(18656,"Початок");
+  SString(18657,"Завершення");
+  SString(18658,"Вартість");
+  SString(18659,"Проект");
+  SString(18660,"Найменув. проекта");
+  SString(18661,"Тип");
+  SString(18662,"Результат");
+  SString(18663,"Вистав. акт/накл.");
+  SString(18664,"OKed");
+  SString(18665,"Анульований");
+  SString(18666,"Код тексту");
+  SString(18667,"Текст");
+
+/*CashupRn*/
+  SString(18680,"Control Unit status summary");
+  SString(18681,"Number");
+  SString(18682,"Total");
+  SString(18683,"Registered invoices");
+  SString(18684,"Registered copies");
+  SString(18685,"Not registered invoices");
+  SString(18686,"Registration reducing sales");
+  SString(18687,"Negative row sums");
+  SString(18688,"Discounts");
+  SString(18689,"Grand total sales");
+  SString(18690,"Grand total returns");
+  SString(18691,"Grand total net");
+  SString(18692,"Registered");
+  SString(18693,"Registered copy");
+  SString(18694,"Not registered");
+  SString(18695,"Fiscal Seq. No.");
+  SString(18696,"Invoice Type");
+  SString(18697,"Invoice No.");
+  SString(18698,"Fiscal Seq. No.");
+  SString(18699,"Control Code");
+  SString(18700,"Copy Control Code");
+  SString(18701,"Terminal ID");
+  SString(18702,"S/L Invoice");
+  SString(18703,"POS Invoice");
+  SString(18704,"Control Unit Invoice Status");
+
+/* CloseINRn */    
+  SString(18720,"Close Items");
+  SString(18721,"Item");
+  SString(18722,"Name");
+  SString(18723,"Items with no stock balance");
+  SString(18724,"Items with no default purchase item");
+  SString(18725,"Items with no open sales orders");
+  SString(18726,"Items with no open purchase orders");
+  SString(18727,"Items with no sales invoices in period");
+  SString(18728,"Items with no goods receipts in period");
+  SString(18729,"Items with no project transactions in period");
+
+/*PortTaxXmlEn*/
+  SString(18804,"TV");
+  SString(18805,"TD");
+  SString(18806,"AA?");
+  SString(18807,"DA?");  
+  SString(18808,"Desconhecido");
+  SString(18809,"GLOBAL");
+  SString(18810,"0");
+  SString(18811,"HQ Office");
+  SString(18812,"Only allow full fiscal year");
+
+
+/*VATVIRegUkrRn*/
+  SString(18820,"Реєстр отриманих податкових накладних");
+  SString(18821,"№ з/п");
+  SString(18822,"№");
+  SString(18823,"Дата виписки");
+  SString(18824,"Тип ПДВ");
+  SString(18825,"Постачальник");
+  SString(18826,"Сума без ПДВ");
+  SString(18827,"ПДВ");
+  SString(18828,"Сума з ПДВ");
+  SString(18829,"Звичайні");
+  SString(18830,"Виправлені");
+  SString(18831,"Звичайні та коригуючі");
+  SString(18832,"Sup. Seq. No.");
+
+/*VATIVRegUkrRn*/
+  SString(18840,"Реєстр виданих податкових накладних");
+  SString(18841,"№ з/п");
+  SString(18842,"№");
+  SString(18843,"Дата");
+  SString(18844,"Тип ПДВ");
+  SString(18845,"Клієнт");
+  SString(18846,"Сума без ПДВ");
+  SString(18847,"ПДВ");
+  SString(18848,"Сума з ПДВ");
+  SString(18849,"К");
+
+/*VATIVVIRegUkrEn*/
+  SString(18860,"3 роки");
+
+/* POOrdStockRn */  
+  SString(18880,"Not Invd.");
+
+/*WorldBankExports*/
+  SString(18900,"Opening Cash Balance");
+  SString(18901,"Total");
+  SString(18902,"Add");
+  SString(18903,"Sources of Funds");
+  SString(18904,"Foreign Exchange");
+  SString(18905,"Less:");
+  SString(18906,"Uses Of Funds");
+  SString(18907,"Closing Cash Balance");
+  SString(18908,"Special Account (SA) Statement");
+  SString(18909,"Report 1 - E");
+  SString(18910,"For the Period");
+  SString(18911,"For");
+  SString(18912,"Reporting Currency : ");
+  SString(18913,"Balance Brought forward from previous period (excluding Adjustment items)");
+  SString(18914,"Add Cumulative unexplained discrepancy");
+  SString(18915,"IBRD advance during the period : ");
+  SString(18916,"World Bank replenishment received during the current reporting period, relating to the PMR for the previous period");
+  SString(18917,"Subtotal");
+  SString(18918,"Add: Payment in current quarter relating to previous period");
+  SString(18919,"Present outstanding amount advanced to SA");
+  SString(18920,"Closing balance");
+  SString(18921,"Amount paid of eligible expenditures incurred during the current quarter");
+  SString(18922,"Service charges (if debited into SA)");
+  SString(18923,"Less: Interest earned (if credited into SA)");
+  SString(18924,"Total before recovery and adjustments");
+  SString(18925,"Adjustments (Foreign Exchange Difference)");
+  SString(18926,"Report 1-F2");
+  SString(18927,"Project Cash Forecast (Part 2");
+  SString(18928,"Reporting Currency");
+
+  SString(18929,"Report 1-F1");
+  SString(18930,"Project Cash Forecast (Part 1)");
+  SString(18931,"Cash Req. for");
+  SString(18932,"Total Cash Req.");
+  SString(18934,"100 % GovЂt");
+  SString(18935,"GovЂt & IBRD");
+  SString(18936,"IBRD");
+  SString(18937,"IBRD Eligible");
+  SString(18938,"Disbursement");
+  SString(18939,"Quarter ending");
+  SString(18940,"For six months ending");
+  SString(18941,"Financed");
+  SString(18942,"Eligible %");
+  SString(18943,"Cash Req. for six");
+  SString(18944,"Category");
+  SString(18945,"Expenditure");
+  SString(18946,"months ending");
+
+  SString(18950,"Report 2 - A");
+  SString(18951,"Output Monitoring Report");
+  SString(18952,"Contract Managment");
+  SString(18953,"Contract");
+  SString(18954,"Actual Progress");
+  SString(18955,"Actual Cost");
+  SString(18956,"Planned Cost");
+  SString(18957,"Variance");
+  SString(18958,"Revised Plan");
+  SString(18959,"Original Plan");
+  SString(18960,"Currency");
+  SString(18961,"To Date");
+  SString(18962,"to completion");
+  SString(18963,"Nr");
+  SString(18964,"Description");
+  SString(18965,"Physical Output");
+  SString(18966,"Total Cost");
+  SString(18967,"Compl. Date");
+  SString(18968,"Description of Unit Codes");
+
+  SString(18969,"Report 2 - B");
+  SString(18970,"Output Monitoring Report");
+  SString(18971,"Unit of Output by Project Acitivity");
+  SString(18972,"Project Activity");
+  SString(18973,"Actual");
+  SString(18974,"Planned");
+  SString(18975,"Variance");
+  SString(18976,"PAD");
+  SString(18977,"Unit");
+  SString(18978,"Units");
+  SString(18979,"Unit Cost");
+  SString(18980,"Cumulative");
+  SString(18981,"Units");
+  SString(18982,"Unit Cost");
+  SString(18983,"Project Totals");
+  SString(18984,"Code");  
+  SString(18985,"To-Date");  
+  SString(18986,"(Units)");
+  SString(18987,"(Cost)");
+  SString(18988,"Units");
+  SString(18989,"Cost");
+
+  SString(18990,"Report 3 - A");
+  SString(18991,"Procurement Process Monitoring (Goods and Works)");
+  SString(18992,"As of Date : ");
+  SString(18993,"Bidding Process Dates");
+  SString(18994,"Disbursement");
+  SString(18995,"Contract");
+  SString(18996,"Procurement");
+  SString(18997,"Tender");
+  SString(18998,"Prequalification Documents");
+  SString(18999,"Bid Documents");
+  SString(19000,"Bid Package Available");
+  SString(19001,"Bid Open");
+  SString(19002,"Contract");  
+  SString(19003,"Contract Signature");
+  SString(19004,"Contract End");
+  SString(19005,"Supplier");  
+  SString(19006,"Contract");  
+  SString(19007,"Category");
+  SString(19008,"Description");
+  SString(19009,"Method");
+  SString(19010,"No.");
+  SString(19011,"Sent");
+  SString(19012,"No Objection");
+  SString(19013,"Sent");
+  SString(19014,"Contractor");  
+  SString(19015,"No.");  
+  SString(19016,"Description");
+  SString(19017,"Planned");
+  SString(19018,"Actual");
+
+  SString(19020,"Report 3 - B");
+  SString(19021,"Procurement Process Monitoring (ConsultantsЂ Services)");
+  SString(19022,"As of Date : ");
+  SString(19023,"Proposal Process Dates");
+  SString(19024,"Disbursement");
+  SString(19025,"Description");
+  SString(19026,"Selection");
+  SString(19027,"Proposal");
+  SString(19028,"Expression");
+  SString(19029,"Request for Proposal (RFP)");
+  SString(19030,"Proposal Receipts");
+  SString(19031,"Tech. Prop. Evaluation");
+  SString(19032,"Final Prop. Evaluation");
+  SString(19033,"Contract");
+  SString(19034,"Supplier/");  
+  SString(19035,"Contract");  
+  SString(19036,"Category");
+  SString(19037,"Method");
+  SString(19038,"No.");
+  SString(19039,"of Interest");
+  SString(19040,"Sent");
+  SString(19041,"No Objection");
+  SString(19042,"Issued");
+  SString(19043,"Receipt");
+  SString(19044,"No Objection");
+  SString(19045,"Signature");
+  SString(19046,"End");
+  SString(19047,"Contractor Name");  
+  SString(19048,"No.");  
+  SString(19049,"Description");
+  SString(19050,"Report 3 - C");
+  SString(19051,"Contract Expenditure Report (Goods and Works)");
+  SString(19052,"As of Date : ");
+  SString(19053,"Disbursement");
+  SString(19054,"Contract");
+  SString(19055,"Procurement");
+  SString(19056,"Contract");
+  SString(19057,"Supplier");
+  SString(19058,"Nationality");
+  SString(19059,"Zip Code");
+  SString(19060,"Contract");
+  SString(19061,"Contract");
+  SString(19062,"Amount Invoiced");
+  SString(19063,"Amount Paid");
+  SString(19064,"Expenditure");
+  SString(19065,"Category");
+  SString(19066,"Description");
+  SString(19067,"Method");
+  SString(19068,"Number");
+  SString(19069,"Contract");
+  SString(19070,"if US");
+  SString(19071,"Currency");
+  SString(19072,"Value");
+  SString(19073,"to date");
+  SString(19074,"Type");
+  SString(19075,"Report 3 - D");
+  SString(19076,"Contract Expenditure Report (ConsultantsЂ Services");
+  SString(19077,"As of Date : ");
+  SString(19078,"Disbursement");
+  SString(19079,"Selection");
+  SString(19080,"Contract");
+  SString(19081,"Contract");
+  SString(19082,"Consultant");
+  SString(19083,"Nationality");
+  SString(19084,"Zip Code");
+  SString(19085,"Contract");
+  SString(19086,"Contract");
+  SString(19087,"Amount Invoiced");
+  SString(19088,"Amount Paid");
+  SString(19089,"Expenditure");
+  SString(19090,"Category");
+  SString(19091,"Method");
+  SString(19092,"Number");
+  SString(19093,"Description");
+  SString(19094,"if US");
+  SString(19095,"Currency");
+  SString(19096,"Value");
+  SString(19097,"to date");
+  SString(19098,"Type");
+
+/*MoveEmailMn*/
+  SString(19110,"Specify from Mailbox");
+  SString(19111,"Specify to Mailbox");
+
+/*DoIPDForm*/
+  SString(19115,"Specify Mailbox. Enter * for all Mailboxes"); //!!TRANSLATE
+
+/*DoIPDForm*/
+  SString(19120,"Знижка");
+  SString(19121,"Списання");
+  SString(19122,"Комісія банку");
+  SString(19123,"#VAT#-Cash regime"); 
+  SString(19124,"Multiple Customers Not allowed"); 
+  SString(19125,"Un-OK of Receipt with an Official Ser. No. not allowed");
+  SString(19126,"Multiple Currencies Not allowed"); 
+
+/* NightAuditRn */
+  SString(19130,"Section 1 (Occupancy)");
+  SString(19131,"Section 2 (Revenue)");
+  SString(19132,"Section 3 (Cust/Guest Ledger)");
+  SString(19133,"Section 4 (Item Statistics)");
+  SString(19134,"Section 5 (Receipts Analysis)");
+  SString(19135,"Section 6 (Forex Analysis)");
+  SString(19136,"Section 7 (System Controls)");
+  SString(19137,"Show Room Details");
+  SString(19138,"Show Object Details");
+  SString(19139,"Show Agents");
+  SString(19140,"Show Guests");
+  SString(19141,"Show Detail");
+  SString(19142,"Check Reservation Status");
+  SString(19143,"Check Sales Group");
+  SString(19144,"Check Locations");
+  SString(19145,"MTD"); //Month to Date
+  SString(19146,"YTD"); //Year to Date
+  SString(19147,"Unallocated");
+  SString(19148,"Period Type");
+  SString(19149,"Calender Years");
+  SString(19150,"Fiscal Years");
+  SString(19151,"Show Agents");
+  SString(19152,"Show Guests");
+  SString(19153,"Not Checked-Out, Fully Paid");
+  SString(19154,"Checked-Out, No Final Invoice");
+  SString(19155,"Checked-Out, Not Paid");
+  SString(19156,"Checked-In, Normal");
+  SString(19157,"Not Checked-In");
+  SString(19158,"Not OKed records for sales transactions");
+  SString(19159,"Not OKed records for stock transactions");
+
+/* HRMSkillRn */
+  SString(19160,"Skills Evaluation");
+  SString(19161,"Sorting by ");
+  SString(19162,"Employee/Skill");
+  SString(19163,"Skill/Employee");
+  SString(19164,"Date");
+  SString(19165,"Skill");
+  SString(19166,"Employee");
+  SString(19167,"Comment/Employee Name");
+  SString(19168,"Rating");
+  SString(19169,"Total Employees");
+  SString(19170,"Total Skills");
+
+/* HRMCOListRn */
+  SString(19180,"Employment Contract List");
+  SString(19181,"Sorting by ");
+  SString(19182,"Employee");
+  SString(19183,"Employee Name");
+  SString(19184,"Department");
+  SString(19185,"Class");
+  SString(19186,"Start Period");
+  SString(19187,"End Period");
+  SString(19188,"Trial End Period");
+  SString(19189,"Change Period");
+  SString(19190,"Contract No.");
+  SString(19191,"Start Date");
+  SString(19192,"Job Title");
+  SString(19193,"Company");
+  SString(19194,"Total Employees");
+  SString(19195,"Trial Period End");
+  SString(19196,"End Date");
+  SString(19197,"Reason");
+  SString(19198,"Reason Details");
+  SString(19199,"Comment");
+  SString(19200,"Salary Type");
+  SString(19201,"Amount");
+  SString(19202,"Currency");
+  SString(19203,"Change No.");
+  SString(19204,"Date");
+  SString(19205,"Comment");
+
+/* HeadCountRn */
+  SString(19220,"Head Count");
+  SString(19221,"Department");
+  SString(19222,"Gender");
+  SString(19223,"Ethnicity");
+  SString(19224,"New Hires");
+  SString(19225,"Job Changes");
+  SString(19226,"Terminations");
+  SString(19227,"Training");
+  SString(19228,"New Hires");
+  SString(19229,"Male");
+  SString(19230,"Female");
+  SString(19231,"Total");
+  SString(19232,"Head Count");
+  SString(19233,"Contract No.");
+  SString(19234,"Start Date");
+  SString(19235,"Employee Name");
+  SString(19236,"Job Title");
+  SString(19237,"Department");
+  SString(19238,"Gender");
+  SString(19239,"Ethnicity");
+  SString(19240,"Male");
+  SString(19241,"Female");
+  SString(19242,"Contract Change No.");
+  SString(19243,"Course Event No.");
+  SString(19244,"End Date");
+  SString(19245,"Contract No.");
+  
+  /*LoyltyCardRn*/
+  SString(19260,"Звіт по накопичувальний картці");
+  SString(19261,"№ накопичувальної картки");
+  SString(19262,"Код кл.");
+  SString(19263,"Найменув.");
+  SString(19264,"Накладні");
+  SString(19265,"Бали");
+  SString(19266,"Усьго по накопичув. картці");
+  SString(19267,"Усього по клієнту:");
+  SString(19268,"Усього по звіту:");
+  SString(19269,"№ накладної");
+  SString(19270,"Дата операції");
+  SString(19271,"Програма");
+  SString(19272,"Усього по накладній");
+  SString(19273,"Зароблені бали");
+  SString(19274,"Балів з");
+  SString(19275,"Залишок з попер. періоду");
+  SString(19276,"Залшок балів");
+
+/*UserRn*/
+  SString(19290,"Job Title");
+  SString(19291,"User Type");
+
+/*DoInvForm*/
+  SString(19300,"Накопичувальні бали");
+
+/*TerminatedCOCURn*/
+  SString(19350,"Розірвані " & ProductName & " контракти");
+  SString(19351,"Contract Class");
+  SString(19352,"Classification Type");
+  SString(19353,"Contract Classifications");
+  SString(19354,"Customer");
+  SString(19355,"Contract");
+  SString(19356,"End Date");
+  SString(19357,"Classification");
+  SString(19358,"Comment");
+  SString(19359,"Specify Classification Type");
+  SString(19360,"Total");
+
+/*Fiscal Printers messages*/  
+  SString(19380,"Cover is open");
+  SString(19381,"General error ");
+  SString(19382,"Failure in printing mechanism");
+  SString(19383,"Display is disconnected");
+  SString(19384,"Incorrect Control Byte");
+  SString(19385,"Command syntax error");
+  SString(19386,"RAM failure");
+  SString(19387,"Battery is low");
+  SString(19388,"Operational memory was cleared");
+  SString(19389,"Command cannot be performed in the current mode");
+  SString(19340,"Sum overflow");
+  SString(19341,"Paper near end");
+  SString(19342,"No paper");
+  SString(19343,"Electronic journal end");
+  SString(19344,"Electronic journal near end");
+  SString(19345,"Fiscal Memory near end");
+  SString(19346,"VAT No. not set");
+  SString(19347,"Sales not closed");
+  SString(19348,"Printer busy");
+  SString(19349,"Fiscal Memory failure");
+
+/* ChqDepositJRn */
+  SString(19360,"");
+  SString(19361,"Number");
+  SString(19362,"Date");
+  SString(19363,"Comment");
+  SString(19364,"Total");
+  SString(19365,"Curncy");
+  SString(19366,"Type");
+  SString(19367,"Object");
+  SString(19368,"Pay.Mode");
+  SString(19369,"Total Batch:");
+  SString(19370,"Cheque Nos");
+  SString(19371,"Amount");
+  SString(19372,"Гот. всього");
+  SString(19373,"Чек. всього"); 
+  SString(19374,"Рахунок");
+  SString(19375,"Клієнт");
+  SString(19376,"Назва");
+  SString(19377,"Код банку");
+
+ /*SearchItemRn*/  
+  SString(19390,"Жодного товару не знайдено");
+  SString(19391,"Жодного клієнта не знайдено");
+
+ /*VATRepApp5Rn*/  
+  SString(19410,"Додаток 5 до Декларації з ПДВ");
+  SString(19411,"Розділ I. Податкові зобов'язання");
+  SString(19412,"Розділ II. Податковий кредит");
+  SString(19413,"Transactions which do not give the right for VAT Credit");
+  SString(19414,"Постачання");
+  SString(19415,"Придбання");
+  SString(19416,"Постачання і Придбання");
+  SString(19417,"Лише в базовій валюті");
+  SString(19418,"Номер з/п");
+  SString(19419,"ІПН");
+  SString(19420,"Сума без ПДВ");
+  SString(19421,"ПДВ");
+
+ /*DayRepBookRn*/  
+  SString(19440,"Book of Daily Reports");
+  SString(19441,"Day");
+  SString(19442,"Date");
+  SString(19443,"No.");
+  SString(19444,"CN Issued");
+  SString(19445,"POS Inv. Issued");
+  SString(19446,"Inv. Issued");
+  SString(19447,"Invalid Period");
+  SString(19448,"In");
+  SString(19449,"Verified by");
+  SString(19450,"for month");
+  SString(19451,"ID number of Fiscal Printer");
+
+/*TaxDeprRn*/
+  SString(19460,"Tax Depreciation");
+  SString(19461,"Class");
+  SString(19462,"Fwd. Balance");
+  SString(19463,"Put in use");
+  SString(19464,"Disposals");
+  SString(19465,"Value");
+  SString(19466,"%");
+  SString(19467,"Dpr.");
+  SString(19468,"End Bal.");
+  SString(19469,"No Class");
+  SString(19470,"Total");
+  SString(19471,"average gross salary");
+
+/*KEPURn*/
+  SString(19480,"Evidence of Trade (KEPU, Serbia)");
+  SString(19481,"No.");
+  SString(19482,"Date");
+  SString(19483,"Description");
+  SString(19484,"Debit");
+  SString(19485,"Credit");
+  SString(19486,"Payment");
+
+/*PUListRn*/
+  SString(19500,"Goods Receipt List");
+  SString(19501,"No.");
+  SString(19502,"Description");
+  SString(19503,"Date");
+  SString(19504,"Unit");
+  SString(19505,"Quantity");
+  SString(19506,"Unit Price");
+  SString(19507,"Total");
+  SString(19508,"Diff.");
+  SString(19509,"VAT");
+  SString(19510,"Total");
+  SString(19511,"Sales Price");
+  SString(19512,"Person");
+  SString(19513,"Legal entity");
+  SString(19514,"Company representative");
+
+/*SharesTrsfRn*/
+  SString(19520,"Shares Transfers");
+  SString(19521,"Sorting");
+  SString(19522,"Person");
+  SString(19523,"Transfer No.");
+  SString(19524,"Value Comparison");
+  SString(19525,"None");
+  SString(19526,"Official Value");
+  SString(19527,"Company Value");
+  SString(19528,"Main Shareholder");
+  SString(19529,"All");
+  SString(19530,"User");
+  SString(19531,"Trsf. No.");
+  SString(19532,"Date");
+  SString(19533,"Shareholder");
+  SString(19534,"Buy");
+  SString(19535,"Sell");
+  SString(19536,"Balance");
+  SString(19537,"Fwd. Balance");
+
+  // SLVATSerRn
+  SString(19550,"VAT Report Sales");
+  SString(19551,"Seq. No.");
+  SString(19552,"Inv. No.");
+  SString(19553,"Inv. Date");
+  SString(19554,"Net");
+  SString(19555,"Due Date");
+  SString(19556,"Brutto");
+  SString(19557,"Name");
+  SString(19558,"VAT No.");
+  SString(19559,"VAT");
+
+  // PLVATSerRn
+  SString(19570,"VAT Report Sales");
+  SString(19571,"Seq. No.");
+  SString(19572,"Inv. No.");
+  SString(19573,"Inv. Date");
+  SString(19574,"Net");
+  SString(19575,"Due Date");
+  SString(19576,"Brutto");
+  SString(19577,"Name");
+  SString(19578,"VAT No.");
+
+  // RestAccJRn
+  if (BuildProductCode=="StandardPOS") then begin
+    SString(19600,"Журнал рахунків ресторану");
+  end else begin
+    SString(19600,"");
+  end;
+  SString(19601,"Всі рахунки ресторану");
+  SString(19602,"Рахунки ресторану");
+  SString(19603,"Всі філії");
+  SString(19604,"Філії");
+  SString(19605,"Номер");
+  SString(19606,"Дата");
+  SString(19607,"Клієнт");
+  SString(19608,"З ПДВ");
+  SString(19609,"Без ПДВ");
+  SString(19610,"К-сть рахунків ресторану");
+  SString(19611,"Дата звіту");
+  SString(19612,"Філія");
+
+  // RestAccGPRn
+  SString(19620,"GP, Bar Tabs");
+  SString(19621,"Номер");
+  SString(19622,"Дата");
+  SString(19623,"Клієнт");
+  SString(19624,"Дата звіту");
+  SString(19625,"Сума");
+  SString(19626,"Прибуток");
+  SString(19627,"Прибуток %");
+  SString(19628,"Ціна");
+
+/*SLVATRepRn*/  
+  SString(19640,"Накладні ЕККА");
+  SString(19641,"Дата");
+  SString(19642,"Сума");
+  SString(19643,"ПДВ %");
+  SString(19644,"Сума ПДВ");
+  SString(19645,"Всього");
+
+/* LeaveBalanceRn */
+  SString(19650,"Leave Balance");
+  SString(19651,"Leave Type");
+  SString(19652,"Sorting");
+  SString(19653,"Employee");
+  SString(19654,"Leave Type");
+  SString(19655,"Contract No.");
+  SString(19656,"Leave Type");
+  SString(19657,"Comment");
+  SString(19658,"Carried Fwd");
+  SString(19659,"Allowance");
+  SString(19660,"Total Allow.");
+  SString(19661,"Days Taken");
+  SString(19662,"Balance");
+  SString(19663,"Name");
+
+/*from 20000 to 24000 reserved, check s4eng.hal please*/
+    
+// RiigiTarkvara Budget Comparison
+  SString(30001,"Порівняння бюджету");
+  SString(30002,"Дата останього запису");
+  SString(30003,"Дохід");
+  SString(30004,"Видатки");
+  SString(30005,"Object without Start Str.");
+  SString(30006,"Функція: ");
+  SString(30007,"Тільки Тип об'єкту 1");
+  SString(30008,"Тип об'єкту 1 та Тип об'єкту 2");
+  SString(30009,"Всі 3 типи об'єктів");
+  SString(30010,"Визначте Тип об'єкту 1!");
+  SString(30011,"Визначте типи об'єктів!");
+  SString(30012,"Бюджет");
+  SString(30013,"Результат");
+  SString(30014,"Порівняння у %");
+  SString(30015,"Різниця");
+  SString(30016,"Разом");
+  
+// RiigiTarkvara Object Type Result
+  SString(30020,"RiigiTarkvara Object Type Result");
+  SString(30021,"Including Totals");
+  SString(30022,"Sub A/C Totals");
+  SString(30023,"Sub A/C Length ");
+  SString(30024,"Include Transactions without Objects");
+  SString(30025,"Object without Start Str.");
+  SString(30026,"Визначте рахунок!");
+  SString(30027,"Функція");
+  SString(30028,"Results,");
+  SString(30029,"Balances,");
+  SString(30030,"Account+Object Type1");
+  SString(30031,"Account+Object Type1+Object Type2");
+  SString(30032,"Account+Object Type1+Object Type2+Object Type3");
+  SString(30033,"Cash Account not found, please check Account Usage settings or Payment Terms settings");
+
+
+
+
+// RiigiTarkvara Object Result
+  SString(30038,"Object Result");
+  SString(30039,"Results");
+  SString(30040,"Balances");
+  SString(30041,"Including Totals");
+
+// PickingListRn
+  SString(30060,"Комплектувальна відомість складу");
+  SString(30061,"Delivery:");
+  SString(30062,"Item");
+  SString(30063,"Description");
+  SString(30064,"Stock Mov.");
+  SString(30065,"Quant.");
+  SString(30066,"Position");
+  SString(30067,"No. of Items:");
+  SString(30068,"Weight:");
+  SString(30069,"Pieces:");
+  SString(30070,"Ship. Date:");
+  SString(30071,"Comment:");
+  SString(30072,"Del. Terms:");
+  SString(30073,"Phone:");
+  SString(30074,"Ship. Terms:");
+  SString(30075,"Fax:");
+  SString(30076,"Payment Term:");
+  SString(30077,"Freightnumber:");
+  SString(30078,"Delivery:");
+  SString(30079,"Order:");
+
+/*StatusRn*/  
+  SString(30090,"Статус");
+  SString(30091,"Звіт");
+  SString(30092,"Користувач"); 
+  SString(30093,"Running for");
+  SString(30094,"Видмінити");
+
+// Courses, needs new numbers
+  SString(32000,"Participant not registered for this course event: ");
+  SString(32001,"This course event is already invoiced.");  
+  SString(32002,"Contact person missing, create contact!");    
+  SString(32003,"Remove all the lines before deleting the record.");      
+  SString(32004,"Classroom missing.");        
+  SString(32005,"Trainer missing.");          
+  SString(32006,"Дата початку не вказана.");            
+  SString(32007,"Не вказана ціна.");              
+  SString(32008,"Too many participants.");        
+  SString(30100,"Курс відсутній.");
+  SString(30101,"Дата завершення не вказана.");
+  SString(30102,"Час почтаку не вказаний.");
+  SString(30103,"Час завершення не вказаний.");
+  SString(30104,"Макс. к-ть більша ніж макс. к-ть для аудиторії.");
+
+  SString(32010,"Answer alternatives must start with + or -.");   
+// Pick the strings before these numbers please.....
+/*31000 32000 reserved for webshops and other customizations*/  
+  
+  return;
+end;
+
+#endif

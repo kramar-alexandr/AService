@@ -1,0 +1,14 @@
+global
+function LongInt PLVcRecordCheck(var record PLVc PLr,record PLVc PL2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	transaction Boolean gSynchServToOfflineSettingsm;
+	
+	res = 0; 
+  if(gSynchServToOfflineSettingsm==false)then begin
+		res = inner.PLVcRecordCheck(PLr,PL2r,stat,long4);
+  end;
+  
+  PLVcRecordCheck = res;
+  return;
+end;

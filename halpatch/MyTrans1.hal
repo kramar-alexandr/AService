@@ -1,0 +1,823 @@
+external function Boolean PODClassAfterEditField(Integer,string,Integer,Integer,Integer);
+external function Boolean PUDClassAfterEditField(Integer,string,Integer,Integer,Integer);
+external function LongInt GetCurUserLastNr(string);
+external function Boolean PasteCustInOrder(var record ORVc,string,string,var string,var string);
+external procedure ORVc_PasteCurncyCode(var record ORVc,string);
+remote updating procedure CreateNewSVOinCom(record SVOVc);
+remote updating procedure CreateNewSVOinCom1(record SVOVc);
+remote updating procedure CreateNewINinStore(record INVc);
+remote updating procedure CreateNewINiPoint(record INVc);
+remote updating procedure CreateNewINTNM(record INVc);
+remote updating procedure CreateNewINinSMG(record INVc);
+remote updating procedure SamsungSendFilesToFtpMn(record RcVc); //Edit***************************Sasha2,11:51 25.04.2016
+
+	SetLangMode(LangUkrainian,"UKR",0);
+
+
+global //Edit***************************Sasha2,11:48 25.04.2016 { 
+updating procedure CustTimeTableAction()
+begin
+  record RcVc RepSpec;
+  time t1,t2,t3,t4,t5,t6,t7,t8,t9,curt,curtnew;
+  string 5 hr,mn;
+  integer minute, curcomp, days,i,min;
+  date startdate;
+  record SamsungSendLog1Vc SSLr;
+
+    t1 = StringToTime("22:50");
+    t2 = StringToTime("23:00");
+    //t3 = StringToTime("12:00");
+    //t4 = StringToTime("14:00");
+    //t5 = StringToTime("16:00");
+    //t6 = StringToTime("18:00");
+    //t7 = StringToTime("20:00");
+    //t8 = StringToTime("22:00");
+    //t9 = StringToTime("00:00");
+    
+    curt = CurrentTime; 
+    hr = GetHour(curt);
+    if (len(hr)==1) then begin
+    	hr = "0" & hr;
+    end;
+    mn = GetMinute(curt);
+    minute = StringToInt(mn);
+    if (len(mn)==1) then begin
+    	mn = "0" & mn;
+    end;
+    curtnew = StringToTime(hr & ":" & mn);
+
+    curcomp = CurrentCompany;
+    
+    
+    min = getminute(CurrentTime);
+    if(right(min,1)=="5" and currentdate>stringtodate("25/08/2016"))then begin
+			if (SetCompany(9,false)) then begin
+				SSLr.TransDate = addday(currentdate,-1);
+				if(!Readfirstkey("TransDate",SSLr,1,true))then begin
+					goto lCustTimeTableActionRun;
+				end;
+			end;
+    end;
+    
+    if (curtnew>=t1 and curtnew<t2 and SetCompany(9,false)) then begin
+lCustTimeTableActionRun:;
+			startdate = addday(currentdate,-2);
+			
+			if(currentdate>=stringtodate("25/08/2016"))then begin
+				For(i=0;i<3;i=i+1) begin
+					LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
+					RepSpec.sStartDate = startdate;
+					RepSpec.sEndDate = RepSpec.sStartDate;
+					SamsungSendFilesToFtpMn(RepSpec);
+					startdate = addday(startdate,1);
+				end; 
+			end else begin
+				LogText(0,"SamsungSendFilesToFtpMn at planned time: " & curtnew);
+				RepSpec.sStartDate = currentdate;
+				RepSpec.sEndDate = RepSpec.sStartDate;
+				SamsungSendFilesToFtpMn(RepSpec);
+				startdate = addday(startdate,1);
+			end;
+			
+    	ResetCompany(curcomp); 
+    end;
+    
+
+return;
+end; //Edit***************************Sasha2,11:48 25.04.2016 }
+
+
+global
+updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc ORp,var record SVOVc SVOp)
+BEGIN
+  Integer res;
+  record SRBlock SRRec;
+  LongInt newnr;
+  string 200 errstr,warning;
+  
+  res = -1;
+  if (ReadFirstMain(SVOp,0,true)) then begin end;  
+  RecordNew(ORp);
+  if (ORp.SerNr==-1) then begin
+    BlockLoad(SRRec);
+    newnr = GetCurUserLastNr("ORVc");
+    if (newnr==-1) then begin
+      newnr = SRRec.LastOrdNr;
+    end;    
+    ORp.SerNr = NextSerNr("ORVc",ORp.OrdDate,newnr,false,"");
+    if (ORp.SerNr==-1) then begin goto LRecordAction_raPasteSVOInOrder; end;
+  end;
+  ORp.CustCode = SVOp.CustCode;
+  
+  
+  
+  if (PasteCustInOrder(ORp,SVOp.CustCode,"",warning,errstr)) then begin
+    ORp.Addr0 = SVOp.Vlastnik;// Edit ************************** Thursday, 5 August 2010 12:29:40
+    ORp.CurncyCode = "UAH_B";
+    ORVc_PasteCurncyCode(ORp,"USD");
+    ORp.Location = "SERVICE";
+    ORp.OrderClass = "SRV";
+    if (RecordStore(ORp,false)) then begin end;
+    res = 1;
+    CreateRecordLink(ORp,CurrentCompany,SVOp,CurrentCompany);
+    CreateRecordLink(SVOp,CurrentCompany,ORp,CurrentCompany);
+  end;
+LRecordAction_raPasteSVOInOrder:;
+  RecordAction_raPasteSVOInOrder = res;
+  RETURN;
+END;
+//-------------------------------------------------------------------------------------------------------------------
+
+global
+procedure CopyToCompPUDsm()
+begin
+	record PUVc PUr;
+	row PUVc PUrw;
+	integer wn,mtrw,i;
+	wn = CurWindow;
+	GetWindowRecord(wn,PUr);
+	mtrw = MatRowCnt(PUr);
+	createfile("../ImportPU.txt");
+	CloseFile;
+	OpenExportFile("../ImportPU.txt",true);
+	
+	For(i=0;i<mtrw;i=i+1) begin
+		MatrowGet(PUr,i,PUrw);
+		ExportString(PUrw.ArtCode);
+		ExportString(PUrw.Quant);
+		ExportString(PUrw.SerialNr);
+		ExportString(PUrw.UPrice);
+		NewLine;
+	end;
+	
+	CloseFile;
+	
+	return;
+end;
+
+
+global
+updating procedure PasteFromCompPUDsm()
+begin
+	
+	integer wn,mtrw,i,k,nwn;
+	val Qant,Price;
+	record PUVc PUr;
+	row PUVc PUrw;
+	string 20 Art,Ser;
+	array string 20 AArt, ASer;
+	array val APrice, AQuant;
+	
+	wn = curwindow;
+	//getwindowrecord(wn,PUr);
+	
+	if (PUr.OKFlag==0) then begin
+		if (fileexists("../ImportPU.txt")) then begin
+			OpenFile("../ImportPU.txt");
+			k=0;
+			while (TestEOF()==false) begin
+        AArt[k] = importfield;
+        AQuant[k] = evaltoval(importfield);
+        ASer[k] = importfield;
+        APrice[k] = evaltoval(importfield);
+        NextImportLine(true);
+        k = k+1;
+			end;
+			CloseFile;
+		//	getwindowrecord(nwn,PUr);
+			//while (TestEOF()==false) begin
+			for (i=0;i<k;i=i+1) begin	
+				Art = AArt[i];
+				Qant = AQuant[i];
+				Ser = ASer[i];
+				Price = APrice[i];
+				if(nonblank(Art)) then begin
+				  GetWindowRecord(wn,PUr);
+					PUrw.ArtCode = Art;
+					matRowPut(PUr,i,PUrw);
+					PutWindowRecord(wn,PUr);
+					PUDClassAfterEditField(wn,"ArtCode",0,i,1);
+					
+					GetWindowRecord(wn,PUr);
+					matrowget(PUr,i,PUrw);
+					PUrw.Quant = Qant;
+					PUrw.UPrice = Price;
+					matRowPut(PUr,i,PUrw);
+					PutWindowRecord(wn,PUr);
+					PUDClassAfterEditField(wn,"Quant",0,i,1);
+					
+				end;
+			end;
+		end;
+	end;
+	
+	
+	return;
+end;
+
+global
+updating procedure ImportFroFilePODsm()
+begin
+	
+	integer wn,mtrw,i,k,nwn;
+	val Qant,Price;
+	record POVc POr;
+	row POVc POrw;
+	string 20 Art,Ser;
+	record PUVc PUr;
+	row PUVc PUrw;
+	array string 20 AArt, ASer;
+	array val APrice,AQuant;
+	
+	wn = curwindow;
+	getwindowrecord(wn,POr);
+	
+	if (POr.OKFlag==0) then begin
+	nwn = OpenWindow("PUDClass",1,0,"","",PUr); 
+		if (fileexists("../ImportPU.txt")) then begin
+			OpenFile("../ImportPU.txt");
+			k=0;
+			while (TestEOF()==false) begin
+			AArt[k] = importfield;
+			ASer[k] = importfield;
+			APrice[k] = evaltoval(importfield);
+			AQuant[k] = evaltoval(importfield);
+			NextImportLine(true);
+			k = k+1;
+			end;
+			CloseFile;
+			getwindowrecord(nwn,PUr);
+			//while (TestEOF()==false) begin
+			for (i=0;i<k;i=i+1) begin	
+				Art = AArt[i];
+				Qant = AQuant[i];
+				Ser = ASer[i];
+				Price = APrice[i];
+				if(nonblank(Art)) then begin
+				  GetWindowRecord(wn,POr);
+					POrw.ArtCode = Art;
+					matRowPut(POr,i,POrw);
+					PutWindowRecord(wn,POr);
+					PODClassAfterEditField(wn,"ArtCode",0,i,1);
+					
+					GetWindowRecord(wn,POr);
+					matrowget(POr,i,POrw);
+					POrw.Quant = Qant;
+					//POrw.OrdRow = i;
+					POrw.Price = Price;
+					matRowPut(POr,i,POrw);
+					PutWindowRecord(wn,POr);
+					PODClassAfterEditField(wn,"Quant",0,i,1);
+					
+					getWindowRecord(nwn,PUr);
+					PUrw.ArtCode = Art;
+					matRowPut(PUr,i,PUrw);
+					PutWindowRecord(nwn,Pur);
+					PUDClassAfterEditField(nwn,"ArtCode",0,i,1);
+					GetWindowRecord(nwn,PUr);
+					matrowget(PUr,i,PUrw);
+					PUrw.Quant = Qant;
+					PUrw.OrdRow = i;
+					PUrw.SerialNr = Ser;
+					PUrw.UPrice = Price;
+					matRowPut(PUr,i,PUrw);
+					PutWindowRecord(nwn,PUr);
+					PUDClassAfterEditField(nwn,"Quant",0,i,1);
+				end;
+			end;
+		end;
+	end;
+	
+	
+	return;
+end;
+
+global updating procedure StockMovFileCheckDsm()
+begin
+  integer wn,mtrw,i,k,j,g,ii;
+	record StockMovVc SMr;
+	row StockMovVc SMrw;
+	record INVc INr;
+	string 20 Art,Ser;
+	boolean testf,res;
+	string 40 altcode;
+	Array string 40 arArt,arSer;
+	
+	//MessageBox(0,"begin");
+	wn = CurWindow;
+	GetWindowRecord(wn,SMr);
+	if (fileexists("../ImportPU.txt")) then begin
+		OpenFile("../ImportPU.txt");
+	
+		mtrw = matrowCnt(SMr);
+		While(TestEof()==false) begin
+		Art = importfield;
+		Ser = importfield;
+		NextImportLine(true);
+			testf = true;
+			for (i=0;i<mtrw;i=i+1) begin
+				matrowget(SMr,i,SMrw);
+				If (SMrw.SerialNr == Ser) then begin
+					SMrw.SentQuant = SMrw.SentQuant+1;
+					MatRowPut(SMr,i,SMrw);
+					testf = false;
+				end;
+			end;	
+			if (testf) then begin MessageBox(0,"Нету совпадения с таким серийным номером: " & Ser); end;
+		end;
+		CloseFile;
+	ii = OpenWindow("CheckStockMovDClass",0,wn,"","",SMr);
+	//PutWindowRecord(ii,SMr);	
+	end;
+	
+return;
+end;
+
+global updating procedure ImportFromFileDsm()
+begin
+	integer wn,mtrw,i,ii,g,k,ch,a,s;
+	record PUVc PUr;
+	row PUVc PUrw;
+	string 20 Art,Ser,Flag;
+	area MyArea;
+	Array string 40 arArt,arSer,arFlag;
+	string 40 altcode,sercut,sercut1;
+	boolean testf;
+	Record INVc INr;
+	string 5 alt1,alt2;
+	boolean testalt;
+
+	SetAreaZeroSize(MyArea);
+	wn = curwindow;
+	getwindowrecord(wn,PUr);
+	if (PUr.OKFlag==0) then begin
+		if (fileexists("../ImportPU.txt")) then begin
+			OpenFile("../ImportPU.txt");
+			ii=0;
+			
+			while (TestEOF()==false) begin
+					
+					arArt[ii] = importfield;
+					arSer[ii] = importfield;
+					sercut = arSer[ii];
+					sercut1 = "";
+					for(s=0;s<len(sercut);s=s+1)begin
+					  if(mid(sercut,s,1)!=" ")then begin
+					    sercut1 = sercut1 & mid(sercut,s,1);
+					  end;
+					end;
+					arSer[ii] = sercut1;
+					arFlag[ii] = importfield;
+					NextImportLine(true);
+					ii=ii+1;
+			end;
+			Closefile;
+			
+			mtrw = MatRowCnt(PUr);
+			if (mtrw>0) then begin
+				for(g=0;g<mtrw;g=g+1) begin
+					MatRowGet(PUr,g,PUrw);
+					if (blank(PUrw.ArtCode)) then begin
+						matrowdelete(PUr,g);
+						g=-1;
+						mtrw = mtrw-1;
+					end;
+				end;
+			end;
+
+			if (mtrw==0) then begin
+				ch = 1;
+				for (i=0;i<ii;i=i+1) begin
+					
+					Art = arArt[i];
+					Ser = arSer[i];
+					alt1 = mid(Art,0,5);		
+					alt2 = mid(Ser,0,5);
+					
+					testalt = true;
+          for(a=0;a<5;a=a+1) begin
+            if((asc(mid(alt1,a,1))<48) or (asc(mid(alt1,a,1))>58)) then begin
+              testalt = false;
+            end;
+          end;
+          
+          if(testalt and alt1!=alt2)then begin
+            MessageBox(0,"Возможно неправильный серийник в строке №" & i+1);
+          end;
+								
+					PUrw.ArtCode = Art;
+					PUrw.SerialNr = Ser;   
+					matRowPut(PUr,i,PUrw);
+				
+				end;
+			end
+			else
+			begin
+				ch = 2;
+				for (k=0;k<ii;k=k+1) begin
+					Art = arArt[k];
+					Ser = arSer[k];
+					Flag = arFlag[k];
+					
+					testf = true;
+					//AddStringToArea(Art,MyArea);
+					//AddStringToArea(Ser,MyArea);
+					altcode = "";
+					INr.AlternativeCode = Art;
+					if (Flag != "+") then begin
+					
+						if (ReadFirstKey("AlternativeCode",INr,1,false)) then begin
+							if (INr.AlternativeCode == Art) then begin
+								alt1 = mid(Art,0,5);
+								altcode = INr.Code;
+							end;
+						end;
+						
+						INr.BarCode = Art;
+						if (ReadFirstKey("BarCode",INr,1,false)) then begin
+              if (INr.BarCode == Art) then begin
+                altcode = INr.Code;
+								end;
+            end;
+			
+						if (nonblank(altcode)) then begin
+							Art = altcode;
+						end;
+						for (i=0;i<mtrw;i=i+1) begin
+							MatRowGet(PUr,i,PUrw);
+							
+							if ((PUrw.ArtCode == Art) and (blank(PUrw.SerialNr)) and testf) then begin
+								PUrw.SerialNr = Ser;
+								alt2 = mid(Ser,0,5);
+								testalt = true;
+								for(a=0;a<5;a=a+1) begin
+									if((asc(mid(alt1,a,1))<48) or (asc(mid(alt1,a,1))>58)) then begin
+										testalt = false;
+									end;
+								end;
+								
+								if(testalt and alt1!=alt2)then begin
+									MessageBox(0,"Возможно неправильный серийник в строке №" & i+1);
+								end;
+								
+								Flag = "+";
+								testf = false;
+								matRowPut(PUr,i,PUrw);
+							end;
+						end;
+					end;
+					AddTextToArea(Art & chr(9) & Ser & chr(9) & Flag & chr(13) & chr(10),MyArea);
+				end;
+			WriteAreaToFile(MyArea,"../ImportPU.txt",0);
+			end;
+		end;
+		if (testf) then begin
+			MessageBox(0,"В файле импорта больше строк чем в документе надходження");
+		end;
+		PutWindowRecord(wn,PUr);
+	end;
+	
+	for (k=0;k<=i;k=k+1) begin
+		if (ch == 1) then begin
+			PUDClassAfterEditField(wn,"ArtCode",0, k,1);
+		end;
+		if (ch == 2) then begin
+			PUDClassAfterEditField(wn,"SerialNr",0, k,1);
+		end;
+	end;
+	
+return;
+end;
+
+global
+updating function Integer RecordAction_raPasteSVOInPP(var record PPVc PPp,var record SVOVc SVOp)
+BEGIN
+  Integer res,numr;
+  numr=-1;
+  res = 1;
+  
+  Recordnew(PPp);
+   PPp.SerNr = NextSerNr("PPVc",CurrentDate,numr,false,"");
+  RecordAction_raPasteSVOInPP = res;
+  RETURN;
+END;
+
+global
+updating function Integer RecordAction_raPasteSVOInExp(var record ExpVc Expp,var record SVOVc SVOp)
+BEGIN
+  Integer res;
+  LongInt newnr;
+  
+  res = -1;
+  RecordNew(Expp);
+  if (Expp.SerNr==-1) then begin
+    Expp.SerNr = NextSerNr("ExpVc",CurrentDate,newnr,false,"");
+    if (Expp.SerNr==-1) then begin goto LRecordAction_raPasteSVOInExp; end;
+  end;
+  
+  if (RecordStore(Expp,false)) then begin 
+    res = 1;
+    CreateRecordLink(Expp,CurrentCompany,SVOp,CurrentCompany);
+    CreateRecordLink(SVOp,CurrentCompany,Expp,CurrentCompany);
+  end else begin
+    res = -1;
+  end;
+LRecordAction_raPasteSVOInExp:;
+  RecordAction_raPasteSVOInExp = res;
+  RETURN;
+END;
+
+
+global
+updating function Integer RecordAction_raPasteSVOInIP(var record IPVc IPp,var record SVOVc SVOp)
+BEGIN
+  Integer res;
+  LongInt newnr;
+  
+  res = -1;
+  RecordNew(IPp);
+  if (IPp.SerNr==-1) then begin
+    IPp.SerNr = NextSerNr("IPVc",CurrentDate,newnr,false,"");
+    if (IPp.SerNr==-1) then begin goto LRecordAction_raPasteSVOInIP; end;
+  end;
+  
+  if (RecordStore(IPp,false)) then begin 
+    res = 1;
+    CreateRecordLink(IPp,CurrentCompany,SVOp,CurrentCompany);
+    CreateRecordLink(SVOp,CurrentCompany,IPp,CurrentCompany);
+  end else begin
+    res = -1;
+  end;
+LRecordAction_raPasteSVOInIP:;
+  RecordAction_raPasteSVOInIP = res;
+  RETURN;
+END;
+
+
+global updating procedure MyImportSVOToCompDsm()
+begin
+record SVOVc SVOr;
+integer wn;
+  wn = CurWindow;
+  getwindowrecord(wn,SVOr);
+  
+  If(CurrentCompany==1) then begin
+	  CreateNewSVOinCom(SVOr);
+	end; 
+	If(CurrentCompany==2) then begin
+	  CreateNewSVOinCom1(SVOr);
+	end;
+	
+return;
+end;
+
+global updating procedure MyINtoISTOREDsm()
+begin
+record INVc INr;
+integer wn;
+  wn = CurWindow;
+  getwindowrecord(wn,INr);
+
+  If(CurrentCompany==2) then begin
+	  CreateNewINinStore(INr);
+	end;
+	If(CurrentCompany==5) then begin
+	  CreateNewINinStore(INr);
+	end; 
+	
+return;
+end;
+
+global updating procedure MyINtoSMGDsm()
+begin
+record INVc INr;
+integer wn;
+  wn = CurWindow;
+  getwindowrecord(wn,INr);
+
+  If(CurrentCompany==2) then begin
+	  CreateNewINinSMG(INr);
+	end;
+  If(CurrentCompany==1) then begin
+	  CreateNewINinSMG(INr);
+	end; 
+		
+return;
+end;
+
+global updating procedure MyINtoIPOINTDsm()
+begin
+record INVc INr;
+integer wn;
+  wn = CurWindow;
+  getwindowrecord(wn,INr);
+
+  If(CurrentCompany==1) then begin
+	  CreateNewINiPoint(INr);
+	end; 
+	
+  If(CurrentCompany==5) then begin
+	  CreateNewINiPoint(INr);
+	end;
+
+	If(CurrentCompany==6) then begin
+	  CreateNewINiPoint(INr);
+	end;
+	
+return;
+end;
+
+global updating procedure MyINtoTNMDsm()
+begin
+record INVc INr;
+integer wn;
+  wn = CurWindow;
+  getwindowrecord(wn,INr);
+
+  If(CurrentCompany==5) then begin
+	  CreateNewINTNM(INr);
+	end; 
+	
+return;
+end;
+
+global
+updating function Integer RecordAction_raPasteSVOInStockMov(var record StockMovVc SMp,var record SVOVc SVOp)
+BEGIN
+  Integer res;
+  LongInt newnr;
+  string 25 frloc,toloc;
+  
+  
+  switch(CurrentCompany)begin
+  
+  case 1: frloc = "MAIN";
+  case 2: frloc = "INV#1";
+  
+  end;
+  
+  res = -1;
+  RecordNew(SMp);
+  if (SMp.SerNr==-1) then begin
+    SMp.SerNr = NextSerNr("SMVc",CurrentDate,newnr,false,"");
+    if (SMp.SerNr==-1) then begin goto LRecordAction_raPasteSVOInIP; end;
+  end;
+  
+  SMp.FrLocation = frloc;
+  SMp.ToLocation = "SERVICE";
+  
+  if (RecordStore(SMp,false)) then begin 
+    res = 1;
+    CreateRecordLink(SMp,CurrentCompany,SVOp,CurrentCompany);
+    CreateRecordLink(SVOp,CurrentCompany,SMp,CurrentCompany);
+  end else begin
+    res = -1;
+  end;
+LRecordAction_raPasteSVOInIP:;
+  RecordAction_raPasteSVOInStockMov = res;
+  RETURN;
+END;
+
+global updating procedure RA_AvansCreateDsm(record PPVc PPr,var record ExpVc Expr)
+begin
+integer curcomp;
+  
+  curcomp = currentcompany;
+  Expr.SerNr = NextSerNr("ExpVc",Expr.TransDate,-1,true,"");
+  Expr.Person = "";
+  Expr.Name = "";
+  
+ if(recordinsert(Expr,false)) then begin
+      CreateRecordLink(Expr,curcomp,PPr,curcomp);
+      CreateRecordLink(PPr,curcomp,Expr,curcomp);
+    end;
+
+return;
+end;
+
+global //Edit***************************Sasha2,16:38 03.03.2016 {
+function Boolean IsEnoughRemQtyInHist(string code,string location,date docdate,val qty,string serialnumber)
+begin
+  record ItemHistvc IHr;
+  record INVc INr;
+  Boolean TrHs,testf;
+  val remval,checkedqty;
+  Boolean res;
+  string 30 serialnr;
+    
+    res = false;
+    //LogText(0,"IsEnoughRemQtyInHist:" & "Code:" & code & "," & "Loc:" & location & "," & "Date:" & docdate & "," & "Qty:" & qty & "," & "Serial:" & serialnumber);
+    if (blank(code) or blank(location) or blankdate(docdate)) then begin
+      goto LIsEnoughRemQtyInHist;
+    end;
+    
+    serialnr = serialnumber;
+    INr.Code = code;
+    ReadFirstMain(INr,1,true);
+    
+    if (INr.SerNrf>0) then begin
+      checkedqty = 1;
+    end else begin
+      serialnr = "";
+      checkedqty = qty;
+    end;
+
+    IHr.ArtCode = code;
+    IHr.Location = location;
+    TrHs = true;
+    while (LoopKey("ActiveLocQty",IHr,2,TrHs)) begin
+      testf = true;
+      if (IHr.ArtCode!=code or IHr.Location!=location) then begin TrHs = false; testf = false; end;
+      if (NonBlank(serialnr) and IHr.SerialNr!=serialnr) then begin testf = false; end;
+      if (docdate<IHr.TransDate) then begin testf = false; end;
+      if (testf) then begin
+        remval = remval + IHr.RemQty;
+      end;
+    end;
+    if (checkedqty<=remval) then begin
+      res = true;
+    end;
+
+LIsEnoughRemQtyInHist:;
+ 
+    IsEnoughRemQtyInHist = res;
+  return;
+end; //Edit***************************Sasha2,16:39 03.03.2016 }
+
+global updating procedure MyAddBalaceCUMn(record RcVc RepSpec)
+begin
+	record CSVc CSr;
+	
+	CSr.CustCode = RepSpec.f1;
+  //CSr.BranchID = "";
+  //CSr.Class = "";
+  CSr.CurncyCode = RepSpec.f2; 
+	readfirstmain(CSr,1,true);
+  AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"balance",RepSpec.vals0,"",0);
+  AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"paidvalue",RepSpec.vals0,"",0);
+  
+return;
+end;
+
+global updating procedure MyAddBalaceVEMn(record RcVc RepSpec)
+begin
+	record VSVc CSr;
+	
+	CSr.VECode = RepSpec.f1;
+  //CSr.BranchID = "";
+  //CSr.Class = "";
+  CSr.CurncyCode = RepSpec.f2; 
+	readfirstmain(CSr,1,true);
+  AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"vebalance",RepSpec.vals0,"",0);
+  AddBalance(CSr,RepSpec.d1,"",0,"",0,"",0,"",0,"vepaidvalue",RepSpec.vals0,"",0);
+  
+return;
+end;
+
+global //Edit***************************Sasha2,17:28 18.04.2016 {
+function date GetDateOfSerial(string artcode,string serial,date transdate)
+begin
+	date dt;
+	boolean testf,TrHs;
+	record ItemHistVc IHr;
+    
+    if (blank(artcode) or blank(serial)) then begin
+      goto LGetDateOfSerial;
+    end;
+    
+    dt = transdate;
+    
+    IHr.ArtCode = artcode;
+    IHr.SerialNr = serial;
+    TrHs = true;
+    while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
+      testf = false;
+      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (testf) then begin
+        if(IHr.FileName=="PUVc")then begin
+        	dt = IHr.TransDate;
+        	goto LGetDateOfSerial;
+        end;
+      end;
+    end;
+    resetloop(IHr);
+		
+		IHr.ArtCode = artcode;
+    IHr.SerialNr = serial;
+    TrHs = true;
+    while (LoopKey("ArtCodeSerialNr",IHr,2,TrHs)) begin
+      testf = false;
+      if (IHr.ArtCode!=artcode or IHr.SerialNr!=serial) then begin TrHs = true; testf = false; end;
+      if (testf) then begin
+        if(IHr.FileName=="IVVc" and IHr.Qty<0 and IHr.StockAffectf>0)then begin
+        	dt = IHr.TransDate;
+        	goto LGetDateOfSerial;
+        end;
+      end;
+    end;
+			    
+LGetDateOfSerial:;
+	
+	GetDateOfSerial = dt;
+return;
+end; //Edit***************************Sasha2,17:28 18.04.2016 }

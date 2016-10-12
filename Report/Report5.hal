@@ -1,0 +1,295 @@
+external function val GetStockQty(string,string,Date,Boolean);
+external function LongInt DateDiff(Date,Date);
+external function roundmode SetRoundModeD(Integer);
+
+// Аналіз оборотності товарів
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+global procedure FindCostAndQty(record INVc INr,record LocalMachineAccBlock LMAb,date sd,date ed,var val qty,var val eqty,var val cost,var val ecost,var val midcost,var val midqty,string location,var val turncost, var val turnqty)
+begin
+	record ItemHistVc IHr;
+	string 100 key;
+	integer keynum;
+	boolean TrHs, testf;
+	integer s;
+	date curdate,lastdate;
+	val halfcost1,halfqty1,halfcost2,halfqty2;
+	boolean half1,half2;
+	integer difdat,mtrw,i;
+	row LocalMachineAccBlock LMArw;
+	
+	mtrw = matrowcnt(LMAb);
+	
+	qty = 0;
+	cost = 0;
+	eqty = 0;
+	ecost = 0;
+	midcost = 0;
+	midqty = 0;
+	half1 = true;
+	half2 = true;
+	turncost = 0;
+	turnqty = 0;
+	IHr.TransDate = "";
+	IHr.ArtCode = INr.Code;
+	keynum = 2;
+	key = "ArtCode";
+	if(nonblank(location))then begin
+		IHr.Location = location;
+		key = "ArtCodeLoc";
+	end;
+	curdate = "";
+	lastdate = addday(sd,-1);
+	TrHs = true;
+	while(loopkey(key,IHr,2,TrHs))begin
+		testf = true;
+		if(IHr.TransDate>ed)then begin TrHs = false; testf = false; end;
+		if(IHr.ArtCode!=INr.Code)then begin TrHs = false; testf = false; end;
+		if(nonblank(location) and IHr.Location!=location)then begin TrHs = false; testf = false; end;
+		if(IHr.Invalid>0)then begin testf = false; end;
+		if(IHr.StockAffectf==0)then begin testf = false; end;
+		
+		
+		
+		difdat = 1;
+		if(testf)then begin
+				if(curdate!=IHr.TransDate and IHr.TransDate>=sd)then begin
+					curdate = IHr.TransDate;
+					difdat = datediff(curdate,lastdate);
+					if(difdat<=0)then begin difdat = 1; end;
+					midcost = midcost + ecost*difdat;
+					midqty = midqty + eqty*difdat;
+					lastdate = curdate;
+				end;
+			
+				if(IHr.Qty>=0)then begin
+					s = 1;
+				end else begin
+					s = -1;
+				end;
+				if(IHr.TransDate<sd)then begin
+					qty = qty + IHr.Qty; 
+					cost = cost + IHr.TotCostPrice * s;
+				end;
+				eqty = eqty + IHr.Qty; 
+				ecost = ecost + IHr.TotCostPrice * s;
+				if(IHr.TransDate>=sd)then begin
+					half1 = false;
+				end;
+				if(half1)then begin
+					halfcost1 = ecost/2;
+					halfqty1 = eqty/2;
+				end;
+			//messagebox(0,IHr.TransDate);
+			if(IHr.TransDate>=sd)then begin
+				switch(IHr.FileName)begin
+					case "IVVc": 	turnqty = turnqty - IHr.Qty;// Edit ************************** Wednesday, 27 July 2016 14:15:29
+												turncost = turncost - IHr.TotCostPrice * s;// Edit ************************** Wednesday, 27 July 2016 14:15:28
+					case "SHVc": 	turnqty = turnqty - IHr.Qty;
+												turncost = turncost - IHr.TotCostPrice * s;
+					case "RetVc": turnqty = turnqty - IHr.Qty;
+												turncost = turncost - IHr.TotCostPrice * s;
+					/*case "SDVc": 		For(i=0;i<mtrw;i=i+1) begin
+													matrowget(LMAb,i,LMArw);
+													if(IHr.Location==LMArw.DefLoc)then begin
+														turnqty = turnqty - IHr.Qty;
+														turncost = turncost - IHr.TotCostPrice * s;
+													end;
+												end;*/
+					/*case "PUVc": 		For(i=0;i<mtrw;i=i+1) begin
+													matrowget(LMAb,i,LMArw);
+													if(IHr.Location==LMArw.DefLoc)then begin
+														turnqty = turnqty - IHr.Qty;
+														turncost = turncost - IHr.TotCostPrice * s;
+													end;
+												end;*/
+					case "WSVc": 	turnqty = turnqty - IHr.Qty;
+												turncost = turncost - IHr.TotCostPrice * s;
+				end;
+			end;
+		end;
+	end;	
+	curdate = ed;
+	difdat = datediff(curdate,lastdate);
+	if(difdat<=0)then begin difdat = 1; end;
+	midcost = midcost + ecost*(difdat);
+	midqty = midqty + eqty*(difdat);
+	halfcost2 = ecost/2;
+	halfqty2 = eqty/2;
+	midcost = midcost - halfcost1 - halfcost2;
+	midqty = midqty - halfqty1 - halfqty2;
+	midcost = midcost/(datediff(ed,sd));
+	
+	midqty = midqty/(datediff(ed,sd));
+	
+return;
+end;
+
+global procedure ItemTurnoverRn(record RcVc RepSpec)
+begin
+	record INVc INr;
+	record ITVc ITr;
+	date sd,ed;
+	val qty,cost,eqty,ecost,midcost,midqty,turncost,turnqty;
+	string 50 location,group,artcode;
+	record LocalMachineAccBlock LMAb;
+	string 10 key;
+	integer kynum;
+	boolean TrHs,testf;
+	record LocationVc Locr;
+	
+	blockload(LMAb);
+	
+	sd = RepSpec.sStartDate;
+	ed = RepSpec.sEndDate;
+	location = RepSpec.f3;
+	group = RepSpec.f2;
+	artcode = RepSpec.f1;
+	
+	startreportnoheaderjob("Аналiз оборотностi товарiв");
+	
+	
+	startformat(15);
+	outstring(0,0,"Період",false);
+	outstring(0,0,sd & ":" & ed,false);
+	endformat;
+	
+	startformat(15);
+	endformat;
+	
+	startformat(15);
+		outstring(0,0,"Група",false);
+		outstring(0,0,"Артикул",false);
+		outstring(70,0,"Найменування",false);
+		outstring(140,0,"Товарообіг ($)",false);
+		outstring(210,0,"Товарообіг (шт.)",false);
+		outstring(1,0,"Залишки на кiнець перiоду ($)",true);
+		outstring(1,0,"Залишки на кiнець перiоду (шт.)",true);
+		outstring(280,0,"Середній запас ($)",false);
+		outstring(350,0,"Середній запас (шт.)",false);
+		outstring(420,0,"Оборотність (днів)",false);
+		outstring(480,0,"Оборотність (раз)",false);
+		outstring(1,0,"Рівень запасів товару (днів)",true);
+		
+		outstring(1,0,"Склад",true);
+	endformat;
+	key = "Code"; 
+	INr.Code = "";
+	kynum = 1;
+	if(nonblank(location))then begin
+		if(nonblank(artcode))then begin
+			key = "Code"; 
+			INr.Code = artcode;
+			kynum = 1;
+		end;
+		if(nonblank(group))then begin 
+			INr.Group = group;
+			key = "Group"; 
+			kynum = 1;
+			if(nonblank(artcode))then begin
+				INr.Code = artcode;
+				kynum = 2;
+			end;
+		end;
+	
+		TrHs = true;
+		while(loopkey(key,INr,kynum,TrHs))begin
+			testf = true;
+			if(nonblank(artcode) and INr.Code!=artcode and key=="Code")then begin TrHs=false; testf=false; end;
+			if(nonblank(artcode) and INr.Code!=artcode)then begin testf=false; end;
+			if(nonblank(group) and INr.Group!=group and key=="Group")then begin TrHs=false; testf=false; end;
+		
+			if(testf)then begin
+				FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty);
+				startformat(15);
+					outstring(0,0,INr.Group,false);
+					outstring(0,0,INr.Code,false);
+					outstring(70,0,INr.Name,false);
+					OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
+					OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
+					OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
+					OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+					OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+					outstring(1,0,location,false);
+				endformat;
+			end;
+		end;
+		resetloop(INr);
+	end else begin
+		
+		if(nonblank(artcode))then begin
+			key = "Code"; 
+			INr.Code = artcode;
+			kynum = 1;
+		end;
+		if(nonblank(group))then begin 
+			INr.Group = group;
+			key = "Group"; 
+			kynum = 1;
+			if(nonblank(artcode))then begin
+				INr.Code = artcode;
+				kynum = 2;
+			end;
+		end;
+	
+		TrHs = true;
+		while(loopkey(key,INr,kynum,TrHs))begin
+			testf = true;
+			if(nonblank(artcode) and INr.Code!=artcode and key=="Code")then begin TrHs=false; testf=false; end;
+			if(nonblank(artcode) and INr.Code!=artcode)then begin testf=false; end;
+			if(nonblank(group) and INr.Group!=group and key=="Group")then begin TrHs=false; testf=false; end;
+			
+			if(testf)then begin
+				location = "";
+				FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty);
+				startformat(15);
+					outstring(0,0,INr.Group,false);
+					outstring(0,0,INr.Code,false);
+					outstring(70,0,INr.Name,false);
+					OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
+					OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
+					OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
+					OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+					OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
+					OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+					outstring(1,0,"По всім складам",false);
+				endformat;
+				Locr.Code = "";
+				while(loopmain(Locr,1,true))begin
+					location = Locr.Code;
+					FindCostAndQty(INr,LMAb,sd,ed,qty,eqty,cost,ecost,midcost,midqty,location,turncost,turnqty);
+					if(turncost!=0 or turnqty!=0 or midcost!=0 or midqty!=0 or ecost!=0)then begin
+						startformat(15);
+							outstring(0,0,INr.Group,false);
+							outstring(0,0,INr.Code,false);
+							outstring(70,0,INr.Name,false);
+							OutVal(140,0,round(turncost,SetRoundModeD(3)),M4Val,false);
+							OutVal(210,0,round(turnqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(1,0,round(ecost,SetRoundModeD(3)),M4Val,false);
+							OutVal(1,0,round(eqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(280,0,round(midcost,SetRoundModeD(3)),M4Val,false);
+							OutVal(350,0,round(midqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(420,0,round(midcost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+							OutVal(480,0,round(midqty/turnqty,SetRoundModeD(3)),M4Val,false);
+							OutVal(1,0,round(ecost*(datediff(ed,sd)+1)/turncost,SetRoundModeD(3)),M4Val,false);
+							outstring(1,0,location,false);
+						endformat;
+					end;
+				end;
+				resetloop(Locr);
+			end;
+		end;	
+	end;
+	
+	endjob;
+	
+return;
+end;

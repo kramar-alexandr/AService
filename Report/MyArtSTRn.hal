@@ -1,0 +1,1013 @@
+external function val FindCostPrice(string,string,string,val,val,Boolean);
+external procedure ItemDateTurnover(string,string,string,Date,Date,var val);
+external procedure GetStockValue(string,string,var record ItemStatusVc);
+external function Boolean TestArtCodeMatch(string,string);
+external procedure HT2Per(Date,Date,var string);
+external procedure HTArtSel(string,string,var string);
+external procedure HTDepartment(string,var string);
+external procedure HTArtGroup(string, var string);
+external procedure HTCusts(string, string, var string);
+external procedure HTDetailLevel(Integer, var string);
+external procedure GetDateTurnover(string,string,record ICSVc,string,Date,Date,var val,Integer);
+external procedure FindFiscalYear(Date,var Date,var Date);
+external procedure HTArts(string, string, var string);
+external procedure GetItemVATCode(string,Integer,var string,Boolean);
+external procedure FindSalesExVat(string,val,Integer,Integer,var val);
+external procedure Base1ToBase2(var val,Date,var val);
+external procedure ValToHALString(val,string,var string);
+external function Boolean SetInSet2(string,string);
+
+procedure MakeMarginString(val t,var string res)
+BEGIN
+  string 255 tstr;
+
+  ValToHALString(t,"2",tstr);  
+  if (t<0) then begin
+    res = "-";
+  end else begin
+    res = "+";
+  end;
+  res = res & tstr;
+  res = res & "%";
+  RETURN;
+END;
+
+function
+val GetPriceListPrice(string artcode,string plcode)
+BEGIN
+  record PLVc PLr;  
+  val res;
+  
+  if (nonblank(plcode)) then begin
+    PLr.ArtCode = artcode;
+    PLr.PLCode = plcode;
+    if (ReadFirstMain(PLr,2,true)) then begin
+      res = PLr.ExVatPrice;
+    end;
+  end;
+  GetPriceListPrice = res;
+  RETURN;
+END;
+
+function Boolean ArtStatCUGroup1(record RcVc RepSpec,string ItemCode,string cat,var val qgrp,var val sgrp,var val gpsgrp)
+BEGIN
+  Boolean TrHs,stfound,testf;
+  Boolean res;
+  record CUVc CUr;
+  record ICSVc ICSp;
+  val s,q,gps;
+
+  CUr.CustCat = cat;
+  if (RepSpec.wholemonthf==0) then begin
+    StartFormat(15);
+     OutString(0,0,USetStr(1163),false);
+    EndFormat;
+    goto LArtStatCUGroup1;
+  end;
+  TrHs = true;
+  while (LoopKey("Group",CUr,1,TrHs)) begin
+    if (CUr.CustCat!=cat) then begin
+      TrHs = false;
+    end;  
+    testf = true;
+    if (CUr.CUType==0) then begin testf = false; end;
+    if (TrHs and testf) then begin
+      ICSp.ArtCode = ItemCode;
+      ICSp.CustCode = CUr.Code;
+      stfound = ReadFirstMain(ICSp,2,false);
+      if (TestArtCodeMatch(ICSp.ArtCode,ItemCode)==false) then begin
+        stfound = false;
+      end;
+      if (ICSp.CustCode<>CUr.Code) then begin
+        stfound = false;
+      end;
+      if (stfound==true) then begin
+        res = true;
+        ICSp.ArtCode = ItemCode;//this will require to be changed when we allow to have stats per variety
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);
+        qgrp = qgrp + q;
+        sgrp = sgrp + s;
+        gpsgrp = gpsgrp + gps;
+      end;
+    end;
+  end;
+LArtStatCUGroup1:;
+  ArtStatCUGroup1 = res;
+  RETURN;  
+END;
+
+function Boolean ArtStatCUGroup2(record RcVc RepSpec, string ItemCode,string cat,Date startdate,Date enddate,
+                                 var val qgrp,var val sgrp,var val gpsgrp,var val yqgrp,var val ysgrp,var val ygpsgrp)
+BEGIN
+  record CUVc CUr;
+  record ICSVc ICSp;
+  Boolean TrHs,stfound,testf;
+  val s,q,gps;
+  Boolean res;
+
+  CUr.CustCat = cat;
+  TrHs = true;
+  while (LoopKey("Group",CUr,1,TrHs)) begin
+    if (CUr.CustCat!=cat) then begin
+      TrHs = false;
+    end;  
+    testf = true;
+    if (CUr.CUType==0) then begin testf = false; end;    
+    if (TrHs and testf) then begin
+      ICSp.ArtCode = ItemCode;
+      ICSp.CustCode = CUr.Code;
+      stfound = ReadFirstMain(ICSp,2,false);
+      if (TestArtCodeMatch(ICSp.ArtCode,ItemCode)==false) then begin
+        stfound = false;
+      end;
+      if (ICSp.CustCode<>CUr.Code) then begin
+        stfound = false;
+      end;
+      if (stfound==true) then begin
+        res = true;
+        ICSp.ArtCode = ItemCode;//this will require to be changed when we allow to have stats per variety
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);
+        qgrp = qgrp + q;
+        sgrp = sgrp + s;
+        gpsgrp = gpsgrp + gps;
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"quant",startdate,enddate,q,RepSpec.basecurncy);
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"salesexclvat",startdate,enddate,s,RepSpec.basecurncy);
+        GetDateTurnover(ItemCode,CUr.Code,ICSp,"grossprofit",startdate,enddate,gps,RepSpec.basecurncy);
+        yqgrp = yqgrp + q;
+        ysgrp = ysgrp + s;
+        ygpsgrp = ygpsgrp + gps;
+      end;        
+    end;
+  end;
+  ArtStatCUGroup2 = res;
+  RETURN;
+END;
+
+procedure ItemGetDateBalance(string item,string cust,record INVc INr,string colname,Date bdp,var val vp,Integer basecurncy)
+BEGIN
+  val rv;
+  Date nbd,td;
+  
+ 
+  if (blankdate(bdp)) then begin goto LItemGetDateBalance; end;  
+  td = bdp;  
+  nbd = AddDay(bdp,1);
+  if (GetDay(nbd)<>1) then begin
+    td = AddMonth(bdp,-1);  
+    nbd = AddDay(bdp,-(GetDay(bdp)-1));    
+    ItemDateTurnover(item,cust,colname,nbd,bdp,rv);
+  end;
+  vp = GetBalance(INr,colname,td);  
+  if (colname<>"quant") then begin
+    if (basecurncy!=0) then begin
+      td = CurrentDate;  
+      Base1ToBase2(vp,td,vp);
+      Base1ToBase2(rv,td,rv);
+    end;
+  end;
+  vp = rv + vp;
+LItemGetDateBalance:;
+  RETURN;
+END;
+
+procedure ItemGetDateStartBalance(string item,string cust,record INVc INr,string colname,Date bdp,var val vp,Integer basecurncy)
+BEGIN
+  Date sbd;
+  
+  sbd = AddDay(bdp,-1);
+  ItemGetDateBalance(item,cust,INr,colname,sbd,vp,basecurncy);
+  RETURN;
+END;
+
+global
+procedure ItemGetDateTurnover(string artcode,string custcode,record INVc INr,string colname,Date sdp,
+                              Date edp,var val res,Integer basecurncy)
+BEGIN
+  val v1,v2;
+  
+  ItemGetDateStartBalance(artcode,custcode,INr,colname,sdp,v1,basecurncy);
+  ItemGetDateBalance(artcode,custcode,INr,colname,edp,v2,basecurncy);
+  res = v2 - v1;
+  RETURN;
+END;
+
+//global
+procedure PrintArtSTRnHeader(record RcVc RepSpec)
+BEGIN
+  string 255 tstr;
+  Integer rw;
+
+  rw = 1;
+  HT2Per(RepSpec.sStartDate,RepSpec.sEndDate,tstr);
+  Header(rw,tstr,1);
+  rw = rw + 1;
+  /*if (GetProgramMode!=4) then begin
+    HTDetailLevel(RepSpec.ArtMode,tstr);
+    Header(rw,tstr,1);
+    rw = rw + 1;
+  end;*/
+  if ((nonblank(RepSpec.f1)) or (blank(RepSpec.AccStr))) then begin
+    HTArtSel(RepSpec.f1,RepSpec.f3,tstr);
+    Header(rw,tstr,1);
+    rw = rw + 1;
+  end else begin
+    HTDepartment(RepSpec.AccStr,tstr);
+    Header(rw,tstr,1);
+    rw = rw + 1;
+    HTArtGroup(RepSpec.f3,tstr);
+    if (nonblank(tstr)) then begin
+      Header(rw,tstr,1);
+      rw = rw + 1;
+    end;  
+  end;
+  HTCusts(RepSpec.f2,RepSpec.f2,tstr);
+  Header(rw,tstr,1);
+  rw = rw + 1;
+  RETURN;
+END;
+
+procedure ArtStatList2(record RcVc RepSpec)
+BEGIN
+  record INVc INr;
+  record ItemStatusVc ISr;
+  record STVc STr;
+  record ICSVc ICSp;
+  record CCatVc CCatR;  
+  val s,q,q2,sum1,sum2,sum3,gps;
+  val ys,yq,ygps,t0;
+  val onorder,onstock,minprice,pricelistprice;
+  val tots,totq,totgps;
+  val totys,totyq,totygps;
+  val tottots,tottotq,tottotgps;
+  val tottotys,tottotyq,tottotygps;
+  val gp,ygp;
+  val t;
+  string 2 vatcode;  
+  string 255 tstr,location;
+  string 20 fromart,toart;
+  string 255 fromgrp,togrp;
+  string 255 frcat,tocat;
+  string 255 frcc,tocc;
+  string 255 oldgrp;
+  string 30 ckey,lastgroup;
+  Integer keys;
+  Boolean found;
+  Boolean TrHs,stfound,testf;
+  Boolean firstf,icsf;
+  Boolean catflag,catfound;
+  Boolean matchf,printf;
+  Date FStartDate,FEndDate,blankd;
+  record AccBlock ARAccRec;
+  
+  StartReportJob(USetStr(2461));
+  EndHeader;
+  if (RepSpec.wholemonthf==0) then begin
+    StartFormat(15);
+     OutString(0,0,USetStr(1163),false);
+    EndFormat;
+    goto LArtStatList2;
+  end;
+  FindFiscalYear(CurrentDate,FStartDate,FEndDate);  
+  if  (blankdate(FStartDate)) then begin
+    FStartDate = RepSpec.sStartDate;
+    FEndDate = RepSpec.sEndDate;
+  end;
+  fromart = FirstInRange(RepSpec.f1,20);
+  toart = LastInRange(RepSpec.f1,20);
+  frcc = FirstInRange(RepSpec.f3,5);
+  tocc = LastInRange(RepSpec.f3,5);
+  frcat = FirstInRange(RepSpec.ObjStr,5);
+  tocat = LastInRange(RepSpec.ObjStr,5);
+  printf = false;
+  firstf = true;
+  if (nonblank(RepSpec.f2)) then begin
+    icsf = true;
+  end else begin
+    if (nonblank(tocat)) then begin
+      catflag = true;
+      CCatR.Code = frcat;
+      if (nonblank(CCatR.Code)) then begin
+        matchf = true;
+      end else begin
+        matchf = false;
+      end;  
+      if (LoopMain(CCatR,1,matchf)==false) then begin goto LArtStatList2; end;
+      if (CCatR.Code>tocat) then begin goto LArtStatList2; end;
+    end;
+  end;
+  if (nonblank(RepSpec.f3)) then begin 
+    lastgroup = frcc;
+  end else begin
+    lastgroup = "";
+  end;  
+  SetRepCol(2,60);
+  SetRepCol(3,288);
+  SetRepCol(4,384);
+  SetRepCol(5,293);
+  SetRepCol(6,140);
+  SetRepCol(9,221);
+LCCATBEGIN2:;
+  if (catflag) then begin
+    if (firstf) then begin firstf = false; StepBack(CCatR); end;    
+    catfound = LoopMain(CCatR,1,true);
+    if (catfound==false) then begin goto L882; end;
+    if (CCatR.Code>tocat) then begin goto L882; end;
+    StartFormat(15);
+    OutString(0,0,USetStr(1114),false);
+    OutString(100,0,CCatR.Code,false);
+    OutString(130,0,CCatR.Comment,false);
+    EndFormat;
+    Gray_Divider(0,1);
+    ResetLoop(INr);  
+  end;
+  StartFormat(15);
+  HT2Per(RepSpec.sStartDate,RepSpec.sEndDate,tstr);
+  OutString(11,0,tstr,false);
+  HT2Per(FStartDate,FEndDate,tstr);
+  OutString(180,0,tstr,false);
+  EndFormat;
+  StartFormat(15);
+    OutString(90,0,USetStr(2723),true);
+    OutString(220,0,USetStr(2723),true);
+    OutString(370,0,USetStr(2726),true);
+    OutString(470,0,USetStr(2729),true);
+  EndFormat;
+  StartFormat(15);
+    OutString(90,0,USetStr(2724),true);
+    OutString(220,0,USetStr(2724),true);
+    OutString(370,0,USetStr(2727),true);
+    OutString(470,0,USetStr(2730),true);
+  EndFormat;
+  StartFormat(15);
+    OutString(90,0,USetStr(2725),true);
+    OutString(220,0,USetStr(2725),true);
+    OutString(370,0,USetStr(5130),true);
+    OutString(470,0,USetStr(2759),true);
+  EndFormat;
+  if (nonblank(RepSpec.f3)) then begin 
+    INr.Code = fromart;
+    INr.Group = frcc;
+    ckey = "Group";
+    keys = 2;
+  end else begin
+    INr.Code = fromart;
+    ckey = "Code";
+    keys = 1;
+  end;
+  found = true;
+  while (LoopKey(ckey,INr,keys,found)) begin
+    testf = true;
+    if (nonblank(toart)) then begin
+      if (INr.Code>toart) then begin
+        if (blank(RepSpec.f3)) then begin
+          found=false;
+        end else begin
+          testf = false;
+        end;
+      end;
+    end;      
+    if (found) then begin
+      if (nonblank(RepSpec.f3)) then begin
+        if (INr.Group>tocc) then begin
+          if (nonblank(RepSpec.f3)) then begin
+            found = false;
+          end else begin
+            testf = false;
+          end;
+        end;  
+        if (INr.Group<frcc) then begin
+          if (nonblank(RepSpec.f3)) then begin
+            found = false;
+          end else begin
+            testf = false;
+          end;  
+        end;
+      end;
+    end;  
+    if (nonblank(RepSpec.f4)) then begin
+      if (SetInSet2(RepSpec.f4,INr.DispGroups)==false) then begin
+        testf = false;
+      end;
+    end;
+    if (found) then begin
+      if (nonblank(RepSpec.AccStr)) then begin      
+        if (RepSpec.AccStr!=INr.Department) then begin
+          testf = false;
+        end;
+      end;
+    end;      
+    if (found==false) then begin testf = false; end;
+    if (testf) then begin
+      if (nonblank(RepSpec.f3)) then begin
+        if (lastgroup!=INr.Group) then begin
+          gp = totgps*100;
+          gp = gp/tots;
+          ygp = totygps*100;
+          ygp = ygp/totys;
+          if (catflag==false) then begin
+            Black_Divider(0,1);
+            StartFormat(5);
+            EndFormat;
+            StartFormat(15);
+            if (blank(RepSpec.f3)) then begin
+              HTArts(fromart,toart,tstr);
+            end else begin
+              HTArtGroup(lastgroup,tstr);
+            end;  
+            OutString(15,0,tstr,false);
+            EndFormat;
+            StartFormat(5);
+            EndFormat;
+            StartFormat(15);
+              OutVal(90,0,totq,M4Qty,true);
+              OutVal(220,0,totyq,M4Qty,true);
+            EndFormat;
+            StartFormat(15);
+              OutVal(90,0,tots,M4Val,true);
+              OutVal(220,0,totys,M4Val,true);
+            EndFormat;
+            StartFormat(15);
+              OutVal(90,0,gp,M4Val,true);
+              OutVal(220,0,ygp,M4Val,true);
+            EndFormat;
+            tots = blankval;
+            totq = blankval;
+            totgps = blankval;
+            totys = blankval;
+            totyq = blankval;
+            totygps = blankval;
+          end;
+          lastgroup = INr.Group;
+        end;
+      end;
+      s = blankval;
+      q = blankval;
+      gps = blankval;
+      ys = blankval;
+      yq = blankval;
+      ygps = blankval;
+      if (icsf==false) then begin
+        if (catflag) then begin
+          stfound = ArtStatCUGroup2(RepSpec,INr.Code,CCatR.Code,FStartDate,FEndDate,q,s,gps,yq,ys,ygps);          
+        end else begin
+          STr.ArtCode = INr.Code;
+          stfound = ReadFirstMain(STr,1,false);
+          if (TestArtCodeMatch(STr.ArtCode,INr.Code)==false) then begin
+            stfound = false;
+          end;
+          if (stfound) then begin
+            ItemGetDateTurnover(INr.Code,"",INr,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+            ItemGetDateTurnover(INr.Code,"",INr,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+            ItemGetDateTurnover(INr.Code,"",INr,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);
+            ItemGetDateTurnover(INr.Code,"",INr,"quant",FStartDate,FEndDate,yq,RepSpec.basecurncy);
+            ItemGetDateTurnover(INr.Code,"",INr,"salesexclvat",FStartDate,FEndDate,ys,RepSpec.basecurncy);
+            ItemGetDateTurnover(INr.Code,"",INr,"grossprofit",FStartDate,FEndDate,ygps,RepSpec.basecurncy);
+          end;
+        end;
+      end else begin
+        ICSp.ArtCode = INr.Code;
+        ICSp.CustCode = RepSpec.f2;
+        stfound = ReadFirstMain(ICSp,2,false);
+        if (TestArtCodeMatch(ICSp.ArtCode,INr.Code)==false) then begin
+          stfound = false;
+        end;
+        if (ICSp.CustCode<>RepSpec.f2) then begin
+          stfound = false;
+        end;
+        if (stfound==true) then begin
+          ICSp.ArtCode = INr.Code;//this will require to be changed when we allow to have stats per variety
+          GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+          GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+          GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);
+          GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"quant",FStartDate,FEndDate,yq,RepSpec.basecurncy);
+          GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"salesexclvat",FStartDate,FEndDate,ys,RepSpec.basecurncy);
+          GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"grossprofit",FStartDate,FEndDate,ygps,RepSpec.basecurncy);
+        end;
+      end;
+      if (stfound==true) then begin
+        printf = true;
+        Gray_Divider(0,1);
+        StartFormat(15);
+          OutString(15,0,INr.Code,false);
+          OutString(150,0,INr.Name,false);
+        EndFormat;
+        StartFormat(10);
+        EndFormat;
+
+        tots = tots + s;
+        totys = totys + ys;
+        totq = totq + q;
+        totyq = totyq + yq;
+        totgps = totgps + gps;
+        totygps = totygps + ygps;
+        tottots = tottots + s;
+        tottotys = tottotys + ys;
+        tottotq = tottotq + q;
+        tottotyq = tottotyq + yq;
+        tottotgps = tottotgps + gps;
+        tottotygps = tottotygps + ygps;
+/*
+        ISr.Code = INr.Code;
+        ISr.Location = "";
+        if (ReadFirstMain(ISr,1,true)) then begin
+        end;        
+*/        
+        GetStockValue(INr.Code,"",ISr);
+        onstock = ISr.Instock;
+        onorder = ISr.OrddOut;
+        minprice = FindCostPrice(INr.Code,"","",ISr.Instock,0,false);
+        minprice = minprice/ISr.Instock;
+        minprice = Round(minprice,DefaultCurRoundOff);
+        pricelistprice = GetPriceListPrice(INr.Code,RepSpec.FirstAcc);
+        if (RepSpec.basecurncy!=0) then begin
+          Base1ToBase2(minprice,CurrentDate,minprice);
+          Base1ToBase2(INr.InPrice,CurrentDate,INr.InPrice);
+          Base1ToBase2(pricelistprice,CurrentDate,pricelistprice);
+          Base1ToBase2(INr.UPrice1,CurrentDate,INr.UPrice1);
+        end;
+        StartFormat(15);
+          OutVal(90,0,q,M4Qty,true);
+          OutVal(220,0,yq,M4Qty,true);
+          OutVal(370,0,INr.InPrice,M4Val,true);
+          OutVal(470,0,onstock,M4Qty,true);
+        EndFormat;
+        StartFormat(15);
+          OutVal(90,0,s,M4Val,true);
+          OutVal(220,0,ys,M4Val,true);
+          OutVal(370,0,minprice,M4Val,true);
+          OutVal(470,0,onorder,M4Qty,true);
+        EndFormat;
+        gp = gps*100;
+        gp = gp/s;
+        ygp = ygps*100;
+        ygp = ygp/ys;
+        StartFormat(15);
+          OutVal(90,0,gp,M4Val,true);
+          OutVal(220,0,ygp,M4Val,true);
+          if (ARAccRec.BasePriceInclVAT>0) then begin
+            GetItemVATCode(INr.Code,0,vatcode,true);
+            FindSalesExVat(vatcode,INr.UPrice1,1,0,t);
+            OutVal(370,0,t,M4Val,true);
+          end else begin
+            OutVal(370,0,INr.UPrice1,M4Val,true);
+          end;
+          OutVal(470,0,pricelistprice,M4Val,true);
+        EndFormat;
+      end;
+    end;
+  end;
+  if (nonblank(RepSpec.f3)) then begin
+    gp = totgps*100;
+    gp = gp/tots;
+    ygp = totygps*100;
+    gp = gp/tots;
+    ygp = ygp/totys;
+    if (catflag==false) then begin
+      if (blank(RepSpec.f3)) then begin
+        HTArts(fromart,toart,tstr);
+      end else begin
+        HTArtGroup(lastgroup,tstr);
+      end;          
+      Black_Divider(0,1);
+      StartFormat(5);
+      EndFormat;
+      StartFormat(15);
+        OutString(15,0,tstr,false);
+      EndFormat;
+      StartFormat(5);
+      EndFormat;
+      StartFormat(15);
+        OutVal(90,0,totq,M4Qty,true);
+        OutVal(220,0,totyq,M4Qty,true);
+      EndFormat;
+      StartFormat(15);
+        OutVal(90,0,tots,M4Val,true);
+        OutVal(220,0,totys,M4Val,true);
+      EndFormat;
+      StartFormat(15);
+        OutVal(90,0,gp,M4Val,true);
+        OutVal(220,0,ygp,M4Val,true);
+      EndFormat;
+    end;
+  end;
+  if (catflag) then begin
+    Black_Divider(0,1);
+    StartFormat(5);
+    EndFormat;
+    if (printf) then begin
+      StartFormat(15);
+      OutString(0,0,USetStr(1114),false);
+      OutString(100,0,CCatR.Code,false);
+      OutString(130,0,CCatR.Comment,false);
+      EndFormat;
+      StartFormat(5);
+      EndFormat;
+      StartFormat(15);
+      OutVal(90,0,totq,M4Qty,true);
+      OutVal(220,0,totyq,M4Qty,true);
+      EndFormat;
+      StartFormat(15);
+      OutVal(90,0,tots,M4Val,true);
+      OutVal(220,0,totys,M4Val,true);
+      EndFormat;
+      StartFormat(15);
+      OutVal(90,0,gp,M4Val,true);
+      OutVal(220,0,ygp,M4Val,true);
+      EndFormat;
+    end;
+    Gray_Divider(0,1);
+    StartFormat(15);
+    EndFormat;
+    tots = blankval;
+    totq = blankval;
+    totgps = blankval;
+    totys = blankval;
+    totyq = blankval;
+    totygps = blankval;
+    printf = false;
+    goto LCCATBEGIN2;
+  end;
+L882:;
+  StartFormat(10);
+  EndFormat;
+  Black_Divider(0,1);
+  StartFormat(5);
+  EndFormat;
+  StartFormat(15);
+  if (blank(RepSpec.f3)) then begin
+    HTArts(fromart,toart,tstr);
+  end else begin
+    HTArtGroup(RepSpec.f3,tstr);
+  end;  
+  OutString(15,0,tstr,false);
+  EndFormat;
+  StartFormat(5);
+  EndFormat;
+  StartFormat(15);
+    OutVal(90,0,tottotq,M4Qty,true);
+    OutVal(220,0,tottotyq,M4Qty,true);
+  EndFormat;
+  StartFormat(15);
+    OutVal(90,0,tottots,M4Val,true);
+    OutVal(220,0,tottotys,M4Val,true);
+  EndFormat;
+  gp = tottotgps*100;
+  gp = gp / tottots;
+  ygp = tottotygps*100;
+  ygp = ygp/tottotys;
+  StartFormat(15);
+    OutVal(90,0,gp,M4Val,true);
+    OutVal(220,0,ygp,M4Val,true);
+  EndFormat;
+  Black_Divider(0,1);
+LArtStatList2:;
+  EndJob;
+  RETURN;
+END;
+
+global
+procedure ArtSTRn(record RcVc RepSpec)
+BEGIN
+  string 255 tstr;
+  record INVc INr;
+  record STVc STr;
+  record ICSVc ICSp;
+  record CCatVc CCatR;  
+  Boolean TrHs,stfound;
+  val s,q,q2,sum1,sum2,sum3,gps;
+  val gs1,gs2,gs3;
+  val t;
+  string 255 fromart,toart;
+  string 255 fromgrp,togrp;
+  string 255 frcat,tocat;
+  string 255 oldgrp;
+  string 30 ckey;
+  Integer keys;
+  Boolean skipf,firstf;
+  Boolean firstgrp;
+  Boolean grpsumprntd;
+  Boolean icsf;
+  Boolean catflag;
+  Boolean catfound;
+  Boolean matchf;
+  Boolean withcost;
+
+  withcost = true;
+  if (RepSpec.ArtMode!=0) then begin
+     ArtStatList2(RepSpec);    
+     goto LArtSTRn;
+  end;
+  firstgrp = true;
+  fromart = FirstInRange(RepSpec.f1,20);
+  toart = LastInRange(RepSpec.f1,20);
+  fromgrp = FirstInRange(RepSpec.f3,5);
+  togrp = LastInRange(RepSpec.f3,5);
+  frcat = FirstInRange(RepSpec.ObjStr,5);
+  tocat = LastInRange(RepSpec.ObjStr,5);
+
+  if (nonblank(RepSpec.f2)) then begin
+    icsf = true;
+  end else begin
+    if (nonblank(tocat)) then begin
+      catflag = true;
+      CCatR.Code = frcat;
+      if (nonblank(CCatR.Code)) then begin
+        matchf = true;
+      end else begin
+        matchf = false;
+      end;
+      if (LoopMain(CCatR,1,matchf)==false) then begin goto LArtSTRn; end;
+      if (CCatR.Code>tocat) then begin goto LArtSTRn; end;
+      firstf = true;    
+    end;
+  end;
+  StartReportJob(USetStr(2461));
+   PrintArtSTRnHeader(RepSpec);
+  EndHeader;
+  SetRepCol(2,60);
+  SetRepCol(3,288);
+  SetRepCol(4,380);
+  SetRepCol(5,293);
+  SetRepCol(6,140);
+  SetRepCol(9,221);
+  SetRepCol(8,250);
+  
+LCCATBEGIN:;
+  if (catflag) then begin
+    if (firstf) then begin firstf = false; StepBack(CCatR); end;    
+    catfound = LoopMain(CCatR,1,true);  
+    if (catfound==false) then begin goto L88; end;
+    if (CCatR.Code>tocat) then begin goto L88; end;
+    StartFormat(15);
+    OutString(0,0,USetStr(1114),false);
+    OutString(100,0,CCatR.Code,false);
+    OutString(130,0,CCatR.Comment,false);
+    EndFormat;
+    Gray_Divider(0,1);
+    ResetLoop(INr);
+  end;
+
+  StartFormat(15);
+   OutString(0,0,USetStr(2462),false);
+   OutString(2,0,USetStr(2463),false);
+//   OutString(8,0,USetStr(2465),true);
+   OutString(3,0,USetStr(2464),true);
+   if (withcost) then begin
+     OutString(4,0,USetStr(2468),true);
+   end;  
+   OutString(420,0,USetStr(5129),true);
+   OutString(1,0,USetStr(2466),true);
+  EndFormat;
+  oldgrp = "";
+  if (nonblank(RepSpec.f3)) then begin
+    INr.Group = fromgrp;
+    INr.Code = fromart;
+    ckey = "Group";
+    keys = 2;
+  end else begin
+    INr.Code = fromart;
+    ckey = "Code";
+    keys = 1;
+  end;
+  Gray_Divider(0,1);
+  TrHs = true;
+  while (LoopKey(ckey,INr,keys,TrHs)) begin
+    skipf = false;
+    if (nonblank(toart)) then begin
+      if (INr.Code>toart) then begin
+        if (blank(RepSpec.f3)) then begin
+          TrHs = false;
+        end else begin
+          skipf = true;
+        end;
+      end;
+    end;  
+        
+    if (TrHs) then begin
+      if (nonblank(togrp)) then begin
+        if (INr.Group>togrp) then begin
+          if (nonblank(RepSpec.f3)) then begin
+            TrHs = false;
+          end else begin
+            skipf = true;
+          end;
+        end;
+      end;  
+      if (nonblank(fromgrp)) then begin
+        if (INr.Group<fromgrp) then begin
+          if (nonblank(RepSpec.f3)) then begin
+            TrHs = false;
+          end else begin
+            skipf = true;
+          end;  
+        end;
+      end;
+    end;
+
+    if (TrHs) then begin          
+      if (nonblank(RepSpec.AccStr)) then begin
+        if (RepSpec.AccStr!=INr.Department) then begin skipf = true; end;
+      end;  
+      if (nonblank(RepSpec.f3)) then begin
+        if (nonblank(fromart)) then begin
+          if (INr.Code<fromart) then begin skipf = true; end;
+        end;  
+        if (nonblank(toart)) then begin
+          if (INr.Code>toart) then begin skipf = true; end;
+        end;  
+      end;
+      if (nonblank(RepSpec.f4)) then begin
+        if (SetInSet2(RepSpec.f4,INr.DispGroups)==false) then begin
+          skipf = true;
+        end;
+      end;
+      if (skipf==false) then begin
+        s = 0;
+        q = 0;
+        gps = 0;
+        if (icsf==false) then begin
+          if (catflag) then begin
+            stfound = ArtStatCUGroup1(RepSpec,INr.Code,CCatR.Code,q,s,gps);          
+          end else begin
+            STr.ArtCode = INr.Code;
+            stfound = ReadFirstMain(STr,1,false);
+            if (TestArtCodeMatch(STr.ArtCode,INr.Code)==false) then begin
+              stfound = false;
+            end;
+            if (stfound==true) then begin
+              ItemGetDateTurnover(INr.Code,"",INr,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+              ItemGetDateTurnover(INr.Code,"",INr,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+              ItemGetDateTurnover(INr.Code,"",INr,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);
+            end;
+          end;
+        end else begin
+          ICSp.ArtCode = INr.Code;
+          ICSp.CustCode = RepSpec.f2;
+          stfound = ReadFirstMain(ICSp,2,false);
+          if (TestArtCodeMatch(ICSp.ArtCode,INr.Code)==false) then begin
+            stfound = false;
+          end;
+          if (ICSp.CustCode<>RepSpec.f2) then begin
+            stfound = false;
+          end;
+          if (stfound==true) then begin
+            ICSp.ArtCode = INr.Code;//this will require to be changed when we allow to have stats per variety
+            GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+            GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+            GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);
+          end;
+        end;
+
+        if (RepSpec.UsedOnly!=0) then begin
+          if ((s==0) and (q==0)) then begin 
+            goto LSKIP;
+          end;    
+        end;
+        
+        if (nonblank(RepSpec.f3)) then begin
+          if (oldgrp!=INr.Group) then begin
+            if (firstgrp==false) then begin
+              if (catflag==false) then begin
+                Gray_Divider(0,1);
+                StartFormat(15);
+                OutString(0,0,USetStr(2474),false);
+                OutString(100,0,oldgrp,false);
+                OutVal(3,0,gs2,M4Val,true);
+                OutVal(4,0,gs3,M4Val,true);
+                OutVal(1,0,gs1,M4Val,true);
+                EndFormat;
+                StartFormat(15);
+                EndFormat;
+                grpsumprntd = true;
+                gs1 = 0;
+                gs2 = 0;
+                gs3 = 0;
+              end;
+            end;
+          end;
+        end;        
+
+        tstr = " ";
+        tstr = INr.Unittext;
+        StartFormat(15);
+         OutString(0,"ArtSTVarDblClk",INr.Code,false);
+         OutString(2,0,INr.Name,false);
+//         OutVal(8,0,GetPriceListPrice(INr.Code,RepSpec.FirstAcc),M4Val,true);
+         OutVal(3,0,q,M4Qty,true);
+         OutString(5,0,tstr,false);         
+         if (withcost) then begin
+           OutVal(4,0,gps,M4Val,true);
+         end;  
+         t = gps * 100;
+         t = t / s;
+         MakeMarginString(t,tstr);
+         OutString(420,0,tstr,true);      
+         OutVal(1,0,s,M4Val,true);
+        EndFormat;
+        sum1 = sum1 + s;
+        sum2 = sum2 + q;
+        sum3 = sum3 + gps;
+        gs1 = gs1 + s;
+        gs2 = gs2 + q;
+        gs3 = gs3 + gps;
+        oldgrp = INr.Group;
+        firstgrp = false;      
+      end;
+LSKIP:;
+    end;
+  end;
+  if (blank(RepSpec.f3)) then begin
+    if (blank(toart)) then begin
+      if (icsf==false) then begin
+        s = 0;
+        q = 0;
+        gps = 0;
+        if (catflag) then begin
+          stfound = ArtStatCUGroup1(RepSpec,"",CCatR.Code,q,s,gps);          
+        end else begin
+          STr.ArtCode = "";//??
+          stfound = ReadFirstMain(STr,1,true);
+          if (stfound) then begin
+            INr.Code = "";
+            ItemGetDateTurnover("","",INr,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+            ItemGetDateTurnover("","",INr,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+            ItemGetDateTurnover("","",INr,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);          
+          end;
+        end;
+        if ((s!=0) or (q!=0) or (gps!=0)) then begin
+          StartFormat(15);
+          OutString(0,0,USetStr(2467),false);
+          OutVal(3,0,q,M4Qty,true);
+          OutVal(4,0,gps,M4Val,true);
+          OutVal(1,0,s,M4Val,true);
+          EndFormat;
+        end;  
+        sum1 = sum1 + s;
+        sum2 = sum2 + q;
+        sum3 = sum3 + gps;
+      end;
+    end;
+  end;  
+  if (icsf==true) then begin
+    ICSp.ArtCode = "";
+    ICSp.CustCode = RepSpec.f2;
+    stfound = ReadFirstMain(ICSp,2,true);
+    if (stfound==true) then begin
+      INr.Code = "";
+      GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"quant",RepSpec.sStartDate,RepSpec.sEndDate,q,RepSpec.basecurncy);
+      GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"salesexclvat",RepSpec.sStartDate,RepSpec.sEndDate,s,RepSpec.basecurncy);
+      GetDateTurnover(INr.Code,RepSpec.f2,ICSp,"grossprofit",RepSpec.sStartDate,RepSpec.sEndDate,gps,RepSpec.basecurncy);    
+      StartFormat(15);
+      OutString(0,0,USetStr(2467),false);
+      OutVal(3,0,q,M4Qty,true);
+      OutVal(4,0,gps,M4Val,true);
+      OutVal(1,0,s,M4Val,true);
+      EndFormat;
+      sum1 = sum1 + s;
+      sum2 = sum2 + q;
+      sum3 = sum3 + gps;
+    end;
+  end;  
+  if (catflag) then begin
+    Gray_Divider(0,1);
+    StartFormat(15);
+    OutVal(3,0,gs2,M4Val,true);
+    OutVal(4,0,gs3,M4Val,true);
+    OutVal(1,0,gs1,M4Val,true);
+    gs1 = 0;
+    gs2 = 0;
+    gs3 = 0;
+    EndFormat;
+    StartFormat(15);
+    EndFormat;
+    goto LCCATBEGIN;
+  end;  
+L88:;
+  if (grpsumprntd) then begin
+    Gray_Divider(0,1);
+    StartFormat(15);
+    OutString(0,0,USetStr(2474),false);
+    OutString(100,0,oldgrp,false);
+    OutVal(3,0,gs2,M4Val,true);
+    OutVal(4,0,gs3,M4Val,true);
+    OutVal(1,0,gs1,M4Val,true);
+    EndFormat;
+    StartFormat(10);
+    EndFormat;
+  end;
+  Gray_Divider(0,1);
+  StartFormat(15);
+  OutVal(3,0,sum2,M4Val,true);
+  if (withcost) then begin
+    OutVal(4,0,sum3,M4Val,true);
+  end;  
+  OutVal(1,0,sum1,M4Val,true);
+  EndFormat;
+  EndJob;
+LArtSTRn:;
+  RETURN;  
+END;

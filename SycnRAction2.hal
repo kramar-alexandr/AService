@@ -1,0 +1,14 @@
+global
+function LongInt CUVcRecordCheck(var record CUVc CUr,record CUVc CU2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	transaction Boolean gSynchServToOfflineSettingsm;
+	
+	res = 0; 
+  if(gSynchServToOfflineSettingsm==false)then begin
+		res = inner.CUVcRecordCheck(CUr,CU2r,stat,long4);
+  end;
+  
+  CUVcRecordCheck = res;
+  return;
+end;

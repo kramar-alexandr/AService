@@ -1,0 +1,570 @@
+SetLangMode(LangUkrainian,"UKR",0);
+
+
+global procedure GetMyTurnover(string AccName,record RcVc RepSpec,var val MonthTurnover,var val YearTurnover)
+begin
+record ObjBalVc OBr;
+date YearStart,YearEnd;
+val mDeb,mCred,yDeb,yCred;
+
+  mDeb = 0;
+  mCred = 0;
+  yDeb = 0;
+  yCred = 0;
+  
+  MonthTurnover = 0;
+  YearTurnover = 0;
+  
+  OBr.AccNumber = AccName;
+  mDeb = getTurnover(OBr,"transdebit",RepSpec.sStartDate,RepSpec.sEndDate);
+  mCred = getTurnover(OBr,"transcredit",RepSpec.sStartDate,RepSpec.sEndDate);
+  YearStart = Stringtodate("1/1/" & GetYear(RepSpec.sStartDate));
+  YearEnd = AddDay(RepSpec.sStartDate,-1);
+  yDeb = getTurnover(OBr,"transdebit",YearStart,RepSpec.sEndDate);
+  yCred = getTurnover(OBr,"transcredit",YearStart,RepSpec.sEndDate);
+  
+  MonthTurnover = mDeb- mCred;
+  YearTurnover = yDeb - yCred;
+
+return;
+end;
+
+global procedure GetMyBal(string AccName,record RcVc RepSpec,var val MonthTurnover,var val YearTurnover)
+begin
+record ObjBalVc OBr;
+date YearStart,YearEnd,MonthStart;
+val mDeb,mCred,yDeb,yCred;
+
+  mDeb = 0;
+  mCred = 0;
+  yDeb = 0;
+  yCred = 0;
+  
+  MonthTurnover = 0;
+  YearTurnover = 0;
+  
+  OBr.AccNumber = AccName;
+  MonthStart = Addday(RepSpec.sStartDate,-1);
+  mDeb = getBalance(OBr,"transdebit",MonthStart);
+  mCred = getBalance(OBr,"transcredit",MonthStart);
+  YearStart = Stringtodate("31/12/" & GetYear(RepSpec.sStartDate)-1);
+  yDeb = getBalance(OBr,"transdebit",YearStart);
+  yCred = getBalance(OBr,"transcredit",YearStart);
+  
+  MonthTurnover = mDeb- mCred;
+  YearTurnover = yDeb - yCred;
+
+return;
+end;
+
+global procedure PrintCashFlowAcc(string accstatr, string accend,record RcVc RepSpec,var val SumMonth,var val SumYear,boolean full,integer i)
+begin
+string 10 bAcc1, bAcc2;
+val MonthTurnover,YearTurnover;
+Record AccVc ACCr;
+boolean TrHs;
+
+  if(nonblank(accend)) then begin
+    ACCr.AccNumber = accstatr;
+    Trhs = true;
+    while(loopmain(ACCr,1,TrHs)) begin
+      if((ACCr.AccNumber<accstatr) or (ACCr.AccNumber>accend)) then begin TrHs = false; end;
+      If(TrHs) then begin
+	      GetMyTurnover(ACCr.AccNumber,RepSpec,MonthTurnover,YearTurnover);
+	      if(i<0) then begin
+          MonthTurnover = -MonthTurnover;
+          SumMonth = SumMonth + MonthTurnover;
+          YearTurnover = -YearTurnover;
+          SumYear = SumYear + YearTurnover;
+        end else begin
+          SumMonth = SumMonth + MonthTurnover;
+          SumYear = SumYear + YearTurnover;
+      end;
+        if(full) then begin
+          if(MonthTurnover!=0 or YearTurnover!=0) then begin
+            StartFormat(15)
+              OutString(0,0,ACCr.AccNumber,false);
+              OutString(50,0,ACCr.Comment,false);
+              OutVal(300,0,MonthTurnover,M4val,false);
+              OutVal(1,0,YearTurnover,M4val,true);
+            endFormat;
+          end;
+	      end;
+      end;  
+    end;
+  end else begin
+    if(nonblank(accstatr)) then begin
+      GetMyTurnover(accstatr,RepSpec,MonthTurnover,YearTurnover);
+      if(i<0) then begin
+          MonthTurnover = -MonthTurnover;
+          SumMonth = SumMonth + MonthTurnover;
+          YearTurnover = -YearTurnover;
+          SumYear = SumYear + YearTurnover;
+        end else begin
+          SumMonth = SumMonth + MonthTurnover;
+          SumYear = SumYear + YearTurnover;
+      end;
+      ACCr.AccNumber = accstatr;
+      if(ReadFirstMain(ACCr,1,true)) then begin
+        If(ACCr.AccNumber == accstatr) then begin
+          if(full) then begin
+            if(MonthTurnover!=0 or YearTurnover!=0) then begin
+              StartFormat(15)
+                OutString(0,0,ACCr.AccNumber,false);
+                OutString(50,0,ACCr.Comment,false);
+                OutVal(300,0,MonthTurnover,M4val,false);
+                OutVal(1,0,YearTurnover,M4val,true);
+              endFormat;
+            end;
+          end;
+        end; 
+      end;
+    end;
+  end;
+  
+return;
+end;
+
+global procedure PrintCashFlowAccFin(string accstatr, string accend,record RcVc RepSpec,var val SumMonth,var val SumYear,boolean full,integer i)
+begin
+string 10 bAcc1, bAcc2;
+val MonthTurnover,YearTurnover;
+val MonthTurnover1,YearTurnover1;
+Record AccVc ACCr;
+boolean TrHs;
+
+  
+    if(nonblank(accstatr)) then begin
+      GetMyTurnover(accstatr,RepSpec,MonthTurnover,YearTurnover);
+      if(i<0) then begin
+          MonthTurnover = -MonthTurnover;
+          SumMonth = SumMonth + MonthTurnover;
+          YearTurnover = -YearTurnover;
+          SumYear = SumYear + YearTurnover;
+        end else begin
+          SumMonth = SumMonth + MonthTurnover;
+          SumYear = SumYear + YearTurnover;
+      end;
+      GetMyTurnover("99999",RepSpec,MonthTurnover1,YearTurnover1);
+      MonthTurnover = MonthTurnover-MonthTurnover1;
+      YearTurnover = YearTurnover-YearTurnover1;
+      SumMonth = SumMonth - MonthTurnover1;
+      SumYear = SumYear - YearTurnover1;
+      
+      ACCr.AccNumber = accstatr;
+      if(ReadFirstMain(ACCr,1,true)) then begin
+        If(ACCr.AccNumber == accstatr) then begin
+          if(full) then begin
+            if(MonthTurnover!=0 or YearTurnover!=0) then begin
+              StartFormat(15)
+                OutString(0,0,ACCr.AccNumber,false);
+                OutString(50,0,ACCr.Comment,false);
+                OutVal(300,0,MonthTurnover,M4val,false);
+                OutVal(1,0,YearTurnover,M4val,true);
+              endFormat;
+            end;
+          end;
+        end; 
+      end;
+    end;
+  
+return;
+end;
+
+global procedure PrintCashFlowAccBal(string accstatr, string accend,record RcVc RepSpec,var val SumMonth,var val SumYear,boolean full,integer i)
+begin
+string 10 bAcc1, bAcc2;
+val MonthTurnover,YearTurnover;
+Record AccVc ACCr;
+boolean TrHs;
+
+  if(nonblank(accend)) then begin
+    ACCr.AccNumber = accstatr;
+    Trhs = true;
+    while(loopmain(ACCr,1,TrHs)) begin
+      if((ACCr.AccNumber<accstatr) or (ACCr.AccNumber>accend)) then begin TrHs = false; end;
+      If(TrHs) then begin
+	      GetMyBal(ACCr.AccNumber,RepSpec,MonthTurnover,YearTurnover);
+	      if(i<0) then begin
+          MonthTurnover = -MonthTurnover;
+          SumMonth = SumMonth + MonthTurnover;
+          YearTurnover = -YearTurnover;
+          SumYear = SumYear + YearTurnover;
+        end else begin
+          SumMonth = SumMonth + MonthTurnover;
+          SumYear = SumYear + YearTurnover;
+      end;
+        if(full) then begin
+          if(MonthTurnover!=0 or YearTurnover!=0) then begin
+            StartFormat(15)
+              OutString(0,0,ACCr.AccNumber,false);
+              OutString(50,0,ACCr.Comment,false);
+              OutVal(300,0,MonthTurnover,M4val,false);
+              OutVal(1,0,YearTurnover,M4val,true);
+            endFormat;
+          end;
+	      end;
+      end;  
+    end;
+  end else begin
+    if(nonblank(accstatr)) then begin
+      GetMyBal(accstatr,RepSpec,MonthTurnover,YearTurnover);
+      if(i<0) then begin
+          MonthTurnover = -MonthTurnover;
+          SumMonth = SumMonth + MonthTurnover;
+          YearTurnover = -YearTurnover;
+          SumYear = SumYear + YearTurnover;
+        end else begin
+          SumMonth = SumMonth + MonthTurnover;
+          SumYear = SumYear + YearTurnover;
+      end;
+      ACCr.AccNumber = accstatr;
+      if(ReadFirstMain(ACCr,1,true)) then begin
+        If(ACCr.AccNumber == accstatr) then begin
+          if(full) then begin
+            if(MonthTurnover!=0 or YearTurnover!=0) then begin
+              StartFormat(15)
+                OutString(0,0,ACCr.AccNumber,false);
+                OutString(50,0,ACCr.Comment,false);
+                OutVal(300,0,MonthTurnover,M4val,false);
+                OutVal(1,0,YearTurnover,M4val,true);
+              endFormat;
+            end;
+          end;
+        end; 
+      end;
+    end;
+  end;
+  
+return;
+end;
+
+global procedure PrintCashFlowSum(string Spec,var val SumMonth,var val SumYear)
+begin
+
+  Gray_Divider(0,1);
+  
+  StartFormat(15)
+    OutString(0,0,"Total " & Spec,false);
+    OutString(50,0,"",false);
+    OutVal(300,0,SumMonth,M4val,false);
+    OutVal(1,0,SumYear,M4val,true);
+  endFormat;
+  
+  Gray_Divider(0,1);
+  
+  SumMonth = 0;
+  SumYear = 0;
+  /*StartFormat(15)
+  endformat;*/
+  
+return;
+end;
+
+global procedure MyNewCashFlowRn(record RcVc RepSpec)
+begin
+//record MyCashFlowVc MCFr;
+record MyCashFlowBlock MCFr;
+row MyCashFlowBlock MCFrw;
+String 255 Word,tstr,cmd,sign;
+Val MonthSum,YearSum;
+array val sum;
+array val ysum;
+val x,y;
+integer i,lenth,c,cc,num,mtrw,j;
+boolean testf;
+date frDate,toDate;
+
+  frDate = RepSpec.sStartDate;
+  toDate = RepSpec.sEndDate;
+  
+  blockload(MCFr);
+  mtrw = matrowcnt(MCFr);
+  startreportnoheaderjob("CashFlow");
+    for(j=0;j<mtrw;j=j+1)begin
+    Matrowget(MCFr,j,MCFrw);
+    //while(loopmain(MCFr,1,true))begin
+      // Edit ************************** Friday, 15 July 2011 12:44:13// Edit ************************** Friday, 15 July 2011 12:44:22
+      if(nonblank(MCFrw.FrAcc))then begin
+        switch(MCFrw.TurnBal) begin
+          case 0:
+            if(nonblank(MCFrw.ToAcc))then begin
+            PrintCashFlowAcc(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,false,MCFrw.DebCred);
+            end else begin
+            PrintCashFlowAcc(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,true,MCFrw.DebCred);
+            end;
+          case 1:
+            PrintCashFlowAccBal(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,true,MCFrw.DebCred);
+          case 2:
+          PrintCashFlowAccFin(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,true,MCFrw.DebCred);
+        end;
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:14// Edit ************************** Friday, 15 July 2011 12:44:21
+      if(nonblank(MCFrw.Comment) and blank(MCFrw.FrAcc) and blank(MCFrw.ToAcc) and (MCFrw.SumUp==0) and blank(MCFrw.CalcStr))then begin
+        tstr = "";
+        lenth = len(MCFrw.Comment);
+        for(c=0;c<lenth;c=c+1)begin
+          if(mid(MCFrw.Comment,c,1)!="&")then begin
+            tstr = tstr & mid(MCFrw.Comment,c,1);
+          end else begin
+            testf = true;
+            cmd = "";
+            for(cc=c+1;cc<lenth and testf;cc=cc+1)begin
+              if(mid(MCFrw.Comment,cc,1)!=" ")begin
+                cmd = cmd & mid(MCFrw.Comment,cc,1);
+              end else begin
+                testf = false;
+                c=cc-1;
+                goto Lrt1;
+              end;
+            end;
+            c=cc-1;
+Lrt1:;         
+            switch(cmd)begin
+              case "frDate":tstr = tstr & frDate;
+              case "toDate":tstr = tstr & toDate;
+              case "frDay":tstr = tstr & frDate.Day;
+              case "toDay":tstr = tstr & toDate.Day;
+              case "frMonth":tstr = tstr & frDate.Month;
+              case "toMonth":tstr = tstr & toDate.Month;
+              case "frYear":tstr = tstr & frDate.Year;
+              case "toYear":tstr = tstr & toDate.Year;
+              case "Header":tstr = "";
+                            StartFormat(15);
+                              outstring(0,0,"",false);
+                              outstring(2,0,"",false);
+                              outstring(300,0,"Current Period",false);
+                              outstring(1,0,"Current YTD",true);
+                            endFormat;
+              case "Line":tstr = "";
+                          Black_Divider(0,1);
+            end;
+          
+          end;
+        end;
+        startformat(15);
+          Switch(MCFrw.ComAlign)begin
+            case 0: outstring(MCFrw.ComCoord,0,tstr,false);
+            case 1: outstring(MCFrw.ComCoord,0,tstr,true);
+          end;
+        endformat;
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:16// Edit ************************** Friday, 15 July 2011 12:44:20
+      if((MCFrw.SumUp>0) and blank(MCFrw.FrAcc) and blank(MCFrw.ToAcc))then begin
+        sum[MCFrw.SerNr] = x;
+        ysum[MCFrw.SerNr] = y;
+        PrintCashFlowSum(MCFrw.Comment,x,y);
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:16// Edit ************************** Friday, 15 July 2011 12:44:20
+      if(nonblank(MCFrw.CalcStr) and blank(MCFrw.FrAcc) and blank(MCFrw.ToAcc) and (MCFrw.SumUp==0))then begin
+        sum[MCFrw.SerNr] = 0;
+        ysum[MCFrw.SerNr] = 0;
+        
+        lenth = len(MCFrw.CalcStr);
+        sign = "";
+        tstr = "";
+        for(c=0;c<lenth;c=c+1)begin
+          if((mid(MCFrw.CalcStr,c,1)!="+") and (mid(MCFrw.CalcStr,c,1)!="-"))then begin
+            tstr = tstr & mid(MCFrw.CalcStr,c,1);
+          end else begin
+            num = stringtoint(tstr);
+            if(blank(sign))begin
+              sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+              ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+            end;
+            
+            switch(sign)begin
+              case "+": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+                        ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+              case "-": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]-sum[num];
+                        ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]-ysum[num];
+            end;
+            tstr = "";
+            sign = mid(MCFrw.CalcStr,c,1);
+          end;
+        end;
+        num = stringtoint(tstr);
+        if(blank(sign))begin
+          sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+          ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+        end;
+        switch(sign)begin
+          case "+": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+                    ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+          case "-": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]-sum[num];
+                    ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]-ysum[num];
+        end;
+        
+        
+        StartFormat(15);
+          OutString(0,0,MCFrw.Comment,false);
+          OutString(0,11,"",true);
+          outval(300,0,sum[MCFrw.SerNr],M4Val,false);
+          outval(1,0,ysum[MCFrw.SerNr],M4Val,true);
+        endFormat;
+        Black_Divider(0,1);
+        
+        StartFormat(15);
+        endFormat;
+        
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:16// Edit ************************** Friday, 15 July 2011 12:44:20
+    end;
+  endjob;
+  
+return;
+end;
+
+global procedure MyNewCashFlowDirectRn(record RcVc RepSpec)
+begin
+//record MyCashFlowVc MCFr;
+record MyCashFlowDRBlock MCFr;
+row MyCashFlowDRBlock MCFrw;
+String 255 Word,tstr,cmd,sign;
+Val MonthSum,YearSum;
+array val sum;
+array val ysum;
+val x,y;
+integer i,lenth,c,cc,num,mtrw,j;
+boolean testf;
+date frDate,toDate;
+
+  frDate = RepSpec.sStartDate;
+  toDate = RepSpec.sEndDate;
+  
+  blockload(MCFr);
+  mtrw = matrowcnt(MCFr);
+  startreportnoheaderjob("CashFlow Direct");
+    for(j=0;j<mtrw;j=j+1)begin
+    Matrowget(MCFr,j,MCFrw);
+    //while(loopmain(MCFr,1,true))begin
+      // Edit ************************** Friday, 15 July 2011 12:44:13// Edit ************************** Friday, 15 July 2011 12:44:22
+      if(nonblank(MCFrw.FrAcc))then begin
+        switch(MCFrw.TurnBal) begin
+          case 0:
+            if(nonblank(MCFrw.ToAcc))then begin
+            PrintCashFlowAcc(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,false,MCFrw.DebCred);
+            end else begin
+            PrintCashFlowAcc(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,true,MCFrw.DebCred);
+            end;
+          case 1:
+            PrintCashFlowAccBal(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,true,MCFrw.DebCred);
+          case 2:
+          PrintCashFlowAccFin(MCFrw.FrAcc,MCFrw.ToAcc,RepSpec,x,y,true,MCFrw.DebCred);
+        end;
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:14// Edit ************************** Friday, 15 July 2011 12:44:21
+      if(nonblank(MCFrw.Comment) and blank(MCFrw.FrAcc) and blank(MCFrw.ToAcc) and (MCFrw.SumUp==0) and blank(MCFrw.CalcStr))then begin
+        tstr = "";
+        lenth = len(MCFrw.Comment);
+        for(c=0;c<lenth;c=c+1)begin
+          if(mid(MCFrw.Comment,c,1)!="&")then begin
+            tstr = tstr & mid(MCFrw.Comment,c,1);
+          end else begin
+            testf = true;
+            cmd = "";
+            for(cc=c+1;cc<lenth and testf;cc=cc+1)begin
+              if(mid(MCFrw.Comment,cc,1)!=" ")begin
+                cmd = cmd & mid(MCFrw.Comment,cc,1);
+              end else begin
+                testf = false;
+                c=cc-1;
+                goto Lrt1;
+              end;
+            end;
+            c=cc-1;
+Lrt1:;         
+            switch(cmd)begin
+              case "frDate":tstr = tstr & frDate;
+              case "toDate":tstr = tstr & toDate;
+              case "frDay":tstr = tstr & frDate.Day;
+              case "toDay":tstr = tstr & toDate.Day;
+              case "frMonth":tstr = tstr & frDate.Month;
+              case "toMonth":tstr = tstr & toDate.Month;
+              case "frYear":tstr = tstr & frDate.Year;
+              case "toYear":tstr = tstr & toDate.Year;
+              case "Header":tstr = "";
+                            StartFormat(15);
+                              outstring(0,0,"",false);
+                              outstring(2,0,"",false);
+                              outstring(300,0,"Current Period",false);
+                              outstring(1,0,"Current YTD",true);
+                            endFormat;
+              case "Line":tstr = "";
+                          Black_Divider(0,1);
+            end;
+          
+          end;
+        end;
+        startformat(15);
+          Switch(MCFrw.ComAlign)begin
+            case 0: outstring(MCFrw.ComCoord,0,tstr,false);
+            case 1: outstring(MCFrw.ComCoord,0,tstr,true);
+          end;
+        endformat;
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:16// Edit ************************** Friday, 15 July 2011 12:44:20
+      if((MCFrw.SumUp>0) and blank(MCFrw.FrAcc) and blank(MCFrw.ToAcc))then begin
+        sum[MCFrw.SerNr] = x;
+        ysum[MCFrw.SerNr] = y;
+        PrintCashFlowSum(MCFrw.Comment,x,y);
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:16// Edit ************************** Friday, 15 July 2011 12:44:20
+      if(nonblank(MCFrw.CalcStr) and blank(MCFrw.FrAcc) and blank(MCFrw.ToAcc) and (MCFrw.SumUp==0))then begin
+        sum[MCFrw.SerNr] = 0;
+        ysum[MCFrw.SerNr] = 0;
+        
+        lenth = len(MCFrw.CalcStr);
+        sign = "";
+        tstr = "";
+        for(c=0;c<lenth;c=c+1)begin
+          if((mid(MCFrw.CalcStr,c,1)!="+") and (mid(MCFrw.CalcStr,c,1)!="-"))then begin
+            tstr = tstr & mid(MCFrw.CalcStr,c,1);
+          end else begin
+            num = stringtoint(tstr);
+            if(blank(sign))begin
+              sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+              ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+            end;
+            
+            switch(sign)begin
+              case "+": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+                        ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+              case "-": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]-sum[num];
+                        ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]-ysum[num];
+            end;
+            tstr = "";
+            sign = mid(MCFrw.CalcStr,c,1);
+          end;
+        end;
+        num = stringtoint(tstr);
+        if(blank(sign))begin
+          sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+          ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+        end;
+        switch(sign)begin
+          case "+": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]+sum[num];
+                    ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]+ysum[num];
+          case "-": sum[MCFrw.SerNr]  = sum[MCFrw.SerNr]-sum[num];
+                    ysum[MCFrw.SerNr] = ysum[MCFrw.SerNr]-ysum[num];
+        end;
+        
+        
+        StartFormat(15);
+          OutString(0,0,MCFrw.Comment,false);
+          OutString(0,11,"",true);
+          outval(300,0,sum[MCFrw.SerNr],M4Val,false);
+          outval(1,0,ysum[MCFrw.SerNr],M4Val,true);
+        endFormat;
+        Black_Divider(0,1);
+        
+        StartFormat(15);
+        endFormat;
+        
+      end;
+      // Edit ************************** Friday, 15 July 2011 12:44:16// Edit ************************** Friday, 15 July 2011 12:44:20
+    end;
+  endjob;
+  
+return;
+end;

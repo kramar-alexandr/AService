@@ -1,0 +1,671 @@
+external procedure APRn(record RcVc);
+external procedure ARRn(record RcVc);
+external function longint DateDiff(date,date);
+
+SetLangMode(LangUkrainian,"UKR",0);
+
+global updating procedure AutoUnreservOrderMn()
+begin
+  record ORVc ORr,oldORr;
+  row ORVc ORrw;
+  boolean TrHs,testf;
+  integer compnr,counter,i,mtrw;
+  string 100 filename;
+  
+  
+  compnr = currentcompany;
+  switch(compnr)begin
+    case  2:  filename = "Stock/AutoreservIT";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
+              closefile;
+              millisleep(100);
+              openexportfile(filename & ".xls",true);
+    
+    case  4:  filename = "Stock/AutoreservIC";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
+              closefile;
+              millisleep(100);
+              openexportfile(filename & ".xls",true);
+              
+    case  5:  filename = "Stock/AutoreservTXT";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
+              closefile;
+              millisleep(100);
+              openexportfile(filename & ".xls",true);
+    
+    case  7:  filename = "Stock/AutoreservTNM";
+    					delete_file(filename & ".xls");
+    					CreateFile(filename & ".xls");
+              closefile;
+              millisleep(100);
+              openexportfile(filename & ".xls",true);
+  end;
+  
+  startformat(15);
+    outString(0,0,"Рахунок",false);
+    outString(0,0,"Дата раунка",false);
+    outString(0,0,"Дата резерва",false);
+    outString(0,0,"Код клієнта",false);
+    outString(0,0,"Назва клієнта",false);
+    outString(0,0,"Продавець",false);
+  endformat;
+  
+  counter = 0;
+  TrHs = true;
+  ORr.Reserved = 1;
+  while(loopkey("Reserved",ORr,1,TrHs))begin
+    testf = true;
+    if(ORr.Reserved!=1)then begin TrHs=false; testf = false; end;
+  
+    if(ORr.ReservToDate>=CurrentDate)then begin testf = false; end;
+    if(blank(ORr.ReservToDate))then begin testf = false; end;
+    if(ORr.Closed>0)then begin testf = false; end;
+    
+    if(testf)then begin
+      testf = false;
+      mtrw = matrowcnt(ORr);
+      for(i=0;i<mtrw;i=i+1)begin
+        matrowget(ORr,i,ORrw);
+        if(ORrw.Quant-ORrw.Invd>0)then begin
+          testf = true;
+        end;
+      end;
+    end;
+    
+    if(testf)then begin
+      recordCopy(oldORr,ORr);
+      ORr.Reserved=0;
+      if (RecordUpdate(oldORr,ORr,true)==0) then begin  
+        counter = counter + 1;
+        startformat(15);
+          outString(0,0,ORr.SerNr,false);
+          outString(0,0,ORr.OrdDate,false);
+          outString(0,0,ORr.ReservToDate,false);
+          outString(0,0,ORr.CustCode,false);
+          outString(0,0,ORr.Addr0,false);
+          outString(0,0,ORr.SalesMan,false);
+        endformat;
+      end;
+    end;
+  end;
+  
+  switch(compnr)begin
+  		case 2:   CloseFile;
+  		case 4:   CloseFile;
+  		case 5:   CloseFile;
+      case 7:   CloseFile;
+  end;
+  
+  if(counter>0)then begin
+    switch(compnr)begin
+    	case 2:   RunProgram("Stock/AutoreservIT.sh", "");
+    	case 4:   RunProgram("Stock/AutoreservIC.sh", "");
+    	case 5:   RunProgram("Stock/AutoreservTXT.sh", "");
+      case 7:   RunProgram("Stock/AutoreservTNM.sh", "");
+    end;
+  end;
+  
+return;
+end;
+
+global procedure DebitorkaReportEn(integer compnr)
+begin
+record RcVc RepSpec;
+string 50 filename;
+      
+      if(GetDateID(currentdate)==1 or GetDateID(currentdate)==3)then begin
+        switch(compnr)begin
+          case 1: filename = "Stock/ISTORDebitorka.xls";
+          case 2: filename = "Stock/ITEKUADebitorka.xls";
+          //case 3: filename = "Stock/WDDebitorka.xls";
+          case 4: filename = "Stock/ICDebitorka.xls";//PPhL
+          case 5: filename = "Stock/TXTDebitorka.xls";
+          //case 6: filename = "Stock/ITEKMDDebitorka.xls";
+          case 7: filename = "Stock/TNMDebitorka.xls";
+          //case 8: filename = "Stock/A-SRVDebitorka.xls";
+        end;
+        
+        delete_file(filename);
+        CreateFile(filename);
+        closefile;
+        millisleep(100);
+        openexportfile(filename,true);
+        ReportDefaults(RepSpec,"ARRClass");
+        RepSpec.ArtMode = 1;
+        RepSpec.flags[1] = 0;
+        RepSpec.flags[20] = 1;
+        RepSpec.flags[14] = 1;
+        RepSpec.flags[2] = 1;
+        RepSpec.Media = mtExcel;
+        ARRn(RepSpec);
+        closefile;
+        
+        switch(compnr)begin
+          case 1: RunProgram("Stock/ISTORDebitorka.sh","");
+          case 2: RunProgram("Stock/ITEKUADebitorka.sh","");
+          //case 3: RunProgram("Stock/WDDebitorka.sh","");
+          case 4: RunProgram("Stock/ICDebitorka.sh","");//PPhL
+          case 5: RunProgram("Stock/TXTDebitorka.sh","");
+          //case 6: RunProgram("Stock/ITEKMDDebitorka.sh","");
+          case 7: RunProgram("Stock/TNMDebitorka.sh","");
+          //case 8: RunProgram("Stock/A-SRVDebitorka.sh","");
+        end;
+      end;
+return;
+end;
+
+
+
+global procedure CustSalesReportRn(record RcVc RepSpec)
+begin
+  record IVVc IVr;
+  row IVVc IVrw;
+  record INVc INr;
+  boolean testf,TrHs;
+  string 20 mykey;
+  integer mtrw,i;
+  
+  startreportnoheaderjob("Історія продажів по клієнту");
+  
+    startformat(15);
+      OutString(0,0,"Клієнт",false);
+      OutString(60,0,"Дата",false);
+      OutString(60,0,"Накладна",false);
+      OutString(60,0,"Рахунок",false);
+      OutString(120,0,"Товар",false);
+      OutString(200,0,"Найменування",false);
+      OutString(330,0,"Ціна",false);
+      OutString(370,0,"Кіл-ть",false);
+      OutString(405,0,"Знижка",false);
+      OutString(460,0,"Сума",true);
+      OutString(1,0,"Група",true);
+    endformat;
+      
+    TrHs = true;
+    IVr.CustCode = RepSpec.f1;
+    IVr.InvDate = RepSpec.sStartDate;
+    if(nonblank(RepSpec.f1))then begin
+      mykey = "CustCode";
+    end else begin
+      mykey = "InvDate";
+    end;
+    
+    while(loopkey(mykey,IVr,1,TrHs))begin
+      testf = true;
+      if(nonblank(RepSpec.f1) and RepSpec.f1!=IVr.CustCode)then begin 
+        testf = false; 
+        if(mykey=="CustCode")then begin
+          TrHs = false;
+        end;
+      end;
+      
+      if(RepSpec.sStartDate>IVr.InvDate and RepSpec.sEndDate<IVr.InvDate)then begin 
+        testf = false; 
+        if(mykey=="InvDate")then begin
+          TrHs = false;
+        end;
+      end;
+      
+      if(testf)then begin
+        mtrw = matrowcnt(IVr);
+
+        for(i=0;i<mtrw;i=i+1)begin
+          matrowget(IVr,i,IVrw);
+          if(nonblank(IVrw.ArtCode))then begin
+            if(IVrw.ArtCode==RepSpec.f2 or blank(RepSpec.f2))then begin
+              startformat(15);
+                OutString(0,0,IVr.CustCode,false);
+                OutString(60,0,IVr.InvDate,false);
+                OutString(60,"DblIVVc",IVr.SerNr,false);
+                OutString(60,"DblORVc",IVr.OrderNr,false);
+                OutString(120,0,IVrw.ArtCode,false);
+                OutString(200,0,IVrw.Spec,false);
+                OutString(310,0,IVrw.Price,false);
+                OutString(370,0,IVrw.Quant,false);
+                OutString(405,0,IVrw.vRebate,false);
+                OutString(460,0,IVrw.Sum,false);
+                INr.Code = IVrw.ArtCode;
+                if(Readfirstmain(INr,1,true)) then
+                begin
+                	OutString(1,0,INr.Group,false);
+								end;
+              endformat;
+            end;
+          end;
+        end;
+      end;
+    end;
+  endjob;
+return;
+end;
+
+
+
+global procedure KreditorkaReportEn()
+begin
+record RcVc RepSpec;
+string 50 filename;
+      
+		ReportDefaults(RepSpec,"APRClass");
+		RepSpec.ArtMode = 1;
+		RepSpec.flags[2] = 1;
+		RepSpec.flags[13] = 1;
+		RepSpec.Media = 20;
+		RepSpec.flags[29] = 1;
+		
+    if(GetDateID(currentdate)==1)then begin  
+    	if(currentcompany==1)then begin
+    		CreateFile("Stock/ISTORCreditorka.xls");
+        closefile;
+        openexportfile("Stock/ISTORCreditorka.xls",true);
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/ISTORCreditorka.sh","");
+    	end;
+    	
+    	if(currentcompany==10)then begin
+    		CreateFile("Stock/GULLIVERCreditorka.xls");
+        closefile;
+        openexportfile("Stock/GULLIVERCreditorka.xls",true);
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/GULLIVERCreditorka.sh","");
+    	end;
+    	
+    	if(currentcompany==11)then begin
+      
+        CreateFile("Stock/idistribuEstCreditorkaOFI.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaOFI.xls",true);
+        RepSpec.ObjStr = "OFI";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaOFI.sh","");
+        
+        CreateFile("Stock/idistribuEstCreditorkaOII.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaOII.xls",true);
+        RepSpec.ObjStr = "OII";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaOII.sh","");
+        
+        CreateFile("Stock/idistribuEstCreditorkaICC.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaICC.xls",true);
+        RepSpec.ObjStr = "ICC";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaICC.sh","");
+        
+        CreateFile("Stock/idistribuEstCreditorkaPR.xls");
+        closefile;
+        openexportfile("Stock/idistribuEstCreditorkaPR.xls",true);
+        RepSpec.ObjStr = "PR";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/idistribuEstCreditorkaPR.sh","");
+        
+                
+      end;
+    	
+      if(currentcompany==3)then begin
+      
+        CreateFile("Stock/WDCreditorkaOFI.xls");
+        closefile;
+        openexportfile("Stock/WDCreditorkaOFI.xls",true);
+        RepSpec.ObjStr = "OFI";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaOFI.sh","");
+        
+        CreateFile("Stock/WDCreditorkaOII.xls");
+        closefile;
+        openexportfile("Stock/WDCreditorkaOII.xls",true);
+        RepSpec.ObjStr = "OII";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaOII.sh","");
+        
+        CreateFile("Stock/WDCreditorkaGII.xls");
+        closefile;
+        openexportfile("Stock/WDCreditorkaGII.xls",true);
+        RepSpec.ObjStr = "GII";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaGII.sh","");
+        
+        CreateFile("Stock/WDCreditorkaICC.xls");
+        closefile;
+        openexportfile("Stock/WDCreditorkaICC.xls",true);
+        RepSpec.ObjStr = "ICC";
+        APRn(RepSpec);
+        closefile;
+        RunProgram("Stock/WDCreditorkaICC.sh","");
+                
+      end;
+    end;
+return;
+end;
+
+global webpublic Procedure WebKreditorkaReportEn() //Edit***************************Sasha2,15:18 04.07.2014
+begin
+
+	if (SetCompany(10,false)) then begin
+		KreditorkaReportEn;		
+		ResetCompany(10);  
+	end;
+	if (SetCompany(11,false)) then begin
+		KreditorkaReportEn;		
+		ResetCompany(11);  
+	end;
+return;
+end;
+
+
+
+
+global procedure POSClientRn(record RcVc RepSpec)
+begin
+  record CUVc CUr;
+  boolean testf,TrHs,cut;
+  record IVCashVc IVCashr;
+  record IVVc IVr;
+  date ivcashdate,findate;
+  string 100 salesman,location;
+  record UserVc USr;
+  
+  startreportnoheaderjob("Карточки клиентов");
+  
+  USr.Code = currentuser;
+  readfirstmain(USr,1,true);
+  cut = true;
+  if(USr.SalesGroup=="POS")then begin
+  		cut = false;
+  end;
+  startformat(15);
+      OutString(0,0,"ФІО",false);
+      OutString(60,0,"№ Карт.",false);
+      if(cut)then begin
+				OutString(110,0,"Телефон",false);
+				OutString(140,0,"e-mail",false);
+				OutString(200,0,"Дата народж.",false);
+				OutString(330,0,"Місто",false);
+				OutString(1,0,"Семінари",true);
+				OutString(1,0,"Діти",true);
+				OutString(1,0,"Професія",true);
+				OutString(1,0,"Наявні товари",true);
+				OutString(1,0,"Перший продаж",true);
+				OutString(1,0,"Магазин",true);
+				OutString(1,0,"Продавець",true);
+      end;
+    endformat;
+    
+  TrHs = true;
+  CUr.CustCat = "POS";
+  
+  while(loopkey("Group",CUr,1,TrHs))begin
+    testf = true;
+    if(CUr.CustCat!="POS")then begin testf = false; TrHs = false; end;
+    if(blank(CUr.Name))then begin testf = false; end;
+    
+    if(testf)then begin
+      
+      IVCashr.CustCode = CUr.Code;
+        findate = "";
+        salesman = "";
+        location = "";
+      
+      if(readfirstkey("CustCode",IVcashr,1,true))then begin
+        findate = IVcashr.TransDate;
+        salesman = IVcashr.SalesMan;
+        location = IVcashr.Location;
+        //Messagebox(0,findate);
+      end;
+      resetloop(IVcashr);
+      IVr.CustCode = CUr.Name;
+      if(readfirstkey("CustCode",IVr,1,true))then begin
+        if(nonblank(findate))then begin
+          if(findate>IVr.TransDate)then begin
+            findate = IVr.TransDate;
+            salesman = IVr.SalesMan;
+            location = IVr.Location;
+          end;
+        end else begin
+          findate = IVr.TransDate;
+          salesman = IVr.SalesMan;
+          location = IVr.Location;
+        end;
+      end;
+      resetloop(IVr);
+      
+      StartFormat(15);
+				OutString(0,0,CUr.Name,false);
+				OutString(60,0,CUr.Code,false);
+				if(cut)then begin
+					OutString(110,0,CUr.Phone,false);
+					OutString(140,0,CUr.eMail,false);
+					OutString(200,0,CUr.BirthDate,false);
+					OutString(330,0,CUr.InvAddr1,false);
+					if(CUr.Smoking==1)then begin
+						OutString(1,0,"Так",true);//seminar
+					end else begin
+						OutString(1,0,"Ні",true);//seminar
+					end;
+					if(CUr.Blacklist==1)then begin
+						OutString(1,0,"Так",true);//seminar
+					end else begin
+						OutString(1,0,"Ні",true);//seminar
+					end;
+					OutString(1,0,CUr.Profesion,true);
+					OutString(1,0,CUr.Comment,true);
+					OutString(1,0,findate,true);
+					OutString(1,0,location,true);
+					OutString(1,0,salesman,true);
+				end;
+      endformat;
+    end;
+    
+  end;
+    
+  endjob;
+  
+  
+
+return;
+end;
+
+
+global //Edit***************************Sasha2,13:50 19.04.2016 {
+procedure NotSamsungItemsRn(record RcVc RepSpec)
+begin
+  record INVc INr;
+  boolean testf,TrHs;
+  record SamsungItemsBlock SIb;
+  row SamsungItemsBlock SIrw;
+  integer i,mtrw;
+  vector boolean findf;
+  string 100 codefind;
+  
+  blockload(SIb);
+  mtrw = matrowcnt(SIb);
+  For(i=0;i<mtrw;i=i+1) begin
+	  matrowget(SIb,i,SIrw);
+	  findf[SIrw.ArtCode] = true;
+	end; 
+  
+  startreportnoheaderjob("Товари, що не належать Samsung");
+  
+    startformat(15);
+      OutString(0,0,"Код",false);
+      OutString(60,0,"Найменування",false);
+      OutString(150,0,"Група",false);
+      OutString(350,0,"Помилка товара Самсунг",false);
+    endformat;
+      
+    INr.Code = "";
+    TrHs = true;
+    while(loopmain(INr,1,TrHs)) begin
+      testf = true;
+      if (RepSpec.flags[0]==0 and (INr.Group=="SAMSU" or INr.Group=="SMG_A")) then begin testf = false; end;
+      if (INr.Terminated==1) then begin  testf = false; end;
+      if (testf) then begin
+        startformat(15);
+        	if(blank(INr.EUCodex))then begin
+          	OutString(0,0,INr.Code,false);
+          	codefind = INr.Code;
+          end else begin
+          	OutString(0,0,INr.EUCodex,false);
+          	codefind = INr.EUCodex;
+          end;
+          OutString(60,0,INr.Name,false);
+          OutString(150,0,INr.Group,false);
+          
+          if(INr.Group=="SAMSU" or INr.Group=="SMG_A")then begin
+          	if(findf[codefind]==false)then begin
+          		OutString(350,0,"Такий код відсутній",false);
+          	end else begin
+          		OutString(350,0,"",false);
+          	end;
+          end else begin
+          	OutString(350,0,"",false);
+          end;
+          
+        endformat;
+      end;
+    end;
+    
+    
+  endjob;
+return;
+end; //Edit***************************Sasha2,13:50 19.04.2016 }
+
+
+global
+procedure ExpiredMoveForServRn(record RcVc RepSpec)
+begin
+  record MoveForServiceVc MFSr;
+  row MoveForServiceVc MFSrw;
+  integer i,mtrw,days;
+  boolean TrHs,printf,headerf;
+  
+  if (RepSpec.flags[1]!=0) then begin
+    days = RepSpec.flags[1]*(-1);
+  end else begin
+    days = -80;
+  end;
+  headerf = true;
+  if CurrentCompany==8 then begin
+    TrHs = true;
+    while loopmain(MFSr,1,TrHs) begin
+      if (MFSr.TransDate<AddDay(CurrentDate,days) and (MFSr.Closed!=1)) then begin
+        printf = true;
+        mtrw = matrowcnt(MFSr);
+        for(i=0;i<mtrw;i=i+1)begin
+          matrowget(MFSr,i,MFSrw);
+          if (MFSrw.SendQuant!=MFSrw.ReceivedBackQuant) then begin
+            if (headerf) then begin
+              headerf = false;
+              startreportnoheaderjob("Прострочені переміщення для сервісу");
+              SetRepCol(2,70);
+              SetRepCol(3,140);
+              SetRepCol(4,180);
+              SetRepCol(5,250);
+              SetRepCol(6,320);
+              StartFormat(15);
+                OutString(0,0,"№ докум.",false);
+                OutString(2,0,"Дата",false);
+                OutString(3,0,"Дні",false);
+                OutString(4,0,"З компанії",false);
+                OutString(5,0,"В компанію",false);
+                OutString(6,0,"Товар",false);
+              EndFormat;
+              Black_Divider(0,1);
+            end;
+            StartFormat(15);
+              if (printf) then begin
+                printf = false;
+                OutString(0,"DblMoveForServiceVc",MFSr.SerNr,false);
+                OutString(2,0,MFSr.TransDate,false);
+                OutString(3,0,DateDiff(CurrentDate,MFSr.TransDate),false);
+                OutString(4,0,MFSr.FromCompName,false);
+                OutString(5,0,MFSr.ToCompName,false);
+              end else begin
+                OutString(0,0,"",false);
+                OutString(2,0,"",false);
+                OutString(3,0,"",false);
+                OutString(4,0,"",false);
+                OutString(5,0,"",false);
+              end;
+              OutString(6,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
+            EndFormat;
+          end;
+        end;
+        if !printf then begin
+          Gray_Divider(0,1);
+        end;
+      end;
+    end;
+  end else begin
+    TrHs = true;
+    MFSr.FromCompNr = CurrentCompany & "";
+    while loopkey("FromCompNr",MFSr,1,TrHs) begin
+      if (MFSr.FromCompNr!=CurrentCompany & "") then begin TrHs = false; end;
+      if (TrHs and (MFSr.TransDate<AddDay(CurrentDate,days)) and (MFSr.Closed!=1)) then begin
+        printf = true;
+        mtrw = matrowcnt(MFSr);
+        for(i=0;i<mtrw;i=i+1)begin
+          matrowget(MFSr,i,MFSrw);
+          if (MFSrw.SendQuant!=MFSrw.ReceivedBackQuant) then begin
+            if (headerf) then begin
+              headerf = false;
+              startreportnoheaderjob("Прострочені переміщення для сервісу");
+              SetRepCol(2,70);
+              SetRepCol(3,140);
+              SetRepCol(4,180);
+              SetRepCol(5,250);
+              SetRepCol(6,320);
+              StartFormat(15);
+                OutString(0,0,"№ докум.",false);
+                OutString(2,0,"Дата",false);
+                OutString(3,0,"Дні",false);
+                OutString(4,0,"З компанії",false);
+                OutString(5,0,"В компанію",false);
+                OutString(6,0,"Товар",false);
+              EndFormat;
+              Black_Divider(0,1);
+            end;
+            StartFormat(15);
+              if (printf) then begin
+                printf = false;
+                OutString(0,"DblMoveForServiceVc",MFSr.SerNr,false);
+                OutString(2,0,MFSr.TransDate,false);
+                OutString(3,0,DateDiff(CurrentDate,MFSr.TransDate),false);
+                OutString(4,0,MFSr.FromCompName,false);
+                OutString(5,0,MFSr.ToCompName,false);
+              end else begin
+                OutString(0,0,"",false);
+                OutString(2,0,"",false);
+                OutString(3,0,"",false);
+                OutString(4,0,"",false);
+                OutString(5,0,"",false);
+              end;
+              OutString(6,0,MFSrw.ArtCode & " - " & MFSrw.Spec,false);
+            EndFormat;
+          end;
+          if !printf then begin
+            Gray_Divider(0,1);
+          end;
+        end;
+      end;
+    end;
+  end;
+  if (!headerf) then begin
+    endjob;
+  end;
+  
+  return;
+end;

@@ -1,0 +1,14 @@
+global
+function LongInt AccessVcRecordCheck(var record AccessVc Acsr,record AccessVc Acs2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+	transaction Boolean gSynchServToOfflineSettingsm;
+	
+	res = 0; 
+  if(gSynchServToOfflineSettingsm==false)then begin
+		res = inner.AccessVcRecordCheck(Acsr,Acs2r,stat,long4);
+  end;
+  
+  AccessVcRecordCheck = res;
+  return;
+end;

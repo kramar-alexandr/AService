@@ -1,0 +1,36 @@
+remote function boolean CreatePUfromSD(record SDVc, var record PUVc);
+
+global procedure CreatePUfromSDDsm()
+begin
+	integer mtrw,i,wn;
+	record PUVc PUr;
+	record SDVc SDr;
+	
+	
+	wn = curwindow;
+	
+	if(windowstate(wn)==0)then begin
+		getwindowrecord(wn,SDr);
+		recordNew(PUr);
+		if(CreatePUfromSD(SDr,PUr))then begin
+			OpenWindow("PUDClass",1,0,"","",PUr);
+		end else begin
+			beep;
+		end;	
+	end else begin
+		beep;
+	end;
+return;
+end;
+
+global //Edit-------------------Vitalii 13:46 26.08.2016
+procedure ExpiredMoveForServRClassReportDefaults(Integer wn)
+begin
+  record RcVc RepSpec;  
+
+  GetwindowRecord(wn,RepSpec);
+  RepSpec.flags[1] = 80;
+  PutWindowRecord(wn,RepSpec);
+  
+  return;
+end;
