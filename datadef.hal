@@ -2693,6 +2693,7 @@ EndRecord;
   //----------End Custom
   
 //  RecordField(TaxMatrix,M4PackedMatrix,0,TaxMatrixVc);
+  RecordField(WSCost,M4Val,0,0);
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
