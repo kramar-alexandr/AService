@@ -7189,9 +7189,9 @@ begin
   EditField(h+=220,v,100,"Гарант. від дати",Normal,GarDate,false,PasteCurDate);
   v=v+20;
 
-  EditField(h=200,v,100,"Дата передплати",Normal,CustomField3,false,PasteCurDate);
+  /*EditField(h=200,v,100,"Дата передплати",Normal,CustomField3,false,PasteCurDate);
   EditField(h+220,v,100,"№ квитанциї",Normal,CustomField4,false,0);
-  EditField(h+370,v,150,"Сума",Normal,CustomField5,false,0);
+  EditField(h+370,v,150,"Сума",Normal,CustomField5,false,0);*/
   
   Tile(3,70,false,"4",FrRate);
   vs = 20;
@@ -7530,7 +7530,7 @@ window SVOLClass:1
 begin
   WindowBegin("Замовлення на обслуговування",SVOLClass,CGmlist,SVOView);
   SpawnClass(SVODClass);
-  SetWRect(20,80,1000,298);
+  SetWRect(20,80,1100,298);
   Sizeable(-1,-1,0,0);
   UseView(SVOVc);
   ToolBar;
@@ -7550,9 +7550,10 @@ begin
   RlColKey(111,111,"ТР",WSMark,false,WSMark);
   RlColKey(143,143,"Акт/накл.",InvMark,false,InvFlag);
   RlColKey(175,175,"Дата зам.",TransDate,false,TransDate);
-  RlColKey(255,255,"№ зам.кл.",CustOrdNr,false,CustOrdNr);
-  RlColKey(335,335,"Клієнт",CustCode,false,CustCode);
-  RlColKey(395,395,"Найм.",Addr0,false,Name);
+  //RlColKey(255,255,"№ зам.кл.",CustOrdNr,false,CustOrdNr);
+  RlColKey(255,255,"Клієнт",CustCode,false,CustCode);
+  RlColKey(360,360,"Найм.",Addr0,false,Name);
+  RlCol(480,480,"Проблема",Comment1,false);
   RlCol(-140,-140,"Гар.",Garanty,false);
   RlColKey(-70,-70,"Рем.гот.",PlanShip,false,PlanShip);
   SearchField("Пошук");
@@ -7573,14 +7574,15 @@ window SVO1LClass:1
 begin
   WindowBegin("Замовлення на обслуговування",SVO1LClass,CGmlist,SVOView);
   SpawnClass(SVODClass);
-  SetWRect(20,80,800,298);
+  SetWRect(20,80,960,298);
   Sizeable(-1,-1,0,0);
   UseView(SVOVc);
   FormName(PrintSVOL);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Номер",SerNr,false,UnServSerNr);
   RlColKey(175,175,"Дата зам.",TransDate,false,UnServTransDate);
-  RlColKey(300,300,"Товар",ItemName,false,UnServItemName);
+  RlColKey(260,260,"Товар",ItemName,false,UnServItemName);
+  RlCol(400,400,"Проблема",Comment1,false);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,UnServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,UnServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,UnServGaranty);
@@ -7603,14 +7605,15 @@ window SVO2LClass:1
 begin
   WindowBegin("Замовлення на обслуговування",SVO1LClass,CGmlist,SVOView);
   SpawnClass(SVODClass);
-  SetWRect(20,80,800,298);
+  SetWRect(20,80,960,298);
   Sizeable(-1,-1,0,0);
   UseView(SVOVc);
   FormName(PrintSVOL);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Номер",SerNr,false,AllUnServSerNr);
   RlColKey(175,175,"Дата зам.",TransDate,false,AllUnServTransDate);
-  RlColKey(300,300,"Товар",ItemName,false,AllUnServItemName);
+  RlColKey(260,260,"Товар",ItemName,false,AllUnServItemName);
+  RlCol(400,400,"Проблема",Comment1,false);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllUnServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,AllUnServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,AllUnServGaranty);
@@ -7633,14 +7636,15 @@ window SVO3LClass:1
 begin
   WindowBegin("Замовлення на обслуговування",SVO3LClass,CGmlist,SVOView);
   SpawnClass(SVODClass);
-  SetWRect(20,80,800,298);
+  SetWRect(20,80,960,298);
   Sizeable(-1,-1,0,0);
   UseView(SVOVc);
   FormName(PrintSVOL);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Номер",SerNr,false,AllServSerNr);
   RlColKey(175,175,"Дата зам.",TransDate,false,AllServTransDate);
-  RlColKey(300,300,"Товар",ItemName,false,AllServItemName);
+  RlColKey(260,260,"Товар",ItemName,false,AllServItemName);
+  RlCol(400,400,"Проблема",Comment1,false);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,AllServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,AllServGaranty);
