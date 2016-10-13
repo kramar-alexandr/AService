@@ -52,6 +52,7 @@ external function Integer GetArgIVType(integer,string,string,string);
 external function Boolean UserCanChangePendingRecord(Integer);
 remote procedure HandleWSReceiptPrinting(record WSVc,var area);//Edit----------------------Dima  21.09.2015
 remote procedure HandleIVReceiptPrinting(record IVVc,var area);//Edit----------------------Dima  21.09.2015
+remote procedure HandleSVOReceiptPrinting(record SVOVc,var area); //Edit***************************Sasha2,13:20 13.10.2016
 
 global
 function Boolean IVCashDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
@@ -2130,4 +2131,23 @@ begin
 end;
 
 
-
+global //Edit***************************Sasha2,13:21 13.10.2016
+updating procedure PrintSVOReceiptDsm()
+begin
+	area aFile;
+	integer wn;
+	record SVOVc SVOr;
+	
+		wn = CurWindow;
+		if (WindowState(wn)==Rs_normal) then begin
+  		DeselectWindow(wn,false);
+  		GetWindowRecord(wn,SVOr);
+   		
+   		SetExportCodePage("CP1251");
+   		HandleSVOReceiptPrinting(SVOr,aFile);
+   		AddAreaToArea(aFile,aFile);
+     	PrintBixolonReceipt(aFile); 
+		end else begin
+		  MessageBox(1356,"");
+		end; 
+end;
