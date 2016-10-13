@@ -2068,3 +2068,33 @@ begin
   MakeActFromRsrtEvent = res;
   return;
 end;
+
+global
+updating procedure ChangeCostOfWSsInSVO(record WSVc curWSr)
+begin
+  record WSVc WSr;
+  record SVOVc SVOr;
+  longint SVONr;
+  val sum;
+  boolean TrHs,testf;
+  
+  SVONr = curWSr.SVONr;
+  WSr.SVONr = SVONr;
+  TrHs = true;
+  while (loopkey("SVONr",WSr,1,TrHs)) begin
+    testf = true;
+    if (WSr.SVONr!=SVONr) then begin testf = false; TrHs = false; end;
+    if (WSr.OKFlag==0) then begin testf = false; end;
+    if (testf) then begin
+      sum = sum + WSr.Sum4;
+    end;
+  end;
+  SVOr.SerNr = SVONr;
+  if (ReadFirstMain(SVOr,1,true)) then begin
+  logtext(0,sum);
+    SVOr.WSCost = sum;
+    RecordStore(SVOr,true);
+  end;
+  
+  return;
+end;
