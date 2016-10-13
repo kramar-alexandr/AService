@@ -9969,3 +9969,155 @@ begin
   end;
   EndWindow;
 end;
+
+
+window ToDoWClass:5
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,hof,hs,v,v2,vm,vs;
+  WindowBegin(" - Менеджер завдань",ToDoWClass,CGother,RcType);
+  UseView(RcVc);
+  SetWRect(20,80,850,640);
+  Sizeable(-1,-1,0,0);
+  ToolBar;
+  h = -110; v = 5; v2 = 25;
+//  PushButton(h,v,h+100,v2,ToolOK,"Зберегти");
+//  h = h -110;
+  HalPushButton(h,v,h+100,v2,"NewActivityTool","Нове завдання");
+  h = h -110;
+  PushButton(h,v,h+100,v2,ToolCalDay,"Щоденник");
+  EndToolBar;
+  if (GuiType==kGuiCocoa or GuiType==kGuiMetro) then begin
+    TaskManager(0,0,-1,-24); // should be one more right...
+    
+    BeginDrawer(240,600);
+    
+    v = 5;
+    h = 70; vs=20;
+    EditFieldTL(h,v+=vs,50,"Співробітник", M4UStr,Normal,10,f1,false,UserSClass);
+    EditFieldTL(h,v+=vs,50,"Вид", M4UStr,Normal,5,f3,false,ActTypeSClass);
+    EditFieldTL(h,v+=vs,100,"Клієнт", M4UStr,Normal,20,f4,false,AllCUSClass);
+    EditFieldTL(h,v+=vs,50,"Пріор-т", M4Str,Normal,21,LastAcc,false,0);
+    if (HasProjects) then begin
+    EditFieldTL(h,v+=vs,50,"Проект", M4UStr,Normal,10,FirstAcc,false,PRSClass);
+    end;
+    EditFieldTL(h,v+=vs,50,"Клас", M4UStr,Normal,5,AccStr,false,ActTypeGrSClass);
+    PeriodField(h,v+=vs,"Період");  
+    
+    //vm = 23;
+    //hs = 115;
+      hof = 105;
+      h2 = 20;
+    ButtonFrame(h2=30,v+=40,hof,4,"Обрати");
+    RadioButton(h2,v,0,0,"всі",flags[5]);
+    RadioButton(h2,v+=16,1,0,"дзвінки",flags[5]);
+    RadioButton(h2,v+=16,2,0,"зустрічі",flags[5]);
+    RadioButton(h2,v+=16,3,0,"на роботі",flags[5]);
+    ButtonFrame(h2,v+=48,hof,4,"Тип завдання");
+    RadioButton(h2,v,0,0,"зробити",flags[3]);
+    RadioButton(h2,v+=16,1,255,"зробити,кален.",flags[3]);
+    RadioButton(h2,v+=16,2,0,"зроб.,певн. час",flags[3]);
+    RadioButton(h2,v+=16,3,255,"всі",flags[3]);
+    ButtonFrame(h2,v+=48,hof,6,"Врах. виконані");
+    RadioButton(h2,v,0,0,"не враховувати",flags[1]);
+    RadioButton(h2,v+=16,4,0,"сьогодні",flags[1]);
+    RadioButton(h2,v+=16,5,0,"тиждень",flags[1]);
+    RadioButton(h2,v+=16,1,0,"місяць",flags[1]);
+    RadioButton(h2,v+=16,2,0,"рік",flags[1]);
+    RadioButton(h2,v+=16,3,0,"всі",flags[1]);
+    ButtonFrame(h2,v+=48,hof,3,"Співробітники");
+    RadioButton(h2,v,0,0,"основні",flags[2]);
+    RadioButton(h2,v+=16,1,0,"копія",flags[2]);
+    RadioButton(h2,v+=16,2,0,"всі",flags[2]);
+    CheckBox(h2,v+24,0,"Виключити підзавдання",flags[6]);   
+    EndDrawer;
+    
+  end else begin
+    Tile(0,30+17+20,false,"",f1);
+    v = 5; vs = 20;
+    EditFieldTL(90,v,50,"Співробітник", M4UStr,Normal,10,f1,false,UserSClass);
+    EditFieldTL(200,v,50,"Вид", M4UStr,Normal,5,f3,false,ActTypeSClass);
+    EditFieldTL(330,v,100,"Клієнт", M4UStr,Normal,20,f4,false,AllCUSClass);
+    EditFieldTL(490,v,50,"Пріор-т", M4Str,Normal,21,LastAcc,false,0);
+    PeriodField(-200,v,"Період");
+    if (HasProjects) then begin
+      EditFieldTL(90,v+=vs,50,"Проект", M4UStr,Normal,10,FirstAcc,false,PRSClass);
+    end;
+    EditFieldTL(200,v,50,"Клас", M4UStr,Normal,5,AccStr,false,ActTypeGrSClass);
+    TileButton(1,"Діяльності");
+    TileButton(2,"Фільтр");
+  //  CheckBox(300,v,0,"Врах.виконані",flags[1]);
+  //  CheckBox(425,v,0,"Копії",flags[2]);
+    
+    Tile(1,100,true,"1",f1);
+
+    v = 15;
+    h = 20;
+
+    StaticText(40,v-4,"Prio",false);
+    StaticText(68,v-4,"Mark",false);
+    StaticText(99,v-4,"Text",false);
+    StaticText(-456,v-4,"Type",true);
+//    StaticText(-385,v-4,"Start Date",true);
+    StaticText(-332,v-4,"Supervisor",true);
+    if (HasProjects) then begin
+    StaticText(-324,v-4,"Project",false);
+    end;
+    StaticText(-224,v-4,"Contact",false);
+    StaticText(-28,v-4,"Phone",true);//it shows phone no. not Date
+        
+  //  StaticText(-204,v-4,"Contact",false);
+  //  StaticText(-28,v-4,"Phone",true);
+    
+   /* ScrollBar(-14 - ScrollBarWidth,22,-14,-69); */
+  //  EditFieldTL(217+25,-47+20,200,"Search",   M4Str,Normal,100,f2,false,0);
+    TaskManager(5,5,-5,-5); //for webclient - will simply be ignored on platforms that dont implement this control
+    ScrollBar(-14 - ScrollBarWidth,22,-14,-69);
+    Tile(2,70+32,false,"2",f1);
+    vm = 23; hs = 115; hof = 95;
+    ButtonFrame(h2=30,v=vm,hof,4,"Обрати");
+    RadioButton(h2,v,0,0,"всі",flags[5]);
+    RadioButton(h2,v+=16,1,0,"дзвінки",flags[5]);
+    RadioButton(h2,v+=16,2,0,"зустрічі",flags[5]);
+    RadioButton(h2,v+=16,3,0,"на роботі",flags[5]);
+    ButtonFrame(h2+=hs,v=vm,hof,4,"Tип завдання");
+    RadioButton(h2,v,0,0,"зробити",flags[3]);
+    RadioButton(h2,v+=16,1,255,"зробити,кален.",flags[3]);
+    RadioButton(h2,v+=16,2,0,"зроб.,певн. час",flags[3]);
+    RadioButton(h2,v+=16,3,255,"всі",flags[3]);
+    ButtonFrame(h2+=hs,v=vm,hof,4,"Врах. виконані");
+    RadioButton(h2,v,0,0,"не враховувати",flags[1]);
+    RadioButton(h2,v+=16,1,0,"місяць",flags[1]);
+    RadioButton(h2,v+=16,2,0,"рік",flags[1]);
+    RadioButton(h2,v+=16,3,0,"всі",flags[1]);
+    ButtonFrame(h2+=hs,v=vm,hof,3,"Співробітники");
+    RadioButton(h2,v,0,0,"основні",flags[2]);
+    RadioButton(h2,v+=16,1,0,"копія",flags[2]);
+    RadioButton(h2,v+=16,2,0,"всі",flags[2]);
+    CheckBox(h2+=hs,v=vm,0,"Виключити підзавдання",flags[6]);
+  end;
+  
+  /* waiting for Karls final word
+  ButtonFrame(h2+=hs,v=vm,hof,4,"Відображати");
+  RadioButton(h2,v,0,0,"до сьогодні",flags[4]);
+  RadioButton(h2,v+=16,1,0,"+7 днів",flags[4]);
+  RadioButton(h2,v+=16,3,0,"+30 днів",flags[4]);
+  RadioButton(h2,v+=16,2,0,"всі",flags[4]);
+  */  
+  /*
+    ButtonFrame(h2+=hs,v=vm,hof,4,"Calendar Items");
+    RadioButton(h2,v,0,0,"None",flags[3]);
+    RadioButton(h2,v+=16,1,255,"Time",flags[3]);
+    RadioButton(h2,v+=16,2,0,"Timed To Dos",flags[3]);
+    RadioButton(h2,v+=16,3,255,"Both",flags[3]);
+  */
+  
+//  SpecialMenu("Open Attachment",'a',3,"ToDoWOpenAttachmentLsm");
+  if ((TestEnablerFile("EnLiveHM") or TestEnablerFile("EnTestHM") or TestEnablerFile("EnDevHM"))==false) then begin
+  SpecMenuItem("Зберегти",' ',mSaveTodoChanges);
+  end;
+  SpecMenuItem("Set Date",' ',mSetTodoDate); //!!PRODTRANSLATE
+  SpecialMenu("Пошук",'F',3,"ToDoWSearchLsm");
+  SpecialMenu("Перелік задач",'r',4,"ToDoWListLsm");
+  EndWindow;
+end;

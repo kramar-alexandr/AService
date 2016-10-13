@@ -821,3 +821,28 @@ begin
 	ExpiredMoveForServDays = res;
 return;
 end;
+
+
+global updating procedure CreateActFromSVOToEnginer(record SVOVc SVOr)
+begin
+	record ActVc Actr;
+	string 50 sernum;
+	
+	recordnew(Actr);
+	Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+	
+	Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+	
+	sernum = SVOr.SerNr;
+	if(left(sernum,1)=="1")then begin
+		Actr.MainPersons = "SA";
+	end;
+	Actr.TodoFlag = kTodoFlagTodo;
+	
+	if(recordstore(Actr,true))then begin
+		CreateRecordLink(SVOr,CurrentCompany,Actr,CurrentCompany);  
+		CreateRecordLink(Actr,CurrentCompany,SVOr,CurrentCompany); 
+	end;
+	
+return;
+end;
