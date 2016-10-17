@@ -423,7 +423,14 @@ BEGIN
         nwn = OpenMasterWClass2(mailboxnr,mailboxname);
         //nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);    // Edit ************************** Thursday, 13 October 2016 10:49:36
       end;
-      acptRepSpec.f1 = CurrentUser;
+      acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 16:26:39
+      acptRepSpec.sStartDate = stringtodate("01/01/2012");
+      acptRepSpec.sEndDate = Currentdate;
+      acptRepSpec.d1 = stringtodate("01/01/2012");
+			acptRepSpec.d2 = Currentdate;
+			acptRepSpec.Period2Str = acptRepSpec.sStartDate;
+			acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
+			acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
       nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
   end;
   end else begin
@@ -435,6 +442,13 @@ BEGIN
       //nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:13  
     end;
     acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 13:10:06
+    acptRepSpec.sStartDate = stringtodate("01/01/2012");
+		acptRepSpec.sEndDate = Currentdate;
+		acptRepSpec.d1 = stringtodate("01/01/2012");
+		acptRepSpec.d2 = Currentdate;
+		acptRepSpec.Period2Str = acptRepSpec.sStartDate;
+		acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
+		acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
     nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:19
   end;
   if (CurrentUser=="$MASTER") then begin
@@ -727,4 +741,16 @@ begin
 
   ToDoWClassOnClose = true;
   return;
+end;
+
+
+function Boolean AlarmWClassOnOpenWindow(Integer wn)
+begin
+	
+	UpdateBrowses("RcVc");
+	UpdateBrowses("ActVc");
+	messagebox(0,1);
+	
+	AlarmWClassOnOpenWindow = false;
+return;
 end;

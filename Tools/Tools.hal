@@ -827,21 +827,45 @@ global updating procedure CreateActFromSVOToEnginer(record SVOVc SVOr)
 begin
 	record ActVc Actr;
 	string 50 sernum;
+	row SVOVc SVOrw;
+	record INVc INr;
+	boolean creaetf;
 	
-	recordnew(Actr);
-	Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
 	
-	Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+	
 	
 	sernum = SVOr.SerNr;
 	if(left(sernum,1)=="1")then begin
-		Actr.MainPersons = "SA";
+		Actr.SVOSerNr = SVOr.SerNr;
+		if(!readfirstkey("SVOSerNr",Actr,1,true))then begin
+			creaetf = true;
+			recordnew(Actr);
+			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			Actr.AlarmType = kAlarmTypeMessage;
+			Actr.SVOSerNr = SVOr.SerNr;
+			Actr.TodoFlag = kTodoFlagTodo;
+			Actr.SymbNr = 3;
+			if(matrowcnt(SVOr)>0)then begin
+				matrowget(SVOr,0,SVOrw);
+				INr.Code = SVOrw.ArtCode;
+				if(readfirstmain(INr,1,true))then begin
+					switch(INr.Group)begin
+						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,SA," & CurrentUser;
+											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
+						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,SA," & CurrentUser;
+											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					end;
+				end;	
+			end;			
+		end;
 	end;
-	Actr.TodoFlag = kTodoFlagTodo;
 	
-	if(recordstore(Actr,true))then begin
-		CreateRecordLink(SVOr,CurrentCompany,Actr,CurrentCompany);  
-		CreateRecordLink(Actr,CurrentCompany,SVOr,CurrentCompany); 
+	if(creaetf)then begin	
+		Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
+		if(recordstore(Actr,true))then begin
+			CreateRecordLink(SVOr,CurrentCompany,Actr,CurrentCompany);  
+			CreateRecordLink(Actr,CurrentCompany,SVOr,CurrentCompany); 
+		end;
 	end;
 	
 return;

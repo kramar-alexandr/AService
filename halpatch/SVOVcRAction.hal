@@ -18,6 +18,7 @@ remote procedure SENDFIRSTSMS(record SVOVc);
 external updating procedure CreateNoterChangeInSVO(record SVOVc,string,string);
 external function Boolean FindStringInString(string,string);// Edit ************************** Thursday, 30 June 2016 10:55:59
 remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
+external updating procedure CreateActFromSVOToEnginer(record SVOVc);
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -357,7 +358,10 @@ BEGIN
         recordinsert(SVHistr,true);
       end;
     end;
-  
+  	
+  	CreateActFromSVOToEnginer(SVOr);
+
+  	
   SENDFIRSTSMS(SVOr);
   
   SVOVcRecordSaveAfter = res; 
@@ -517,6 +521,8 @@ BEGIN
 		comment = USetStr(31059);
 		CreateNoterChangeInSVO(SVOr,tstr,comment);
 	end;
+	
+	CreateActFromSVOToEnginer(SVOr);
 	
   SVOVcRecordUpdateAfter = res;
   RETURN;
