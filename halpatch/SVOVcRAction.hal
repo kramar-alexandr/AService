@@ -685,11 +685,11 @@ BEGIN
       res = -1;
       goto LSVOVcRecordCheck;
     end;
-    if (FindOpenActTrans(SVOr.SerNr)) then begin
+    /*if (FindOpenActTrans(SVOr.SerNr)) then begin
       RecordCheckError(20269,"",-1,"CustCode");
       res = -1;
       goto LSVOVcRecordCheck;
-    end;   
+    end;  */ 
   end;  
   if (stat==2) then begin
     if (SVOr.SerNr<=0) then begin
