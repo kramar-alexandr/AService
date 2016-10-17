@@ -749,7 +749,6 @@ begin
 	
 	UpdateBrowses("RcVc");
 	UpdateBrowses("ActVc");
-	messagebox(0,1);
 	
 	AlarmWClassOnOpenWindow = false;
 return;
