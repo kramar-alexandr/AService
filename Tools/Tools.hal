@@ -851,10 +851,11 @@ begin
 				INr.Code = SVOrw.ArtCode;
 				if(readfirstmain(INr,1,true))then begin
 					Actr.Comment = INr.Code & " " & Actr.Comment;
+					Actr.Phone = SVOrw.Spec;
 					switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER";
+						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER,SA";
 											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
+						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER,SA";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
 				end;	
@@ -886,7 +887,7 @@ end;
 
 global procedure UpdateToDoWclass()
 	begin
-    //AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
+    AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
 end;
 
 
