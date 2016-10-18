@@ -858,6 +858,10 @@ begin
 						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER,SA";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
+					if(INr.Code=="IPAD")then begin
+	  			 Actr.MainPersons = "POGEDAEV,KAYZER,SA";
+					 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					end;
 				end;	
 			end;			
 		end;
