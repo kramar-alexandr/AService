@@ -141,7 +141,7 @@ begin
   
   
  	Maintenance("Обновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
-
+  Maintenance("ChangeCostOfWSsInSVO",MyVClass,ChangeCostOfWSsInSVOMn,modDBMain);//Edit-------------------Vitalii 17:44 18.10.2016
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014

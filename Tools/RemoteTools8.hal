@@ -2089,9 +2089,19 @@ begin
   end;
   SVOr.SerNr = SVONr;
   if (ReadFirstMain(SVOr,1,true)) then begin
-  logtext(0,sum);
     SVOr.WSCost = sum;
     RecordStore(SVOr,true);
+  end;
+  
+  return;
+end;
+global
+updating procedure ChangeCostOfWSsInSVOMn()
+begin
+  record SVOVc SVOr;
+  
+  while (loopmain(SVOr,1,true)) begin
+    ChangeCostOfWSsInSVO(SVOr.SerNr);
   end;
   
   return;
