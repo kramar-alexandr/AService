@@ -2137,12 +2137,16 @@ begin
 	area aFile;
 	integer wn;
 	record SVOVc SVOr;
+	longint svonr;
 	
 		wn = CurWindow;
 		if (WindowState(wn)==Rs_normal) then begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,SVOr);
    		
+   		svonr = SVOr.SerNr;
+   		SVOr.SerNr = svonr;
+   		readfirstmain(SVOr,1,true);
    		SetExportCodePage("CP1251");
    		HandleSVOReceiptPrinting(SVOr,aFile);
    		AddAreaToArea(aFile,aFile);

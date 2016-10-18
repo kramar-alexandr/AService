@@ -850,10 +850,11 @@ begin
 				matrowget(SVOr,0,SVOrw);
 				INr.Code = SVOrw.ArtCode;
 				if(readfirstmain(INr,1,true))then begin
+					Actr.Comment = INr.Code & " " & Actr.Comment;
 					switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,SA,KAYZER," & CurrentUser;
+						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER";
 											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,SA,KAYZER," & CurrentUser;
+						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
 				end;	
@@ -886,4 +887,13 @@ end;
 global procedure UpdateToDoWclass()
 	begin
     //AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
+end;
+
+
+global function Boolean HasProjects() 
+begin 
+
+HasProjects = /*HasBooleanWTag("HasProjects");*/ false;
+
+return;
 end;

@@ -7082,8 +7082,8 @@ begin
   EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   ButtonFrame(h+500,vm+16,130,5,"Статус");
 	RadioButton(h+500,vm+16,0,0,"В очікуванні",OrderStatus);
-	RadioButton(h+500,vm+32+16,4,0,"На узгодженні",OrderStatus);
 	RadioButton(h+500,vm+16+16,1,0,"Діаг. заверш.",OrderStatus);
+	RadioButton(h+500,vm+32+16,4,0,"На узгодженні",OrderStatus);
 	RadioButton(h+500,vm+48+16,3,0,"Очікує запч.",OrderStatus);
   RadioButton(h+500,vm+64+16,2,0,"Ремонт виконано",OrderStatus);
   
@@ -7184,7 +7184,9 @@ begin
   EditField(h,v+=vs,-20,"Інше:",Normal,Inshe,false,0);
   v=v+10;
   EditField(h,v+=vs,50,"Виробник",Normal,Region,false,ITSClass);
-  EditField(h,v+vs+5,80,"До сплати",Normal,WSCost,false,0);
+  EditField(h,v+vs+5,80,"До сплати",ViewOnly,WSCost,false,0);
+  HALPushButton(h+100,v+vs+5,h+270,v+vs+5+25,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
+
   EditField(h+=120,v,50,"Гарантія",Normal,Garanty,false,0);
   EditField(h+=120,v,100,"Гарант. №",Normal,GarNo,false,0);
   EditField(h+=220,v,100,"Гарант. від дати",Normal,GarDate,false,PasteCurDate);
@@ -9978,7 +9980,7 @@ begin
   real h,h2,hof,hs,v,v2,vm,vs;
   WindowBegin(" - Менеджер завдань",ToDoWClass,CGother,RcType);
   UseView(RcVc);
-  SetWRect(20,80,850,640);
+  SetWRect(20,80,1250,940);
   Sizeable(-1,-1,0,0);
   ToolBar;
   h = -110; v = 5; v2 = 25;

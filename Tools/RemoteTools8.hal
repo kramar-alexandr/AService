@@ -2070,15 +2070,13 @@ begin
 end;
 
 global
-updating procedure ChangeCostOfWSsInSVO(record WSVc curWSr)
+updating procedure ChangeCostOfWSsInSVO(longint SVONr)
 begin
   record WSVc WSr;
   record SVOVc SVOr;
-  longint SVONr;
   val sum;
   boolean TrHs,testf;
   
-  SVONr = curWSr.SVONr;
   WSr.SVONr = SVONr;
   TrHs = true;
   while (loopkey("SVONr",WSr,1,TrHs)) begin

@@ -27,7 +27,7 @@ external procedure GetItemGroup(string,var string);
 external procedure GetCurncyRoundoff(string,string,string,var roundmode,var roundmode,var roundmode);
 external function longint GetUserSerNrSeries(longint);// Edit ************************** Thursday, 13 February 2014 17:29:44
 remote updating procedure CreateIVFromWS(record WSVc,var LongInt,var record IVVc); //Edit***************************Sasha2,14:05 10.06.2015
-remote updating procedure ChangeCostOfWSsInSVO(record WSVc);//Edit-------------------Vitalii 11:29 13.10.2016
+remote updating procedure ChangeCostOfWSsInSVO(longint);//Edit-------------------Vitalii 11:29 13.10.2016
 
 global
 function Integer GetItemCost(string emcode,string itemcode,string location,val qtyp,val fifop,var val costp)
@@ -454,7 +454,7 @@ BEGIN
       UpdateBrowses("WSVc");
   end; //Edit***************************Sasha2,16:23 10.06.2015 }
   if (WSr.OKFlag!=0) then begin
-    ChangeCostOfWSsInSVO(WSr);//Edit-------------------Vitalii 11:29 13.10.2016
+    ChangeCostOfWSsInSVO(WSr.SVONr);//Edit-------------------Vitalii 11:29 13.10.2016
   end;
   WSVcRecordUpdateAfter = res; 
   RETURN;

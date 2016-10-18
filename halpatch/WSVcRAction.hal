@@ -53,7 +53,7 @@ external function longint GetUserSerNrSeries(longint);// Edit ******************
 remote updating procedure CreateIVFromWS(record WSVc,var LongInt,var record IVVc); //Edit***************************Sasha2,11:46 10.06.2015
 external function boolean CheckUserLocation(string);//Edit----------------------Dima  09.12.2015
 external function Boolean IsEnoughRemQtyInHist(string,string,date,val,string); //Edit***************************Sasha2,11:38 04.03.2016
-remote updating procedure ChangeCostOfWSsInSVO(record WSVc);//Edit-------------------Vitalii 11:29 13.10.2016
+remote updating procedure ChangeCostOfWSsInSVO(Longint);//Edit-------------------Vitalii 11:29 13.10.2016
 
 procedure GetWSStockAcc(Integer ItemGroupAccounts,string location,string MainStock,string itcode,string accusageacc,var string stockacc,var string locobjstr)
 begin  
@@ -1270,7 +1270,7 @@ begin
 			IVr.OKFlag = 1;// Edit ************************** Tuesday, 12 January 2016 13:04:29
 			RecordUpdate(oldIVr,IVr,true);// Edit ************************** Tuesday, 12 January 2016 13:04:27
     end;
-    ChangeCostOfWSsInSVO(WSr);//Edit-------------------Vitalii 11:29 13.10.2016
+    ChangeCostOfWSsInSVO(WSr.SVONr);//Edit-------------------Vitalii 11:29 13.10.2016
   end;
   if ((WSr.PrelOK!=0) and (WSr.OKFlag==0)) then begin 
     WSPrelOK(WSr,true);
