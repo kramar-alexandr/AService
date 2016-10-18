@@ -1,4 +1,5 @@
 external updating procedure AddTextToNote(var record NotepadVc,string);
+external procedure UpdateMasterWClassOnKPIs(string);// Edit ************************** Monday, 17 October 2016 19:05:28
 
 global
 updating procedure CleaningMn()
@@ -825,7 +826,7 @@ end;
 
 global updating procedure CreateActFromSVOToEnginer(record SVOVc SVOr)
 begin
-	record ActVc Actr;
+	record ActVc Actr,oldActr;
 	string 50 sernum;
 	row SVOVc SVOrw;
 	record INVc INr;
@@ -835,7 +836,7 @@ begin
 	
 	
 	sernum = SVOr.SerNr;
-	if(left(sernum,1)=="1")then begin
+	if(left(sernum,1)=="1" and SVOr.OrderStatus==0 and SVOr.DoneMark==0)then begin
 		Actr.SVOSerNr = SVOr.SerNr;
 		if(!readfirstkey("SVOSerNr",Actr,1,true))then begin
 			creaetf = true;
@@ -850,13 +851,23 @@ begin
 				INr.Code = SVOrw.ArtCode;
 				if(readfirstmain(INr,1,true))then begin
 					switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,SA," & CurrentUser;
+						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,SA,KAYZER," & CurrentUser;
 											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,SA," & CurrentUser;
+						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,SA,KAYZER," & CurrentUser;
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
 				end;	
 			end;			
+		end;
+	end;
+	if(left(sernum,1)=="1" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0))then begin
+		Actr.SVOSerNr = SVOr.SerNr;
+		if(readfirstkey("SVOSerNr",Actr,1,true))then begin
+			if(Actr.OKFlag==0)then begin
+				RecordCopy(oldActr,Actr);
+				Actr.OKFlag = 1;		
+				RecordUpdate(oldActr,Actr,true);
+			end;
 		end;
 	end;
 	
@@ -869,4 +880,10 @@ begin
 	end;
 	
 return;
+end;
+
+
+global procedure UpdateToDoWclass()
+	begin
+    //AllClientsRemoteAsync.UpdateMasterWClassOnKPIs("");
 end;

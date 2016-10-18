@@ -743,13 +743,40 @@ begin
   return;
 end;
 
-
-function Boolean AlarmWClassOnOpenWindow(Integer wn)
+global
+updating procedure AlarmMessage(record ActVc Actr,Integer compno,string msg)
 begin
+  Integer wn;
+  record RcVc RepSpec;
+  record ActVc Actr1,oldActr1;
+  
+  
+  wn = OpenWindow("AlarmWClass",1,0,"","",RepSpec);
+  DeselectWindow(wn,false);
+  RepSpec.f1 = msg;
+  RepSpec.long1 = Actr.SerNr;
+  RepSpec.flags[0] = compno;
+  PutWindowRecord(wn,RepSpec);
+  
+  wn = FindWindow("ToDoWClass");
+  if(wn>0)then begin
+  	updatebrowses("ToDoWClass");
+  end;
+  
+  return;
+end;
+
+
+global procedure UpdateMasterWClassOnKPIs(string str)
+begin
+	Integer wn;
 	
-	UpdateBrowses("RcVc");
-	UpdateBrowses("ActVc");
-	
-	AlarmWClassOnOpenWindow = false;
+	wn = curwindow;
+ 	if(WindowState(wn)==0)then begin
+		wn = FindWindow("ToDoWClass");
+		if(wn>0)then begin
+			updatebrowses("ToDoWClass");
+		end;
+	end;
 return;
 end;
