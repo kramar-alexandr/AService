@@ -7078,6 +7078,9 @@ begin
   halpushbutton(h-50,vm+30,h+150,vm+60,"ChangeSVOSalesGroup","Перенести ремонт"); 
   EditField(h+200,vm+30,60,"Гр.Пр.",ViewOnly,SalesGroup,false,0);
   
+  HALPushButton(h-50,vm+60,h+150,vm+90,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
+  EditField(h+220,vm+60,80,"До сплати",ViewOnly,WSCost,false,0);
+  
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   ButtonFrame(h+500,vm+16,130,5,"Статус");
@@ -7184,9 +7187,7 @@ begin
   EditField(h,v+=vs,-20,"Інше:",Normal,Inshe,false,0);
   v=v+10;
   EditField(h,v+=vs,50,"Виробник",Normal,Region,false,ITSClass);
-  EditField(h,v+vs+5,80,"До сплати",ViewOnly,WSCost,false,0);
-  HALPushButton(h+100,v+vs+5,h+270,v+vs+5+25,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
-
+  
   EditField(h+=120,v,50,"Гарантія",Normal,Garanty,false,0);
   EditField(h+=120,v,100,"Гарант. №",Normal,GarNo,false,0);
   EditField(h+=220,v,100,"Гарант. від дати",Normal,GarDate,false,PasteCurDate);
