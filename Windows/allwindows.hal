@@ -7097,19 +7097,25 @@ begin
   TileButton(2,"Товари");
   TileButton(3,"Валюта");
   Tile(1,80,false,"1",PayDeal);
-  EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);
+
+  EditField(h1=110,v=vm-20,100,"Дата замовл.",Normal,TransDate,false,PasteCurDate);
+  EditField(h2,v,60,"Час",ViewOnly,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48
+  EditField(h3,v,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
+
+  //EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);// Edit ************************** Monday, 24 October 2016 17:38:14
   
-  EditField(h+130,vm,60,"Класс замовлення",Normal,OrderClass,false,OrderClassSClass);// Edit ************************** Wednesday, 4 March 2015 15:52:13
+  //EditField(h+130,vm,60,"Класс замовлення",Normal,OrderClass,false,OrderClassSClass);// Edit ************************** Wednesday, 4 March 2015 15:52:13
 
   //EditField(h,v+=vs,130,"Відповід.",Normal,OurContact,false,0);// Edit ************************** Tuesday, 1 June 2010 10:58:05 AM
-  EditField(h+30,v+=2*vs,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
-  EditField(h2=350,v=vm,100,"Дата замовлення",Normal,TransDate,false,PasteCurDate);
-  EditField(h3,v,70,"Серв. склад",Normal,ServLocation,false,LocationSClass);
-  EditField(h3+100,v,-20,"",ViewOnly,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48
-  EditField(h2,v+=vs,100,"Дата завершення рем.",Normal,PlanShip,false,PasteCurDate);
-  EditField(h3,v,70,"Дата видачі",Normal,RegDate,false,PasteCurDate);
+  //EditField(h3,v,70,"Серв. склад",Normal,ServLocation,false,LocationSClass);
+  EditField(h1,v+=vs,100,"Дата заверш. рем.",Normal,PlanShip,false,PasteCurDate);
+  EditField(h2,v,60,"Час",ViewOnly,DoneTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:04
+
+  EditField(h1,v+=vs,100,"Дата видачі",Normal,RegDate,false,PasteCurDate);
+  EditField(h2,v,60,"Час",ViewOnly,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
+
   
-  EditField(h2,v+=vs,-20,"Замов. клієнта №",Normal,CustOrdNr,false,0);
+  //EditField(h2,v+=vs,-20,"Замов. клієнта №",Normal,CustOrdNr,false,0);// Edit ************************** Monday, 24 October 2016 17:39:15
   EnterSkip(Math);
   Tile(2,150,true,"2",Math);
   
