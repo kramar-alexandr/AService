@@ -274,6 +274,7 @@ BEGIN
   SVOr.Batary = ""; 
   SVOr.Zaryadka = ""; 
   SVOr.Inshe = ""; 
+  SVOr.WSCost = blankval;
   
   
   SVOVcRecordDuplicate = res; 
