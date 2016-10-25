@@ -7096,7 +7096,7 @@ begin
   TileButton(1,"Дата");
   TileButton(2,"Товари");
   TileButton(3,"Валюта");
-  Tile(1,80,false,"1",PayDeal);
+  Tile(1,80,false,"1",CustContact);
 
   EditField(h1=110,v=vm-20,100,"Дата замовл.",Normal,TransDate,false,PasteCurDate);
   EditField(h2,v,60,"Час",ViewOnly,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48

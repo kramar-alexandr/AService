@@ -2690,10 +2690,14 @@ EndRecord;
   RecordField(VIPStatus,M4Mark,0,0);
   RecordField(ItemName,M4Str,200,0);
   RecordField(ItemFrPartner,M4Mark,0,0); //Edit***************************Sasha2,13:47 08.12.2015
-  //----------End Custom
   
 //  RecordField(TaxMatrix,M4PackedMatrix,0,TaxMatrixVc);
   RecordField(WSCost,M4Val,0,0);
+  RecordField(DoneTime,M4Time,0,0);// Edit ************************** Monday, 24 October 2016 17:55:42
+  RecordField(OutTime,M4Time,0,0);// Edit ************************** Monday, 24 October 2016 17:55:42
+  
+  
+   //----------End Custom
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
   ArrayField(ArtCode,M4Code,20,INVc);
