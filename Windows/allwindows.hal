@@ -7058,28 +7058,30 @@ begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   string 255 label;
 	WindowBegin("Замовлення на обслуговування",SVODClass,CGview,-);
-  SetWRect(20,80,850,850);
+  SetWRect(20,80,850,900);
   Sizeable(-1,-1,0,0);
   DynamicWindow;
   UseView(SVOVc);
   ToolBar;
-  HalPushButton(260,5,360,25,"WorkSheetSVODsm","План робіт");
-	HalPushButton(380,5,440,25,"PrintDoSVOFormButton","Друк");	//Edit----------------------Dima  09.02.2015
+  HalPushButton(250,5,350,25,"WorkSheetSVODsm","План робіт");
+	HalPushButton(370,5,430,25,"PrintDoSVOFormButton","Друк");	//Edit----------------------Dima  09.02.2015
   EndToolBar;
   ActiveFieldOnNew("CustCode");  
   FormName(SVOForm);
   vs = 20; h3 = 550;
-  Tile(0,140,false,"",CustCode);
+  Tile(0,150,false,"",CustCode);
   EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
   EnterSkip(CustCode);
   EditField(h2=240,v,-40,"Власник",Normal,Addr0,false,0);
   EditField(h,vm=(v+=vs),82, "Клієнт",Normal,CustCode,false,CUSClass);
   
-  halpushbutton(h-50,vm+30,h+150,vm+60,"ChangeSVOSalesGroup","Перенести ремонт"); 
+  halpushbutton(h-50,vm+20,h+150,vm+50,"ChangeSVOSalesGroup","Перенести ремонт"); 
   EditField(h+200,vm+30,60,"Гр.Пр.",ViewOnly,SalesGroup,false,0);
   
-  HALPushButton(h-50,vm+60,h+150,vm+90,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
+  HALPushButton(h-50,vm+50,h+150,vm+80,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
   EditField(h+220,vm+60,80,"До сплати",ViewOnly,WSCost,false,0);
+  
+  HalPushButton(h-50,vm+80,h+150,vm+110,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
   
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
@@ -7116,8 +7118,6 @@ begin
 
   EditField(h1,v+=vs,60,"Дата видачі",ViewOnly,RegDate,false,PasteCurDate);
   EditField(h2,v,60,"Час",ViewOnly,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
-  
-  HalPushButton(h+220,v-3,h+280,v+15,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
 
   
   //EditField(h2,v+=vs,-20,"Замов. клієнта №",Normal,CustOrdNr,false,0);// Edit ************************** Monday, 24 October 2016 17:39:15
