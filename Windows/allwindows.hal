@@ -7098,9 +7098,12 @@ begin
   TileButton(3,"Валюта");
   Tile(1,80,false,"1",CustContact);
 
-  EditField(h1=110,v=vm-20,100,"Дата замовл.",Normal,TransDate,false,PasteCurDate);
+  EditField(h1=110,v=vm-20,60,"Дата замовл.",ViewOnly,TransDate,false,PasteCurDate);
+  h2=h2-40;
   EditField(h2,v,60,"Час",ViewOnly,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48
-  EditField(h3,v,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
+  EditField(h3+130,v,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
+  EditField(h2+180,v,60,"Дата заверш.діагн.",ViewOnly,EndDiagnDate,false,0); //Edit***************************Sasha2,15:40 25.10.2016
+  EditField(h2+270,v,60,"Час",ViewOnly,EndDiagnTime,false,0); //Edit***************************Sasha2,15:40 25.10.2016
 
   //EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);// Edit ************************** Monday, 24 October 2016 17:38:14
   
@@ -7108,13 +7111,11 @@ begin
 
   //EditField(h,v+=vs,130,"Відповід.",Normal,OurContact,false,0);// Edit ************************** Tuesday, 1 June 2010 10:58:05 AM
   //EditField(h3,v,70,"Серв. склад",Normal,ServLocation,false,LocationSClass);
-  EditField(h1,v+=vs,100,"Дата заверш. рем.",ViewOnly,PlanShip,false,PasteCurDate);
+  EditField(h1,v+=vs,60,"Дата заверш. рем.",ViewOnly,PlanShip,false,PasteCurDate);
   EditField(h2,v,60,"Час",ViewOnly,DoneTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:04
-  EditField(h3,v,80,"Дата заверш.діагностики",ViewOnly,EndDiagnDate,false,0); //Edit***************************Sasha2,15:40 25.10.2016
 
-  EditField(h1,v+=vs,100,"Дата видачі",ViewOnly,RegDate,false,PasteCurDate);
+  EditField(h1,v+=vs,60,"Дата видачі",ViewOnly,RegDate,false,PasteCurDate);
   EditField(h2,v,60,"Час",ViewOnly,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
-  EditField(h3,v,80,"Час заверш.діагностики",ViewOnly,EndDiagnTime,false,0); //Edit***************************Sasha2,15:40 25.10.2016
   
   HalPushButton(h+220,v-3,h+280,v+15,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
 
