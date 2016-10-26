@@ -35,7 +35,28 @@ remote updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,
 	//Wednesday, 3 June 2015 16:58:34
 	
 SetLangMode(LangUkrainian,"UKR",0);
-	
+
+global //Edit***************************Sasha2,17:13 25.10.2016 {
+updating procedure SetRegDateInSVODsm()
+BEGIN
+  record SVOVc SVOr;
+  Integer wn,nwn;
+  
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_normal) then begin
+    GetWindowRecord(wn,SVOr);
+    if (BlankDate(SVOr.RegDate)) then begin
+      SVOr.RegDate = currentDate;
+  	  SVOr.OutTime = CurrentTime;
+  	  PutWindowRecord(wn,SVOr);
+  	  WindowDoOK(wn,0);
+    end;
+	end else begin
+	  MessageBox(1356,"");
+  end;
+  RETURN;
+END; //Edit***************************Sasha2,17:13 25.10.2016 }
+
 global
 updating procedure ORFromSVODsm()
 BEGIN

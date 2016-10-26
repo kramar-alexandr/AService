@@ -253,7 +253,12 @@ BEGIN
   SVOr.ToRateB2 = to2;
   SVOr.BaseRate1 = br1;
   SVOr.BaseRate2 = br2;
-  SVOr.PlanShip = blankval;		//Edit----------------------Dima  28.09.2015
+  SVOr.PlanShip = blankd;		//Edit----------------------Dima  28.09.2015
+  SVOr.DoneTime = blankt;
+  SVOr.RegDate = blankd;
+  SVOr.OutTime = blankt;
+  SVOr.EndDiagnDate = blankd;
+  SVOr.EndDiagnTime = blankt;
   SVOr.OrderStatus = 0;
   SVOr.DoneMark = 0;
   SVOr.CustomField7 = "";
@@ -651,8 +656,13 @@ BEGIN
   res = 0;
   
   
+  if((SVOr.OrderStatus==1 or SVOr.OrderStatus==2 or SVOr.OrderStatus==3) and blankdate(SVOr.EndDiagnDate))then begin //Edit***************************Sasha2,17:32 25.10.2016
+  	SVOr.EndDiagnDate = currentdate;
+  	SVOr.EndDiagnTime = CurrentTime;
+  end;
   if(SVOr.OrderStatus==2 and blankdate(SVOr.PlanShip))then begin
   	SVOr.PlanShip = currentdate;// Edit ************************** Thursday, 10 September 2015 17:31:49
+  	SVOr.DoneTime = CurrentTime;
   end;
   if(!blankdate(SVOr.PlanShip))then begin
   	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49

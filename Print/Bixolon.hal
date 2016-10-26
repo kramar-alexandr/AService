@@ -32,6 +32,7 @@ begin
 	ReadFirstMain(SVOr,1,true);
 	RecordCopy(SVO2r,SVOr);// Edit ************************** Wednesday, 28 October 2015 14:30:40
 	SVOr.RegDate = currentDate;// Edit ************************** Wednesday, 28 October 2015 14:28:31
+	SVOr.OutTime = CurrentTime; //Edit***************************Sasha2,17:10 25.10.2016
 	RecordUpdate(SVO2r,SVOr,true);// Edit ************************** Wednesday, 28 October 2015 14:30:39
 	
 	switch (WSr.SalesGroup) begin
