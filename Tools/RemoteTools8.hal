@@ -2073,7 +2073,9 @@ global
 updating procedure ChangeCostOfWSsInSVO(longint SVONr)
 begin
   record WSVc WSr;
+  row WSVc WSrw;
   record SVOVc SVOr;
+  integer i,rwcnt;
   val sum;
   boolean TrHs,testf;
   
@@ -2084,7 +2086,11 @@ begin
     if (WSr.SVONr!=SVONr) then begin testf = false; TrHs = false; end;
     if (WSr.OKFlag==0) then begin testf = false; end;
     if (testf) then begin
-      sum = sum + WSr.Sum4;
+      rwcnt = matrowcnt(WSr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        matrowget(WSr,i,WSrw);
+        sum = sum + WSrw.Sum*(WSrw.Quant - WSrw.Returned);
+      end;
     end;
   end;
   SVOr.SerNr = SVONr;
