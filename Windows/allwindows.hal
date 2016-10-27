@@ -7078,10 +7078,11 @@ begin
   halpushbutton(h-50,vm+20,h+150,vm+50,"ChangeSVOSalesGroup","Перенести ремонт"); 
   EditField(h+200,vm+30,60,"Гр.Пр.",ViewOnly,SalesGroup,false,0);
   
-  HALPushButton(h-50,vm+50,h+150,vm+80,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
+  //HALPushButton(h-50,vm+50,h+150,vm+80,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
+  HalPushButton(h-50,vm+50,h+150,vm+80,"PrintAndSetRegDateInSVODsm","Видати");//Edit-------------------Vitalii 13:51 27.10.2016
   EditField(h+220,vm+60,80,"До сплати",ViewOnly,WSCost,false,0);
   
-  HalPushButton(h-50,vm+80,h+150,vm+110,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
+  //HalPushButton(h-50,vm+80,h+150,vm+110,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
   
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM

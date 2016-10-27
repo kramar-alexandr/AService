@@ -2144,13 +2144,10 @@ begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,SVOr);
    		
-   		svonr = SVOr.SerNr;
-   		SVOr.SerNr = svonr;
-   		readfirstmain(SVOr,1,true);
    		SetExportCodePage("CP1251");
    		HandleSVOReceiptPrinting(SVOr,aFile);
    		AddAreaToArea(aFile,aFile);
-     	PrintBixolonReceipt(aFile); 
+     	PrintBixolonReceipt(aFile);
 		end else begin
 		  MessageBox(1356,"");
 		end; 

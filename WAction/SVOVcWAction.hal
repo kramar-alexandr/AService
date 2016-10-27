@@ -29,12 +29,42 @@ external function Boolean GSXCreateCarryInRepair(string,string,var record SVOVc,
 remote updating function boolean RecordAction_raPasteSVOInQT(var record QTVc,record SVOVc);
 remote function string 255 DuplicateSVOSerial(string);// Edit ************************** Tuesday, 2 June 2015 20:09:42
 remote updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,var record SVOVc);// Edit ************************** Wednesday, 3 June 2015 16:59:04
+remote procedure HandleSVOReceiptPrinting(record SVOVc,var area);
+external procedure PrintBixolonReceipt(area);
 
 
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
 	
 SetLangMode(LangUkrainian,"UKR",0);
+
+global //Edit-------------------Vitalii 13:52 27.10.2016
+updating procedure PrintAndSetRegDateInSVODsm()
+BEGIN
+  record SVOVc SVOr;
+  Integer wn,nwn;
+  area aFile;
+	
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_normal) then begin
+    GetWindowRecord(wn,SVOr);
+    if ((SVOr.WSCost!=blankval) and (SVOr.WSCost!=0)) then begin
+      SetExportCodePage("CP1251");
+      HandleSVOReceiptPrinting(SVOr,aFile);
+      AddAreaToArea(aFile,aFile);
+      PrintBixolonReceipt(aFile);
+    end;
+    if (BlankDate(SVOr.RegDate)) then begin
+      SVOr.RegDate = currentDate;
+  	  SVOr.OutTime = CurrentTime;
+  	  PutWindowRecord(wn,SVOr);
+  	  WindowDoOK(wn,0);
+    end;
+	end else begin
+	  MessageBox(1356,"");
+  end;
+  RETURN;
+END;
 
 global //Edit***************************Sasha2,17:13 25.10.2016 {
 updating procedure SetRegDateInSVODsm()

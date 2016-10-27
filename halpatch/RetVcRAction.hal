@@ -75,6 +75,7 @@ external function Boolean Date2Test(string,Date,string,Integer);
 external function Boolean SerNrTestRetVc(LongInt,Date,var Boolean);
 external function LongInt GetCurUserLastNr(string);
 remote updating procedure RecalcORShops(string); //Edit***************************Sasha2,17:05 31.10.2014
+external updating procedure ChangeCostOfWSsInSVO(longint);
 
 function Integer ValidateBulkSerialNoRow(record SerNrTrackBlock SNrb,record RetVc Retr,row RetVc Retrw,Integer currow,var string gotofield,var Integer gotorow)
 begin
@@ -1079,8 +1080,9 @@ begin
       end;
     end;
     if (updf) then begin
-      if (RecordUpdate(oldWSr,WSr,false)==0) then begin
-      end;
+      RecordUpdate(oldWSr,WSr,false);
+      ChangeCostOfWSsInSVO(WSr.SVONr);
+      
     end;
   end;
   end;
