@@ -41,7 +41,7 @@ SetLangMode(LangUkrainian,"UKR",0);
 global //Edit-------------------Vitalii 13:52 27.10.2016
 updating procedure PrintAndSetRegDateInSVODsm()
 BEGIN
-  record SVOVc SVOr;
+  record SVOVc SVOr,SVO2r;
   Integer wn,nwn;
   area aFile;
 	
