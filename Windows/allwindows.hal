@@ -7057,6 +7057,14 @@ window SVODClass:1
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   string 255 label;
+  Integer mode; //Edit***************************Sasha2,15:56 27.10.2016
+  
+  if (UserCanAction("UnOKAll",false)) then begin //Edit***************************Sasha2,15:56 27.10.2016
+    mode = Normal;
+  end else begin
+    mode = ViewOnly;
+  end;
+  
 	WindowBegin("Замовлення на обслуговування",SVODClass,CGview,-);
   SetWRect(20,80,850,900);
   Sizeable(-1,-1,0,0);
@@ -7101,12 +7109,12 @@ begin
   TileButton(3,"Валюта");
   Tile(1,80,false,"1",CustContact);
 
-  EditField(h1=110,v=vm-20,60,"Дата замовл.",ViewOnly,TransDate,false,PasteCurDate);
+  EditField(h1=110,v=vm-20,60,"Дата замовл.",mode,TransDate,false,PasteCurDate);
   h2=h2-40;
-  EditField(h2,v,60,"Час",ViewOnly,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48
+  EditField(h2,v,60,"Час",mode,RegTime,false,0);// Edit ************************** Friday, 17 December 2010 09:38:48
   EditField(h3+130,v,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
-  EditField(h2+180,v,60,"Дата заверш.діагн.",ViewOnly,EndDiagnDate,false,0); //Edit***************************Sasha2,15:40 25.10.2016
-  EditField(h2+270,v,60,"Час",ViewOnly,EndDiagnTime,false,0); //Edit***************************Sasha2,15:40 25.10.2016
+  EditField(h2+180,v,60,"Дата заверш.діагн.",mode,EndDiagnDate,false,PasteCurDate); //Edit***************************Sasha2,15:40 25.10.2016
+  EditField(h2+270,v,60,"Час",mode,EndDiagnTime,false,0); //Edit***************************Sasha2,15:40 25.10.2016
 
   //EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);// Edit ************************** Monday, 24 October 2016 17:38:14
   
@@ -7114,11 +7122,11 @@ begin
 
   //EditField(h,v+=vs,130,"Відповід.",Normal,OurContact,false,0);// Edit ************************** Tuesday, 1 June 2010 10:58:05 AM
   //EditField(h3,v,70,"Серв. склад",Normal,ServLocation,false,LocationSClass);
-  EditField(h1,v+=vs,60,"Дата заверш. рем.",ViewOnly,PlanShip,false,PasteCurDate);
-  EditField(h2,v,60,"Час",ViewOnly,DoneTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:04
+  EditField(h1,v+=vs,60,"Дата заверш. рем.",mode,PlanShip,false,PasteCurDate);
+  EditField(h2,v,60,"Час",mode,DoneTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:04
 
-  EditField(h1,v+=vs,60,"Дата видачі",ViewOnly,RegDate,false,PasteCurDate);
-  EditField(h2,v,60,"Час",ViewOnly,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
+  EditField(h1,v+=vs,60,"Дата видачі",mode,RegDate,false,PasteCurDate);
+  EditField(h2,v,60,"Час",mode,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
 
   
   //EditField(h2,v+=vs,-20,"Замов. клієнта №",Normal,CustOrdNr,false,0);// Edit ************************** Monday, 24 October 2016 17:39:15
