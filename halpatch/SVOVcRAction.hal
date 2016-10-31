@@ -220,6 +220,7 @@ BEGIN
   Integer i,rwcnt;
   Date blankd;
   Time blankt;
+  record UserVc Userr;// Edit ************************** Monday, 31 October 2016 12:54:07
       
   SVOr.SerNr = -1;
   SVOr.TransDate = CurrentDate;  
@@ -229,8 +230,11 @@ BEGIN
     SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,GetUserSerNrSeries(-1),false,"");
   end;
   rwcnt = MatRowCnt(SVOr);
-  for (i=rwcnt-1;i>=0;i=i-1) begin
-  	MatRowDelete(SVOr,i);				//Edit----------------------Dima  28.09.2015
+  for (i=0;i<rwcnt;i=i+1) begin
+  	matrowget(SVOr,i,SVOrw);
+  		SVOrw.ItemType = 0;
+  	matrowput(SVOr,i,SVOrw);
+  	//MatRowDelete(SVOr,i);				//Edit----------------------Dima  28.09.2015
   end;
   //for (i=0;i<rwcnt;i=i+1) begin
   //  MatRowGet(SVOr,i,SVOrw);
@@ -280,6 +284,13 @@ BEGIN
   SVOr.Zaryadka = ""; 
   SVOr.Inshe = ""; 
   SVOr.WSCost = blankval;
+  SVOr.SalesGroup = "";
+  Userr.Code = CurrentUser;
+  if (ReadFirstMain(Userr,1,true)) then begin end;
+  SVOr.SalesMan = Userr.Code;
+  SVOr.SalesGroup = Userr.SalesGroup;
+  SVOr.OurContact = Userr.CurOurContact;
+  SVOr.ServLocation = Userr.ServLocation;
   
   
   SVOVcRecordDuplicate = res; 
