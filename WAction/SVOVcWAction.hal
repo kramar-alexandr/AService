@@ -131,6 +131,11 @@ BEGIN
   if (changed!=0) then begin
     GetWindowRecord(wn,SVOr);    
     DeselectWindow(wn,false);
+    matrowget(SVOr,rownr,SVOrw);
+    	SVOrw.SerialNr = uppercase(SVOrw.SerialNr);
+    matrowput(SVOr,rownr,SVOrw);
+    PutWindowRecord(wn,SVOr);
+    GetWindowRecord(wn,SVOr);    
     if (SVO_PasterSerialNr(SVOr,rownr,warning)) then begin
       PutWindowRecord(wn,SVOr);
       if (nonblank(warning)) then begin
@@ -138,6 +143,7 @@ BEGIN
       end;
     end else begin
     end;
+    
     
     // Edit Start ---------------------------------------------- Edit Start
 	//Tuesday, 2 June 2015 20:10:43
