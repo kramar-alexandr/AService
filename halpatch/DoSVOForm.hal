@@ -419,6 +419,12 @@ LActPrintNote1:;
 		OUTFORMFIELD("MY_KOMMENTAR2",SVOr.Comment2);
 		OUTFORMFIELD("MY_KOMMENTAR3",SVOr.Comment3);
 		OUTFORMFIELD("MY_KOMMENTAR4",SVOr.Comment4);
+		
+		if(nonblank(SVOr.CustomField9))then begin
+			if(stringtoint(SVOr.CustomField9)>1)then begin
+				OUTFORMFIELD("MY_VIP","VIP - " & SVOr.CustomField9);
+			end;
+		end;
 	// Edit End ---------------------------------------------- Edit End
 	
 		

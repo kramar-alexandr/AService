@@ -496,3 +496,41 @@ ResetCompany(4);
 
 return;
 end;
+
+global webpublic procedure WebGetPhoneName()
+begin
+string 50 phone;
+integer i,k;
+array string 50 ph,name;
+string 200 res;
+
+	phone = "+38" & right(WebGetArg("phone"),10);
+	
+	k=4;
+	
+	
+	
+	ph[0] = "+380674092909";
+	name[0] = "Сергей Головизнин";
+	ph[1] = "+380986992909";
+	name[1] = "Иванов Иван";
+	ph[2] = "+380662200737";
+	name[2] = "Крамар Александр";
+	ph[3] = "+380675068130";
+	name[3] = "Дмитрий Форманчук";
+	
+	logtext(0,phone);
+	
+	For(i=0;i<k;i=i+1) begin
+	  if(ph[i]==phone)then begin
+	  	res = name[i];
+	  end;
+	end; 
+	
+	if(nonblank(res))then begin
+		weboutstring(res);
+	end else begin
+		weboutstring("Неизвестный номер");
+	end;
+return;
+end;
