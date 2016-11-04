@@ -93,6 +93,7 @@ begin
 	
 	Setting("Товари Samsung",SamsungItemsTClass,modIN);	
 	Setting("Переміщення товару для обслуговування",MoveForServiceLClass,modIN);	
+  Setting("Phones",PhoneLClass,modDBMain);
 	
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
@@ -143,6 +144,8 @@ begin
   
  	Maintenance("Обновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
   Maintenance("ChangeCostOfWSsInSVO",MyVClass,ChangeCostOfWSsInSVOMn,modDBMain);//Edit-------------------Vitalii 17:44 18.10.2016
+  Maintenance("PhonesFromSVOMn",PhonesFromSVOVClass,PhonesFromSVOMn,modDBMain);
+  
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014

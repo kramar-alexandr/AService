@@ -1876,3 +1876,16 @@ begin
   SearchField("Найти");
   EndWindow;
 end;
+
+window PhonesFromSVOVClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Maintenance",PhonesFromSVOVClass,CGMnt,RcType);
+  v = 6; vs = 20;
+  CheckBox(h,v=20,0,"Delete all PhonesVc",flags[0]);
+  EditField(h=140,v+=vs,70,"Vlastnik",Normal,f1,false,0);  
+  SetWRect(20,120,360,220);
+  EndWindow;
+end;
+

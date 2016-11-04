@@ -4296,5 +4296,19 @@ EndRecord;
     KeySegment(TransDate);
     KeySegment(SerNr);
   EndRecord; //Edit***************************Sasha2,11:15 04.05.2016 }
+  
+  RecordBegin(PhoneVc,-,"");//Edit-------------------Vitalii 17:10 03.11.2016
+    RecordField(PhoneNum,M4Str,10,0);
+    RecordField(Vlastnik,M4Str,100,0);
+    RecordField(Priynato,M4Str,100,0);
+    MainKeyBegin(PhoneNum,0);
+    KeySegment(PhoneNum);
+    KeyBegin(Vlastnik);
+    KeySegment(Vlastnik);
+    KeySegment(PhoneNum);
+    KeyBegin(Priynato);
+    KeySegment(Priynato);
+    KeySegment(PhoneNum);
+  EndRecord;
 return;
 end;

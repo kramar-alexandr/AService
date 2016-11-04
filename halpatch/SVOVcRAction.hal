@@ -20,6 +20,7 @@ external function Boolean FindStringInString(string,string);// Edit ************
 remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
 external updating procedure CreateActFromSVOToEnginer(record SVOVc);
 external updating procedure ChangeCostOfWSsInSVO(longint);// Edit ************************** Tuesday, 18 October 2016 16:21:47
+external updating procedure PhonesFromSVO(longint);//Edit-------------------Vitalii 17:10 03.11.2016
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -381,6 +382,7 @@ BEGIN
 
   	
   SENDFIRSTSMS(SVOr);
+  PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:10 03.11.2016
   
   SVOVcRecordSaveAfter = res; 
   RETURN;
@@ -542,6 +544,7 @@ BEGIN
 	end;
 	
 	CreateActFromSVOToEnginer(SVOr);
+  PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:09 03.11.2016
 	
   SVOVcRecordUpdateAfter = res;
   RETURN;
