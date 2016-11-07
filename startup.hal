@@ -93,7 +93,7 @@ begin
 	
 	Setting("Товари Samsung",SamsungItemsTClass,modIN);	
 	Setting("Переміщення товару для обслуговування",MoveForServiceLClass,modIN);	
-  Setting("Phones",PhoneLClass,modDBMain);
+  //Setting("Phones",PhoneLClass,modDBMain);
 	
 	Setting("Телефоны",Phone1LClass,modSVO);
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014

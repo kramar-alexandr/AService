@@ -497,8 +497,6 @@ global
 function Boolean SVODClassAfterEditField(Integer wn,string fieldname,Integer fn, Integer rownr,Integer changed)
 BEGIN
   Boolean res;
-  SwitchUserInterfaceLanguage("ENG");
-  SwitchUserInterfaceLanguage("RUS");
   switch (fieldname) begin
     case "CurncyCode": res = SVODClassCurncyCodeEFAfter(wn,changed);
     case "CustCode": res = SVODClassCustCodeEFAfter(wn,changed);

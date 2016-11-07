@@ -4315,6 +4315,7 @@ EndRecord;
     RecordField(PhoneNum,M4Str,50,0);
     RecordField(Vlastnik,M4Str,100,0);
     RecordField(Priynato,M4Str,100,0);
+    RecordField(SVONrs,M4Str,255,0);
     MainKeyBegin(PhoneNum,0);
     KeySegment(PhoneNum);
     KeyBegin(Vlastnik);

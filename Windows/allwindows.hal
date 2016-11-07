@@ -10174,12 +10174,13 @@ begin
   Integer tilenr,f,flipnr;
 
   WindowBegin("Phone",Phone1DClass,CGview,-);
-  SetWRect(20,80,750,460);
+  SetWRect(64,80,800,298);
   Sizeable(-1,-1,0,0);
   UseView(Phone1Vc);
   vs = 20;
   EditField(h=100,v,200,"Номер",Normal,PhoneNum,false,0);
  	EditField(h,v+=vs,200,"Власник",Normal,Vlastnik,false,0);	
- 	EditField(h,v+=vs,200,"Прийнято від",Normal,Priynato,false,0);	
+ 	EditField(h,v+=vs,200,"Прийнято від",Normal,Priynato,false,0);
+  EditField(h,v+=vs,500,"Номери замовлень",Normal,SVONrs,false,0);	
   EndWindow;
 end;
