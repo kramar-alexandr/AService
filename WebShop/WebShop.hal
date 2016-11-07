@@ -503,34 +503,39 @@ string 50 phone;
 integer i,k;
 array string 50 ph,name;
 string 200 res;
+record Phone1Vc Phoner;
 
-	phone = "+38" & right(WebGetArg("phone"),10);
+	phone = WebGetArg("phone");
+	if(left(phone,1)<"0" or left(phone,1)>"9")then begin
+		phone = "+" & right(phone,len(phone)-1);
+	end;
 	
-	k=4;
+	Phoner.PhoneNum = phone;
+	if(readfirstmain(Phoner,1,true))then begin
+		logtext(0,phone);
+		res = Phoner.Priynato;
+	end else begin
+		Phoner.PhoneNum = "044" & phone;
+		if(readfirstmain(Phoner,1,true))then begin
+			res = Phoner.Priynato;
+		end else begin
+			Phoner.PhoneNum = "+38044" & phone;
+			if(readfirstmain(Phoner,1,true))then begin
+				res = Phoner.Priynato;
+			end else begin
+				Phoner.PhoneNum = "+38" & phone;
+				if(readfirstmain(Phoner,1,true))then begin
+					res = Phoner.Priynato;
+				end;
+			end;
+		end;
+	end;
 	
-	
-	
-	ph[0] = "+380674092909";
-	name[0] = "Сергей Головизнин";
-	ph[1] = "+380986992909";
-	name[1] = "Иванов Иван";
-	ph[2] = "+380662200737";
-	name[2] = "Крамар Александр";
-	ph[3] = "+380675068130";
-	name[3] = "Дмитрий Форманчук";
-	
-	logtext(0,phone);
-	
-	For(i=0;i<k;i=i+1) begin
-	  if(ph[i]==phone)then begin
-	  	res = name[i];
-	  end;
-	end; 
 	
 	if(nonblank(res))then begin
 		weboutstring(res);
 	end else begin
-		weboutstring("Неизвестный номер");
+		weboutstring(phone);
 	end;
 return;
 end;

@@ -10147,36 +10147,36 @@ begin
 end;
 
 
-window PhoneLClass:1
+window Phone1LClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
 
-  WindowBegin("Phone",PhoneLClass,CGmlist,-);
-  SpawnClass(PhoneDClass);
+  WindowBegin("Phone",Phone1LClass,CGmlist,-);
+  SpawnClass(Phone1DClass);
   SetWRect(64,80,800,298);
   Sizeable(-1,-1,0,0);
-  UseView(PhoneVc);
+  UseView(Phone1Vc);
   RecordList(4,17,-21,-39);
   RlColKey(4,4,  "Номер",PhoneNum,false,PhoneNum);
-  RlColKey(90,90,"Власник",Vlastnik,false,Vlastnik);
-  RlColKey(125,125,"Прийнято від",Priynato,false,Priynato);
+  RlColKey(150,150,"Власник",Vlastnik,false,Vlastnik);
+  RlColKey(300,300,"Прийнято від",Priynato,false,Priynato);
   
   SearchField("Пошук");
   EndWindow;
 end;
 
-window PhoneDClass:1
+window Phone1DClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,h1,h2,h3,h4,t,v,vm,vs;
   Integer tilenr,f,flipnr;
 
-  WindowBegin("Phone",PhoneDClass,CGview,-);
+  WindowBegin("Phone",Phone1DClass,CGview,-);
   SetWRect(20,80,750,460);
   Sizeable(-1,-1,0,0);
-  UseView(PhoneVc);
+  UseView(Phone1Vc);
   vs = 20;
   EditField(h=100,v,200,"Номер",Normal,PhoneNum,false,0);
  	EditField(h,v+=vs,200,"Власник",Normal,Vlastnik,false,0);	

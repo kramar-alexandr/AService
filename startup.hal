@@ -95,6 +95,7 @@ begin
 	Setting("Переміщення товару для обслуговування",MoveForServiceLClass,modIN);	
   Setting("Phones",PhoneLClass,modDBMain);
 	
+	Setting("Телефоны",Phone1LClass,modSVO);
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
