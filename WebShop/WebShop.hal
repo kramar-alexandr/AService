@@ -1,4 +1,5 @@
 external function roundmode SetRoundModeD(Integer);
+external procedure ExtractObj(string,var Integer,var string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -502,8 +503,11 @@ begin
 string 50 phone;
 integer i,k;
 array string 50 ph,name;
-string 200 res;
+string 200 res,num,resnum;
 record Phone1Vc Phoner;
+integer pos;
+string 200 tstr;
+record SVOVc SVOr;
 
 	phone = WebGetArg("phone");
 	if(left(phone,1)<"0" or left(phone,1)>"9")then begin
@@ -514,22 +518,50 @@ record Phone1Vc Phoner;
 	if(readfirstmain(Phoner,1,true))then begin
 		logtext(0,phone);
 		res = Phoner.Priynato;
+		num = Phoner.SVONrs;
 	end else begin
 		Phoner.PhoneNum = "044" & phone;
 		if(readfirstmain(Phoner,1,true))then begin
 			res = Phoner.Priynato;
+			num = Phoner.SVONrs;
 		end else begin
 			Phoner.PhoneNum = "+38044" & phone;
 			if(readfirstmain(Phoner,1,true))then begin
 				res = Phoner.Priynato;
+				num = Phoner.SVONrs;
 			end else begin
 				Phoner.PhoneNum = "+38" & phone;
 				if(readfirstmain(Phoner,1,true))then begin
 					res = Phoner.Priynato;
+					num = Phoner.SVONrs;
 				end;
 			end;
 		end;
 	end;
+	
+	if(nonblank(res))then begin
+		if(nonblank(num))then begin
+			pos = 0;
+			 ExtractObj(num,pos,tstr);
+			 while (nonblank(tstr)) begin
+				 if(nonblank(tstr)) then begin
+	      	 SVOr.SerNr = stringtolongint(tstr);
+	      	 if(readfirstmain(SVOr,1,true))then begin
+	      	 	if(SVOr.DoneMark==0)then begin
+	      	 		resnum = SVOr.SerNr;
+	      	 	end;
+	      	 end;
+				 end;
+				 ExtractObj(num,pos,tstr);
+			 end;
+		end;
+		
+		if(nonblank(resnum))then begin
+			res = resnum & " " & res;
+		end;
+		
+	end;
+	
 	
 	
 	if(nonblank(res))then begin
