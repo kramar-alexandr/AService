@@ -7185,10 +7185,10 @@ begin
  	
 	EditField(h,v+=vs,200,"Контактна інф.",Normal,Kontinfo1,false,0);	
 	
-	HalPushButton(h+220,v-3,h+280,v+15,"CallToClientDsm","Дзвінок");
-	
-	EditField(h+400,v,40,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
-	HalPushButton(h+310+150,v-3,h+360+150,v+15,"ServClientOrderDsm","Звіт");
+	CheckBox(h+215,v,0,"Без СМС",NoSMS);
+	HalPushButton(h+290+20,v-3,h+350+20,v+15,"CallToClientDsm","Дзвінок");
+	EditField(h+450+20,v,40,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
+	HalPushButton(h+360+150+20,v-3,h+410+150+20,v+15,"ServClientOrderDsm","Звіт");
 	
 	
 	

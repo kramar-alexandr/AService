@@ -1,5 +1,6 @@
 external procedure ExtractObj(string,var Integer,var string);
 external function Boolean SetInSet2(string,string);
+external function Boolean MySendWebRequest(string,longint,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -9,49 +10,66 @@ begin
 	array string 100 phone,normphone;
 	integer i,lenth,cnt,k;
 	area a_subject,a_body;
+  string 100 host,page;
+  area mainRequest,replyarea;
+  longint port;
 	
-	if(currentcompany==8)then begin
-		if(nonblank(SVOr.PlanShip) and blank(SVO2r.PlanShip))then begin
-			cnt = 0;
-			subphone = SVOr.Kontinfo1;
-			lenth = len(subphone);
-			For(i=0;i<lenth;i=i+1) begin
-				if(mid(subphone,i,1)==",")then begin
-						cnt = cnt+1;
-				end else begin
-					phone[cnt] = phone[cnt] & mid(subphone,i,1);
-				end;
-			end; 
-			cnt = cnt+1;
-			for(k=0;k<cnt;k=k+1)begin
-				lenth = len(phone[k]);
-				normphone[k] = NormalizePhoneNumber(phone[k]);
-				if(len(normphone[k])==10)then begin
-					normphone[k] = "38" & normphone[k];
-				end;
-				if(len(normphone[k])==11)then begin
-					normphone[k] = "3" & normphone[k];
-				end;
-				if(len(normphone[k])!=12)then begin
-					messagebox(0,"ERROR PHONE");
-					goto LSENDSMS;
-				end;
-			end;
-			subject = "9c7e332509201516 ";
-			For(i=0;i<cnt;i=i+1) begin
-				subject = subject & normphone[i] & ",";
-			end; 
-			subject = mid(subject,0,len(subject)-1);
-			addtexttoarea(subject,a_subject);
-			writeareatofile(a_subject,"SMS/sms_subj.txt",0);
-			body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт " & SVOr.SerNr & " готов.[/SMS]";
-			//body = convertstringfromcodepage("WINDOWS-1251",body);
-			addtexttoarea(body,a_body);
-			writeareatofile(a_body,"SMS/sms_body.txt",0);
-			runprogram("SMS/sendSRVSMS.sh","");
-			logtext(0,"SEND SMS");
-		end;
-	end;
+  if (SVOr.NoSMS==0) then begin
+    if(currentcompany==8)then begin
+      if(nonblank(SVOr.PlanShip) and blank(SVO2r.PlanShip))then begin
+        cnt = 0;
+        subphone = SVOr.Kontinfo1;
+        lenth = len(subphone);
+        For(i=0;i<lenth;i=i+1) begin
+          if(mid(subphone,i,1)==",")then begin
+              cnt = cnt+1;
+          end else begin
+            phone[cnt] = phone[cnt] & mid(subphone,i,1);
+          end;
+        end; 
+        cnt = cnt+1;
+        for(k=0;k<cnt;k=k+1)begin
+          lenth = len(phone[k]);
+          normphone[k] = NormalizePhoneNumber(phone[k]);
+          if(len(normphone[k])==10)then begin
+            normphone[k] = "38" & normphone[k];
+          end;
+          if(len(normphone[k])==11)then begin
+            normphone[k] = "3" & normphone[k];
+          end;
+          if(len(normphone[k])!=12)then begin
+            messagebox(0,"ERROR PHONE");
+            goto LSENDSMS;
+          end;
+        end;
+        subject = "9c7e332509201516 ";
+        For(i=0;i<cnt;i=i+1) begin
+          subject = subject & normphone[i] & ",";
+        end; 
+        subject = mid(subject,0,len(subject)-1);
+        addtexttoarea(subject,a_subject);
+        writeareatofile(a_subject,"SMS/sms_subj.txt",0);
+        body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт " & SVOr.SerNr & " готов.[/SMS]";
+        //body = convertstringfromcodepage("WINDOWS-1251",body);
+        addtexttoarea(body,a_body);
+        writeareatofile(a_body,"SMS/sms_body.txt",0);
+        runprogram("SMS/sendSRVSMS.sh","");
+        
+        //Edit-------------------Vitalii 11:20 16.11.2016
+        host = "109.95.53.85";
+        port = 2501;
+        page = "/hansa/sms.php";
+        SetAreaZeroSize(mainRequest);
+        SetAreaZeroSize(replyarea);
+        AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=3",mainRequest);
+        MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+        logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
+        
+        
+        logtext(0,"SEND SMS");
+      end;
+    end;
+  end;
 	LSENDSMS:;
 return;
 end;
@@ -62,55 +80,71 @@ begin
 	array string 100 phone,normphone;
 	integer i,lenth,cnt,k;
 	area a_subject,a_body;
-	
-	if(currentcompany==8)then begin
-			cnt = 0;
-			subphone = SVOr.Kontinfo1;
-			lenth = len(subphone);
-			For(i=0;i<lenth;i=i+1) begin
-				if(mid(subphone,i,1)==",")then begin
-						cnt = cnt+1;
-				end else begin
-					phone[cnt] = phone[cnt] & mid(subphone,i,1);
-				end;
-			end; 
-			cnt = cnt+1;
-			for(k=0;k<cnt;k=k+1)begin
-				lenth = len(phone[k]);
-				normphone[k] = NormalizePhoneNumber(phone[k]);
-				if(len(normphone[k])==10)then begin
-					normphone[k] = "38" & normphone[k];
-				end;
-				if(len(normphone[k])==11)then begin
-					normphone[k] = "3" & normphone[k];
-				end;
-				if(len(normphone[k])!=12)then begin
-					messagebox(0,"ERROR PHONE");
-					goto LSENDSMS;
-				end;
-			end;
-			subject = "9c7e332509201516 ";
-			For(i=0;i<cnt;i=i+1) begin
-				subject = subject & normphone[i] & ",";
-			end; 
-			subject = mid(subject,0,len(subject)-1);
-			addtexttoarea(subject,a_subject);
-			writeareatofile(a_subject,"SMS/sms_subj.txt",0);
-			if(SVOr.SerNr>=9000000)then begin
-				body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-4515451.[/SMS]";
-			end else begin
-				if(SVOr.SerNr>=8000000)then begin
-					body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2229293.[/SMS]";
-				end else begin
-					body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
-				end;
-			end;
-			//body = convertstringfromcodepage("WINDOWS-1251",body);
-			addtexttoarea(body,a_body);
-			writeareatofile(a_body,"SMS/sms_body.txt",0);
-			runprogram("SMS/sendSRVSMS.sh","");
-			logtext(0,"SEND SMS");
-	end;
+  string 100 host,page;
+  area mainRequest,replyarea;
+  longint port;
+
+	if (SVOr.NoSMS==0) then begin
+    if(currentcompany==8)then begin
+        cnt = 0;
+        subphone = SVOr.Kontinfo1;
+        lenth = len(subphone);
+        For(i=0;i<lenth;i=i+1) begin
+          if(mid(subphone,i,1)==",")then begin
+              cnt = cnt+1;
+          end else begin
+            phone[cnt] = phone[cnt] & mid(subphone,i,1);
+          end;
+        end; 
+        cnt = cnt+1;
+        for(k=0;k<cnt;k=k+1)begin
+          lenth = len(phone[k]);
+          normphone[k] = NormalizePhoneNumber(phone[k]);
+          if(len(normphone[k])==10)then begin
+            normphone[k] = "38" & normphone[k];
+          end;
+          if(len(normphone[k])==11)then begin
+            normphone[k] = "3" & normphone[k];
+          end;
+          if(len(normphone[k])!=12)then begin
+            messagebox(0,"ERROR PHONE");
+            goto LSENDSMS;
+          end;
+        end;
+        subject = "9c7e332509201516 ";
+        For(i=0;i<cnt;i=i+1) begin
+          subject = subject & normphone[i] & ",";
+        end; 
+        subject = mid(subject,0,len(subject)-1);
+        addtexttoarea(subject,a_subject);
+        writeareatofile(a_subject,"SMS/sms_subj.txt",0);
+        if(SVOr.SerNr>=9000000)then begin
+          body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-4515451.[/SMS]";
+        end else begin
+          if(SVOr.SerNr>=8000000)then begin
+            body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2229293.[/SMS]";
+          end else begin
+            body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+          end;
+        end;
+        //body = convertstringfromcodepage("WINDOWS-1251",body);
+        addtexttoarea(body,a_body);
+        writeareatofile(a_body,"SMS/sms_body.txt",0);
+        runprogram("SMS/sendSRVSMS.sh","");
+        
+        //Edit-------------------Vitalii 11:20 16.11.2016
+        host = "109.95.53.85";
+        port = 2501;
+        page = "/hansa/sms.php";
+        SetAreaZeroSize(mainRequest);
+        SetAreaZeroSize(replyarea);
+        AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=1",mainRequest);
+        MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+        logtext(0,"SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
+        
+        logtext(0,"SEND SMS");
+    end;
+  end;
 	
 	LSENDSMS:;
 return;

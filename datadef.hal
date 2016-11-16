@@ -2697,6 +2697,7 @@ EndRecord;
   RecordField(OutTime,M4Time,0,0);// Edit ************************** Monday, 24 October 2016 17:55:42
   RecordField(EndDiagnDate,M4Date,0,0);
   RecordField(EndDiagnTime,M4Time,0,0);
+  RecordField(NoSMS,M4Int,0,0);
    //----------End Custom
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
