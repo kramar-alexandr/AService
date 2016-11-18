@@ -21,6 +21,7 @@ remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
 external updating procedure CreateActFromSVOToEnginer(record SVOVc);
 external updating procedure ChangeCostOfWSsInSVO(longint);// Edit ************************** Tuesday, 18 October 2016 16:21:47
 external updating procedure PhonesFromSVO(longint);//Edit-------------------Vitalii 17:10 03.11.2016
+remote procedure SENDSECONDSMS(longint);// Edit ************************** Friday, 18 November 2016 14:48:29
 
 
 SetLangMode(LangUkrainian,"UKR",0);
@@ -1166,3 +1167,45 @@ BEGIN
   SVOVcRecordInIndex = res;
   RETURN;
 END;
+
+global
+function LongInt SVOVcRecordCheckClient(var record SVOVc SVOr,record SVOVc SVO2r,LongInt stat,LongInt check)
+BEGIN
+  record RcVc RepSpec;
+  
+  if(stat==Rs_update)then begin
+  	if(SVOr.OrderStatus==4 and SVO2r.OrderStatus!=SVOr.OrderStatus)then begin
+  		RepSpec.long1 = SVOr.SerNr;
+  		openwindow("YesNoCancelSMSWClass",1,0,"","",RepSpec);
+  	end;
+  end;
+  
+  SVOVcRecordCheckClient = 0;
+  RETURN;
+END;
+
+
+global procedure DblSendSMSOkDsm()
+begin
+	integer wn;
+	record RcVc RepSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,RepSpec);
+	SENDSECONDSMS(RepSpec.long1);
+	closewindow(wn);
+
+return;
+end;
+
+global procedure DblSendSMSCancelDsm()
+begin
+	integer wn;
+	record RcVc RepSpec;
+	
+	wn = curwindow;
+	closewindow(wn);
+	
+
+return;
+end;
