@@ -7094,12 +7094,13 @@ begin
   
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
-  ButtonFrame(h+500,vm+16,130,5,"Статус");
+  ButtonFrame(h+500,vm+16,130,6,"Статус");
 	RadioButton(h+500,vm+16,0,0,"В очікуванні",OrderStatus);
-	RadioButton(h+500,vm+16+16,4,0,"На узгодженні",OrderStatus);
-	RadioButton(h+500,vm+32+16,1,0,"Діаг. заверш.",OrderStatus);
-	RadioButton(h+500,vm+48+16,3,0,"Очікує запч.",OrderStatus);
-  RadioButton(h+500,vm+64+16,2,0,"Ремонт виконано",OrderStatus);
+	RadioButton(h+500,vm+16+16,5,0,"На діагностиці",OrderStatus);
+	RadioButton(h+500,vm+32+16,4,0,"На узгодженні",OrderStatus);
+	RadioButton(h+500,vm+48+16,1,0,"Діаг. заверш.",OrderStatus);
+	RadioButton(h+500,vm+64+16,3,0,"Очікує запч.",OrderStatus);
+  RadioButton(h+500,vm+80+16,2,0,"Ремонт виконано",OrderStatus);
   
   
   CheckBox(-70,vm,0,"Виконано",DoneMark);

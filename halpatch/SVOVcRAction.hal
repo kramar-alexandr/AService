@@ -667,9 +667,11 @@ BEGIN
   record SVOAccBlock SVOAccRec;
   array longint sernr;// Edit ************************** Thursday, 30 June 2016 10:53:51
   integer count;// Edit ************************** Thursday, 30 June 2016 10:53:49
+  Integer insertmode,updatemode;
 
   res = 0;
-  
+  insertmode = 1;//Rs_insert
+  updatemode = 2;//Rs_update
   
   if((SVOr.OrderStatus==1 or SVOr.OrderStatus==2 or SVOr.OrderStatus==3) and blankdate(SVOr.EndDiagnDate))then begin //Edit***************************Sasha2,17:32 25.10.2016
   	SVOr.EndDiagnDate = currentdate;
@@ -681,6 +683,9 @@ BEGIN
   end;
   if(!blankdate(SVOr.PlanShip))then begin
   	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49
+  end;
+  if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
+    SVOr.ServiceManager = CurrentUser;
   end;
   
   if(blank(SVOr.Kontinfo2))then begin// Edit ************************** Friday, 16 October 2015 17:36:32
