@@ -1899,7 +1899,8 @@ WindowBegin("Відправити СМС кліенту?",YesNoCancelSMSWClass,CGother,RcType);
   Sizeable(-1,-1,0,0);
   h = 20; v = -30;
   statictext(h,v-20,"Відправити СМС кліенту?",false);
-  HalPushButton(h,v,h+80,v+25,"DblSendSMSOkDsm","Відправити");
-  HalPushButton(h+=100,v,h+80,v+25,"DblSendSMSCancelDsm","Ні");
+  HalPushButton(h,v,h+80,v+25,"DblSendSMSCancelDsm","Ні");
+  HalPushButton(h+=100,v,h+80,v+25,"DblSendSMSOkDsm","Відправити");
+  
   EndWindow;
 end;
