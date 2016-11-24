@@ -7066,7 +7066,7 @@ begin
   end;
   
 	WindowBegin("Замовлення на обслуговування",SVODClass,CGview,-);
-  SetWRect(20,80,850,900);
+  SetWRect(20,80,850,720);
   Sizeable(-1,-1,0,0);
   DynamicWindow;
   UseView(SVOVc);
@@ -7077,37 +7077,35 @@ begin
   ActiveFieldOnNew("CustCode");  
   FormName(SVOForm);
   vs = 20; h3 = 550;
-  Tile(0,150,false,"",CustCode);
+  Tile(0,125,false,"",CustCode);
   EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);
   EnterSkip(CustCode);
-  EditField(h2=240,v,-40,"Власник",Normal,Addr0,false,0);
+  EditField(h2=240,v,250,"Власник",Normal,Addr0,false,0);
   EditField(h,vm=(v+=vs),82, "Клієнт",Normal,CustCode,false,CUSClass);
   
   halpushbutton(h-50,vm+20,h+150,vm+50,"ChangeSVOSalesGroup","Перенести ремонт"); 
   EditField(h+200,vm+30,60,"Гр.Пр.",ViewOnly,SalesGroup,false,0);
-  
   //HALPushButton(h-50,vm+50,h+150,vm+80,"PrintSVOReceiptDsm","Друкувати чек");// Edit ************************** Tuesday, 18 October 2016 16:26:46
   HalPushButton(h-50,vm+50,h+150,vm+80,"PrintAndSetRegDateInSVODsm","Видати");//Edit-------------------Vitalii 13:51 27.10.2016
-  EditField(h+220,vm+60,80,"До сплати",ViewOnly,WSCost,false,0);
-  
+  EditField(h+220,vm+54,80,"До сплати",ViewOnly,WSCost,false,0);
   //HalPushButton(h-50,vm+80,h+150,vm+110,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
-  
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
-  EditField(h+400,vm+16,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
-  ButtonFrame(h+500,vm+16,130,6,"Статус");
+  EditField(h+400,vm,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
+  vm = vm-32;
+  ButtonFrame(h+500,vm+16,130,6,"");
 	RadioButton(h+500,vm+16,0,0,"В очікуванні",OrderStatus);
 	RadioButton(h+500,vm+16+16,5,0,"На діагностиці",OrderStatus);
 	RadioButton(h+500,vm+32+16,4,0,"На узгодженні",OrderStatus);
 	RadioButton(h+500,vm+48+16,1,0,"Діаг. заверш.",OrderStatus);
 	RadioButton(h+500,vm+64+16,3,0,"Очікує запч.",OrderStatus);
   RadioButton(h+500,vm+80+16,2,0,"Ремонт виконано",OrderStatus);
-  
+  vm = vm + 32;
   
   CheckBox(-70,vm,0,"Виконано",DoneMark);
-  statictext(50,200,"",false);
+  statictext(50,180,"_",false);// Edit ************************** Thursday, 24 November 2016 11:54:03!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SIZEEEEEE
   TileButton(1,"Дата");
   TileButton(2,"Товари");
-  TileButton(3,"Валюта");
+  //TileButton(3,"Валюта");
   Tile(1,80,false,"1",CustContact);
 
   EditField(h1=110,v=vm-20,60,"Дата замовл.",mode,TransDate,false,PasteCurDate);
@@ -7116,28 +7114,16 @@ begin
   EditField(h3+130,v,130,"Конт. особа",Normal,CustContact,false,ContactSClass);
   EditField(h2+180,v,60,"Дата заверш.діагн.",mode,EndDiagnDate,false,PasteCurDate); //Edit***************************Sasha2,15:40 25.10.2016
   EditField(h2+270,v,60,"Час",mode,EndDiagnTime,false,0); //Edit***************************Sasha2,15:40 25.10.2016
-
-  //EditField(h=60,vm=(v=6), 20,"Умов.спл.",Normal,PayDeal,false,PDSClass);// Edit ************************** Monday, 24 October 2016 17:38:14
-  
-  //EditField(h+130,vm,60,"Класс замовлення",Normal,OrderClass,false,OrderClassSClass);// Edit ************************** Wednesday, 4 March 2015 15:52:13
-
-  //EditField(h,v+=vs,130,"Відповід.",Normal,OurContact,false,0);// Edit ************************** Tuesday, 1 June 2010 10:58:05 AM
-  //EditField(h3,v,70,"Серв. склад",Normal,ServLocation,false,LocationSClass);
   EditField(h1,v+=vs,60,"Дата заверш. рем.",mode,PlanShip,false,PasteCurDate);
   EditField(h2,v,60,"Час",mode,DoneTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:04
 
   EditField(h1,v+=vs,60,"Дата видачі",mode,RegDate,false,PasteCurDate);
   EditField(h2,v,60,"Час",mode,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
-
-  
-  //EditField(h2,v+=vs,-20,"Замов. клієнта №",Normal,CustOrdNr,false,0);// Edit ************************** Monday, 24 October 2016 17:39:15
   EnterSkip(Math);
-  Tile(2,150,true,"2",Math);
-  
-  //EditField(270,-21,70,"Ціна придбання",ViewOnly ,TotCost,true,0);
-  //EditField(-133,-21,70,"Ціна продажу",ViewOnly ,TotPrice,true,0);
+  Tile(2,100,false,"2",Math);
+
   v = 24;
-  MatrixBegin(3,v,-50,v+90,-,50);
+  MatrixBegin(3,v,-50,v+45,-,50);
   MatTypedRow(stp);
   Flip(0);
   MatCol(t=1,32,"Товар",0,ArtCode,false,INSClass);
@@ -7152,19 +7138,12 @@ begin
   Flip(2);
   MatCol(t=1,144,"Станд.пробл.",0,StandProblem,false,StandProblemsSClass);
   MatCol(t,-300,"Замов. на роботу",0,WOSerNr,false,0);
-//  MatCol(t,-190,"Замовлено",0,WOMade,true,0);
   MatCol(t,-130,"Акт/накл.",0,Invd,true,0);
   MatCol(t,-70,"Дата відв.",0,PlanShiprw,true,0);
   Flip(3);
   MatCol(t=1,144,"Наймен.",0,Spec,false,0);
   MatCol(t,-180,"Вар-ть ремонту",0,Cost,true,0);
   MatCol(t,-90,"Макс.вар-ть",0,MaxCost,true,0);
-  Flip(4);
-  MatCol(t=1,144,"Наймен.",0,Spec,false,0);
-  MatCol(t,-254,"Контракт",0,ContractNr,false,COSClass);
-  MatCol(t,-194,"Рахунок",0,SalesAcc,false,AccSClass);
-  MatCol(t,-124,"Об'єкт",0,Objects,false,ObjSClass);
-  MatCol(t,-24,"ПДВ",0,VATCode,false,VATCodeSClass);
   InsertRowTest;
   DeleteRowTest;
   EndMatrix;
@@ -7172,17 +7151,12 @@ begin
   v = 18; VTab(-35,v,-16,v+vs,ToolFlip,1,"A");
   v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,2,"B");
   v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,3,"C");
-  v=v+vs;  VTab(-35,v,-16,v+vs,ToolFlip,4,"D");
 
-  //Tile(3,250,true,"3",Vlastnik);
-   //------------------------------------------------------------------------------------------------------------
-  v = v + 60;
+  v = v + 25;
   checkbox(100,v-20,0,"VIP",VIPStatus);
   checkbox(200,v-20,0,"Товар від партнера з поверненням",ItemFrPartner); //Edit***************************Sasha2,14:19 08.12.2015
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-5,"SN Зареєст.",Normal,CustomField8,false,0);
  	EditField(h,v+=vs,-20,"Прийнято від",Normal,Priynato,false,0);	
- 	
- 	
  	
 	EditField(h,v+=vs,200,"Контактна інф.",Normal,Kontinfo1,false,0);	
 	
@@ -7190,8 +7164,6 @@ begin
 	HalPushButton(h+290+20,v-3,h+350+20,v+15,"CallToClientDsm","Дзвінок");
 	EditField(h+450+20,v,40,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
 	HalPushButton(h+360+150+20,v-3,h+410+150+20,v+15,"ServClientOrderDsm","Звіт");
-	
-	
 	
 	EditField(h,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
 	EditField(h,v+=vs,-20,"Адреса клієнта",Normal,Kontinfo3,false,0);
@@ -7206,28 +7178,12 @@ begin
   EditField(h,v+=vs-10,-20,"Батарея:",Normal,Batary,false,0);
   EditField(h,v+=vs,-20,"Зар. пристрій:",Normal,Zaryadka,false,0);
   EditField(h,v+=vs,-20,"Інше:",Normal,Inshe,false,0);
-  v=v+10;
+  //v=v+10;
   EditField(h,v+=vs,50,"Виробник",Normal,Region,false,ITSClass);
   
   EditField(h+=120,v,50,"Гарантія",Normal,Garanty,false,0);
   EditField(h+=120,v,100,"Гарант. №",Normal,GarNo,false,0);
   EditField(h+=220,v,100,"Гарант. від дати",Normal,GarDate,false,PasteCurDate);
-  v=v+20;
-
-  /*EditField(h=200,v,100,"Дата передплати",Normal,CustomField3,false,PasteCurDate);
-  EditField(h+220,v,100,"№ квитанциї",Normal,CustomField4,false,0);
-  EditField(h+370,v,150,"Сума",Normal,CustomField5,false,0);*/
-  
-  Tile(3,70,false,"4",FrRate);
-  vs = 20;
-  EditField(h=110,v=6,50,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
-  EditField(h2=295,v,50,"Курс",Normal,FrRate,true,0);
-  EditField(h3=360,v,50,":",Normal,ToRateB1,true,0);
-  StaticText(h3+60,v+12,"Осн.вал.1",false);
-  EditField(h,v+=vs,50,"Осн.вал.1",Normal,BaseRate1,true,0);
-  EditField(h3,v,50,":",Normal,ToRateB2,true,0);
-  StaticText(h3+60,v+12,"Осн.вал.2",false);
-  EditField(h,v+=vs,50,"Осн.вал.2",Normal,BaseRate2,true,0);
   
   SpecialMenu("Статус замовлення на обсл.",'r',0,"SVOStaDsm");
   SpecialMenu("Статус клієнта",'e',1,"SVOCustStatDsm");

@@ -681,12 +681,13 @@ BEGIN
   	SVOr.PlanShip = currentdate;// Edit ************************** Thursday, 10 September 2015 17:31:49
   	SVOr.DoneTime = CurrentTime;
   end;
+   if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
+    SVOr.ServiceManager = CurrentUser;
+  end;
   if(!blankdate(SVOr.PlanShip))then begin
   	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49
   end;
-  if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
-    SVOr.ServiceManager = CurrentUser;
-  end;
+ 
   
   if(blank(SVOr.Kontinfo2))then begin// Edit ************************** Friday, 16 October 2015 17:36:32
   	SVOr.Kontinfo2 = USetStr(31047);

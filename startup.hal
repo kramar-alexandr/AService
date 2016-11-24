@@ -245,6 +245,7 @@ begin
 	SString(31083,"Код товару або виробника не відповідає Samsung");
 	
 	SString(31084,"Перевірте нову групу в записах таблиць знижок та прейскурантів");
+	SString(31085,"На діагностиці");
 
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
