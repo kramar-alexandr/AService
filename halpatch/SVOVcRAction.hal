@@ -19,7 +19,7 @@ external updating procedure CreateNoterChangeInSVO(record SVOVc,string,string);
 external function Boolean FindStringInString(string,string);// Edit ************************** Thursday, 30 June 2016 10:55:59
 remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
 external updating procedure CreateActFromSVOToEnginer(record SVOVc);
-external updating procedure ChangeCostOfWSsInSVO(longint);// Edit ************************** Tuesday, 18 October 2016 16:21:47
+external updating procedure ChangeCostOfIVsInSVO(longint);//Edit-------------------Vitalii 10:13 25.11.2016
 external updating procedure PhonesFromSVO(longint);//Edit-------------------Vitalii 17:10 03.11.2016
 remote procedure SENDSECONDSMS(longint);// Edit ************************** Friday, 18 November 2016 14:48:29
 
@@ -437,7 +437,7 @@ BEGIN
   if ((SVOr.DoneMark!=0) and (SVO2r.DoneMark==0)) then begin
     SVOInspection(SVOr);
   end;
-  ChangeCostOfWSsInSVO(SVOr.SerNr);//Edit-------------------Vitalii 11:29 13.10.2016
+  ChangeCostOfIVsInSVO(SVOr.SerNr);//Edit-------------------Vitalii 10:13 25.11.2016
 
   
   // Edit Start ---------------------------------------------- Edit Start

@@ -144,7 +144,7 @@ begin
   
   
  	Maintenance("Обновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
-  Maintenance("ChangeCostOfWSsInSVO",MyVClass,ChangeCostOfWSsInSVOMn,modDBMain);//Edit-------------------Vitalii 17:44 18.10.2016
+  Maintenance("ChangeCostOfIVsInSVO",MyVClass,ChangeCostOfIVsInSVOMn,modDBMain);//Edit-------------------Vitalii 10:14 25.11.2016
   Maintenance("PhonesFromSVOMn",PhonesFromSVOVClass,PhonesFromSVOMn,modDBMain);
   
   

@@ -100,6 +100,7 @@ external updating procedure AddTTrans_IVVc(record TRVc,record IVVc); //Edit*****
 external function string 255 CheckTrans(var record TRVc,Integer,Boolean); //Edit***************************Sasha2,14:06 31.08.2015
 external updating procedure UpdateTrans_Stock(record TRVc); //Edit***************************Sasha2,14:14 31.08.2015
 external function Integer MakeTransFromIVAfterFIFO(var record TRVc,var record SMVc,record IVVc,Boolean,Boolean); //Edit***************************Sasha2,14:10 31.08.2015
+external updating procedure ChangeCostOfIVsInSVO(Longint);//Edit-------------------Vitalii 10:20 25.11.2016
 
 procedure SetIVAcceptanceFlag(var record IVVc IVr,record IVVc prevIVr,LongInt stat)
 begin
@@ -493,6 +494,9 @@ BEGIN
   LongInt res;
   Boolean testf;
   record EInvoiceBlock EIb;
+  record IVVc svoIVr;
+  row IVVc IVrw;
+  integer i,rwcnt;
 
   if (IVr.Invalid==0) then begin
     if (IVr.OKFlag!=0) then begin
@@ -536,6 +540,22 @@ BEGIN
       AddPointsHist(IVr.SerNr,"IVVc",IVr.InvType);
       IVVc_LoyaltyCardPointsRedemption(IVr,false);
     end;   
+  end;
+  if (IVr.OKFlag!=0) then begin
+    if (nonblank(IVr.SVONr)) then begin
+      ChangeCostOfIVsInSVO(IVr.SVONr);//Edit-------------------Vitalii 10:19 25.11.2016
+    end;
+    if (IVr.InvType==kInvoiceTypeCredit) then begin
+      rwcnt = MatRowCnt(IVr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(IVr,i,IVrw);
+        if (IVrw.stp==kInvoiceRowTypeCredit) then begin
+          svoIVr.SerNr = IVrw.OrdRow;
+          readfirstmain(svoIVr,1,true);
+          ChangeCostOfIVsInSVO(svoIVr.SVONr);
+        end;
+      end;
+    end;
   end;
 LIVVcRecordSaveAfter:;
   IVVcRecordSaveAfter = res; 
@@ -977,6 +997,9 @@ BEGIN
   record RLinkVc RLinkr;
   record RLinkVc oldRLinkr;
   Integer notenr;
+  record IVVc svoIVr;
+  row IVVc IVrw;
+  integer i,rwcnt;
     
   ihef = ItemHistExists("IVVc",IVr.SerNr);
   if (IVr.OKFlag==1) then begin
@@ -1145,6 +1168,22 @@ BEGIN
       if (IV2r.AcceptanceStatus==kAcceptanceStatePending) then begin
         CancelApprovalRequestActivities(kAcceptanceIV,"IVVc",IVr.SerNr,IVr.CustCode);
       end;
+  end;
+  if (IVr.OKFlag!=0) then begin
+    if (nonblank(IVr.SVONr)) then begin
+      ChangeCostOfIVsInSVO(IVr.SVONr);//Edit-------------------Vitalii 10:19 25.11.2016
+    end;
+    if (IVr.InvType==kInvoiceTypeCredit) then begin
+      rwcnt = MatRowCnt(IVr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(IVr,i,IVrw);
+        if (IVrw.stp==kInvoiceRowTypeCredit) then begin
+          svoIVr.SerNr = IVrw.OrdRow;
+          readfirstmain(svoIVr,1,true);
+          ChangeCostOfIVsInSVO(svoIVr.SVONr);
+        end;
+      end;
+    end;
   end;
 LIVVcRecordUpdateAfter:;
   IVVcRecordUpdateAfter = res; 
