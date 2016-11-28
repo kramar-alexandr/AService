@@ -1989,7 +1989,6 @@ begin
 				ARr.InvoiceNr = IVr.SerNr;
 				if (ReadFirstMain(ARr,1,true)) then begin
 					if(RepSpec.vals0>0)then begin
-						logtext(0,"recordnew(IPr);");
 						recordnew(IPr);
 							IPr.PayMode = RepSpec.f1;
 							IPr.Comment = "AutoPay ";
