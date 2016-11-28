@@ -22,7 +22,7 @@ external updating procedure CreateActFromSVOToEnginer(record SVOVc);
 external updating procedure ChangeCostOfIVsInSVO(longint);//Edit-------------------Vitalii 10:13 25.11.2016
 external updating procedure PhonesFromSVO(longint);//Edit-------------------Vitalii 17:10 03.11.2016
 remote procedure SENDSECONDSMS(longint);// Edit ************************** Friday, 18 November 2016 14:48:29
-
+remote updating procedure FastPayInvoicesSVO(record RcVc);// Edit ************************** Friday, 25 November 2016 13:09:52
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -1212,6 +1212,72 @@ begin
 	wn = curwindow;
 	closewindow(wn);
 	
+
+return;
+end;
+
+global procedure FastPaySVODsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+record UserVc USr;
+string 100 host,page,getParam;
+area mainRequest,replyarea;
+longint port;
+string 50 location,ser;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	if(windowstate(wn)==0)then begin
+		if(usercanaction("ViewCostPrice",false))then begin
+			RepSpec.vals0 = SVOr.FastCash;
+			RepSpec.vals1 = SVOr.FastTerm;
+			ser = left(SVOr.SerNr,1);
+			switch(ser)begin
+				case "1":	RepSpec.f1 = "03";
+									RepSpec.f2 = "32";
+				case "9":	RepSpec.f1 = "08";
+									RepSpec.f2 = "T4";
+				case "3":
+			end;
+			
+			RepSpec.long1 = SVOr.SerNr;
+			OpenWindow("ConfirmFastPaySVOWClass",0,0,"","",RepSpec); 
+		end;
+	end;
+	
+return
+end;
+
+global procedure DblCancelDsm()
+begin
+	integer wn;
+	record RcVc RepSpec;
+	
+	wn = curwindow;
+	closewindow(wn);
+	
+
+return;
+end;
+
+global updating procedure DblConfirmPaymentDsm()
+begin
+	integer wn;
+	record RcVc RepSpec;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,RepSpec);
+	if((RepSpec.vals0>0 and RepSpec.vals1==0) or (RepSpec.vals0==0 and RepSpec.vals1>0))then begin
+		closewindow(wn);
+		FastPayInvoicesSVO(RepSpec);
+	end else begin
+		beep;
+	end;
 
 return;
 end;

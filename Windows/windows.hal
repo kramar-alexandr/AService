@@ -1904,3 +1904,25 @@ WindowBegin("Відправити СМС кліенту?",YesNoCancelSMSWClass,CGother,RcType);
   
   EndWindow;
 end;
+
+window ConfirmFastPaySVOWClass:1 //Edit-------------------Vitalii 15:51 04.11.2016
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+WindowBegin("Швидка оплата",ConfirmFastPaySVOWClass,CGother,RcType);
+  Modality(1);
+  UseView(RcVc);
+  SetWRect(80,200,400,350);
+  Sizeable(-1,-1,0,0);
+  h = 60; v = 20;
+  statictext(h,v,"Підтвердіть оплату",false);
+  EditField(h+70,v+=20,40,"Спосіб оплати гот.",Normal,f1,false,PMSClass);
+  EditField(h+150,v,80,"Сума",Normal,vals0,false,0);
+  EditField(h+70,v+=20,40,"Спосіб оплати терм.",Normal,f2,false,PMSClass);
+  EditField(h+150,v,80,"Сума",Normal,vals1,false,0);
+  v = v + 30;
+  HalPushButton(h,v,h+80,v+25,"DblCancelDsm","Ні");
+  HalPushButton(h+=100,v,h+80,v+25,"DblConfirmPaymentDsm","Оплатити");
+  
+  EndWindow;
+end;

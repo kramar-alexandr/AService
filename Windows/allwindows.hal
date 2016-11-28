@@ -7091,6 +7091,9 @@ begin
   //HalPushButton(h-50,vm+80,h+150,vm+110,"SetRegDateInSVODsm","Видати"); //Edit***************************Sasha2,17:03 25.10.2016
   EditField(h+190,vm,82, "Прийняв",Normal,CustomField7,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
   EditField(h+400,vm,82, "Сервіс. майстер",Normal,ServiceManager,false,UserSClass);// Edit ************************** Monday, 31 May 2010 9:22:11 AM
+  halpushbutton(h+275,vm+20,h+375,vm+50,"FastPaySVODsm","Швидка оплата");// Edit ************************** Friday, 25 November 2016 11:32:03 
+  EditField(h+425,vm+20,60, "Готівка",Normal,FastCash,false,0);
+  EditField(h+425,vm+40,60, "Термін.",Normal,FastTerm,false,0);
   vm = vm-32;
   ButtonFrame(h+500,vm+16,130,6,"");
 	RadioButton(h+500,vm+16,0,0,"В очікуванні",OrderStatus);

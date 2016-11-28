@@ -1014,6 +1014,11 @@ BEGIN
     case "InvAddr3": res = HasLocalization("PRT")==false;
     case "InvAddr4": res = HasLocalization("PRT")==false;
     case "InvCountry": res = HasLocalization("PRT")==false;
+    
+    case "FastCash": res = UsercanAction("ViewCostPrice",false);// Edit ************************** Friday, 25 November 2016 12:57:36
+    
+    case "FastTerm": res = UsercanAction("ViewCostPrice",false);// Edit ************************** Friday, 25 November 2016 12:57:36
+    
   end;
   if (rownr>=0) then begin
     switch (fieldname) begin

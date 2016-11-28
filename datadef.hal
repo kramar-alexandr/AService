@@ -2698,6 +2698,9 @@ EndRecord;
   RecordField(EndDiagnDate,M4Date,0,0);
   RecordField(EndDiagnTime,M4Time,0,0);
   RecordField(NoSMS,M4Int,0,0);
+  RecordField(FastCash,M4Val,0,0);
+  RecordField(FastTerm,M4Val,0,0);
+  
    //----------End Custom
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
