@@ -1272,10 +1272,13 @@ begin
 	wn = curwindow;
 	deselectwindow(wn,true);
 	getwindowrecord(wn,RepSpec);
-	if((RepSpec.vals0>0 and RepSpec.vals1==0) or (RepSpec.vals0==0 and RepSpec.vals1>0))then begin
+	if((RepSpec.vals0>0 and RepSpec.vals1==0) or (RepSpec.vals0==0 and RepSpec.vals1>0 and nonblank(RepSpec.f3)))then begin
 		closewindow(wn);
 		FastPayInvoicesSVO(RepSpec);
 	end else begin
+		if(RepSpec.vals1>0 and blank(RepSpec.f3))then begin
+			messagebox(31086,"");
+		end;
 		beep;
 	end;
 

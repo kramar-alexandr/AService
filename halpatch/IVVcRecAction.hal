@@ -1961,7 +1961,7 @@ begin
 	boolean TrHs,installmentf;
 	record ARVc ARr;
 	val sum;
-	record IPVc IPr;
+	record IPVc IPr,oldIPr;
 	row IPVc IPrw;
 	val chk;
 	
@@ -1997,9 +1997,12 @@ begin
 							IPrw.InvoiceNr = IVr.SerNr;///????
 							matrowput(IPr,0,IPrw);
 							PasteInvIn2IPr(IPr,0,IPr.TransDate,chk,false,installmentf);
-							IPr.OKFlag = 1;
 							IPr.SerNr = nextsernr("IPVc",currentdate,-1,true,"");
 						recordstore(IPr,true);
+						recordcopy(oldIPr,IPr);
+						IPr.OKFlag = 1;
+						recordupdate(oldIPr,IPr,true);
+						
 					end;
 				end;
 			end;
@@ -2014,18 +2017,20 @@ begin
 			if(TrHs)then begin
 				ARr.InvoiceNr = IVr.SerNr;
 				if (ReadFirstMain(ARr,1,true)) then begin
-					if(RepSpec.vals0>0)then begin
+					if(RepSpec.vals1>0)then begin
 						recordnew(IPr);
 							IPr.PayMode = RepSpec.f2;
-							IPr.Comment = "AutoPay ";
+							IPr.Comment = "Bank Trans # " & RepSpec.f3;
 							IPr.TransDate = currentdate;
 							IPrw.stp = 1;
 							IPrw.InvoiceNr = IVr.SerNr;///????
 							matrowput(IPr,0,IPrw);
 							PasteInvIn2IPr(IPr,0,IPr.TransDate,chk,false,installmentf);
-							IPr.OKFlag = 1;
 							IPr.SerNr = nextsernr("IPVc",currentdate,-1,true,"");
 						recordstore(IPr,true);
+						recordcopy(oldIPr,IPr);
+						IPr.OKFlag = 1;
+						recordupdate(oldIPr,IPr,true);
 					end;
 				end;
 			end;
