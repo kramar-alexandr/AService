@@ -1169,22 +1169,20 @@ BEGIN
         CancelApprovalRequestActivities(kAcceptanceIV,"IVVc",IVr.SerNr,IVr.CustCode);
       end;
   end;
-  if (IVr.OKFlag!=0) then begin
-    if (nonblank(IVr.SVONr)) then begin
-      ChangeCostOfIVsInSVO(IVr.SVONr);//Edit-------------------Vitalii 10:19 25.11.2016
-    end;
-    if (IVr.InvType==kInvoiceTypeCredit) then begin
-      rwcnt = MatRowCnt(IVr);
-      for (i=0;i<rwcnt;i=i+1) begin
-        MatRowGet(IVr,i,IVrw);
-        if (IVrw.stp==kInvoiceRowTypeCredit) then begin
-          svoIVr.SerNr = IVrw.OrdRow;
-          readfirstmain(svoIVr,1,true);
-          ChangeCostOfIVsInSVO(svoIVr.SVONr);
-        end;
-      end;
-    end;
-  end;
+	if (nonblank(IVr.SVONr)) then begin
+		ChangeCostOfIVsInSVO(IVr.SVONr);//Edit-------------------Vitalii 10:19 25.11.2016
+	end;
+	if (IVr.InvType==kInvoiceTypeCredit) then begin
+		rwcnt = MatRowCnt(IVr);
+		for (i=0;i<rwcnt;i=i+1) begin
+			MatRowGet(IVr,i,IVrw);
+			if (IVrw.stp==kInvoiceRowTypeCredit) then begin
+				svoIVr.SerNr = IVrw.OrdRow;
+				readfirstmain(svoIVr,1,true);
+				ChangeCostOfIVsInSVO(svoIVr.SVONr);
+			end;
+		end;
+	end;
 LIVVcRecordUpdateAfter:;
   IVVcRecordUpdateAfter = res; 
   RETURN;

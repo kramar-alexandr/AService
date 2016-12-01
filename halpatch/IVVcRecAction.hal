@@ -1991,7 +1991,7 @@ begin
 					if(RepSpec.vals0>0)then begin
 						recordnew(IPr);
 							IPr.PayMode = RepSpec.f1;
-							IPr.Comment = "AutoPay ";
+							IPr.Comment = "AutoPay Service Order# " & IVr.SVONr;
 							IPr.TransDate = currentdate;
 							IPrw.stp = 1;
 							IPrw.InvoiceNr = IVr.SerNr;///????
