@@ -745,6 +745,61 @@ BEGIN
   	end;
   end;
   
+ // Edit Start ---------------------------------------------- Edit Start
+	//Monday, 12 December 2016 16:18:20
+	 
+  if(nonblank(SVOr.Kontinfo1))then begin
+  	if(left(SVOr.Kontinfo1,1)!="0")then begin
+  		RecordCheckError(31087,"",-1,"Kontinfo1");
+      res = -1;
+      goto LSVOVcRecordCheck;
+  	end;
+  	if(len(SVOr.Kontinfo1)!=10)then begin
+  		RecordCheckError(31087,"",-1,"Kontinfo1");
+      res = -1;
+      goto LSVOVcRecordCheck;
+  	end;
+  	rwcnt = len(SVOr.Kontinfo1);
+  	For(i=0;i<rwcnt;i=i+1) begin
+	  	if(asc(mid(SVOr.Kontinfo1,i,1))<48 or asc(mid(SVOr.Kontinfo1,i,1))>57)then begin
+	  		RecordCheckError(31087,"",-1,"Kontinfo1");
+				res = -1;
+				goto LSVOVcRecordCheck;
+	  	end;
+		end; 
+  	
+  end;
+  
+  if(nonblank(SVOr.Phone2))then begin
+  	if(left(SVOr.Phone2,1)!="0")then begin
+  		RecordCheckError(31087,"",-1,"Phone2");
+      res = -1;
+      goto LSVOVcRecordCheck;
+  	end;
+  	if(len(SVOr.Phone2)!=10)then begin
+  		RecordCheckError(31087,"",-1,"Phone2");
+      res = -1;
+      goto LSVOVcRecordCheck;
+  	end;
+  	rwcnt = len(SVOr.Phone2);
+  	For(i=0;i<rwcnt;i=i+1) begin
+	  	if(asc(mid(SVOr.Phone2,i,1))<48 or asc(mid(SVOr.Phone2,i,1))>57)then begin
+	  		RecordCheckError(31087,"",-1,"Phone2");
+				res = -1;
+				goto LSVOVcRecordCheck;
+	  	end;
+		end; 
+  end;
+  
+  
+  if(blank(SVOr.Kontinfo1) and nonblank(SVOr.Phone2))then begin
+  	RecordCheckError(31088,"",-1,"Kontinfo1");
+		res = -1;
+		goto LSVOVcRecordCheck;
+  end;
+  
+	// Edit End ---------------------------------------------- Edit End
+	
   if (SVOr.DoneMark==1) then begin
     if (stat==Rs_insert) then begin transf = true; end;
     if (stat==Rs_update) then begin

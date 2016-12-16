@@ -1002,9 +1002,7 @@ BEGIN
                 rs2 = rs2 - MulRateToBase2(OPrw.PInvCurncy,OPrw.VATVal,frrate,torate1,torate2,baserate1,baserate2,DefaultCurRoundOff);
               end;
             end;
-            
-            logtext(0,rs);
-            
+                      
             onaccdc1 = dc1;
             onaccdc2 = dc2;
             if (OPrw.PInvVal<0) then begin
@@ -1055,18 +1053,11 @@ BEGIN
                 end;
               end;
             end;
-            
-            logtext(0,rs);
-      For(k=0;k<matrowcnt(gTRp);k=k+1) begin
-	  		matrowget(gTRp,k,TRrw);
-	  		logtext(0," " & TRrw.AccNumber);
-			end; 
-            
+                    
             if (GetAccName(onaccacc,tstr,60)==false) then begin
               res = 1916;
               goto LMakeTransFromOP2;
             end;
-            logtext(0,onaccacc);
             if (CheckTTRPerRow("OPVc",onaccacc,otxt,onaccdc1,taccnumber,1)) then begin end;      
             prepbook = rs;            
             prepbook2 = rs2;
@@ -1090,11 +1081,6 @@ BEGIN
                          OPrw.PInvCurncy,frrate,torate1,torate2,baserate1,baserate2,pinvval,blankval,-1,false,taccnumber);
             end;
 						
-						logtext(0,matrowcnt(gTRp));
-      For(k=0;k<matrowcnt(gTRp);k=k+1) begin
-	  		matrowget(gTRp,k,TRrw);
-	  		logtext(0," " & TRrw.AccNumber);
-			end; 
 						
             if (nonblank(OPrw.VATCode)) then begin
               vatflag = true;
@@ -1110,13 +1096,7 @@ BEGIN
         
         goto L80;
       end;
-      
-      logtext(0,matrowcnt(gTRp));
-      For(k=0;k<matrowcnt(gTRp);k=k+1) begin
-	  		matrowget(gTRp,k,TRrw);
-	  		logtext(0," " & TRrw.AccNumber);
-			end; 
-      
+            
       VIr.SerNr = OPrw.VISerNr;
       invfound = ReadFirstMain(VIr,1,true);
       if (invfound==false) then begin

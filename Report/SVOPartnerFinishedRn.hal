@@ -348,3 +348,65 @@ string 50 location;
 
 return
 end;
+
+global procedure CallToClient2Dsm()
+begin
+integer wn;
+record SVOVc SVOr;
+array longint sernr;
+integer count;
+record RcVc RepSpec;
+record UserVc USr;
+string 100 host,page,getParam;
+area mainRequest,replyarea;
+longint port;
+string 50 location;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	
+	USr.Code = currentuser;
+	
+	
+	if(readfirstmain(USr,1,true))then begin
+		location = "";
+		USr.Location = firstinrange(USr.Phone2,10);
+		USr.Phone2 = lastinrange(USr.Phone2,10);
+		host = "call.a-service.net.ua";	
+		port = 80;
+		switch(USr.Location)begin
+			case "INV#1_KVZ":host = "134.249.184.148";
+											port = 2501;
+											location = "/hansa/call.php";
+			case "INV#1_KRS":host = "109.95.53.85";
+											location = "/hansa/call.php";
+											port = 2501;
+			case "INV#1_LUK":host = "82.144.202.163";
+											location = "/hansa/call.php";
+											port = 2501;
+		end;
+		
+		
+		
+		page = location & "?phone=" & NormalPhone(SVOr.Phone2) & "&int=" & USr.Phone2;
+		//messagebox(0,"http://" & host & page);		
+		if(blank(USr.Phone2))then begin
+			messagebox(0,"Blank internal user phone");
+		end;
+		if(blank(NormalPhone(SVOr.Phone2)))then begin
+			messagebox(0,"Invalid client phone number");
+		end;
+		if(blank(location))then begin
+			messagebox(0,"Unknown user location");
+		end;
+		
+		if(nonblank(USr.Phone2)and nonblank(NormalPhone(SVOr.Phone2)) and nonblank(location))then begin			
+			//messagebox(0,host & ":" & port & page);
+			MySendWebRequest(host,port,-1,false,"GET",page,"text/plain","",false,mainRequest,replyarea,10);
+			//logtext(0,getstringfromarea(replyarea.));
+		end;
+	end;
+
+return
+end;
+

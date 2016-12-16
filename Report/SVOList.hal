@@ -234,6 +234,7 @@ begin
     OutString(16,0,USetStr(23351),false); //Edit***************************Sasha2,10:20 28.04.2015
     OutString(17,0,USetStr(31042),false); //Edit***************************Sasha2,10:20 28.04.2015
     OutString(18,0,USetStr(22423),false); //Edit***************************Sasha2,10:20 28.04.2015
+    OutString(18,0,"Phone",false); //Edit***************************Sasha2,10:20 28.04.2015
   EndFormat;
   
 
@@ -301,6 +302,7 @@ begin
           OutString(16,0,SVOr.CustomField3,false); //Edit***************************Sasha2,10:20 28.04.2015
           OutString(17,0,SVOr.CustomField4,false); //Edit***************************Sasha2,10:20 28.04.2015
           OutString(18,0,SVOr.CustomField5,false); //Edit***************************Sasha2,10:20 28.04.2015
+          OutString(18,0,SVOr.Kontinfo1,false); //Edit***************************Sasha2,10:20 28.04.2015
         EndFormat;
       end;
     end;    

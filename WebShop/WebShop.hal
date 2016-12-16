@@ -514,12 +514,9 @@ record SVOVc SVOr;
 		if(left(phone,1)<"0" or left(phone,1)>"9")then begin
 			phone = "+" & right(phone,len(phone)-1);
 		end;
-		
-		logtext(0,currentcompany);
-		
+				
 		Phoner.PhoneNum = phone;
 		if(readfirstmain(Phoner,1,true))then begin
-			logtext(0,phone);
 			res = Phoner.Priynato;
 			num = Phoner.SVONrs;
 		end else begin

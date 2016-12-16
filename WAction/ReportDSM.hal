@@ -26,7 +26,6 @@ begin
   end;
     
   IHr.SerNr = FirstInRange(tstr,10);
-  LogText(0,IHr.SerNr);  
   if (ReadFirstMain(IHr,1,true)) then begin
   	 wn = OpenWindow("ItemHistDClass",1,0,"","",IHr);
   end;

@@ -2700,6 +2700,7 @@ EndRecord;
   RecordField(NoSMS,M4Int,0,0);
   RecordField(FastCash,M4Val,0,0);
   RecordField(FastTerm,M4Val,0,0);
+  RecordField(Phone2,M4Str,20,0);
   
    //----------End Custom
   ArrayBegin(Math,-,1);

@@ -7163,12 +7163,15 @@ begin
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-20,"SN Зареєст.",Normal,CustomField8,false,0);
  	EditField(h,v+=vs,-20,"Прийнято від",Normal,Priynato,false,0);	
  	
-	EditField(h,v+=vs,200,"Контактна інф.",Normal,Kontinfo1,false,0);	
+	EditField(h,v+=vs,100,"Тел.1",Normal,Kontinfo1,false,0);	
+	HalPushButton(h+110,v-3,h+180,v+15,"CallToClientDsm","Дзвінок");
+	EditField(h+220,v,100,"Тел.2",Normal,Phone2,false,0);	
+	HalPushButton(h+330,v-3,h+410,v+15,"CallToClient2Dsm","Дзвінок");
 	
-	CheckBox(h+215,v,0,"Без СМС",NoSMS);
-	HalPushButton(h+290+20,v-3,h+350+20,v+15,"CallToClientDsm","Дзвінок");
-	EditField(h+450+20,v,40,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
-	HalPushButton(h+360+150+20,v-3,h+410+150+20,v+15,"ServClientOrderDsm","Звіт");
+	CheckBox(-270,v,0,"Без СМС",NoSMS);
+	
+	EditField(-130,v,-105,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
+	HalPushButton(-90,v-3,-50,v+15,"ServClientOrderDsm","Звіт");
 	
 	EditField(h,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
 	EditField(h,v+=vs,-20,"Адреса клієнта",Normal,Kontinfo3,false,0);

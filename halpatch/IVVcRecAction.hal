@@ -1979,7 +1979,6 @@ begin
 	end;
 	resetloop(IVr);
 	
-	logtext(0,sum);
 	if(sum==RepSpec.vals0)then begin
 		IVr.SVONr = RepSpec.long1;
 		TrHs = true;
