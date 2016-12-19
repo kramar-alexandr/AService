@@ -23,7 +23,7 @@ begin
 	
 	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
 	
-	Report("ОТчет по истории товаров технический ",FindErrorInIHRClass,FindErrorInIHRn,0,modDBMain);
+	Report("Отчет по истории товаров технический ",FindErrorInIHRClass,FindErrorInIHRn,0,modDBMain);
 	Report("Отчет по телефонам клиентов",ServClientOrderRClass,ServClientOrderRn,0,modSVO);// Edit ************************** Monday, 4 July 2016 17:52:38
 	
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
@@ -52,7 +52,7 @@ begin
 	
 	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modIN);
 	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modSVO);
-	Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);
+	//Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);
 	Report("Пошук по нотаткам в замовленнях",MyNotSearchSVORClass,MyNotSearchSVORn,0,modSVO);
 	Report("Проведенные таблицы работ",WSVcOKReportRClass,WSVcOKReportRn,0,modSVO);	
 	Report("Завершені замовлення партнерів",SVOPartnerFinishedRClass,SVOPartnerFinishedRn,0,modSVO);	//Edit***************************Sasha2,14:34 08.12.2015
@@ -62,10 +62,6 @@ begin
 	Report("Клиенты с карточками",POSClientRClass,POSClientRn,0,modPOS);
 	
 	Report("Аналiз оборотностi товарiв",ItemTurnoverRClass,ItemTurnoverRn,0,modSO);
-
-	
-	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
-	Setting("Настройка Cash Flow - прямий метод",MyCashFlowDirectTClass,modNL);
 	Report("Рух готівки",MyCashFlowRClass,MyNewCashFlowRn,0,modNL);
 	Report("Рух готівки - прямий метод",MyCashFlowRClass,MyNewCashFlowDirectRn,0,modNL);	
 	
@@ -75,6 +71,8 @@ begin
 	Report("Вивести товари не Samsung",NotSamsungItemsRClass,NotSamsungItemsRn,0,modIN); //Edit***************************Sasha2,14:16 19.04.2016
 	Report("Прострочені переміщення для сервісу",ExpiredMoveForServRClass,ExpiredMoveForServRn,0,modIN); //Edit-------------------Vitalii 15:36 25.08.2016
   
+	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
+	Setting("Настройка Cash Flow - прямий метод",MyCashFlowDirectTClass,modNL);
 	Setting("Валюта ЕККА",POSCurncyTClass,modPOS); //Edit***************************Sasha2,17:25 11.09.2014
 	Setting("Рахунки продавців",LocalMachineAccTClass,modPOS); //Edit***************************Sasha2,17:26 11.09.2014
 	Setting("Налаштування фіскального принтера",SerPrintCustomTClass,modPOS); //Edit***************************Sasha2,9:35 03.10.2014
@@ -143,9 +141,10 @@ begin
 	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
   
   
- 	Maintenance("Обновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
+ 	Maintenance("Оновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
   Maintenance("ChangeCostOfIVsInSVO",MyVClass,ChangeCostOfIVsInSVOMn,modDBMain);//Edit-------------------Vitalii 10:14 25.11.2016
   Maintenance("PhonesFromSVOMn",PhonesFromSVOVClass,PhonesFromSVOMn,modDBMain);
+  Maintenance("Оновити текст. поля для швидкого пошуку",UpdateTextFieldsForQuickSearchVClass,UpdateTextFieldsForQuickSearchMn,modDBMain); //Edit***************************Sasha2,16:53 14.12.2016
   
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014

@@ -1927,3 +1927,22 @@ WindowBegin("Швидка оплата",ConfirmFastPaySVOWClass,CGother,RcType);
   
   EndWindow;
 end;
+
+window UpdateTextFieldsForQuickSearchVClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Оновити текстові поля для швидкого пошуку",UpdateTextFieldsForQuickSearchVClass,CGMnt,RcType);
+  SetWRect(20,80,500,220);
+  v = 10; vs = 20; h = 40;
+  /*Statictext(h,v+=10,"Обновить поля (дата, сумма) для:",false);
+  CheckBox(h,v+=vs,0,"Поступление товара",flags[0]);
+  CheckBox(h,v+=vs,0,"Заказ поставщику",flags[1]);
+  CheckBox(h,v+=vs,0,"Сч/ф поставщика",flags[2]);
+  CheckBox(h,v+=vs,0,"Платёж поставщику",flags[3]);
+  CheckBox(h,v+=vs,0,"Приход в кассу",flags[4]);
+  CheckBox(h,v+=vs,0,"Расход из кассы",flags[5]);
+  CheckBox(h,v+=vs,0,"Сч/ф касс.терминала",flags[6]);*/
+  
+  EndWindow;
+end;

@@ -2701,6 +2701,9 @@ EndRecord;
   RecordField(FastCash,M4Val,0,0);
   RecordField(FastTerm,M4Val,0,0);
   RecordField(Phone2,M4Str,20,0);
+  RecordField(ArtCodeTextSearch,M4Str,255,0); //Edit***************************Sasha2,13:28 19.12.2016
+  RecordField(SpecTextSearch,M4Str,255,0); //Edit***************************Sasha2,13:28 19.12.2016
+  RecordField(SerialNrTextSearch,M4Str,255,0); //Edit***************************Sasha2,13:28 19.12.2016
   
    //----------End Custom
   ArrayBegin(Math,-,1);

@@ -1,6 +1,7 @@
 external procedure ExtractObj(string,var Integer,var string);
 external function Boolean SetInSet2(string,string);
 external function Boolean MySendWebRequest(string,longint,longint,boolean,string,string,string,string,boolean,area,var area,integer);
+external function Boolean FindStringInString(string, string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -434,3 +435,57 @@ LImportNewItemsWithClassIn:;
 	
 return;
 end; //Edit***************************Sasha2,17:37 15.04.2015 }
+
+global //Edit***************************Sasha2,16:35 14.12.2016 {
+updating procedure UpdateTextFieldsForQuickSearchMn(record RcVc RepSpec)
+begin
+  record SVOVc SVOr;
+  row SVOVc SVOrw;
+  Integer i,rwcnt;
+  Boolean saveF;
+  
+      SVOr.SerNr = -1;
+      while (LoopMain(SVOr,1,true)) begin
+        rwcnt = MatRowCnt(SVOr);
+        if (rwcnt>0) then begin
+          saveF = false;
+          for (i=0;i<rwcnt;i=i+1) begin
+            MatRowGet(SVOr,i,SVOrw);
+            if (NonBlank(SVOrw.ArtCode)) then begin
+              if (Blank(SVOr.ArtCodeTextSearch)) then begin
+                SVOr.ArtCodeTextSearch = SVOrw.ArtCode;
+                saveF = true;
+              end else begin
+                if (len(SVOr.ArtCodeTextSearch & " " & SVOrw.ArtCode)<=255 and FindStringInString(SVOr.ArtCodeTextSearch,SVOrw.ArtCode)==false) then begin
+                  SVOr.ArtCodeTextSearch = SVOr.ArtCodeTextSearch & " " & SVOrw.ArtCode;
+                  saveF = true;
+                end;
+              end;
+              if (Blank(SVOr.SpecTextSearch)) then begin
+                SVOr.SpecTextSearch = SVOrw.Spec;
+                saveF = true;
+              end else begin
+                if (len(SVOr.SpecTextSearch & " " & SVOrw.Spec)<=255 and FindStringInString(SVOr.SpecTextSearch,SVOrw.Spec)==false) then begin
+                  SVOr.SpecTextSearch = SVOr.SpecTextSearch & " " & SVOrw.Spec;
+                  saveF = true;
+                end;
+              end;
+              if (Blank(SVOr.SerialNrTextSearch)) then begin
+                SVOr.SerialNrTextSearch = SVOrw.SerialNr;
+                saveF = true;
+              end else begin
+                if (len(SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr)<=255 and FindStringInString(SVOr.SerialNrTextSearch,SVOrw.SerialNr)==false) then begin
+                  SVOr.SerialNrTextSearch = SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr;
+                  saveF = true;
+                end;
+              end;
+            end;
+          end;
+          if (saveF) then begin
+            RECORDSTORE(SVOr,true);
+          end;
+        end;
+      end;
+
+  return;
+end; //Edit***************************Sasha2,16:35 14.12.2016 }

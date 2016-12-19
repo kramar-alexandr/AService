@@ -936,7 +936,37 @@ BEGIN
     end;
   end;
   
-   SENDSMS(SVOr,SVO2r);// Edit ************************** Tuesday, 8 January 2013 10:20:35
+  SENDSMS(SVOr,SVO2r);// Edit ************************** Tuesday, 8 January 2013 10:20:35
+  
+  rwcnt = MatRowCnt(SVOr); //for quick search
+  if (rwcnt>0) then begin
+    for (i=0;i<rwcnt;i=i+1) begin
+      MatRowGet(SVOr,i,SVOrw);
+      if (NonBlank(SVOrw.ArtCode)) then begin
+        if (Blank(SVOr.ArtCodeTextSearch)) then begin
+          SVOr.ArtCodeTextSearch = SVOrw.ArtCode;
+        end else begin
+          if (len(SVOr.ArtCodeTextSearch & " " & SVOrw.ArtCode)<=255 and FindStringInString(SVOr.ArtCodeTextSearch,SVOrw.ArtCode)==false) then begin
+            SVOr.ArtCodeTextSearch = SVOr.ArtCodeTextSearch & " " & SVOrw.ArtCode;
+          end;
+        end;
+        if (Blank(SVOr.SpecTextSearch)) then begin
+          SVOr.SpecTextSearch = SVOrw.Spec;
+        end else begin
+          if (len(SVOr.SpecTextSearch & " " & SVOrw.Spec)<=255 and FindStringInString(SVOr.SpecTextSearch,SVOrw.Spec)==false) then begin
+            SVOr.SpecTextSearch = SVOr.SpecTextSearch & " " & SVOrw.Spec;
+          end;
+        end;
+        if (Blank(SVOr.SerialNrTextSearch)) then begin
+          SVOr.SerialNrTextSearch = SVOrw.SerialNr;
+        end else begin
+          if (len(SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr)<=255 and FindStringInString(SVOr.SerialNrTextSearch,SVOrw.SerialNr)==false) then begin
+            SVOr.SerialNrTextSearch = SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr;
+          end;
+        end;
+      end;
+    end;
+  end;
   
   LogText(0,"SVOVc " & SVOr.SerNr & "  was changed. Company: " & CurrentCompany & " User: " & CurrentUser & "  ServiceMan:" & SVOr.ServiceManager);	//Edit----------------------Dima  30.10.2015
 LSVOVcRecordCheck:;
