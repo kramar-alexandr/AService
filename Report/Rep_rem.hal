@@ -439,6 +439,20 @@ begin
 return;
 end;
 
+global procedure MySearchSVORClassReportDefaults(Integer wn)
+begin
+  record RcVc RepSpec;  
+
+  GetwindowRecord(wn,RepSpec);
+  RepSpec.Period2Str = stringtodate("1/1/" & getyear(currentdate)) & ":" & currentdate;
+  IF(GETMONTH(currentdate)<5)THEN BEGIN
+  	RepSpec.Period2Str = stringtodate("1/1/" & getyear(currentdate)-1) & ":" & currentdate;
+  END;
+
+  PutWindowRecord(wn,RepSpec);
+return;
+end;
+
 global procedure CUAServiceStocksRClassReportDefaults(Integer wn)
 begin
   record RcVc RepSpec;  
@@ -1049,9 +1063,12 @@ record RLinkVc RLr;
     OutString(250,0,"Сер.Номер",false);
   EndFormat;
     TrHs = true;
-    SVOr.SerNr = -1;
-    While(loopmain(SVOr,1,TrHs)) begin
-  	  testf = true;
+    SVOr.TransDate = RepSpec.sStartDate;
+    TrHs = true;
+    While(loopkey("TransDate",SVOr,1,TrHs)) begin
+    	testf = true;
+    	if(SVOr.TransDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
+  	  
   	  
   	 
   	  REcordnew(Letr);
@@ -1060,6 +1077,7 @@ record RLinkVc RLr;
   	  AddToText(SVOr.Kontinfo1,Letr);
   	  AddToText(SVOr.Kontinfo2,Letr);
   	  AddToText(SVOr.Kontinfo3,Letr);
+  	  AddToText(SVOr.Phone2,Letr);
   	    
   	  If(nonblank(customer) and not StringInText(customer,Letr)) then begin testf = false; end;
       If(nonblank(telno) and not StringInText(telno,Letr)) then begin testf = false; end;  
@@ -1094,16 +1112,18 @@ record RLinkVc RLr;
     EndFormat;
 	  
 	  TrHs = true;
-    SVOr.SerNr = -1;
+    SVOr.TransDate = RepSpec.sStartDate;
     
-	  While(loopmain(SVOr,1,TrHs)) begin
+	  While(loopkey("TransDate",SVOr,1,TrHs)) begin
 	    testf = true;
+	    if(SVOr.TransDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
 	    REcordnew(Letr);
   	  AddToText(SVOr.Vlastnik,Letr);
   	  AddToText(SVOr.Priynato,Letr);
   	  AddToText(SVOr.Kontinfo1,Letr);
   	  AddToText(SVOr.Kontinfo2,Letr);
   	  AddToText(SVOr.Kontinfo3,Letr);
+  	  AddToText(SVOr.Phone2,Letr);
   	  
 	    If(nonblank(customer) and not StringInText(customer,Letr)) then begin testf = false; end;
       If(nonblank(telno) and not StringInText(telno,Letr)) then begin testf = false; end;  

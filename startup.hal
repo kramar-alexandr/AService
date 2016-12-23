@@ -52,7 +52,7 @@ begin
 	
 	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modIN);
 	Report("История серийных номеров 2",MySerhistRClass,MySerHistRn,0,modSVO);
-	//Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);
+	Report("Пошук замовлень на обслуговування",MySearchSVORClass,MySearchSVORn,0,modSVO);
 	Report("Пошук по нотаткам в замовленнях",MyNotSearchSVORClass,MyNotSearchSVORn,0,modSVO);
 	Report("Проведенные таблицы работ",WSVcOKReportRClass,WSVcOKReportRn,0,modSVO);	
 	Report("Завершені замовлення партнерів",SVOPartnerFinishedRClass,SVOPartnerFinishedRn,0,modSVO);	//Edit***************************Sasha2,14:34 08.12.2015

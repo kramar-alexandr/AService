@@ -1,6 +1,8 @@
 external function LongInt DateDiff(Date,Date);
 external procedure IPRn(record RcVc);
 
+SetLangMode(LangUkrainian,"UKR",0);
+
 global procedure IPEn()
 begin
 record RcVc RepSpec;
@@ -268,7 +270,7 @@ integer cnt;
 boolean TrHs,Testf;
 
   search = RepSpec.f1;
-  StartReportnoheaderJob("Report");
+  StartReportnoheaderJob("Пошук по нотаткам в замовленнях");
   NRr.SerNr = -1;
   StartFormat(15);
     OutString(200,0,Search,false);

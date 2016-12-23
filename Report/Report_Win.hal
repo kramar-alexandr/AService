@@ -218,7 +218,8 @@ begin
 
   WindowBegin("Пошук замовлень на обслуговування",MySearchSVORClass,CGRcW,RcType);
   SetWRect(20,120,400,220);
-  EditField(h+=40,v=50,-20,"Серійний номер",Normal,f1,false,0);
+  PeriodField(h+=40,v=40,"Період");
+  EditField(h,v+=20,80,"Серійний номер",Normal,f1,false,0);
   EditField(h,v+=20,-20,"Власник",Normal,f2,false,0);
   EditField(h,v+=20,-20,"Телефон",Normal,f3,false,0);
   EditField(h,v+=20,-20,"№ зам. у постачальника",Normal,f4,false,0);
