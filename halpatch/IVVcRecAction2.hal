@@ -542,7 +542,7 @@ BEGIN
     end;   
   end;
   if (IVr.OKFlag!=0) then begin
-    if (nonblank(IVr.SVONr)) then begin
+    if (IVr.SVONr!=-1) then begin
       ChangeCostOfIVsInSVO(IVr.SVONr);//Edit-------------------Vitalii 10:19 25.11.2016
     end;
     if (IVr.InvType==kInvoiceTypeCredit) then begin
@@ -1169,7 +1169,7 @@ BEGIN
         CancelApprovalRequestActivities(kAcceptanceIV,"IVVc",IVr.SerNr,IVr.CustCode);
       end;
   end;
-	if (nonblank(IVr.SVONr)) then begin
+	if (IVr.SVONr!=-1) then begin
 		ChangeCostOfIVsInSVO(IVr.SVONr);//Edit-------------------Vitalii 10:19 25.11.2016
 	end;
 	if (IVr.InvType==kInvoiceTypeCredit) then begin

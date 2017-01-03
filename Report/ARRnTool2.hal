@@ -317,6 +317,8 @@ BEGIN
   string 255 tstr,tstr2,dblstr;
   record AgedBlock Ab;
   record ORVc ORr; //Edit***************************Sasha2,11:18 20.08.2014
+  record SVOVc SVOr;
+  row SVOVc SVOrw;
   
   BlockLoad(Ab);
   if ((IVr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
@@ -411,6 +413,14 @@ BEGIN
 	      	OutString(390,0,ORr.Comment,false);
 	      end;
 	    end;
+      if (IVr.SVONr!=-1) then begin //Edit-------------------Vitalii 15:30 03.01.2017
+        SVOr.SerNr = IVr.SVONr;
+        readfirstmain(SVOr,1,true);
+        matrowget(SVOr,0,SVOrw);
+        OutString(500,0,SVOrw.ArtCode,true);
+        OutString(650,0,SVOrw.SerialNr,true);
+        OutString(800,0,SVOr.TransDate,true);
+      end;
     end else begin
 	    if (RepSpec.flags[23]!=0) then begin
 	      if (IVr.DisputedFlag==1) then begin 
@@ -448,6 +458,7 @@ BEGIN
 	      OutValBiDi(450,0,rs,M4Val,true,490);
 	    end;
 	end; //Edit***************************Sasha2,9:21 20.08.2014 }
+  
    EndFormat;
 LARRPrintOverView:;
   if (RepSpec .ArtMode ==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,10:57 21.08.2014 {
@@ -1071,6 +1082,9 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
          OutString(450,0,USetStr(2434),true);
        end;
      end;
+     OutString(500,0,USetStr(12426),true); //Edit-------------------Vitalii 15:30 03.01.2017
+     OutString(650,0,USetStr(11644),true);
+     OutString(800,0,USetStr(8151),true);
     EndFormat;
   end;
   if (RepSpec.ArtMode==1) then begin
