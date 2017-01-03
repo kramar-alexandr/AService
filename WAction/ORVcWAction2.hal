@@ -2277,10 +2277,9 @@ begin
   area tmparea;
   boolean testf,EOF,err;
   
+	transCNT = 5;
 	wn = curwindow;
-	
 	wst = windowstate(wn);
-	
 	if(wst==Rs_insert or wst==Rs_update)then begin
 		messagebox(0,"‡бережґть запис перед цґ№ю операцґ№ю");
 		goto lORtoExcel1Dsm;
