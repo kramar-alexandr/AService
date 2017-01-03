@@ -405,12 +405,16 @@ BEGIN
 	      OutValBiDi(410,0,rs,M4Val,true,490);
 	      if (NonBlank(ORr.Comment) and RepSpec.flags[14]==1) then begin
 	      	OutString(440,0,ORr.Comment,false);
-	      end;
+	      end else begin
+          OutString(440,0,"",false);
+        end;
 	    end else begin
 	      //OutLongInt(360,0,IVr.LastRemndr,true);
 	      OutValBiDi(360,0,rs,M4Val,true,490);
 	      if (NonBlank(ORr.Comment)and RepSpec.flags[14]==1) then begin
 	      	OutString(390,0,ORr.Comment,false);
+        end else begin
+          OutString(390,0,"",false);
 	      end;
 	    end;
       if (IVr.SVONr!=-1) then begin //Edit-------------------Vitalii 15:30 03.01.2017
@@ -1133,6 +1137,9 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
 	//     end;  
 	    OutString(450,0,USetStr(2434),true);
      end; //Edit***************************Sasha2,13:35 19.08.2014 }
+     OutString(500,0,USetStr(12426),true); //Edit-------------------Vitalii 15:30 03.01.2017
+     OutString(650,0,USetStr(11644),true);
+     OutString(800,0,USetStr(8151),true);
     EndFormat;       
   end;
   if ((RepSpec.ArtMode==2) or (RepSpec.ArtMode==5)) then begin
