@@ -417,7 +417,7 @@ BEGIN
 		end;
 	end;
 	
-	if (foundlossf==false and (CurrentCompany==4)) then begin //Edit***************************Sasha2,16:09 11.02.2016 {
+	if (foundlossf==false and (CurrentCompany==4 or CurrentCompany==14  or CurrentCompany==15  or CurrentCompany==16)) then begin //Edit***************************Sasha2,16:09 11.02.2016 {
 	  if (blank(IVp.Objects)) then begin
 	    IVp.Objects ="DT_ST2";
 	  end else begin

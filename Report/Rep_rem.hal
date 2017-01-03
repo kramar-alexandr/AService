@@ -439,19 +439,6 @@ begin
 return;
 end;
 
-global procedure MySearchSVORClassReportDefaults(Integer wn)
-begin
-  record RcVc RepSpec;  
-
-  GetwindowRecord(wn,RepSpec);
-  RepSpec.Period2Str = stringtodate("1/1/" & getyear(currentdate)) & ":" & currentdate;
-  IF(GETMONTH(currentdate)<5)THEN BEGIN
-  	RepSpec.Period2Str = stringtodate("1/1/" & getyear(currentdate)-1) & ":" & currentdate;
-  END;
-
-  PutWindowRecord(wn,RepSpec);
-return;
-end;
 
 global procedure CUAServiceStocksRClassReportDefaults(Integer wn)
 begin

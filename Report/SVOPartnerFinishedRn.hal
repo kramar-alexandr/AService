@@ -410,3 +410,17 @@ string 50 location;
 return
 end;
 
+global procedure MySearchSVORClassReportDefaults(Integer wn)
+begin
+  record RcVc RepSpec;  
+
+  GetwindowRecord(wn,RepSpec);
+  /*RepSpec.Period2Str = stringtodate("1/1/" & getyear(currentdate)) & ":" & currentdate;
+  IF(GETMONTH(currentdate)<5)THEN BEGIN
+  	RepSpec.Period2Str = stringtodate("1/1/" & getyear(currentdate)-1) & ":" & currentdate;
+  END;*/
+  RepSpec.Period2Str = addyear(currentdate,-1) & ":" & currentdate;
+
+  PutWindowRecord(wn,RepSpec);
+return;
+end;

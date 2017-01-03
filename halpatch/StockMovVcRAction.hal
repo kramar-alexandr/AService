@@ -2100,7 +2100,7 @@ BEGIN
 		end;
 	end;					//Edit------------------------------------------------------------Dima  04.05.2016
 	//Edit-------------------Vitalii 11:18 22.07.2016
-  if (CurrentCompany==4) then begin								//Edit----------------------Dima  04.05.2016
+  if (CurrentCompany==4 or CurrentCompany==14  or CurrentCompany==15  or CurrentCompany==16) then begin								//Edit----------------------Dima  04.05.2016
 		Userr.Code = CurrentUser;
 		if(ReadFirstMain(Userr,1,true))then begin
 			if ((SM2p.OKFlag==0) and (SMp.OKFlag!=0)) then begin

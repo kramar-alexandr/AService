@@ -6304,7 +6304,7 @@ begin
   end;
   MatCol(t,190,"Ціна",0,Price,true,0);
   MatCol(t,250,"Опис",0,Spec,false,0);
-  if(currentcompany==4)then begin// Edit ************************** Wednesday, 25 November 2015 17:47:46
+  if(CurrentCompany==4 or CurrentCompany==14  or CurrentCompany==15  or CurrentCompany==16)then begin// Edit ************************** Wednesday, 25 November 2015 17:47:46
 		MatCol(t,-195,"Сер. №",0,SerialNr,false,0);
   end else begin
   	MatCol(t,-195,"Сер. №",0,SerialNr,false,SerialNrSClass);// Edit ************************** Wednesday, 25 November 2015 17:47:48

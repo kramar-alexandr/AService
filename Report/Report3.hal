@@ -558,7 +558,7 @@ begin
     days = -80;
   end;
   headerf = true;
-  if CurrentCompany==8 then begin
+  if (CurrentCompany==8) then begin
     TrHs = true;
     while loopmain(MFSr,1,TrHs) begin
       if (MFSr.TransDate<AddDay(CurrentDate,days) and (MFSr.Closed!=1)) then begin

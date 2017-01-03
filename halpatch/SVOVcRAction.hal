@@ -94,7 +94,7 @@ BEGIN
 	  end;
 	end;
 	
-	if(CurrentCompany==1) then begin
+	if(currentcompany==1 or currentcompany==12 or currentcompany==13) then begin
     SVOr.Garanty = "Діагностика";
   end;
 	// Edit End ---------------------------------------------- Edit End
@@ -167,7 +167,7 @@ BEGIN
   SVOr.InvFlag = 0;
   
 	
-	if(CurrentCompany==1) then begin
+	if(currentcompany==1 or currentcompany==12 or currentcompany==13) then begin
     SVOr.Garanty = "Діагностика";
   end;
 	// Edit End ---------------------------------------------- Edit End

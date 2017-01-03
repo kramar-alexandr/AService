@@ -500,7 +500,7 @@ BEGIN
     end;   
   end; 
   
-  if (CurrentCompany==4 or CurrentCompany==1 or CurrentCompany==6 or CurrentCompany==8 or CurrentCompany==9) then begin //Edit***************************Sasha2,17:53 22.01.2015 {
+  if (CurrentCompany==4 or CurrentCompany==1 or CurrentCompany==6 or CurrentCompany==8 or CurrentCompany==9 or CurrentCompany==12 or CurrentCompany==13 or CurrentCompany==14 or CurrentCompany==15 or CurrentCompany==16) then begin //Edit***************************Sasha2,17:53 22.01.2015 {
     CCr.Code = Cur.CustCat;
     if (ReadFirstMain(CCr,1,true)) then begin
         CostAcc = CCr.CostAcc;

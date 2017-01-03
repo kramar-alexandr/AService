@@ -84,7 +84,7 @@ BEGIN
       	end;
       end;
       
-      if(currentcompany==4)then begin
+      if(CurrentCompany==4 or CurrentCompany==14  or CurrentCompany==15  or CurrentCompany==16)then begin
       	switch(StockMovr.ToLocation)begin
       		case "DREAM_TOWN": PLr.PLCode = "RRPD";  
       		case "INV#1_DT": PLr.PLCode = "RRPD";    
