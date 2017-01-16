@@ -54,6 +54,9 @@ remote procedure HandleWSReceiptPrinting(record WSVc,var area);//Edit-----------
 remote procedure HandleIVReceiptPrinting(record IVVc,var area);//Edit----------------------Dima  21.09.2015
 remote procedure HandleSVOReceiptPrinting(record SVOVc,var area); //Edit***************************Sasha2,13:20 13.10.2016
 
+SetLangMode(LangUkrainian,"UKR",0);
+
+
 global
 function Boolean IVCashDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
 BEGIN
@@ -2111,20 +2114,20 @@ begin
 		if (WindowState(wn)==Rs_normal) then begin
   		DeselectWindow(wn,false);
   		GetWindowRecord(wn,IVr);
-   
-   		SetExportCodePage("CP1251");
-   		HandleIVReceiptPrinting(IVr,aFile);
-   		AddAreaToArea(aFile,aFile);
-     	PrintBixolonReceipt(aFile);
-     	IVr.PrintedFlag = 1;
-     	IVr.PrintedSum4 = IVr.Sum4;
-     	/*PutWindowRecord(wn,IVr);
-     	GetWindowRecord(wn,IVr);
-     	RECORDSTORE(IVr,true);
-     	PutWindowRecord(wn,IVr);*/
-     	PutWindowRecord(wn,IVr);
-     	RECORDSTORE(IVr,true);
-     	UpdateBrowses("IVVc");
+   		
+   		if(IVr.OKFlag==1)then begin
+				SetExportCodePage("CP1251");
+				HandleIVReceiptPrinting(IVr,aFile);
+				AddAreaToArea(aFile,aFile);
+				PrintBixolonReceipt(aFile);
+				IVr.PrintedFlag = 1;
+				IVr.PrintedSum4 = IVr.Sum4;
+				PutWindowRecord(wn,IVr);
+				RECORDSTORE(IVr,true);
+				UpdateBrowses("IVVc");
+     	end else begin
+     		MessageBox(0,"Накладна має бути підтврджена Ок");
+     	end;
 		end else begin
 		  MessageBox(1356,"");
 		end;

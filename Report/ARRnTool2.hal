@@ -421,9 +421,10 @@ BEGIN
         SVOr.SerNr = IVr.SVONr;
         readfirstmain(SVOr,1,true);
         matrowget(SVOr,0,SVOrw);
-        OutString(500,0,SVOrw.ArtCode,true);
+        OutString(500,0,SVOrw.Spec,true);
         OutString(650,0,SVOrw.SerialNr,true);
         OutString(800,0,SVOr.TransDate,true);
+        OutString(850,0,SVOr.SerNr,true);
       end;
     end else begin
 	    if (RepSpec.flags[23]!=0) then begin
@@ -1089,6 +1090,7 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
      OutString(500,0,USetStr(12426),true); //Edit-------------------Vitalii 15:30 03.01.2017
      OutString(650,0,USetStr(11644),true);
      OutString(800,0,USetStr(8151),true);
+     OutString(850,0,USetStr(2707),true);// Edit ************************** Tuesday, 3 January 2017 16:00:12
     EndFormat;
   end;
   if (RepSpec.ArtMode==1) then begin
@@ -1140,6 +1142,8 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
      OutString(500,0,USetStr(12426),true); //Edit-------------------Vitalii 15:30 03.01.2017
      OutString(650,0,USetStr(11644),true);
      OutString(800,0,USetStr(8151),true);
+     OutString(850,0,USetStr(2707),true);// Edit ************************** Tuesday, 3 January 2017 16:00:12
+
     EndFormat;       
   end;
   if ((RepSpec.ArtMode==2) or (RepSpec.ArtMode==5)) then begin

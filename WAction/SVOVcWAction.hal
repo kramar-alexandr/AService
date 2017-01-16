@@ -1505,9 +1505,22 @@ end;
 
 Global Procedure SVO3LClassOnOpenWindow(integer wn)
 begin
+	
+	if(usercanaction("DisableListOgSVO",false))then begin
+		setwindowsubset(wn,"BLANK");
+	end else begin
+		setwindowsubset(wn,currentuser);
+	end;
+	
+return;
+end;
 
-	setwindowsubset(wn,currentuser);
-
+Global Procedure SVOLClassOnOpenWindow(integer wn)
+begin
+	
+	if(usercanaction("DisableListOgSVO",false))then begin
+		setwindowsubset(wn,"BLANK");
+	end;
 return;
 end;
 

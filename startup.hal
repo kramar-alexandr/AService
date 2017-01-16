@@ -271,6 +271,7 @@ begin
   StrSetText(BUQTToIV,"Пропозиція бюджету в акт/накл.");
   StrSetText(AllowNPTSIVCancel,"Дозволяти скасування накладної (сенсорн. екран)");
   StrSetText(DisallowExtraCUDClass,"Заборонити повну карточку клієнта");// Edit ************************** Wednesday, 15 April 2015 17:21:22
+  StrSetText(DisableListOgSVO,"Заборонити перегляд списку ремонтів");// Edit ************************** Tuesday, 3 January 2017 15:55:43
   StrSetText(AllowRestAccTransDateChange,"Зміна дати в замовленні ресторану");
   StrSetText(AllowRestAccSerNrChange,"Зміна нумерацію панелі вкладок");
   StrSetText(AllowIVBranchIDChange,"Зміна код філії на акт/накл.");

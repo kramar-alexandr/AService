@@ -314,6 +314,7 @@ begin
 	array string 100 comment;
 	longint worksheet,CredNo;
 	integer cred;
+	vector boolean usedinvno;
 	
 	blockload(BCb);
 
@@ -397,7 +398,6 @@ begin
       //----------------------------------------------------------------SALE
         IVr.SerNr=IPrsr.IVNr;       
         ReadFirstMain(IVr,1,true);       
-        
         if(IVr.OKFlag==1 and IVr.Invalid!=1)then begin
           sum = IVr.Sum4;
           
@@ -765,7 +765,8 @@ l1:;
           if(IPrs2r.IVNr!=IPrsr.IVNr)then begin testf2=false; end;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
-            if(readfirstmain(newIVr,1,true) and (newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate)then begin// Edit ************************** Monday, 13 June 2016 15:29:47
+            if(readfirstmain(newIVr,1,true) and ((newIVr.InvDate>=RepSpec.sStartDate and newIVr.InvDate<=RepSpec.sEndDate) or newIVr.InvDate<enddate) and usedinvno[IPrs2r.TransNr]==false)then begin// Edit ************************** Monday, 13 June 2016 15:29:47
+            	usedinvno[newIVr.SerNr] = true;
             	cred = 1;
             	if(newIVr.InvType==kInvoiceTypeCredit)then begin
             		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
@@ -1132,6 +1133,7 @@ begin
 	longint worksheet,CredNo;
 	val totSum,totCost,totGP;
 	integer cred;
+	vector boolean usedinvno;
 	
 	blockload(BCb);
 
@@ -1435,7 +1437,8 @@ l1:;
           if(IPrs2r.IVNr!=IPrsr.IVNr)then begin testf2=false; end;
           if(testf2 and IPrs2r.TransType==0 and IPrs2r.TransNr!=IPrs2r.IVNr)then begin
             newIVr.SerNr = IPrs2r.TransNr;
-            if(readfirstmain(newIVr,1,true))then begin
+            if(readfirstmain(newIVr,1,true) and usedinvno[IPrs2r.TransNr]==false)then begin
+							usedinvno[newIVr.SerNr] = true;// Edit ************************** Monday, 16 January 2017 17:42:23
             	cred = 1;
             	if(newIVr.InvType==kInvoiceTypeCredit)then begin
             		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
