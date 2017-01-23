@@ -249,6 +249,7 @@ begin
 	
 	SString(31087,"Невірний формат телефону");
 	SString(31088,"Основний телефон порожній");
+	SString(31089,"Порожня дата завершення ремонту");
 
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */

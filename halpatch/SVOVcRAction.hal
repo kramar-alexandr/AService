@@ -681,10 +681,14 @@ BEGIN
   	SVOr.PlanShip = currentdate;// Edit ************************** Thursday, 10 September 2015 17:31:49
   	SVOr.DoneTime = CurrentTime;
   end;
-   if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
+  if (nonblankdate(SVOr.PlanShip) and blankdate(SVOr.EndDiagnDate)) then begin //Edit***************************Sasha2,16:14 23.01.2017
+    SVOr.EndDiagnDate = SVOr.PlanShip;
+    SVOr.EndDiagnTime = SVOr.DoneTime;
+  end;
+  if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
     SVOr.ServiceManager = CurrentUser;
   end;
-  if(!blankdate(SVOr.PlanShip))then begin
+  if(nonblankdate(SVOr.PlanShip))then begin
   	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49
   end;
  

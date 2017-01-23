@@ -44,6 +44,7 @@ BEGIN
   record SVOVc SVOr,SVO2r;
   Integer wn,nwn;
   area aFile;
+  Boolean testf;
 	
   wn = CurWindow;
   if (WindowState(wn)==Rs_normal) then begin
@@ -55,10 +56,17 @@ BEGIN
       PrintBixolonReceipt(aFile);
     end;
     if (BlankDate(SVOr.RegDate)) then begin
-      SVOr.RegDate = currentDate;
-  	  SVOr.OutTime = CurrentTime;
-  	  PutWindowRecord(wn,SVOr);
-  	  WindowDoOK(wn,0);
+      testf = true;
+      if (BlankDate(SVOr.PlanShip)) then begin
+        testf = false;
+        MessageBox(31089,"");
+      end;
+      if (testf) then begin
+        SVOr.RegDate = currentDate;
+    	  SVOr.OutTime = CurrentTime;
+    	  PutWindowRecord(wn,SVOr);
+    	  WindowDoOK(wn,0);
+      end;
     end;
 	end else begin
 	  MessageBox(1356,"");
