@@ -10149,3 +10149,26 @@ begin
   EditField(h,v+=vs,500,"Номери замовлень",Normal,SVONrs,false,0);	
   EndWindow;
 end;
+
+window SerBalDClass:1
+  wtag("language","ENG"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	real h,h1,h2,h3,h4,t,v,vm,vs;
+	
+  WindowBegin("Serial Numbers",SerBalDClass,CGview,-);
+  SpawnClass(SerBalDClass);
+  SetWRect(64,80,580,298);
+  Sizeable(-1,-1,0,0);
+  UseView(SerBalVc);
+  
+  vs = 20; v = 20;
+  
+  EditField(h,v+=vs,82,"Quant",Normal,Quant,false,0);
+  EditField(h,v+=vs,82,"Item",Normal,Item,false,0);
+  EditField(h,v+=vs,82,"Serial",Normal,Serial,false,0);
+  EditField(h,v+=vs,82,"Location",Normal,Location,false,0);
+  EditField(h,v+=vs,82,"CostPrice",Normal,CostPrice,false,0);
+  EditField(h,v+=vs,82,"NewBestBefore",Normal,NewBestBefore,false,0);
+  
+  EndWindow;
+end;

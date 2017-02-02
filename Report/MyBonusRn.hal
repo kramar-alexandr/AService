@@ -273,6 +273,58 @@ string 25 salesman;
 return;
 end;
 
+procedure FindEnginer(string artcode, record IVVc IVr,var string enginer,var longint svonr)
+begin
+	record IVVc OrigIVr;
+	record SVOVc SVOr;
+	record WSVc WSr;
+	row WSVc WSrw;
+	integer i,rwcnt,notenr1;
+	record RLinkVc RLr;
+	boolean trhs2;
+	
+	svonr = -1;
+	if(IVr.SVONr>-1)then begin
+		svonr = IVr.SVONr;
+		notenr1 = 1;
+		trhs2 = true;
+		while (ReadRecordLink(IVr,notenr1,WSr,RLr) and trhs2) begin
+			rwcnt = matrowcnt(WSr);
+			for(i=0;i<rwcnt;i=i+1) begin
+				MatRowGet(WSr,i,WSrw);
+				if(WSrw.ArtCode==artcode)then begin
+					enginer = WSr.EMCode;
+					trhs2 = false;
+				end;
+			end;
+			notenr1=notenr1+1;
+		end;
+	end;
+	if(IVr.InvType==kInvoiceTypeCredit and IVr.CredInv>-1)then begin
+		OrigIVr.SerNr = IVr.CredInv;
+		if(readfirstmain(OrigIVr,1,true))then begin
+			if(OrigIVr.SVONr>-1)then begin
+				svonr = OrigIVr.SVONr;
+				notenr1 = 1;
+				trhs2 = true;
+				while (ReadRecordLink(OrigIVr,notenr1,WSr,RLr) and trhs2) begin
+					rwcnt = matrowcnt(WSr);
+					for(i=0;i<rwcnt;i=i+1) begin
+						MatRowGet(WSr,i,WSrw);
+						if(WSrw.ArtCode==artcode)then begin
+							enginer = WSr.EMCode;
+							trhs2 = false;
+						end;
+					end;
+					notenr1=notenr1+1;
+				end;
+			end;
+		end;
+	end;
+
+return;
+end;
+
 
 global procedure MyBonusRn(record RcVc RepSpec)
 begin
@@ -312,7 +364,7 @@ begin
 	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
-	longint worksheet,CredNo;
+	longint worksheet,CredNo,svonr;
 	integer cred;
 	vector boolean usedinvno;
 	
@@ -377,11 +429,9 @@ begin
     OutString(pos[17],0,"Inv.currency",false); //Edit***************************Sasha2,11:06 27.04.2015
     OutString(pos[18],0,"SalesMan",false);
     OutString(pos[19],0,"Inv. SalesMan",false);
-    if(currentcompany!=2)then begin
-			OutString(pos[20],0,"ServiceMan",false);
-			OutString(pos[21],0,"Service Order",false);
-			OutString(pos[23],0,"Sale Order",false);
-		end;	
+		OutString(pos[20],0,"ServiceMan",false);
+		OutString(pos[21],0,"Service Order",false);
+		OutString(pos[23],0,"Sale Order",false);
 		
     
   EndFormat;
@@ -663,11 +713,13 @@ begin
                       OutString(pos[18,0,CUr.SalesMan,false);
                     end; 
                     OutString(pos[19],0,IVr.SalesMan,false);
-                    if(currentcompany!=2)then begin
-											OutString(pos[20],0,enginer,false);
-											OutString(pos[21],0,IVr.SVONr,false);
-											OutString(pos[23],0,IVr.OrderNr,false);
+                    svonr = IVr.SVONr;
+                    if(blank(enginer))then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
+                    	FindEnginer(IVrw.ArtCode,IVr,enginer,svonr);
                     end;
+										OutString(pos[20],0,enginer,false);
+										OutString(pos[21],0,svonr,false);
+										OutString(pos[23],0,IVr.OrderNr,false);
 										
                   endformat;
                 end; //Edit***************************Sasha2,15:52 23.04.2015
@@ -738,11 +790,14 @@ begin
                       OutString(pos[18],0,CUr.SalesMan,false);
                     end; 
                     OutString(pos[19],0,IVr.SalesMan,false);
-                    if(currentcompany!=2)then begin
-											OutString(pos[20],0,enginer,false);
-											OutString(pos[21],0,newIVr.SVONr,false);
-											OutString(pos[23],0,newIVr.OrderNr,false);
+                    
+                    svonr = IVr.SVONr;
+                    if(blank(enginer))then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
+                    	FindEnginer(IVrw.ArtCode,IVr,enginer,svonr);
                     end;
+										OutString(pos[20],0,enginer,false);
+										OutString(pos[21],0,svonr,false);
+										OutString(pos[23],0,newIVr.OrderNr,false);
 										
 						      endformat;
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
@@ -1049,11 +1104,13 @@ l1:;
                             OutString(pos[18],0,CUr.SalesMan,false);
                           end; 
                           OutString(pos[19],0,newIVr.SalesMan,false);
-                          if(currentcompany!=2)then begin
-														OutString(pos[20],0,enginer,false);
-														OutString(pos[21],0,newIVr.SVONr,false);
-														OutString(pos[23],0,newIVr.OrderNr,false);
-                          end;
+                          svonr = newIVr.SVONr;
+													if(blank(enginer))then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
+														FindEnginer(newIVrw.ArtCode,newIVr,enginer,svonr);
+													end;
+													OutString(pos[20],0,enginer,false);
+													OutString(pos[21],0,svonr,false);
+													OutString(pos[23],0,newIVr.OrderNr,false);
 													
                         endformat;
                       end; //Edit***************************Sasha2,15:52 23.04.2015
@@ -1087,9 +1144,6 @@ l1:;
   endjob;
 return;
 end;
-
-
-
 
 
 global procedure MyBonusCurrentUserRn(record RcVc RepSpec)
@@ -1130,7 +1184,7 @@ begin
 	array val realcostbase,realcostuah,realpricebase,realsumbase,realpriceuah,realsumuah;
 	array string 5 uahpurate,uahcurrate;
 	array string 100 comment;
-	longint worksheet,CredNo;
+	longint worksheet,CredNo,svonr;
 	val totSum,totCost,totGP;
 	integer cred;
 	vector boolean usedinvno;
@@ -1342,6 +1396,11 @@ begin
 									notenr = notenr + 1;
 								end;
                 
+                svonr = IVr.SVONr;
+								if(blank(enginer))then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
+									FindEnginer(IVrw.ArtCode,IVr,enginer,svonr);
+								end;
+                
                if (enginer == CurrentUser or (blank(enginer) and IVr.SalesMan==CurrentUser)) then begin  
                 CollectCostMyInvoice(IVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
       					foundqty = 0;
@@ -1367,7 +1426,7 @@ begin
                     OutVal(pos[12],0,sumcostorig,M4Val,false);
                     gporig = sumorig - sumcostorig;
                     OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[21],0,IVr.SVONr,false);
+                    OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
                   endformat;
                   	totSum = totSum + sumorig;
@@ -1412,7 +1471,7 @@ begin
                     OutVal(pos[12],0,sumcostorig,M4Val,false);
                     gporig = sumorig - sumcostorig;
                     OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[21],0,newIVr.SVONr,false);
+                    OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 						      endformat;
 									totSum = totSum + sumorig;
@@ -1441,6 +1500,7 @@ l1:;
 							usedinvno[newIVr.SerNr] = true;// Edit ************************** Monday, 16 January 2017 17:42:23
             	cred = 1;
             	if(newIVr.InvType==kInvoiceTypeCredit)then begin
+            	
             		cred =-1;// Edit ************************** Thursday, 21 April 2016 14:14:39
             		CredNo = -1;
 								mtrw = matrowcnt(newIVr);
@@ -1640,6 +1700,11 @@ l1:;
 												end;
 											end;
                       
+                      svonr = newIVr.SVONr;
+											if(blank(enginer))then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
+												FindEnginer(newIVrw.ArtCode,newIVr,enginer,svonr);
+											end;
+                      
                       if (enginer == CurrentUser or (blank(enginer) and newIVr.SalesMan==CurrentUser)) then begin
 												CollectCostMyInvoice(newIVr,i,cost,curcost,curncyarr,rate,indate,vecode,serial,qty,ressize,cred,-1,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,uahpurate,uahcurrate,comment,BCb); //Edit***************************Sasha2,15:53 23.04.2015
 												foundqty = 0;
@@ -1705,58 +1770,15 @@ l1:;
 														OutVal(pos[12],0,sumcostorig,M4Val,false);
 														gporig = sumorig - sumcostorig;
 														OutVal(pos[13],0,gporig,M4Val,false);
-														OutString(pos[21],0,newIVr.SVONr,false);
+														OutString(pos[21],0,svonr,false);
 														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 													endformat;
 														totSum = totSum + sumorig;
 														totCost = totCost + sumcostorig;
 														totGP = totGP + gporig;                        
-												end; //Edit***************************Sasha2,15:52 23.04.2015
-												/*if(foundqty<newIVrw.Quant)then begin //Edit***************************Sasha2,15:52 23.04.2015 {
-													if (Left(newIVr.CurncyCode,3)=="UAH") then begin
-														sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,1,1,1,foundqty,true);
-													end else begin
-														if (newIVr.CurncyCode==BCb.BaseCur1) then begin
-															sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
-														end else begin
-															if (Left(newIVr.CurncyCode,3)=="EUR") then begin
-																sumcur = CalcSumForSales(newIVrw.Sum,newIVrw.Quant,0,invto1,invfr,1,foundqty,true);
-																CurValToOtherCur(newIVr.InvDate,BCb.BaseCur1,sumcur,CUr.CurncyCode,t,DefaultCurRoundOff);
-																sumcur = t;
-															end;
-														end;
-													end;
-													sumusd = CalcSumForSales(IVrw.Sum,IVrw.Quant,0,invfr,invto1,1,foundqty,true);
-													startformat(15);
-														if (blankdate(enddate)) then begin
-															OutDate(pos[4],0,newIVr.PayDate,false);
-														end else begin
-															OutDate(pos[4],0,enddate,false);
-														end;
-
-														OutString(pos[6],0,newIVrw.ArtCode,false);
-														OutString(pos[7],0,Left(newIVrw.Spec,30),false);
-														quant = newIVrw.Quant - foundqty; //Edit***************************Sasha2,11:39 24.04.2015
-														curorig = round(newIVr.FrRate/newIVr.ToRateB1,defaultcurroundoff);
-														if(curorig==0)then begin
-															curorig = 1;
-														end;
-														costorig = MyCost*curorig;
-														salessum = sumusd;
-														sumorig = sumcur;
-														OutVal(pos[11],0,-sumorig,M4Val,false);
-														sumcostorig = costorig*quant;
-														OutVal(pos[12],0,-sumcostorig,M4Val,false);
-														gporig = sumorig - sumcostorig;
-														OutVal(pos[13],0,-gporig,M4Val,false);
-														OutString(pos[21],0,newIVr.SVONr,false);
-														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
-													endformat;
-														totSum = totSum + sumorig;
-														totCost = totCost + sumcostorig;
-														totGP = totGP + gporig;      						      
-												end;*/	 //Edit***************************Sasha2,18:04 23.04.2015 }
-      					      end; //enginer==CurrentUser
+												end;
+												
+      					      end; 
       					      
 	                 end;
                 end; 
