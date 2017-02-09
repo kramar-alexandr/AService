@@ -1205,6 +1205,8 @@ BEGIN
     if (indexname=="UnServGaranty")  then begin res = 0; end;
     if (indexname=="UnServVIPStatus")  then begin res = 0; end;
     if (indexname=="UnServServiceManager")  then begin res = 0; end;
+    if (indexname=="UnServPhone2")  then begin res = 0; end;
+    if (indexname=="UnServKontinfo1")  then begin res = 0; end;
     
     if (indexname=="AllUnServSerNr")  then begin res = 0; end;
     if (indexname=="AllUnServTransDate")  then begin res = 0; end;
@@ -1213,6 +1215,8 @@ BEGIN
     if (indexname=="AllUnServVIPStatus")  then begin res = 0; end;
     if (indexname=="AllUnServOrderStatus")  then begin res = 0; end;
     if (indexname=="AllUnServServiceManager")  then begin res = 0; end;
+    if (indexname=="AllUnServPhone2")  then begin res = 0; end;
+    if (indexname=="AllUnServKontinfo1")  then begin res = 0; end;
     
     if (indexname=="AllServSerNr")  then begin res = 0; end;
     if (indexname=="AllServTransDate")  then begin res = 0; end;
@@ -1221,6 +1225,8 @@ BEGIN
     if (indexname=="AllServVIPStatus")  then begin res = 0; end;
     if (indexname=="AllServOrderStatus")  then begin res = 0; end;
     if (indexname=="AllServServiceManager")  then begin res = 0; end;
+    if (indexname=="AllServPhone2")  then begin res = 0; end;
+    if (indexname=="AllServKontinfo1")  then begin res = 0; end;
   end;
   
   if (nonblankdate(SVOr.PlanShip) or nonblank(SVOr.PlanShip)) then begin 
@@ -1230,6 +1236,8 @@ BEGIN
     if (indexname=="UnServGaranty")  then begin res = 0; end;
     if (indexname=="UnServVIPStatus")  then begin res = 0; end;
     if (indexname=="UnServServiceManager")  then begin res = 0; end;
+    if (indexname=="UnServPhone2")  then begin res = 0; end;
+    if (indexname=="UnServKontinfo1")  then begin res = 0; end;
     
     if (indexname=="AllUnServSerNr")  then begin res = 0; end;
     if (indexname=="AllUnServTransDate")  then begin res = 0; end;
@@ -1238,6 +1246,8 @@ BEGIN
     if (indexname=="AllUnServVIPStatus")  then begin res = 0; end;
     if (indexname=="AllUnServOrderStatus")  then begin res = 0; end;
     if (indexname=="AllUnServServiceManager")  then begin res = 0; end;
+    if (indexname=="AllUnServPhone2")  then begin res = 0; end;
+    if (indexname=="AllUnServKontinfo1")  then begin res = 0; end;
     
     if (indexname=="AllServSerNr")  then begin res = 0; end;
     if (indexname=="AllServTransDate")  then begin res = 0; end;
@@ -1246,6 +1256,8 @@ BEGIN
     if (indexname=="AllServVIPStatus")  then begin res = 0; end;
     if (indexname=="AllServOrderStatus")  then begin res = 0; end;
     if (indexname=="AllServServiceManager")  then begin res = 0; end;
+    if (indexname=="AllServPhone2")  then begin res = 0; end;
+    if (indexname=="AllServKontinfo1")  then begin res = 0; end;
   end;
   
   if (nonblank(SVOr.ServiceManager)) then begin 
@@ -1255,6 +1267,8 @@ BEGIN
     if (indexname=="UnServGaranty")  then begin res = 0; end;
     if (indexname=="UnServVIPStatus")  then begin res = 0; end;
     if (indexname=="UnServServiceManager")  then begin res = 0; end;
+    if (indexname=="UnServPhone2")  then begin res = 0; end;
+    if (indexname=="UnServKontinfo1")  then begin res = 0; end;
   end;
   
   

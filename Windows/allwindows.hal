@@ -7544,6 +7544,9 @@ begin
   RlColKey(255,255,"Клієнт",CustCode,false,CustCode);
   RlColKey(360,360,"Найм.",Addr0,false,Name);
   RlCol(480,480,"Проблема",Comment1,false);
+  
+  RlColKey(-260,-260,"Тел1.",Kontinfo1,false,Kontinfo1);
+  RlColKey(-200,-200,"Тел2.",Phone2,false,Phone2);
   RlCol(-140,-140,"Гар.",Garanty,false);
   RlColKey(-70,-70,"Рем.гот.",PlanShip,false,PlanShip);
   SearchField("Пошук");
@@ -7573,6 +7576,8 @@ begin
   RlColKey(175,175,"Дата зам.",TransDate,false,UnServTransDate);
   RlColKey(260,260,"Товар",ItemName,false,UnServItemName);
   RlCol(400,400,"Проблема",Comment1,false);
+  RlColKey(-330,-330,"Тел1.",Kontinfo1,false,UnServServiceKontinfo1);
+  RlColKey(-270,-270,"Тел2.",Phone2,false,UnServServicePhone2);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,UnServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,UnServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,UnServGaranty);
@@ -7604,6 +7609,8 @@ begin
   RlColKey(175,175,"Дата зам.",TransDate,false,AllUnServTransDate);
   RlColKey(260,260,"Товар",ItemName,false,AllUnServItemName);
   RlCol(400,400,"Проблема",Comment1,false);
+  RlColKey(-330,-330,"Тел1.",Kontinfo1,false,AllUnServKontinfo1);
+  RlColKey(-270,-270,"Тел2.",Phone2,false,AllUnServPhone2);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllUnServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,AllUnServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,AllUnServGaranty);
@@ -7635,6 +7642,8 @@ begin
   RlColKey(175,175,"Дата зам.",TransDate,false,AllServTransDate);
   RlColKey(260,260,"Товар",ItemName,false,AllServItemName);
   RlCol(400,400,"Проблема",Comment1,false);
+  RlColKey(-330,-330,"Тел1.",Kontinfo1,false,AllServKontinfo1);
+  RlColKey(-270,-270,"Тел2.",Phone2,false,AllServPhone2);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,AllServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,AllServGaranty);

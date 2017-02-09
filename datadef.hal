@@ -2814,6 +2814,20 @@ EndRecord;
   KeySegment(PlanShipDate);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(Kontinfo1);// Edit ************************** Monday, 6 February 2017 14:21:07
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(Kontinfo1);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(Phone2);
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(Phone2);
+  KeySegment(SerNr);
+  
   //Ключи для необработанных заказов без сервисного менеджера для распределяющего
   SubsetKeyBegin2(UnServSerNr);
   StoreInBaseKey;
@@ -2860,6 +2874,20 @@ EndRecord;
   AppendFieldToKeyName(SalesGroup);
   AppendFieldToKeyName(SalesMan);
   KeySegment(ServiceManager);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(UnServPhone2);// Edit ************************** Monday, 6 February 2017 14:20:13
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(Phone2);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(UnServKontinfo1);// Edit ************************** Monday, 6 February 2017 14:20:11
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(Kontinfo1);
   KeySegment(SerNr);
   
   //Ключи для ВСех не закрытых заказов на обслуживание для распределяющего
@@ -2911,6 +2939,20 @@ EndRecord;
   KeySegment(ServiceManager);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(AllUnServKontinfo1);// Edit ************************** Monday, 6 February 2017 14:19:18
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(Kontinfo1);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(AllUnServPhone2);// Edit ************************** Monday, 6 February 2017 14:19:19
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(Phone2);
+  KeySegment(SerNr);
+  
   //Ключи для ВСех не закрытых заказов на обслуживание для сервисного менеджера
   SubsetKeyBegin2(AllServSerNr);
   StoreInBaseKey;
@@ -2953,6 +2995,17 @@ EndRecord;
   KeySegment(ServiceManager);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(AllServPhone2);// Edit ************************** Monday, 6 February 2017 14:16:52
+  StoreInBaseKey;
+  AppendFieldToKeyName(ServiceManager);
+  KeySegment(Phone2);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(AllServKontinfo1);// Edit ************************** Monday, 6 February 2017 14:16:52
+  StoreInBaseKey;
+  AppendFieldToKeyName(ServiceManager);
+  KeySegment(Kontinfo1);
+  KeySegment(SerNr);
   
   EndRecord;
 		
@@ -3185,7 +3238,7 @@ EndRecord;
   EndRecord;
   
   RecordBegin(SVOHistSerialVc,-,"");		//Edit----------------------Dima  14.05.2015
-  ImpExpLevel(0);
+  //ImpExpLevel(0);
 	RecordField(SerialNr,M4Str,30,0);
 	RecordField(ArtCode,M4Code,20,INVc);
 	RecordField(Qty,M4Int,0,0);
