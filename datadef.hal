@@ -2828,6 +2828,13 @@ EndRecord;
   KeySegment(Phone2);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(SerialNrTextSearch);
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(SerialNrTextSearch);
+  KeySegment(SerNr);  
+  
   //Ключи для необработанных заказов без сервисного менеджера для распределяющего
   SubsetKeyBegin2(UnServSerNr);
   StoreInBaseKey;
@@ -2888,6 +2895,13 @@ EndRecord;
   AppendFieldToKeyName(SalesGroup);
   AppendFieldToKeyName(SalesMan);
   KeySegment(Kontinfo1);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(UnServSerialNrTextSearch);// Edit ************************** Monday, 6 February 2017 14:20:11
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(SerialNrTextSearch);
   KeySegment(SerNr);
   
   //Ключи для ВСех не закрытых заказов на обслуживание для распределяющего
@@ -2953,6 +2967,13 @@ EndRecord;
   KeySegment(Phone2);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(AllUnServSerialNrTextSearch);// Edit ************************** Monday, 6 February 2017 14:19:19
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(SerialNrTextSearch);
+  KeySegment(SerNr);
+  
   //Ключи для ВСех не закрытых заказов на обслуживание для сервисного менеджера
   SubsetKeyBegin2(AllServSerNr);
   StoreInBaseKey;
@@ -3007,6 +3028,12 @@ EndRecord;
   KeySegment(Kontinfo1);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(AllServSerialNrTextSearch);// Edit ************************** Monday, 6 February 2017 14:16:52
+  StoreInBaseKey;
+  AppendFieldToKeyName(ServiceManager);
+  KeySegment(SerialNrTextSearch);
+  KeySegment(SerNr);
+    
   EndRecord;
 		
 	

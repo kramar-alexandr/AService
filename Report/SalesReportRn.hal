@@ -425,7 +425,7 @@ begin
 	row PUVc PUrw;
 	record SHVc SHr;
 	row SHVc SHrw;
-	boolean trhs1;
+	boolean trhs1,testf1;
 	integer shi,shmtrw;
 	record RLinkVc RLr;
 	record RetVc Retr;
@@ -439,7 +439,19 @@ begin
 	string 100 com;
 	boolean findf;
 	string 10 curncyloc;
-		
+	longint IVWSSeNr;
+	integer cnt1;
+
+	
+	
+	IVWSSeNr = -1;
+	
+	cnt1 = 1;
+	while(ReadRecordLink(IVr,cnt1,WSr,RLr)) begin
+		cnt1 = cnt1+1;
+		IVWSSeNr = WSr.SerNr;
+	end;
+	
 	ressize = 0;
 	cost[ressize] = blankval;
 	qty[ressize] = blankval; 
@@ -809,8 +821,13 @@ begin
 					trhs1=true;
 					resetloop(WSr);
 					while(LoopBackKey("SVONr",WSr,1,trhs1)) begin 
+						testf1 = true;
 						if(WSr.SVONr!=IVr.SVONr)then begin trhs1=false; end;
-						if(trhs1) then begin
+						if(IVWSSeNr>-1 and WSr.SerNr!=IVWSSeNr)then begin
+							testf1 = false;
+						end;
+						
+						if(trhs1 and testf1) then begin
 							shmtrw = Matrowcnt(WSr);
 							For(shi=0;shi<shmtrw;shi=shi+1) begin
 								matrowget(WSr,shi,WSrw);

@@ -7536,18 +7536,19 @@ begin
   
   RecordList(4,17,-21,-39);
   RlColKey(4,4,"Номер",SerNr,false,SerNr);
-  RlColKey(79,79,"Замов.",WOMark,false,WOMark);
-  RlColKey(111,111,"ТР",WSMark,false,WSMark);
-  RlColKey(143,143,"Акт/накл.",InvMark,false,InvFlag);
-  RlColKey(175,175,"Дата зам.",TransDate,false,TransDate);
+  //RlColKey(79,79,"Замов.",WOMark,false,WOMark);
+  //RlColKey(111,111,"ТР",WSMark,false,WSMark);
+  RlColKey(79,79,"Акт/накл.",InvMark,false,InvFlag);
+  RlColKey(111,111,"Дата зам.",TransDate,false,TransDate);
   //RlColKey(255,255,"№ зам.кл.",CustOrdNr,false,CustOrdNr);
-  RlColKey(255,255,"Клієнт",CustCode,false,CustCode);
-  RlColKey(360,360,"Найм.",Addr0,false,Name);
-  RlCol(480,480,"Проблема",Comment1,false);
+  //RlColKey(180,180,"Клієнт",CustCode,false,CustCode);
+  RlColKey(180,180,"Найм.",Addr0,false,Name);
+  RlCol(300,300,"Проблема",Comment1,false);
   
-  RlColKey(-260,-260,"Тел1.",Kontinfo1,false,Kontinfo1);
-  RlColKey(-200,-200,"Тел2.",Phone2,false,Phone2);
-  RlCol(-140,-140,"Гар.",Garanty,false);
+  RlColKey(-370,-370,"Сер.",SerialNrTextSearch,false,SerialNrTextSearch);
+  RlColKey(-290,-290,"Тел1.",Kontinfo1,false,Kontinfo1);
+  RlColKey(-180,-180,"Тел2.",Phone2,false,Phone2);
+  //RlCol(-140,-140,"Гар.",Garanty,false);
   RlColKey(-70,-70,"Рем.гот.",PlanShip,false,PlanShip);
   SearchField("Пошук");
   if (HasLimitedAccess) then begin 
@@ -7576,11 +7577,11 @@ begin
   RlColKey(175,175,"Дата зам.",TransDate,false,UnServTransDate);
   RlColKey(260,260,"Товар",ItemName,false,UnServItemName);
   RlCol(400,400,"Проблема",Comment1,false);
-  RlColKey(-330,-330,"Тел1.",Kontinfo1,false,UnServServiceKontinfo1);
-  RlColKey(-270,-270,"Тел2.",Phone2,false,UnServServicePhone2);
+  RlColKey(-300,-300,"Тел1.",Kontinfo1,false,UnServServiceKontinfo1);
+  //RlColKey(-270,-270,"Тел2.",Phone2,false,UnServServicePhone2);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,UnServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,UnServVIPStatus);
-  RlColKey(-140,-140,"Гарантія",Garanty,false,UnServGaranty);
+  //RlColKey(-140,-140,"Гарантія",Garanty,false,UnServGaranty);
   CalculatedColumn(-90,-90,"Статус","SVOServStatus",true);
   SearchField("Пошук");
   if (HasLimitedAccess) then begin 
@@ -7609,11 +7610,11 @@ begin
   RlColKey(175,175,"Дата зам.",TransDate,false,AllUnServTransDate);
   RlColKey(260,260,"Товар",ItemName,false,AllUnServItemName);
   RlCol(400,400,"Проблема",Comment1,false);
-  RlColKey(-330,-330,"Тел1.",Kontinfo1,false,AllUnServKontinfo1);
-  RlColKey(-270,-270,"Тел2.",Phone2,false,AllUnServPhone2);
+  RlColKey(-300,-300,"Тел1.",Kontinfo1,false,AllUnServKontinfo1);
+  //RlColKey(-270,-270,"Тел2.",Phone2,false,AllUnServPhone2);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllUnServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,AllUnServVIPStatus);
-  RlColKey(-140,-140,"Гарантія",Garanty,false,AllUnServGaranty);
+  //RlColKey(-140,-140,"Гарантія",Garanty,false,AllUnServGaranty);
   CalculatedColumn(-90,-90,"Статус","SVOServStatus",true);
   SearchField("Пошук");
   if (HasLimitedAccess) then begin 
@@ -7642,8 +7643,8 @@ begin
   RlColKey(175,175,"Дата зам.",TransDate,false,AllServTransDate);
   RlColKey(260,260,"Товар",ItemName,false,AllServItemName);
   RlCol(400,400,"Проблема",Comment1,false);
-  RlColKey(-330,-330,"Тел1.",Kontinfo1,false,AllServKontinfo1);
-  RlColKey(-270,-270,"Тел2.",Phone2,false,AllServPhone2);
+  RlColKey(-300,-300,"Тел1.",Kontinfo1,false,AllServKontinfo1);
+  //RlColKey(-270,-270,"Тел2.",Phone2,false,AllServPhone2);
   RlColKey(-210,-210,"Сер.Мен.",ServiceManager,false,AllServServiceManager);
   RlColKey(-160,-160,"VIP",VIPStatus,false,AllServVIPStatus);
   RlColKey(-140,-140,"Гарантія",Garanty,false,AllServGaranty);
