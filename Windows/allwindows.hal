@@ -10182,3 +10182,45 @@ begin
   
   EndWindow;
 end;
+
+window SVOListRClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Визначте журнал замовлень на обслуговування",SVOListRClass,CGRcW,RcType);
+  SetWRect(20,80,450,300);
+  v= 6; vs = 20;
+  EditFieldTL(150,v, 150,"№ рахунка",   M4Str,Normal,30,f1,false,0);
+  PeriodField(150,v+=vs,"Період");
+  EditFieldTL(150,v+=vs ,150,"Клієнт",M4UStr,Normal,20,f2,false,CUSClass);
+  if (HasMultiLocations) then begin 
+    EditFieldTL(150,v+=20, 50, "Місцезнах",M4Code,Normal,10,FirstAcc,false,LocationSClass); 
+  end;  
+  EditFieldTL(150,v+=vs ,50,"Вид замовлення",M4UStr,Normal,5,AccStr,false,OrderClassSClass);
+  EditFieldTL(150,v+=vs ,100,"Сервіс.майстер",M4UStr,Normal,50,f3,false,UserSClass); //Edit***************************Sasha2,12:00 14.02.2017
+  EditFieldTL(150,v+=vs ,100,"Прийняв",M4UStr,Normal,50,f4,false,UserSClass); //Edit***************************Sasha2,12:00 14.02.2017
+  EditFieldTL(150,v+=vs ,50,"Гр.Пр.",M4UStr,Normal,50,f5,false,SalesGroupSClass); //Edit***************************Sasha2,12:00 14.02.2017
+  //CheckBox(h=160,v+=22,0,"Відображати проблеми",flags[7]); //origin field
+  ButtonFrame(h=12,vm=(v+=41),123,3,"Функція");
+  RadioButton(h,v,0,0,"зведений",ArtMode);
+  RadioButton(h,v+=16,1,0,"докладний",ArtMode);
+  RadioButton(h,v+=16,2,0,"без ПДВ",ArtMode);
+  ButtonFrame(h+=148,v = vm,123,6,"Статус");
+  /*CheckBox(h,v,0,"не закрите актом/накл.",flags[1]); //origin field
+  CheckBox(h,v+=16,0,"частк. закрите актом/накл.",flags[2]);  //origin field
+  CheckBox(h,v+=16,0,"закрите актом/накл.",flags[3]);*/  //origin field
+  CheckBox(h,v,0,"В очікуванні",flags[1]);
+  CheckBox(h,v+=16,0,"На діагностиці",flags[2]);
+  CheckBox(h,v+=16,0,"На узгодженні",flags[3]);
+  CheckBox(h,v+=16,0,"Діаг. заверш.",flags[9]);
+  CheckBox(h,v+=16,0,"Очікує запч.",flags[10]);
+  CheckBox(h,v+=16,0,"Ремонт виконано",flags[11]);
+  ButtonFrame(h+=148,v = vm,123,2,"Замов. на роботу");
+  CheckBox(h,v,0,"не виконано",flags[4]);
+  //CheckBox(h,v+=16,0,"част. виконано",flags[5]);  //origin field
+  CheckBox(h,v+=16,0,"виконано",flags[6]);
+  /*ButtonFrame(h=12,vm=(v+=41),123,2,"Функція"); //!!PRODTRANSLATE
+  CheckBox(h,v,0,"Не виконано",flags[7]); //!!PRODTRANSLATE
+  CheckBox(h,v+=16,0,"Виконано",flags[8]); //!!PRODTRANSLATE*/
+  EndWindow;
+end;

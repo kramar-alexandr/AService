@@ -68,6 +68,9 @@ BEGIN
   RepSpec.flags[6] = 1; //Edit***************************Sasha2,15:37 27.04.2015
   RepSpec.flags[7] = 1;
   RepSpec.flags[8] = 1;
+  RepSpec.flags[9] = 1; //Edit***************************Sasha2,13:46 14.02.2017
+  RepSpec.flags[10] = 1; //Edit***************************Sasha2,13:46 14.02.2017
+  RepSpec.flags[11] = 1; //Edit***************************Sasha2,13:46 14.02.2017
   PutWindowRecord(wn,RepSpec);
   SelectWindow(wn);
   RETURN;
