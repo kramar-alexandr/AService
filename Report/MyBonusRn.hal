@@ -706,7 +706,7 @@ begin
                     OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
                     gporig = sumorig - sumcostorig;
                     //OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[13],0,ValToMyString((salessum - (MyCost*quant))/(MyCost*quant)*100*cred,3),false);
+                    OutString(pos[13],0,ValToMyString((salessum - (MyCost*quant))/salessum*100*cred,3),false);
                     OutString(pos[14],0,uahpurate[j],false); 
 										OutString(pos[15],0,curncyarr[j],false); 
                     OutString(pos[16],0,uahcurrate[j],false); 
@@ -783,7 +783,7 @@ begin
                     OutVal(pos[13],0,salessum-(MyCost*quant),M4Val,false);
                     gporig = sumorig - sumcostorig;
                     //OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[13],0,ValToMyString((salessum - (MyCost*quant))/(MyCost*quant)*100*cred,3),false);
+                    OutString(pos[13],0,ValToMyString((salessum - (MyCost*quant))/salessum*100*cred,3),false);
                     OutString(pos[14],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
                     OutString(pos[15],0,"",false); //Edit***************************Sasha2,11:34 27.04.2015
                     OutString(pos[16],0,ValToMyString(invfr/invto1,3),false); //Edit***************************Sasha2,11:34 27.04.2015
@@ -1097,7 +1097,7 @@ l1:;
                           OutVal(pos[13],0,(salessum-(MyCost*quant)),M4Val,false);
                           gporig = sumorig - sumcostorig;
                           //OutVal(pos[13],0,gporig,M4Val,false);
-                          OutString(pos[13],0,ValToMyString((salessum - (MyCost*quant))/(MyCost*quant)*100*cred,3),false);
+                          OutString(pos[13],0,ValToMyString((salessum - (MyCost*quant))/salessum*100*cred,3),false);
                           OutString(pos[14],0,uahpurate[j],false); 
 													OutString(pos[15],0,curncyarr[j],false); 
 													
@@ -1430,7 +1430,7 @@ begin
                     OutVal(pos[12],0,sumcostorig,M4Val,false);
                     gporig = sumorig - sumcostorig;
                     OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumcostorig*100*cred,3),false);
+                    OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
                   endformat;
@@ -1476,7 +1476,7 @@ begin
                     OutVal(pos[12],0,sumcostorig,M4Val,false);
                     gporig = sumorig - sumcostorig;
                     OutVal(pos[13],0,gporig,M4Val,false);
-                    OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumcostorig*100*cred,3),false);
+                    OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 						      endformat;
@@ -1776,7 +1776,7 @@ l1:;
 														OutVal(pos[12],0,sumcostorig,M4Val,false);
 														gporig = sumorig - sumcostorig;
 														OutVal(pos[13],0,gporig,M4Val,false);
-														OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumcostorig*100*cred,3),false);
+														OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
 														OutString(pos[21],0,svonr,false);
 														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 													endformat;
