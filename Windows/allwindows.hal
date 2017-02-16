@@ -9552,6 +9552,7 @@ end;
   if (HasMultiCurrency) then begin
     SpecialMenu("Update Currency Rates",' ',7,"UpdCurRateTRDsm"); //!!PRODTRANSLATE
   end;
+  SpecialMenu("Обнулити Д-т/К-т в вал.",' ',7,"SetZeroCurDebOrCurValTRDsm");
 end;
   EndWindow;
 end;

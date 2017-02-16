@@ -1350,3 +1350,58 @@ begin
   end;  
   return;
 end;
+
+global //Edit***************************Sasha2,11:38 09.12.2016 {
+procedure SetZeroCurDebOrCurValTRDsm()
+BEGIN
+  Integer wn,windState,rn,rwcnt2;
+  record TRVc TRr,TR2r;
+  row TRVc TRrw;
+  val t;
+  string 255 fieldName;
+  Boolean foundFieldF;
+
+  wn = CurWindow;
+  windState = WindowState(wn);
+  if (windState!=0) then begin
+    rwcnt2 = -1;
+    GetWindowRecord(wn,TRr);
+    if (windState==Rs_update) then begin
+      GetPrevWindowRecord(wn,TR2r);
+      rwcnt2 = MatRowCnt(TR2r);
+    end; 
+    fieldName = WindowActiveField(wn);
+    rn = WindowActiveRow(wn);
+    DeselectWindow(wn,false);
+    if (rn>=rwcnt2) then begin
+      MatRowGet(TRr,rn,TRrw);
+      if (TRrw.stp==1) then begin
+        switch(fieldName) begin
+          case "CurDebVal":
+            if (TRrw.CurDebVal>0) then begin
+              TRrw.CurDebVal = 0;
+              foundFieldF = true;
+            end;
+          case "CurCredVal":
+            if (TRrw.CurCredVal>0) then begin
+              TRrw.CurCredVal = 0;
+              foundFieldF = true;
+            end;
+          otherwise
+            MessageBox(28615,"");
+        end;
+        if (foundFieldF) then begin 
+          MatRowPut(TRr,rn,TRrw);
+          TRSumup(TRr,t);
+          PutWindowRecord(wn,TRr); 
+        end;
+      end;
+    end else begin
+      MessageBox(31086,"");
+    end;
+  end else begin
+    MessageBox(22407,"");
+  end;
+  RETURN;
+END; //Edit***************************Sasha2,11:38 09.12.2016 }
+
