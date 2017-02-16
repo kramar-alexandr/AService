@@ -57,7 +57,7 @@ BEGIN
     end;
     if (BlankDate(SVOr.RegDate)) then begin
       testf = true;
-      if (BlankDate(SVOr.PlanShip)) then begin
+      if (BlankDate(SVOr.PlanShipDate)) then begin //Edit***************************Sasha2,14:47 16.02.2017
         testf = false;
         MessageBox(31089,"");
       end;

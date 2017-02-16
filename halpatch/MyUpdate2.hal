@@ -17,7 +17,7 @@ begin
 	
   if (SVOr.NoSMS==0) then begin
     if(currentcompany==8)then begin
-      if(nonblank(SVOr.PlanShip) and blank(SVO2r.PlanShip))then begin
+      if(nonblank(SVOr.PlanShipDate) and blank(SVO2r.PlanShipDate))then begin
         cnt = 0;
         subphone = SVOr.Kontinfo1;
         lenth = len(subphone);
@@ -489,3 +489,20 @@ begin
 
   return;
 end; //Edit***************************Sasha2,16:35 14.12.2016 }
+
+global //Edit***************************Sasha2,14:56 16.02.2017 {
+updating procedure UpdPlanShipDateFrPlanShipSVOMn(record RcVc RepSpec)
+begin
+  record SVOVc SVOr;
+  Boolean saveF;
+  
+      SVOr.SerNr = -1;
+      while (LoopMain(SVOr,1,true)) begin
+        if (SVOr.PlanShipDate!=StringToDate(SVOr.PlanShip)) then begin
+          SVOr.PlanShipDate = StringToDate(SVOr.PlanShip);
+          RECORDSTORE(SVOr,true);
+        end;
+      end;
+
+  return;
+end; //Edit***************************Sasha2,14:56 16.02.2017 }

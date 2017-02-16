@@ -18,10 +18,6 @@ begin
 	Register("ARVc","ARVc",ARVc,modDBMain);
   Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
   Register("APVc","APVc",APVc,modDBMain);
-	  Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
-
-	
-	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
 	
 	Report("Отчет по истории товаров технический ",FindErrorInIHRClass,FindErrorInIHRn,0,modDBMain);
 	Report("Отчет по телефонам клиентов",ServClientOrderRClass,ServClientOrderRn,0,modSVO);// Edit ************************** Monday, 4 July 2016 17:52:38
@@ -88,12 +84,11 @@ begin
   Setting("Serials",SVOHistSerialLClass,modSVO);// Edit ************************** Tuesday, 2 June 2015 20:28:50
   Setting("Налаштування принтера чеків",TermoPrinterTClass,modUserSet);	//Edit----------------------Dima  18.09.2015
   Setting("Налаштування експорта для Samsung EDI",SamsungFtpSettingsTClass,modSY); //Edit***************************Sasha2,11:25 12.04.2016
-	
 	Setting("Товари Samsung",SamsungItemsTClass,modIN);	
 	Setting("Переміщення товару для обслуговування",MoveForServiceLClass,modIN);	
   //Setting("Phones",PhoneLClass,modDBMain);
-	
 	Setting("Телефоны",Phone1LClass,modSVO);
+	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014
@@ -108,7 +103,9 @@ begin
   Export("Register Export",ExpRegEClass,ExpRegEn,modPOS);
   
   Import("Імпорт наявності товарів WEB",WebINImportIClass,ImportWebItemsIn,modSO);
+  Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
 	
+	Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
 	Maintenance("Файли для Samsung FTP",SamsungSendFilesByMailEXCELVClass,SamsungSendFilesToFtpMn,modIN); //to delete
 	Maintenance("Перенос начального сальдо по объектам",ObjInitBalVClass,ObjInitBalMn,modNL);// Edit ************************** Friday, 4 March 2016 16:57:53
 	Maintenance("RecalcORShops",MyShopsRecalcVClass,RecalcShopsItemsMn,modSO); //Edit***************************Sasha2,18:17 22.10.2014
@@ -137,15 +134,11 @@ begin
 	  Maintenance("Поставити Closed для Контактів(CARD) та Накопичувальних карт",MyVClass,SetClosedCUCARDAndLoyaltyCardMn,modDBMain); //Edit***************************Sasha2,15:15 10.02.2016
 	end;
 	Maintenance("Створити надходження в компанії",CreationPUsVClass,CreationPUsMn,modDBMain);	//Edit----------------------Dima  18.03.2016
-	
-	Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
-  
-  
  	Maintenance("Оновити ціни для Web",MyVClass,UpdatePricesInWebSyncReg,modSO);
   Maintenance("ChangeCostOfIVsInSVO",MyVClass,ChangeCostOfIVsInSVOMn,modDBMain);//Edit-------------------Vitalii 10:14 25.11.2016
   Maintenance("PhonesFromSVOMn",PhonesFromSVOVClass,PhonesFromSVOMn,modDBMain);
   Maintenance("Оновити текст. поля для швидкого пошуку",UpdateTextFieldsForQuickSearchVClass,UpdateTextFieldsForQuickSearchMn,modDBMain); //Edit***************************Sasha2,16:53 14.12.2016
-  
+  Maintenance("Зам.на обсл.: перенести PlanShip в PlanShipDate",MyVClass,UpdPlanShipDateFrPlanShipSVOMn,modDBMain); //Edit***************************Sasha2,15:04 16.02.2017
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014

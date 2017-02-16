@@ -574,7 +574,7 @@ integer mtrw,i;
         SVHistr.OKFlag = SVOr.DoneMark;
         SVHistr.Type = SVOrw.ItemType;
         SVHistr.TransDate = SVOr.TransDate;
-        SVHistr.OkDate = SVOr.PlanShip;
+        SVHistr.OkDate = SVOr.PlanShipDate; //Edit***************************Sasha2,14:53 16.02.2017
         SVHistr.ReturnDate = SVOr.RegDate;
         SVHistr.SalesMan = SVOr.CustomField7;
         SVHistr.Client = SVOr.CustCode;

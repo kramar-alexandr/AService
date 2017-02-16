@@ -260,6 +260,7 @@ BEGIN
   SVOr.BaseRate1 = br1;
   SVOr.BaseRate2 = br2;
   SVOr.PlanShip = blankd;		//Edit----------------------Dima  28.09.2015
+  SVOr.PlanShipDate = blankd;	//Edit***************************Sasha2,14:50 16.02.2017
   SVOr.DoneTime = blankt;
   SVOr.RegDate = blankd;
   SVOr.OutTime = blankt;
@@ -370,7 +371,7 @@ BEGIN
         SVHistr.OKFlag = SVOr.DoneMark;
         SVHistr.Type = SVOrw.ItemType;
         SVHistr.TransDate = SVOr.TransDate;
-        SVHistr.OkDate = SVOr.PlanShip;
+        SVHistr.OkDate = SVOr.PlanShipDate;
         SVHistr.ReturnDate = SVOr.RegDate;
         SVHistr.SalesMan = SVOr.CustomField7;
         SVHistr.Client = SVOr.CustCode;
@@ -501,7 +502,7 @@ BEGIN
         SVHistr.OKFlag = SVOr.DoneMark;
         SVHistr.Type = SVOrw.ItemType;
         SVHistr.TransDate = SVOr.TransDate;
-        SVHistr.OkDate = SVOr.PlanShip;
+        SVHistr.OkDate = SVOr.PlanShipDate;
         SVHistr.ReturnDate = SVOr.RegDate;
         SVHistr.SalesMan = SVOr.CustomField7;
         SVHistr.Client = SVOr.CustCode;
@@ -677,18 +678,18 @@ BEGIN
   	SVOr.EndDiagnDate = currentdate;
   	SVOr.EndDiagnTime = CurrentTime;
   end;
-  if(SVOr.OrderStatus==2 and blankdate(SVOr.PlanShip))then begin
-  	SVOr.PlanShip = currentdate;// Edit ************************** Thursday, 10 September 2015 17:31:49
+  if(SVOr.OrderStatus==2 and blankdate(SVOr.PlanShipDate))then begin
+  	SVOr.PlanShipDate = currentdate;// Edit ************************** Thursday, 10 September 2015 17:31:49
   	SVOr.DoneTime = CurrentTime;
   end;
-  if (nonblankdate(SVOr.PlanShip) and blankdate(SVOr.EndDiagnDate)) then begin //Edit***************************Sasha2,16:14 23.01.2017
-    SVOr.EndDiagnDate = SVOr.PlanShip;
+  if (nonblankdate(SVOr.PlanShipDate) and blankdate(SVOr.EndDiagnDate)) then begin //Edit***************************Sasha2,16:14 23.01.2017
+    SVOr.EndDiagnDate = SVOr.PlanShipDate;
     SVOr.EndDiagnTime = SVOr.DoneTime;
   end;
   if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
     SVOr.ServiceManager = CurrentUser;
   end;
-  if(nonblankdate(SVOr.PlanShip))then begin
+  if(nonblankdate(SVOr.PlanShipDate))then begin
   	SVOr.OrderStatus=2;// Edit ************************** Thursday, 10 September 2015 17:31:49
   end;
  
@@ -1233,7 +1234,7 @@ BEGIN
     if (indexname=="AllServSerialNrTextSearch")  then begin res = 0; end;
   end;
   
-  if (nonblankdate(SVOr.PlanShip) or nonblank(SVOr.PlanShip)) then begin 
+  if (nonblankdate(SVOr.PlanShip) or nonblank(SVOr.PlanShip) or nonblankdate(SVOr.PlanShipDate)) then begin //Edit***************************Sasha2,14:52 16.02.2017
     if (indexname=="UnServSerNr")  then begin res = 0; end;
     if (indexname=="UnServTransDate")  then begin res = 0; end;
     if (indexname=="UnServItemName")  then begin res = 0; end;
