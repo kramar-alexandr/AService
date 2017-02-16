@@ -2814,6 +2814,20 @@ EndRecord;
   KeySegment(PlanShipDate);
   KeySegment(SerNr);
   
+  SubsetKeyBegin2(RegDate);// Edit ************************** Wednesday, 15 February 2017 19:31:45
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(RegDate);
+  KeySegment(SerNr);
+  
+  SubsetKeyBegin2(EndDiagnDate);// Edit ************************** Wednesday, 15 February 2017 19:31:45
+  StoreInBaseKey;
+  AppendFieldToKeyName(SalesGroup);
+  AppendFieldToKeyName(SalesMan);
+  KeySegment(EndDiagnDate);
+  KeySegment(SerNr);
+  
   SubsetKeyBegin2(Kontinfo1);// Edit ************************** Monday, 6 February 2017 14:21:07
   StoreInBaseKey;
   AppendFieldToKeyName(SalesGroup);
