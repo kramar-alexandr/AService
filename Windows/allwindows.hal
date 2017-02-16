@@ -10231,3 +10231,24 @@ begin
   CheckBox(h,v+=16,0,"Виконано",flags[8]); //!!PRODTRANSLATE*/
   EndWindow;
 end;
+
+window TRLClass:3
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") //!!PRODTRANSLATE
+begin
+  WindowBegin("Записи операцій",TRLClass,CGmlist,TRView);
+  SetWRect(20,80,600,298);
+  SpawnClass(TRDClass);
+  Sizeable(-1,-1,0,0);
+  UseView(TRVc);
+  FormName(PrintTRL);
+  RecordList(4,17,-21,-39);
+  RlColKeyTL(4,4,    "№",M4AppCode,IntYc,false,Number);
+  RlColKey(134,134,"Дата опер.",TransDate,false,TransDate);
+  RlColKey(219,219,"T_ext",Comment,false,Comment); //!!PRODTRANSLATE
+  if (HasAdvancedAccounting) or (HasLocalization("POL")) then begin
+    RlColKey(-98,-98,"Reference",RefStr,false,RefStr); //!!PRODTRANSLATE
+  end;
+  SearchField("Пошук");
+  SpecialMenu("Створити списання з вал. рах.",' ',0,"CreateUSDRemTRLsm");
+  EndWindow;
+end;
