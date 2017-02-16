@@ -7549,7 +7549,7 @@ begin
   RlColKey(-290,-290,"Тел1.",Kontinfo1,false,Kontinfo1);
   RlColKey(-180,-180,"Тел2.",Phone2,false,Phone2);
   //RlCol(-140,-140,"Гар.",Garanty,false);
-  RlColKey(-70,-70,"Рем.гот.",PlanShip,false,PlanShip);
+  RlColKey(-70,-70,"Рем.гот.",PlanShipDate,false,PlanShipDate);
   SearchField("Пошук");
   if (HasLimitedAccess) then begin 
   BrowseSubsetButton(-40,-15);
@@ -10209,7 +10209,7 @@ begin
   CheckBox(h,v,0,"не закрите актом/накл.",flags[1]); //origin field
   CheckBox(h,v+=16,0,"частк. закрите актом/накл.",flags[2]);  //origin field
   CheckBox(h,v+=16,0,"закрите актом/накл.",flags[3]);*/  //origin field
-  ButtonFrame(h=12,vm=(v+=41),123,3,"Сортувати за датою");
+  ButtonFrame(h=12,vm=(v+=41),123,4,"Сортувати за датою");
   RadioButton(h,v,0,0,"Дата замовл.",ArtMode);
   RadioButton(h,v+=16,1,0,"Дата заверш.діагн.",ArtMode);
   RadioButton(h,v+=16,2,0,"Дата заверш. рем.",ArtMode);
