@@ -55,7 +55,7 @@ begin
 	recordNew(TRr);
 		
 	while(loopmain(Accr,1,true))begin
-		if(nonblank(Accr.Curncy) and Accr.Curncy!="USD")then begin
+		if(nonblank(Accr.Curncy) and Accr.Curncy!="UAH")then begin
 			accstr = Accr.AccNumber;
 			objs = "";
 			Sbp = 0;
@@ -69,14 +69,14 @@ begin
 			Objbals = ReadFirstMain(ObjBalr,2,true);  
 			//GetAccDCStartBalance(accstr,objs,stringtodate("1/" & getmonth(currentdate) & "/" getyear(currentdate)),ObjBalr,0,"","USD",0,dSb,cSb);
 			//GetAccDCTurnover(accstr,objs,stringtodate("1/" & getmonth(currentdate) & "/" getyear(currentdate)),currentdate,ObjBalr,"USD",0,"",0,dSb,cSb,dPb,cPb);
-      GetAccBalance(accstr,objs,currentdate,ObjBalr,0,1,0,"USD",0,Pbp);
+      GetAccBalance(accstr,objs,currentdate,ObjBalr,0,1,0,"UAH",0,Pbp);
       if(Pbp!=0)then begin
       	clearrow(TRr,TRrw,1);
       	TRrw.AccNumber = accstr;
       	matrowput(TRr,i,TRrw);
       	TRVc_PasteAccNumber(TRr,1,i,true);
       	matrowget(TRr,i,TRrw);
-      	TRrw.Curncy = "USD";
+      	TRrw.Curncy = "UAH";
       	if(Pbp<0)then begin
       		TRrw.DebVal = -Pbp;
       	end else begin
