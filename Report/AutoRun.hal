@@ -12,13 +12,14 @@ external procedure BuhExportEn();//Edit***************************Sasha2,17:16 1
 external procedure RetailSalesEn();
 external procedure KreditorkaReportEn();
 external procedure SaleWeekByVEEn();
+external updating procedure StockBalDiffMn(string); 
 
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
 begin
 integer iStore,iTek,Textera,Technomedia,AService,WD,MMR,iCenter,Samsung,Gilliver,idistribuEsti;
 record RcVc RepSpec;
-/*
+
 iStore = 1;
 iTek = 2;	//iTek
 WD = 3;
@@ -31,7 +32,12 @@ Samsung = 9;
 Gilliver = 10;
 idistribuEsti = 11;
 
+  if (SetCompany(AService,false)) then begin//AService
+    logtext(0,currentcompany & " StockBalDiffMn");
+    StockBalDiffMn("SA,STRELKOVA,AUDITOR,CHAYKOVSKA,IRA_FM");
+  end;
 
+/*
   if (SetCompany(iStore,false)) then begin
   	logtext(0,currentcompany & " FullStockEn");
     FullStockEn;

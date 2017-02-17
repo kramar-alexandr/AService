@@ -385,5 +385,11 @@ begin
     SetWRect(20,120,350,300);
     EditField(h,20,150,"Кількість днів",Normal,flags[1],false,0);
   EndWindow;
+  
+  WindowBegin("Розбіжність складу з балансом",StockBalDiffRClass,CGRcW,RcType);
+    SetWRect(20,120,350,300);
+    EditFieldTL(h,v+=20,80,"На дату",M4Date,Normal,0,d1,false,PasteCurDate);
+  EndWindow;
+  
   return;
   end;

@@ -612,3 +612,251 @@ DuplicateSVOSerial = tstr;
 
 return;
 end;
+
+global //Edit***************************Sasha2,11:10 27.01.2017 {
+procedure CollectLocationBalancesToDate(var vector val locHistBalances,var vector val locAccBalances,date endDate,string locations)
+begin
+  record LocationVc Locr;
+  record ItemHistVc IHr;
+  record ObjBalVc ObjBalr;
+  record MainVc mainr;
+	record TRVc TRr;
+	row TRVc TRrw;
+	record FBVc FBr;
+	row FBVc FBrw;
+  array string 30 locationList;
+  array string 100 vectorKeys;
+  vector string 30 locAccountList;
+  Boolean TrHs,testf,skipMainVcF;
+  integer i,j,rwcnt,keys,pos;
+  string 30 curLoc,curAcc;
+  date toDate,balanceDate;
+  val dvp,cvp;
+  
+    GetVectorTags(locHistBalances,vectorKeys);
+		for(i=0;i<vectorKeys.length;i=i+1) begin
+			locHistBalances[vectorKeys[i]] = 0;
+		end;
+		
+		GetVectorTags(locAccBalances,vectorKeys);
+		for(i=0;i<vectorKeys.length;i=i+1) begin
+			locAccBalances[vectorKeys[i]] = 0;
+		end;
+		
+		if (BlankDate(endDate)) then begin
+		  toDate = CurrentDate;
+		end else begin
+		  toDate = endDate;
+		end;
+    
+    if (NonBlank(locations)) then begin
+      pos = 0;
+      ExtractObj(locations,pos,curLoc);
+      while (NonBlank(curLoc)) begin
+        Locr.Code = curLoc;
+        if (ReadFirstMain(Locr,1,true)) then begin
+          locationList[locationList.length] = Locr.Code;
+          locAccountList[Locr.Code] = Locr.StockAcc;
+        end;
+        ExtractObj(locations,pos,curLoc);
+      end; 
+    end else begin
+      Locr.Code = "";
+      while (LoopMain(Locr,1,true)) begin
+        locationList[locationList.length] = Locr.Code;
+        locAccountList[Locr.Code] = Locr.StockAcc;
+      end;
+    end;
+    
+    for (i=0;i<locationList.length;i=i+1) begin
+      skipMainVcF = false;
+      curLoc = locationList[i];
+      curAcc = locAccountList[curLoc];
+      TrHs = true;
+  		IHr.Location = curLoc;
+  		while (LoopKey("SerNrPerLoc",IHr,1,TrHs)) begin
+  			testf = true;
+  			if (IHr.Location!=curLoc) then begin TrHs = false; testf = false; end;
+  			if (toDate<IHr.TransDate) then begin testf = false; end;
+  			if (IHr.StockAffectf!=1) then begin testf = false; end;
+  			if (testf) then begin
+  				if (IHr.Qty>0) then begin
+  				  locHistBalances[curLoc] = locHistBalances[curLoc] + IHr.TotCostPrice;
+  				end else begin
+  					locHistBalances[curLoc] = locHistBalances[curLoc] - IHr.TotCostPrice;
+  				end;		
+  			end;
+  		end; RESETLOOP(IHr);
+  		
+  		if (NonBlank(curAcc)) then begin
+    		if (GetMonth(AddDay(toDate,1))!=GetMonth(toDate)) then begin
+    		  skipMainVcF = true;
+    		  balanceDate = toDate;
+    		end else begin
+    		  balanceDate = AddMonth(toDate,-1);
+    		end;
+    		
+    		ObjBalr.AccNumber = curAcc;
+        if (ReadFirstMain(ObjBalr,1,true)) then begin
+          dvp = GetBalance(ObjBalr,"transdebit",balanceDate);
+          cvp = GetBalance(ObjBalr,"transcredit",balanceDate);
+          locAccBalances[curLoc] = locAccBalances[curLoc] + (dvp - cvp);
+        end else begin
+          LogText(0,"CollectLocationBalancesToDate. Not found ObjBalVc for account " & curAcc);
+        end;  	
+        
+        if (skipMainVcF==false) then begin
+          mainr.AccNumber = curAcc;
+          mainr.TransDate = StringToDate("1/" & GetMonth(toDate) & "/" & GetYear(toDate));
+      		TrHs = true;
+      		while (LoopMain(mainr,2,TrHs)) begin
+      			if ((mainr.AccNumber!=curAcc) or (mainr.TransDate > toDate))  then begin TrHs = false; end;
+      			if (TrHs) then begin
+      				if (mainr.FileName=="TRVc") then begin
+      					TRr.Number = mainr.TransNr;
+      					TRr.IntYc = mainr.IntYc;
+      					if (ReadFirstMain(TRr,2,true)) then begin
+      						if (mainr.TransDate == TRr.TransDate) then begin
+      							rwcnt = MatRowCnt(TRr);
+      							for (j=0;j<rwcnt;j=j+1) begin
+      								MatRowGet(TRr,j,TRrw);
+      								if ((TRrw.AccNumber == curAcc) and (TRrw.ovst <> 1) and (TRrw.stp == 1)) then begin
+      								  locAccBalances[curLoc] = locAccBalances[curLoc] + (TRrw.DebVal - TRrw.CredVal);
+      								end;
+      							end;
+      						end;
+      					end;
+      				end;
+      				if (mainr.FileName=="FBVc") then begin
+      					FBr.SerNr = mainr.TransNr;
+      					if (ReadFirstMain(FBr,1,true)) then begin
+      					  testf = true;
+      					  if (mainr.TransDate!=FBr.TransDate or NonBlank(FBr.Objects)) then begin testf = false; end;
+      						if (testf) then begin
+      							rwcnt = MatRowCnt(FBr);
+      							for (j=0;j<rwcnt;j=j+1) begin
+      								MatRowGet(FBr,j,FBrw);
+      								if (FBrw.AccNumber == curAcc) then begin
+      								  locAccBalances[curLoc] = locAccBalances[curLoc] + (FBrw.DebVal - FBrw.CredVal);
+      								end;
+      							end;
+      						end;
+      					end;
+      				end;
+      			end;
+      		end;
+      		ResetLoop(mainr);
+        end;
+  		end;
+  		
+      //LogText(0,"Account:" & ObjBalr.AccNumber);
+      //LogText(0,"Location:" & curLoc & ", IHr balance:" & locHistBalances[curLoc]);
+      //LogText(0,"Location:" & curLoc & ", Acc balance:" & locAccBalances[curLoc]);	
+      //LogText(0,"-----------------------------------" & endDate);
+      
+    end;
+
+  return;
+end; //Edit***************************Sasha2,11:10 27.01.2017 }
+
+/*global //Edit***************************Sasha2,11:10 27.01.2017 {
+procedure ChkCollectLocationBalancesToDate()
+begin
+  vector val locHistBalances;
+  vector val locAccBalances;
+  date blankd;
+    
+    CollectLocationBalancesToDate(locHistBalances,locAccBalances,StringToDate("21/12/2016"),"");
+
+  return;
+end;*/ //Edit***************************Sasha2,11:10 27.01.2017 }
+
+global procedure StockBalDiffRn(record RcVc RepSpec)
+begin
+	vector val locHistBalances;
+	vector val locAccBalances;
+	date endDate;
+	string 200 locations;
+	record LocationVc Locr;
+	date todate;
+	boolean Foundf;
+	record ActVc Act;
+	//record UserVc User;
+	
+	if(nonblank(RepSpec.d1))then begin
+		todate = RepSpec.d1;
+	end else begin
+		todate = currentdate;
+	end;
+	CollectLocationBalancesToDate(locHistBalances,locAccBalances,todate,locations);
+	
+	/*Actr.TransDate = currentdate;
+	while()begin
+	
+	end;*/
+	
+	startreportnoheaderjob("Розбіжність клада з рахунком!");
+		startformat(15);
+			outstring(0,0,"Дата",false);
+			outstring(50,0,todate,false);
+		endformat;
+		black_divider(0,100);
+		startformat(15);
+			outstring(0,0,"Склад",false);
+			outstring(80,0,"Вартість складу",false);
+			outstring(160,0,"На рахунку",false);
+			outstring(240,0,"Різниця",false);
+			outstring(320,0,"Рахунок скдаду",false);
+		endformat;
+		
+		
+		while(loopmain(Locr,1,true))begin
+			if(locHistBalances[Locr.Code]!=0 and locAccBalances[Locr.Code]!=0)then begin
+				startformat(15);
+					outstring(0,0,Locr.Code,false);
+					outstring(80,0,locHistBalances[Locr.Code],false);
+					outstring(160,0,locAccBalances[Locr.Code],false);
+					outstring(240,0,locHistBalances[Locr.Code] - locAccBalances[Locr.Code],false);
+					outstring(320,0,Locr.StockAcc,false);
+				endformat;
+			end;
+		end;
+	endjob;
+
+return;
+end;
+
+global updating procedure StockBalDiffMn(string users)
+begin
+	record ActVc Actr;
+	record LocationVc Locr;
+	vector val locHistBalances;
+	vector val locAccBalances;
+	string 200 locations;
+	boolean foundf;
+  //record AcceptanceRulesVc Acptr;
+
+	
+	CollectLocationBalancesToDate(locHistBalances,locAccBalances,currentdate,locations);
+	foundf = false;
+	while(loopmain(Locr,1,true))begin
+		if(locHistBalances[Locr.Code]!=0 and locAccBalances[Locr.Code]!=0)then begin
+			foundf = true;
+		end;
+	end;
+	
+	if(foundf)then begin
+		recordnew(Actr);
+			Actr.Comment = "Існує розбіжність складу з балансом на " & currentdate;
+			//Actr.AlarmType = kAlarmTypeMessage; //Edit-------------------Vitalii 11:31 23.12.2016
+      Actr.AlarmType = kAlarmTypeNone;
+			Actr.TodoFlag = kTodoFlagTodo;
+			//Actr.SymbNr = 3;
+			Actr.ActType = "MES";
+			Actr.MainPersons = users;
+			
+		recordstore(Actr,true);
+	end;
+	
+return;
+end;
