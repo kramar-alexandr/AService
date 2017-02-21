@@ -452,33 +452,33 @@ begin
           for (i=0;i<rwcnt;i=i+1) begin
             MatRowGet(SVOr,i,SVOrw);
             if (NonBlank(SVOrw.ArtCode)) then begin
-              if (Blank(SVOr.ArtCodeTextSearch)) then begin
+              //if (Blank(SVOr.ArtCodeTextSearch)) then begin
                 SVOr.ArtCodeTextSearch = SVOrw.ArtCode;
                 saveF = true;
-              end else begin
+              /*end else begin
                 if (len(SVOr.ArtCodeTextSearch & " " & SVOrw.ArtCode)<=255 and FindStringInString(SVOr.ArtCodeTextSearch,SVOrw.ArtCode)==false) then begin
                   SVOr.ArtCodeTextSearch = SVOr.ArtCodeTextSearch & " " & SVOrw.ArtCode;
                   saveF = true;
                 end;
-              end;
-              if (Blank(SVOr.SpecTextSearch)) then begin
+              end;*/
+              //if (Blank(SVOr.SpecTextSearch)) then begin
                 SVOr.SpecTextSearch = SVOrw.Spec;
                 saveF = true;
-              end else begin
+              /*end else begin
                 if (len(SVOr.SpecTextSearch & " " & SVOrw.Spec)<=255 and FindStringInString(SVOr.SpecTextSearch,SVOrw.Spec)==false) then begin
                   SVOr.SpecTextSearch = SVOr.SpecTextSearch & " " & SVOrw.Spec;
                   saveF = true;
                 end;
-              end;
-              if (Blank(SVOr.SerialNrTextSearch)) then begin
+              end;*/
+              //if (Blank(SVOr.SerialNrTextSearch)) then begin// Edit ************************** Tuesday, 21 February 2017 11:28:19
                 SVOr.SerialNrTextSearch = SVOrw.SerialNr;
                 saveF = true;
-              end else begin
+              /*end else begin// Edit ************************** Tuesday, 21 February 2017 11:28:20
                 if (len(SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr)<=255 and FindStringInString(SVOr.SerialNrTextSearch,SVOrw.SerialNr)==false) then begin
                   SVOr.SerialNrTextSearch = SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr;
                   saveF = true;
                 end;
-              end;
+              end;*/
             end;
           end;
           if (saveF) then begin

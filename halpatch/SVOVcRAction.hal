@@ -962,13 +962,13 @@ BEGIN
             SVOr.SpecTextSearch = SVOr.SpecTextSearch & " " & SVOrw.Spec;
           end;
         end;
-        if (Blank(SVOr.SerialNrTextSearch)) then begin
+        //if (Blank(SVOr.SerialNrTextSearch)) then begin// Edit ************************** Tuesday, 21 February 2017 11:27:50
           SVOr.SerialNrTextSearch = SVOrw.SerialNr;
-        end else begin
+        /*end else begin
           if (len(SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr)<=255 and FindStringInString(SVOr.SerialNrTextSearch,SVOrw.SerialNr)==false) then begin
-            SVOr.SerialNrTextSearch = SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr;
+            SVOr.SerialNrTextSearch = SVOr.SerialNrTextSearch & " " & SVOrw.SerialNr;// Edit ************************** Tuesday, 21 February 2017 11:27:51
           end;
-        end;
+        end;*/
       end;
     end;
   end;
