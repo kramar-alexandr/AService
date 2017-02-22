@@ -23,9 +23,9 @@ begin
 	Report("Отчет по телефонам клиентов",ServClientOrderRClass,ServClientOrderRn,0,modSVO);// Edit ************************** Monday, 4 July 2016 17:52:38
 	
 	Report("Історія продажів по клієнтам ",CUSalesRepRClass,CustSalesReportRn,0,modSO);
-	Report("Звiт по продажах",SalesReportRClass,SalesReportRn,0,modSL);
-	Report("Звiт по продажах для менеджерів",SalesReportForManagersRClass,SalesReportForManagersRn,0,modSL);
-	Report("Звiт по продажах і залишкам за тиждень",SaleWeekByVERClass,SaleWeekByVERn,0,modSL); //Edit***************************Sasha2,12:04 01.04.2016
+	Report("Звіт по продажах",SalesReportRClass,SalesReportRn,0,modSL);
+	Report("Звіт по продажах для менеджерів",SalesReportForManagersRClass,SalesReportForManagersRn,0,modSL);
+	Report("Звіт по продажах і залишкам за тиждень",SaleWeekByVERClass,SaleWeekByVERn,0,modSL); //Edit***************************Sasha2,12:04 01.04.2016
 	//Report("Звіт по складу для менеджерів",SalesReportRClass,SalesReportRn,0,modSO);
 	Report("FullStock Manual",MyFullStockRClass,MyItemReportRn,0,modIN);
 	Report("Full Stock",MyFullStockManRClass,MyItemReportRn,0,modSO);
@@ -37,7 +37,7 @@ begin
 	Report("Bonus",MyBonusRClass,MyBonusRn,0,modSL); //Edit***************************Sasha2,11:54 10.09.2014
 	Report("Bonus for ServiceMan",MyBonusCurUserRClass,MyBonusCurrentUserRn,0,modSL);//Edit----------------------Dima  29.10.2015
 	Report("Друк етикеток зі складу",LabelStockItemsRClass,LabelStockItemsRn,0,modLabPrint); //Edit***************************Sasha2,17:55 11.11.2014
-	Report("Звiт по продажах Retail Sales",RetailSalesRClass,RetailSalesRn,0,modSL); //Edit***************************Sasha2,12:10 29.01.2015
+	Report("Звіт по продажах Retail Sales",RetailSalesRClass,RetailSalesRn,0,modSL); //Edit***************************Sasha2,12:10 29.01.2015
 	
 	Report("CHECK",RetailSalesRClass,InvShpdRn,0,modSO); //Edit***************************Sasha2,12:10 29.01.2015
 	Report("CHECK UpdItemHist",RetailSalesRClass,InvUpdStoRn,0,modSO); //Edit***************************Sasha2,12:10 29.01.2015

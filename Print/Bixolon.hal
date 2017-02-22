@@ -94,11 +94,11 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(SetLeftAlignment,aFile);
 	addtexttoarea(SmallLetterOn,aFile);
-	addtexttoarea("Гарантія на виконання робіт становить:" & chr(13) & chr(10) ,aFile);
-	addtexttoarea("-для iPhone,iPod,iPad - 1 рік" & chr(13) & chr(10) ,aFile);
-	addtexttoarea("-для Мас і ноутбуків - 3 місяці" & chr(13) & chr(10) ,aFile);	
-	addtexttoarea("-заміна пристрою - 3 місяці" & chr(13) & chr(10) ,aFile);
-	addtexttoarea(chr(13) & chr(10),aFile);
+	//addtexttoarea("Гарантія на виконання робіт становить:" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea("-для iPhone,iPod,iPad - 1 рік" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea("-для Мас і ноутбуків - 3 місяці" & chr(13) & chr(10) ,aFile);	
+	//addtexttoarea("-заміна пристрою - 3 місяці" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea(chr(13) & chr(10),aFile);
 /*	
 	addtexttoarea("Замовник претензій по об'єму,якості та" & chr(13) & chr(10) ,aFile);
 	addtexttoarea("строкам виконання робіт не має." & chr(13) & chr(10) ,aFile);
@@ -330,11 +330,11 @@ begin
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(SetLeftAlignment,aFile);
 	addtexttoarea(SmallLetterOn,aFile);
-	addtexttoarea("Гарантія на виконання робіт становить:" & chr(13) & chr(10) ,aFile);
-	addtexttoarea("-для iPhone,iPod,iPad - 1 рік" & chr(13) & chr(10) ,aFile);
-	addtexttoarea("-для Мас і ноутбуків - 3 місяці" & chr(13) & chr(10) ,aFile);	
-	addtexttoarea("-заміна пристрою - 3 місяці" & chr(13) & chr(10) ,aFile);
-	addtexttoarea(chr(13) & chr(10),aFile);		
+	//addtexttoarea("Гарантія на виконання робіт становить:" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea("-для iPhone,iPod,iPad - 1 рік" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea("-для Мас і ноутбуків - 3 місяці" & chr(13) & chr(10) ,aFile);	
+	//addtexttoarea("-заміна пристрою - 3 місяці" & chr(13) & chr(10) ,aFile);
+	//addtexttoarea(chr(13) & chr(10),aFile);		
 		
 	addtexttoarea(SetLeftAlignment,aFile);
 	addtexttoarea("Замовлення № " & SVOr.SerNr & chr(13) & chr(10) ,aFile);

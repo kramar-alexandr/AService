@@ -1102,6 +1102,10 @@ begin
 	integer tri,trcred;
 	val disbalanscost,disbalanssale,totcost,totsale;
 	longint shnr;
+	record SVOVc SVOr;
+	record RLinkVc RLinkr;
+  Integer svonr;
+  string 20 phoneNumber;
 	
 	
 	blockload(BCb);
@@ -1124,6 +1128,7 @@ begin
 			outstring(i4,0,"Дата продажу",false);
 			outstring(i1,0,"Акт",false);
 			outstring(i5,0,"Клієнт",false);
+			outstring(i5,0,"Телефон",false); //Edit***************************Sasha2,13:46 22.02.2017
 			outstring(i6,0,"Склад",false);
 			outstring(i7,0,"Кіл-ть",false);
 			outstring(i8,0,"Валюта продаж.",false);
@@ -1173,13 +1178,12 @@ begin
 				outstring(i32,0,"Коментар",false);
 			end;
 			
-			
 		endformat;
 	
 	
 	TrHs = true;
 	IVr.InvDate = sd;
-	while(loopkey("InvDate",IVr,1,TrHs))begin
+	while(loopkey("InvDate",IVr,1,TrHs)) begin
 		testf = true;
 		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
 		if(IVr.Invalid==1)then begin testf = false; end;
@@ -1198,6 +1202,23 @@ begin
       end;
     end;
 		If(testf) then begin
+		  if (IVr.SVONr>-1) then begin //Edit***************************Sasha2,14:11 22.02.2017 {
+			  SVOr.SerNr = IVr.SVONr;
+			  ReadFirstMain(SVOr,1,true);
+		    if (NonBlank(SVOr.Kontinfo1)) then begin
+		      phoneNumber = SVOr.Kontinfo1;
+		    end else begin
+		      phoneNumber = SVOr.Phone2;
+		    end;
+			end else begin
+			  svonr = 1;
+			  ReadRecordLink(IVr,svonr,SVOr,RLinkr);
+			  if (NonBlank(SVOr.Kontinfo1)) then begin
+		      phoneNumber = SVOr.Kontinfo1;
+		    end else begin
+		      phoneNumber = SVOr.Phone2;
+		    end;
+			end; //Edit***************************Sasha2,14:11 22.02.2017 }
 			CUr.Code = IVr.CustCode;
 			readfirstmain(CUr,1,true);
 			invfr = IVr.FrRate;
@@ -1280,6 +1301,7 @@ begin
 								outstring(i4,0,IVr.InvDate,false);
 								outstring(i1,0,IVr.SerNr,false);
 								outstring(i5,0,IVr.CustCode,false);
+								outstring(i5,0,phoneNumber,false); //Edit***************************Sasha2,14:34 22.02.2017
 								outstring(i6,0,IVr.Location,false);
 								outstring(i7,0,qty[j],false);
 								invcurncy = IVr.CurncyCode;
@@ -1374,7 +1396,7 @@ begin
 						if(nonblank(RepSpec.f4))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 						if(nonblank(RepSpec.f5) and !SetInSet(RepSpec.f5,INr.DispGroups))then begin filter = false; end;// Edit ************************** Thursday, 14 May 2015 16:22:47
 				
-						if(filter)then begin// Edit ************************** Thursday, 14 May 2015 16:21:33
+						if(filter)then begin // Edit ************************** Thursday, 14 May 2015 16:21:33
 							startformat(15);		
 								outstring(i0,0,ITr.Comment,false);
 								outstring(i01,0,"",false);
@@ -1384,6 +1406,7 @@ begin
 								outstring(i4,0,IVr.InvDate,false);
 								outstring(i1,0,IVr.SerNr,false);
 								outstring(i5,0,IVr.CustCode,false);
+								outstring(i5,0,phoneNumber,false); //Edit***************************Sasha2,14:34 22.02.2017
 								outstring(i6,0,IVr.Location,false);
 								outstring(i7,0,IVrw.Quant*cred - foundqty,false);
 								outstring(i8,0,IVr.CurncyCode,false);
@@ -1509,6 +1532,7 @@ begin
 					outstring(0,0,"",false);
 					outstring(0,0,"",false);
 					outstring(0,0,IVr.CustCode,false);
+					outstring(0,0,"",false); //Edit***************************Sasha2,14:32 22.02.2017
 					outstring(0,0,IVr.Location,false);
 					outstring(0,0,"",false);
 					outstring(0,0,"",false);
