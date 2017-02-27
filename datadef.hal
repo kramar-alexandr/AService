@@ -4418,6 +4418,11 @@ EndRecord;
     RecordField(Vlastnik,M4Str,100,0);
     RecordField(Priynato,M4Str,100,0);
     RecordField(SVONrs,M4Str,255,0);
+    RecordField(FirstName,M4Str,50,0); //Edit***************************Sasha2,15:51 22.02.2017
+    RecordField(LastName,M4Str,50,0); //Edit***************************Sasha2,15:51 22.02.2017
+    RecordField(MiddleName,M4Str,50,0); //Edit***************************Sasha2,15:51 22.02.2017
+    RecordField(RepairsSum,M4Val,0,0); //Edit***************************Sasha2,15:51 22.02.2017
+    RecordField(PersonalRebate,M4Val,0,0); //Edit***************************Sasha2,15:51 22.02.2017
     MainKeyBegin(PhoneNum,0);
     KeySegment(PhoneNum);
     KeyBegin(Vlastnik);
