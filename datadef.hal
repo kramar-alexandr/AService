@@ -2704,7 +2704,9 @@ EndRecord;
   RecordField(ArtCodeTextSearch,M4Str,255,0); //Edit***************************Sasha2,13:28 19.12.2016
   RecordField(SpecTextSearch,M4Str,255,0); //Edit***************************Sasha2,13:28 19.12.2016
   RecordField(SerialNrTextSearch,M4Str,255,0); //Edit***************************Sasha2,13:28 19.12.2016
-  
+  RecordField(OldPhone,M4Str,255,0);// Edit ************************** Monday, 27 February 2017 11:23:05
+  RecordField(Name,M4Str,255,0);// Edit ************************** Monday, 27 February 2017 11:23:43
+  RecordField(MiddleName,M4Str,255,0);// Edit ************************** Monday, 27 February 2017 11:23:43
    //----------End Custom
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
@@ -4432,5 +4434,29 @@ EndRecord;
     KeySegment(Priynato);
     KeySegment(PhoneNum);
   EndRecord;
+  
+  RecordBegin(SVOPrintDataVc,-,"");//Edit-------------------Vitalii 17:10 03.11.2016
+    RecordField(Code,M4Code,50,0);
+    RecordField(Comment,M4Str,200,0);
+    RecordField(DocName,M4Code,20,DocVc);
+    
+    RecordField(Header1,M4Str,200,0);
+    RecordField(Header2,M4Str,200,0);
+    RecordField(Header3,M4Str,200,0);
+    RecordField(Header4,M4Str,200,0);
+    RecordField(Header5,M4Str,200,0);
+    RecordField(Header6,M4Str,200,0);
+    RecordField(Header7,M4Str,200,0);
+    RecordField(Header8,M4Str,200,0);
+    RecordField(Header9,M4Str,200,0);
+    RecordField(Header10,M4Str,200,0);
+    
+    MainKeyBegin(Code,0);
+    KeySegment(Code);
+    KeyBegin(Comment);
+    KeySegment(Comment);
+    KeySegment(Code);
+  EndRecord;
+  
 return;
 end;

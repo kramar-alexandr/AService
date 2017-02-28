@@ -7118,6 +7118,9 @@ begin
   EditField(h2,v,60,"Час",mode,DoneTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:04
   EditField(h1,v+=vs,60,"Дата видачі",mode,RegDate,false,PasteCurDate);
   EditField(h2,v,60,"Час",mode,OutTime,false,0);// Edit ************************** Monday, 24 October 2016 17:56:02
+  if(currentuser=="SA")then begin
+		EditField(-200,v,-20,"OldPhone",ViewOnly,OldPhone,false,0);
+  end;
   
   v=vm-20;
   halpushbutton(h2+200,v,h2+325,v+50,"FastPaySVODsm","Швидка оплата");// Edit ************************** Friday, 25 November 2016 11:32:03 
@@ -7161,7 +7164,9 @@ begin
   checkbox(100,v-20,0,"VIP",VIPStatus);
   checkbox(200,v-20,0,"Товар від партнера з поверненням",ItemFrPartner); //Edit***************************Sasha2,14:19 08.12.2015
  	EditField(h=100,v,200,"Власник",Normal,Vlastnik,false,0);EditField(h+300,v,-20,"SN Зареєст.",Normal,CustomField8,false,0);
- 	EditField(h,v+=vs,-20,"Прийнято від",Normal,Priynato,false,0);	
+ 	EditField(h,v+=vs,120,"Призвище",Normal,Priynato,false,0);	
+ 	EditField(h+160,v,120,"Ім'я",Normal,Name,false,0);	
+ 	EditField(h+360,v,120,"По батькові",Normal,MiddleName,false,0);	
  	
 	EditField(h,v+=vs,100,"Тел.1",Normal,Kontinfo1,false,0);	
 	HalPushButton(h+110,v-3,h+180,v+15,"CallToClientDsm","Дзвінок");
@@ -10250,5 +10255,34 @@ begin
   end;
   SearchField("Пошук");
   SpecialMenu("Створити списання з вал. рах.",' ',0,"CreateUSDRemTRLsm");
+  EndWindow;
+end;
+
+
+window SVOPrintDataDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Насройка друку замовлень на обсл.",SVOPrintDataDClass,CGView,-);
+  SetWRect(20,80,450,300);
+  v= 6; vs = 20;
+  EditFieldTL(150,v, 150,"Code",M4Code,Normal,30,Code,false,0);
+  EditFieldTL(150,v+=vs,150,"Назва",M4Str,Normal,200,Comment,false,0);
+ 
+  EndWindow;
+end;
+
+window SVOPrintDataLClass:3
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") //!!PRODTRANSLATE
+begin
+  WindowBegin("Насройки друку замовлень на обсл.",SVOPrintDataLClass,CGmlist,-);
+  SetWRect(20,80,600,298);
+  SpawnClass(SVOPrintDataDClass);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOPrintDataVc);
+  RecordList(4,17,-21,-39);
+  RlColKeyTL(4,4,"Код",M4Code,Code,false,Code);
+  RlColKey(134,134,"Назва",Comment,false,Comment);
+  RlCol(219,219,"Форма",DocName,false);
   EndWindow;
 end;

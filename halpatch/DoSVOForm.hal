@@ -253,7 +253,7 @@ L1:;
 LActPrintNote1:;
 		
 		OUTFORMFIELD("MY_Vlastnik",SVOr.Vlastnik);
-		OUTFORMFIELD("MY_Priynato",SVOr.Priynato);
+		OUTFORMFIELD("MY_Priynato",SVOr.Priynato & " " & SVOr.Name & " " & SVOr.MiddleName);
 		OUTFORMFIELD("MY_Kontinfo1",SVOr.Kontinfo1);
 		OUTFORMFIELD("MY_Phone2",SVOr.Phone2);
 		OUTFORMFIELD("MY_Kontinfo2",SVOr.Kontinfo2);

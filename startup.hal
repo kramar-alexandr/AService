@@ -144,6 +144,8 @@ begin
   Maintenance("Зам.на обсл.: перенести PlanShip в PlanShipDate",MyVClass,UpdPlanShipDateFrPlanShipSVOMn,modDBMain); //Edit***************************Sasha2,15:04 16.02.2017
   Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN); //Edit***************************Sasha2,11:21 17.02.2017
   
+  Maintenance("NormaliezPhones",MyVClass,NormalizePhonesInSVOMn,modDBMain); //Edit***************************Sasha2,11:21 17.02.2017
+  
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 3" & USetStr(31036),LabelItem3RClass,ItemLabForm3,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014

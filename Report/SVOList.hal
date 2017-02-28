@@ -421,7 +421,7 @@ integer i;
 				startformat(15);
 					outstring(0,"DblSVOVc",SVOr.SerNr,false);
 					outstring(50,0,SVOr.TransDate,false);
-					outstring(100,0,SVOr.Priynato,false);
+					outstring(100,0,SVOr.Priynato & " " & SVOr.Name & " " & SVOr.MiddleName,false);
 				endformat;
 			end;
 		end;

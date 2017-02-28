@@ -31,6 +31,7 @@ remote function string 255 DuplicateSVOSerial(string);// Edit ******************
 remote updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,var record SVOVc);// Edit ************************** Wednesday, 3 June 2015 16:59:04
 remote procedure HandleSVOReceiptPrinting(record SVOVc,var area);
 external procedure PrintBixolonReceipt(area);
+external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);// Edit ************************** Monday, 27 February 2017 15:43:57
 
 
 // Edit Start ---------------------------------------------- Edit Start
@@ -176,12 +177,32 @@ global
 function Boolean SVODClassAddr0EFAfter(integer wn, integer changed)
 begin
   record SVOVc SVOr;
+  integer pos,k;
+  string 100 tstr;
+  array string 100 fio;
   
   GetWindowRecord(wn,SVOr);
   if(changed>0)then begin
     SVOr.Vlastnik=SVOr.Addr0;
     if (Blank(SVOr.Priynato)) then begin
-      SVOr.Priynato = SVOr.Vlastnik; //Edit***************************Sasha2,16:37 15.12.2015
+      k=0;
+			pos = 0;
+			ExtractObjWithSeparator(" ",SVOr.Vlastnik,true,pos,tstr);
+			while (nonblank(tstr)) begin    
+				fio[k] = tstr;
+				k=k+1;
+				ExtractObjWithSeparator(" ",SVOr.Vlastnik,true,pos,tstr);
+			end;
+		
+			if(k>0)then begin
+				SVOr.Priynato = fio[0];
+			end;
+			if(k>1)then begin
+				SVOr.Name = fio[1];
+			end;
+			if(k>2)then begin
+				SVOr.MiddleName = fio[2];
+			end;
     end;
     PutWindowRecord(wn,SVOr);
   end;
@@ -195,10 +216,31 @@ global //Edit***************************Sasha2,16:35 15.12.2015 {
 function Boolean SVODClassVlastnikEFAfter(integer wn, integer changed)
 begin
   record SVOVc SVOr;
+  integer pos,k;
+  string 100 tstr;
+  array string 100 fio;
   
   GetWindowRecord(wn,SVOr);
   if(changed>0 and Blank(SVOr.Priynato))then begin
-    SVOr.Priynato = SVOr.Vlastnik;
+  	
+  	k=0;
+  	pos = 0;
+		ExtractObjWithSeparator(" ",SVOr.Vlastnik,true,pos,tstr);
+		while (nonblank(tstr)) begin    
+			fio[k] = tstr;
+			k=k+1;
+			ExtractObjWithSeparator(" ",SVOr.Vlastnik,true,pos,tstr);
+		end;
+  	
+  	if(k>0)then begin
+  		SVOr.Priynato = fio[0];
+  	end;
+  	if(k>1)then begin
+  		SVOr.Name = fio[1];
+  	end;
+  	if(k>2)then begin
+  		SVOr.MiddleName = fio[2];
+  	end;
     PutWindowRecord(wn,SVOr);
   end;
 

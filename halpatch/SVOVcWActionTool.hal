@@ -17,6 +17,7 @@ external function Boolean GetItemPriceDiscount3(string,val,var record INVc,strin
 external procedure GetFullCurncyRate (var string,Date,var val,var val,var val,var val,var val);
 external function LongInt ItemInContract(string,string,Date);
 external procedure SVOGetRate(record SVOVc);
+external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);// Edit ************************** Monday, 27 February 2017 15:43:57
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -32,6 +33,8 @@ BEGIN
   Integer InclVAT;
   record UserVc Userr;
   Boolean limitdaysf;
+  integer pos,k;
+  array string 100 fio;
   
   if ((oldcustcode!=SVOp.CustCode) and (nonblank(oldcustcode))) then begin
     RemoveOldCustObjects(oldcustcode,SVOp.Objects);
@@ -120,6 +123,25 @@ BEGIN
     if (CurrentCompany==8 and CUr.Partner==1) then begin //Edit***************************Sasha2,16:21 15.12.2015 {
       SVOp.Vlastnik = CUr.Name;
       SVOp.Priynato = CUr.Person;
+      
+      k=0;
+			pos = 0;
+			ExtractObjWithSeparator(" ",CUr.Person,true,pos,tstr);
+			while (nonblank(tstr)) begin    
+				fio[k] = tstr;
+				k=k+1;
+				ExtractObjWithSeparator(" ",CUr.Person,true,pos,tstr);
+			end;
+		
+			if(k>0)then begin
+				SVOp.Priynato = fio[0];
+			end;
+			if(k>1)then begin
+				SVOp.Name = fio[1];
+			end;
+			if(k>2)then begin
+				SVOp.MiddleName = fio[2];
+			end;
       
       SVOp.Kontinfo1 = CUr.Phone;
       SVOp.Kontinfo2 = CUr.eMail;
