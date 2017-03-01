@@ -506,3 +506,39 @@ begin
 
   return;
 end; //Edit***************************Sasha2,14:56 16.02.2017 }
+
+global //Edit***************************Sasha2,15:27 28.02.2017 {
+function string 50 GetPhone1SerNrByPhone(string phone)
+begin
+  record Phone1Vc Phoner;
+  record SVOVc SVOr;
+  string 50 tempPhone,res;
+  Boolean testf;
+    
+    res = "";
+    tempPhone = phone;
+		if(left(tempPhone,1)<"0" or left(tempPhone,1)>"9")then begin
+			tempPhone = "+" & right(tempPhone,len(tempPhone)-1);
+		end;
+				
+		Phoner.PhoneNum = tempPhone;
+		testf = readfirstmain(Phoner,1,true);
+		if (!testf) then begin
+		  Phoner.PhoneNum = "044" & tempPhone;
+		  testf = readfirstmain(Phoner,1,true);
+		end;
+		if (!testf) then begin
+		  Phoner.PhoneNum = "+38044" & tempPhone;
+		  testf = readfirstmain(Phoner,1,true);
+		end;
+		if (!testf) then begin
+		  Phoner.PhoneNum = "+38" & tempPhone;
+		  testf = readfirstmain(Phoner,1,true);
+		end;
+		if (testf) then begin
+	    res = Phoner.PhoneNum;
+	  end;
+    
+    GetPhone1SerNrByPhone = res;
+  return;
+end; //Edit***************************Sasha2,15:27 28.02.2017 }

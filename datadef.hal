@@ -4425,6 +4425,7 @@ EndRecord;
     RecordField(MiddleName,M4Str,50,0); //Edit***************************Sasha2,15:51 22.02.2017
     RecordField(RepairsSum,M4Val,0,0); //Edit***************************Sasha2,15:51 22.02.2017
     RecordField(PersonalRebate,M4Val,0,0); //Edit***************************Sasha2,15:51 22.02.2017
+    RecordField(PersonalRebCode,M4Code,5,0); //Edit***************************Sasha2,16:34 28.02.2017
     MainKeyBegin(PhoneNum,0);
     KeySegment(PhoneNum);
     KeyBegin(Vlastnik);

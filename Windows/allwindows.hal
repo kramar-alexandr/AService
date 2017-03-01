@@ -7378,6 +7378,7 @@ begin
   EditField(h2,v+=vs,135,"Об'єкти",Normal,Objects,false,ObjSClass); 
   EditField(h3,v=vm,82,"Serv. Order No.",Normal,SVONr,false,0); //!!PRODTRANSLATE
   EditField(h3,v+=vs,82,"Work Order No.",Normal,WONr,false,0); //!!PRODTRANSLATE
+  EditField(h3,v+=vs,50,"Таблиця знижок",ViewOnly,RebCode,false,RebSClass); //Edit***************************Sasha2,14:51 28.02.2017
   CheckBox(h4,v=vm,0,"Update #Stock#",UpdStockFlag); //!!PRODTRANSLATE
   CheckBox(h4,v+=16,0,"Reserved",PrelOK); //!!PRODTRANSLATE
 /* What is this???, It can be changed by the user and what if half is invoiced ?? */
@@ -10163,6 +10164,12 @@ begin
  	EditField(h,v+=vs,200,"Власник",Normal,Vlastnik,false,0);	
  	EditField(h,v+=vs,200,"Прийнято від",Normal,Priynato,false,0);
   EditField(h,v+=vs,500,"Номери замовлень",Normal,SVONrs,false,0);	
+  v = v + vs;
+  EditField(h,v+=vs,200,"Ім'я",ViewOnly,FirstName,false,0);
+  EditField(h,v+=vs,200,"Прізвище",ViewOnly,LastName,false,0);
+  EditField(h,v+=vs,200,"По батькові",ViewOnly,MiddleName,false,0);
+  EditField(h,v+=vs,70,"Сума ремонтів",ViewOnly,RepairsSum,false,0);
+  EditField(h,v+=vs,70,"Персон.знижка",Normal,PersonalRebCode,false,RebSClass);
   EndWindow;
 end;
 

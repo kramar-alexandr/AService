@@ -19,6 +19,7 @@ external function LongInt NextFreeCashSerNr(row PMBlock,Boolean);
 external function Boolean GetPD(var record PDVc);
 external procedure PUCalcPerc(val,string,var val);
 external procedure InputObjectsAccInWS(var record WSVc); //Edit***************************Sasha2,10:24 17.07.2015
+remote function string 50 GetPhone1SerNrByPhone(string); //Edit***************************Sasha2,16:02 28.02.2017
 
 global
 procedure CalcCashDiscount(var record VIVc VIp)
@@ -331,6 +332,8 @@ BEGIN
   record CostAccBlock CAb;
   record INVc INr;
   record WOVc WOr;
+  string 50 phoneNum; //Edit***************************Sasha2,16:06 28.02.2017
+  record Phone1Vc Phoner; //Edit***************************Sasha2,16:07 28.02.2017
   
   RecordCopy(oldSVOr,SVOp);
   BlockLoad(MSb);
@@ -376,6 +379,25 @@ BEGIN
       WSp.WONr = -1;
       WSp.ExportFlag = SVOp.ExportFlag;
       WSp.RebCode = SVOp.RebCode;
+      if (NonBlank(SVOp.Kontinfo1)) then begin //Edit***************************Sasha2,15:51 28.02.2017 {
+        phoneNum = GetPhone1SerNrByPhone(SVOp.Kontinfo1);
+        if (NonBlank(phoneNum)) then begin
+          Phoner.PhoneNum = phoneNum;
+          if (ReadFirstMain(Phoner,1,true) and NonBlank(Phoner.PersonalRebCode)) then begin
+            WSp.RebCode = Phoner.PersonalRebCode;
+          end;
+        end;
+      end else begin
+        if (NonBlank(SVOp.Phone2)) then begin
+          phoneNum = GetPhone1SerNrByPhone(SVOp.Phone2);
+          if (NonBlank(phoneNum)) then begin
+            Phoner.PhoneNum = phoneNum;
+            if (ReadFirstMain(Phoner,1,true) and NonBlank(Phoner.PersonalRebCode)) then begin
+              WSp.RebCode = Phoner.PersonalRebCode;
+            end;
+          end;
+        end;
+      end; //Edit***************************Sasha2,15:51 28.02.2017 }
       WSp.InclVAT = SVOp.InclVAT;
       WSp.PriceList = SVOp.PriceList;
       if (GetCOSAcc("",WSp.CustCode,WSp.Location,ARb,INr,CAb.ItemGroupAccounts,true,0,WSp.CostAcc,tstr)==false) then begin
