@@ -563,6 +563,26 @@ begin
 return;
 end; //Edit***************************Sasha2,16:35 15.12.2015 }
 
+global //Edit***************************Sasha2,16:35 15.12.2015 {
+function Boolean SVODClassPhone2EFAfter(integer wn, integer changed)
+begin
+  record SVOVc SVOr;
+  integer pos,k;
+  string 100 tstr;
+  array string 100 fio;
+  record Phone1Vc Phoner;
+  
+  GetWindowRecord(wn,SVOr);
+  if(changed>0 and Blank(SVOr.Vlastnik))then begin
+  	
+  	FindPhonePerson(Phoner,SVOr.Phone2);
+  	
+    PutWindowRecord(wn,SVOr);
+  end;
+	SVODClassPhone2EFAfter = true;
+return;
+end; //Edit***************************Sasha2,16:35 15.12.2015 }
+
 
 
 global
@@ -587,8 +607,8 @@ BEGIN
     case "Addr0": res = SVODClassAddr0EFAfter(wn,changed);// Edit ************************** Tuesday, 2 June 2015 20:17:16
     case "Vlastnik": res = SVODClassVlastnikEFAfter(wn,changed); //Edit***************************Sasha2,16:36 15.12.2015
     case "ItemType": res = SVODClassItemTypeEFAfter(wn,rownr,changed); //Edit***************************Sasha2,16:36 15.12.2015
-    case "Kontinfo1": res = SVODClassKontinfo1EFAfter(wn,rownr,changed);// Edit ************************** Tuesday, 28 February 2017 15:54:49
-    case "Phone2": res = SVODClassPhone2EFAfter(wn,rownr,changed);// Edit ************************** Tuesday, 28 February 2017 15:54:50
+    case "Kontinfo1": res = SVODClassKontinfo1EFAfter(wn,changed);// Edit ************************** Tuesday, 28 February 2017 15:54:49
+    case "Phone2": res = SVODClassPhone2EFAfter(wn,changed);// Edit ************************** Tuesday, 28 February 2017 15:54:50
   end;
   SVODClassAfterEditField = res;
   RETURN;
