@@ -53,6 +53,7 @@ begin
 	integer i,mtrw;
 	
 	recordNew(TRr);
+	TRr.TransDate = stringtodate("31/12/2016");
 		
 	while(loopmain(Accr,1,true))begin
 		if(nonblank(Accr.Curncy) and Accr.Curncy!="UAH")then begin
@@ -69,7 +70,7 @@ begin
 			Objbals = ReadFirstMain(ObjBalr,2,true);  
 			//GetAccDCStartBalance(accstr,objs,stringtodate("1/" & getmonth(currentdate) & "/" getyear(currentdate)),ObjBalr,0,"","USD",0,dSb,cSb);
 			//GetAccDCTurnover(accstr,objs,stringtodate("1/" & getmonth(currentdate) & "/" getyear(currentdate)),currentdate,ObjBalr,"USD",0,"",0,dSb,cSb,dPb,cPb);
-      GetAccBalance(accstr,objs,currentdate,ObjBalr,0,1,0,"UAH",0,Pbp);
+      GetAccBalance(accstr,objs,stringtodate("31/12/2016"),ObjBalr,0,1,0,"UAH",0,Pbp);
       if(Pbp!=0)then begin
       	clearrow(TRr,TRrw,1);
       	TRrw.AccNumber = accstr;
