@@ -7,8 +7,10 @@ row FormDefVc FDrw;
 record DocVc Docr;
 integer wn;
 record RcVc RepSpec;
-string 255 res;
+string 255 res,comentdata;
 Boolean foundf; //Edit***************************Sasha2,11:43 20.01.2015
+record SVOPrintDataVc SVOPr;
+
   
   foundf = false;
   wn = CurWindow;
@@ -26,16 +28,26 @@ Boolean foundf; //Edit***************************Sasha2,11:43 20.01.2015
     						foundf = true;
     case "SVOVc":
                 FDr.repname = "SVOForm";	//Edit----------------------Dima  09.02.2015
+                
     						foundf = true;
   end;
   
+  comentdata = "";
   if (foundf) then begin
     readfirstmain(FDr,1,true);
     MatRowGet(FDr,i,FDrw);
+    	SVOPr.Code = FDrw.EformCode;
+    	if(readfirstmain(SVOPr,1,true))then begin
+    		comentdata = SVOPr.Comment;
+    	end;
     if(nonblank(FDrw.FPCode)) begin
       Docr.Code = FDrw.FPCode;
       ReadFirstMain(Docr,1,true);
-      res = FDrw.FPCode & " " & Docr.Comment;
+      if(blank(comentdata))then begin
+				res = FDrw.FPCode & " " & Docr.Comment;
+      end else begin
+      	res = FDrw.FPCode & " " & comentdata;
+      end;
     end;
   end; //Edit***************************Sasha2,12:03 20.01.2015 }
   

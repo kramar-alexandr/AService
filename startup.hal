@@ -92,6 +92,7 @@ begin
   //Setting("Phones",PhoneLClass,modDBMain);
 	Setting("Телефоны",Phone1LClass,modSVO);
 	Setting("Prepayments VE",OPPLClass,modDBMain);// Edit ************************** Wednesday, 2 December 2015 17:15:29
+	Setting("Настройки друку замовлень",SVOPrintDataLClass,modSVO);// Edit ************************** Tuesday, 28 February 2017 12:56:04
 	//Setting("Опис товарів",GigieneTextLClass,modIN); //Edit***************************Sasha2,16:38 25.09.2014
 	//Document("Друк товару",GigieneTextRClass,GigieneTextForm,GigieneTextFClass,modIN);  //Edit***************************Sasha2,16:42 25.09.2014
   //Document("Етикетки партій (надходження)",GigieneTextRClass,PULabPartForm,LabelPartPUFClass,modIN); //Edit***************************Sasha2,16:42 25.09.2014

@@ -118,7 +118,7 @@ BEGIN
 END;
 
 procedure PrintSVORows(record RcVc RepSpec,record SVOVc SVOr,record SysFormatBlock SysFormatRec,
-                       record LangNrVc LangNrr)
+                       record LangNrVc LangNrr,string datacode)
 BEGIN
   Integer i,rwcnt;
   row SVOVc SVOrw;
@@ -193,7 +193,7 @@ BEGIN
 END;
 
 
-procedure printSVO(record SVOVc SVOr,record RcVc RepSpec)
+procedure printSVO(record SVOVc SVOr,record RcVc RepSpec,string datacode)
 begin
 record CUVc CUr;
 Integer i,rwcnt;
@@ -217,6 +217,12 @@ string 255 enginer;
 record DocVc Docr;
 string 200 argument;
 integer length;
+record SVOPrintDataVc SVOPr;
+
+if(nonblank(datacode))then begin
+	SVOPr.Code = datacode;
+	readfirstmain(SVOPr,1,true);
+end;
 	// Edit End ---------------------------------------------- Edit End
 
     PrintWorksRows(SVOr);
@@ -259,6 +265,40 @@ LActPrintNote1:;
 		OUTFORMFIELD("MY_Kontinfo2",SVOr.Kontinfo2);
 		OUTFORMFIELD("MY_Kontinfo3",SVOr.Kontinfo3);
 		OUTFORMFIELD("MY_RegTime",SVOr.RegTime);
+		
+		OUTFORMFIELD("MYF_Header1",SVOPr.Header1);
+		OUTFORMFIELD("MYF_Header2",SVOPr.Header2);
+		OUTFORMFIELD("MYF_Header3",SVOPr.Header3);
+		OUTFORMFIELD("MYF_Header4",SVOPr.Header4);
+		OUTFORMFIELD("MYF_Header5",SVOPr.Header5);
+		OUTFORMFIELD("MYF_Header6",SVOPr.Header6);
+		OUTFORMFIELD("MYF_Header7",SVOPr.Header7);
+		OUTFORMFIELD("MYF_Header8",SVOPr.Header8);
+		OUTFORMFIELD("MYF_Header9",SVOPr.Header9);
+		OUTFORMFIELD("MYF_Header10",SVOPr.Header10);
+		
+		OUTFORMFIELD("MYF_Body1",SVOPr.Body1);
+		OUTFORMFIELD("MYF_Body2",SVOPr.Body2);
+		OUTFORMFIELD("MYF_Body3",SVOPr.Body3);
+		OUTFORMFIELD("MYF_Body4",SVOPr.Body4);
+		OUTFORMFIELD("MYF_Body5",SVOPr.Body5);
+		OUTFORMFIELD("MYF_Body6",SVOPr.Body6);
+		OUTFORMFIELD("MYF_Body7",SVOPr.Body7);
+		OUTFORMFIELD("MYF_Body8",SVOPr.Body8);
+		OUTFORMFIELD("MYF_Body9",SVOPr.Body9);
+		OUTFORMFIELD("MYF_Body10",SVOPr.Body10);
+		
+		OUTFORMFIELD("MYF_Footer1",SVOPr.Footer1);
+		OUTFORMFIELD("MYF_Footer2",SVOPr.Footer2);
+		OUTFORMFIELD("MYF_Footer3",SVOPr.Footer3);
+		OUTFORMFIELD("MYF_Footer4",SVOPr.Footer4);
+		OUTFORMFIELD("MYF_Footer5",SVOPr.Footer5);
+		OUTFORMFIELD("MYF_Footer6",SVOPr.Footer6);
+		OUTFORMFIELD("MYF_Footer7",SVOPr.Footer7);
+		OUTFORMFIELD("MYF_Footer8",SVOPr.Footer8);
+		OUTFORMFIELD("MYF_Footer9",SVOPr.Footer9);
+		OUTFORMFIELD("MYF_Footer10",SVOPr.Footer10);
+		
 		
 		if (FIELDINFORM("MY_Batary")) then begin
 			tstr = SVOr.Batary;
@@ -567,8 +607,8 @@ LBREAK:;
           if (ReadFirstMain(CUr,1,true)) then begin
             SetFaxInfo(CUr.Person,CUr.Name,CUr.Fax,USetStr(1790));
           end;        
-          printSVO(SVOr,RepSpec); 
-          PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr);
+          printSVO(SVOr,RepSpec,""); 
+          PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr,"");
           CloseForm;        
       end else begin
         printf = false;
@@ -605,6 +645,7 @@ BEGIN
   string 30 formcode,langcode;
   record SVOSerVc SVOSerr;
 	record SVOVc SVOr;
+	STRING 50 MYFORMCODE,datacode;// Edit ************************** Tuesday, 28 February 2017 13:26:34
 	
 	SVOr.SerNr = RepSpec.long1;
 	readfirstmain(SVOr,1,true);
@@ -637,7 +678,8 @@ BEGIN
     if(intdocnr==RepSpec.flags[0]) then begin// Edit ************************** Tuesday, 10 February 2015 10:34:50
 			for (i=rwcnt-1;i>=0;i=i-1) begin
 				MatRowGet(FDr,i,FDrw);
-				if (FindFormcode(SVOr.InvFlag,FDrw.Typ)) then begin 
+				if (FindFormcode(SVOr.InvFlag,FDrw.Typ)) then begin
+					datacode = FDrw.EformCode;
 					if (Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,SVOr.SerNr,FDrw.PrintGroupCode,
 													langcode,intdocnr,"SVOVc",formcode)) then
 					begin
@@ -654,8 +696,8 @@ LBREAK:;
 						if (ReadFirstMain(CUr,1,true)) then begin
 							SetFaxInfo(CUr.Person,CUr.Name,CUr.Fax,USetStr(1790));
 						end;        
-					 	printSVO(SVOr,RepSpec); 
-						PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr);
+					 	printSVO(SVOr,RepSpec,datacode); 
+						PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr,datacode);
 						CloseForm;        
 				end else begin
 					printf = false;

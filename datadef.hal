@@ -4439,17 +4439,40 @@ EndRecord;
     RecordField(Code,M4Code,50,0);
     RecordField(Comment,M4Str,200,0);
     RecordField(DocName,M4Code,20,DocVc);
+    RecordField(Closed,M4Int,0,0);
     
-    RecordField(Header1,M4Str,200,0);
-    RecordField(Header2,M4Str,200,0);
-    RecordField(Header3,M4Str,200,0);
-    RecordField(Header4,M4Str,200,0);
-    RecordField(Header5,M4Str,200,0);
-    RecordField(Header6,M4Str,200,0);
-    RecordField(Header7,M4Str,200,0);
-    RecordField(Header8,M4Str,200,0);
-    RecordField(Header9,M4Str,200,0);
-    RecordField(Header10,M4Str,200,0);
+    RecordField(Header1,M4Str,255,0);
+    RecordField(Header2,M4Str,255,0);
+    RecordField(Header3,M4Str,255,0);
+    RecordField(Header4,M4Str,255,0);
+    RecordField(Header5,M4Str,255,0);
+    RecordField(Header6,M4Str,255,0);
+    RecordField(Header7,M4Str,255,0);
+    RecordField(Header8,M4Str,255,0);
+    RecordField(Header9,M4Str,255,0);
+    RecordField(Header10,M4Str,255,0);
+    
+    RecordField(Body1,M4Str,255,0);
+    RecordField(Body2,M4Str,255,0);
+    RecordField(Body3,M4Str,255,0);
+    RecordField(Body4,M4Str,255,0);
+    RecordField(Body5,M4Str,255,0);
+    RecordField(Body6,M4Str,255,0);
+    RecordField(Body7,M4Str,255,0);
+    RecordField(Body8,M4Str,255,0);
+    RecordField(Body9,M4Str,255,0);
+    RecordField(Body10,M4Str,255,0);
+    
+    RecordField(Footer1,M4Str,255,0);
+    RecordField(Footer2,M4Str,255,0);
+    RecordField(Footer3,M4Str,255,0);
+    RecordField(Footer4,M4Str,255,0);
+    RecordField(Footer5,M4Str,255,0);
+    RecordField(Footer6,M4Str,255,0);
+    RecordField(Footer7,M4Str,255,0);
+    RecordField(Footer8,M4Str,255,0);
+    RecordField(Footer9,M4Str,255,0);
+    RecordField(Footer10,M4Str,255,0);
     
     MainKeyBegin(Code,0);
     KeySegment(Code);
@@ -4457,6 +4480,8 @@ EndRecord;
     KeySegment(Comment);
     KeySegment(Code);
   EndRecord;
+  
+  
   
 return;
 end;

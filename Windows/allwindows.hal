@@ -10263,19 +10263,56 @@ window SVOPrintDataDClass:1
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs;
-  WindowBegin("Насройка друку замовлень на обсл.",SVOPrintDataDClass,CGView,-);
+  WindowBegin("Настройка друку замовлень на обсл.",SVOPrintDataDClass,CGView,-);
   SetWRect(20,80,450,300);
+  Sizeable(-1,-1,0,0);
+  UseView(SVOPrintDataVc);
   v= 6; vs = 20;
-  EditFieldTL(150,v, 150,"Code",M4Code,Normal,30,Code,false,0);
+  EditFieldTL(150,v,60,"Код",M4Code,Normal,50,Code,false,0);
   EditFieldTL(150,v+=vs,150,"Назва",M4Str,Normal,200,Comment,false,0);
- 
+  EditFieldTL(150,v+=vs,60,"Форма",M4Code,Normal,20,DocName,false,DocSClass);
+  CheckBox(150+100,v,0,"Закрито",Closed);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header1",M4Str,Normal,255,Header1,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header2",M4Str,Normal,255,Header2,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header3",M4Str,Normal,255,Header3,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header4",M4Str,Normal,255,Header4,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header5",M4Str,Normal,255,Header5,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header6",M4Str,Normal,255,Header6,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header7",M4Str,Normal,255,Header7,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header8",M4Str,Normal,255,Header8,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header9",M4Str,Normal,255,Header9,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Header10",M4Str,Normal,255,Header10,false,0);
+  
+  v=v+vs;
+  EditFieldTL(150,v+=vs,-10,"MYF_Body1",M4Str,Normal,255,Body1,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body2",M4Str,Normal,255,Body2,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body3",M4Str,Normal,255,Body3,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body4",M4Str,Normal,255,Body4,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body5",M4Str,Normal,255,Body5,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body6",M4Str,Normal,255,Body6,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body7",M4Str,Normal,255,Body7,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body8",M4Str,Normal,255,Body8,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body9",M4Str,Normal,255,Body9,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Body10",M4Str,Normal,255,Body10,false,0);
+  
+  v=v+vs;
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer1",M4Str,Normal,255,Footer1,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer2",M4Str,Normal,255,Footer2,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer3",M4Str,Normal,255,Footer3,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer4",M4Str,Normal,255,Footer4,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer5",M4Str,Normal,255,Footer5,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer6",M4Str,Normal,255,Footer6,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer7",M4Str,Normal,255,Footer7,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer8",M4Str,Normal,255,Footer8,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer9",M4Str,Normal,255,Footer9,false,0);
+  EditFieldTL(150,v+=vs,-10,"MYF_Footer10",M4Str,Normal,255,Footer10,false,0);
   EndWindow;
 end;
 
 window SVOPrintDataLClass:3
   wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") //!!PRODTRANSLATE
 begin
-  WindowBegin("Насройки друку замовлень на обсл.",SVOPrintDataLClass,CGmlist,-);
+  WindowBegin("Настройки друку замовлень на обсл.",SVOPrintDataLClass,CGmlist,-);
   SetWRect(20,80,600,298);
   SpawnClass(SVOPrintDataDClass);
   Sizeable(-1,-1,0,0);
@@ -10284,5 +10321,49 @@ begin
   RlColKeyTL(4,4,"Код",M4Code,Code,false,Code);
   RlColKey(134,134,"Назва",Comment,false,Comment);
   RlCol(219,219,"Форма",DocName,false);
+  EndWindow;
+end;
+
+
+window FormDefDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Визначення форми",FormDefDClass,CGview,-);
+  SetWRect(20,80,700,410);
+  UseView(FormDefVc);
+  v = 6; vs = 20; h = 70;
+  if (IsEnterprise) then begin
+  EditField(h,v ,80,"Форма",ViewOnly,repname,false,0);
+  EditField(h+=160,v,80,"Специфікація",ViewOnly,critname,false,0);
+  EditField(h+=160,v,80,"Визначення",ViewOnly,defname,false,0);
+  EditField(h+=160,v,80,"Модуль",ViewOnly,modname,false,0);
+  end;
+//  FORMDEF_UKR;
+  MatrixBegin(6,v+=40,-24,-20,FormDefRowType,99);
+  h = 24;
+  MatCol(1,h,"Ном. з/п",0,intdocnr,false,0); 
+  h = h + 30;
+  if (HasLanguages) then begin
+    MatCol(1,h,"Мова",0,LangCode,false,LangSClass); 
+    h = h + 40;
+  end;
+  if (IsEnterprise) then begin
+    MatCol(1,h,"Гр.доступ.",0,UserGroup,false,AccessSClass);
+    h = h + 60;
+  end;
+  if (HasNumberSeries) then begin
+    MatCol(1,h,"Сер. номерів",0,SerNr,false,0); 
+    h = h + 70;
+  end;
+  MatCol(1,h,"Форма",0,FPCode,false,DocSClass); 
+  h = h + 200;
+/* No code behind this */
+  MatCol(1,324,"E-Form",0,EformCode,false,0);
+  if (IsEnterprise) then begin
+    MatCol(1,h,"Принтер",0,PrintGroupCode,false,PrintGroupSClass); 
+  end;
+  MatCol(1,-60,"Статус",0,Typ,false,SetSClass);
+  EndMatrix;
   EndWindow;
 end;
