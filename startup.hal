@@ -541,6 +541,7 @@ begin
   StrSetText(ApproveSchedMaint,"Затвердити заплановане обслуговування"); 
   StrSetText(AllowSetPUOKFlag,"Дозволяти ставити ОК в надходженнях"); //Edit***************************Sasha2,17:05 08.01.2015
   StrSetText(AllowUnCloseMoveForServiceVc,"Дозволяти знімати \"Закрито\" в рухах товара для обслуговування"); //Edit***************************Sasha2,17:05 08.01.2015
+  StrSetText(AllowChangeRebate,"Дозволяти змінювати знижку"); //Edit***************************Sasha2,17:36 02.03.2017
   EndStrSet;
 
 	return;

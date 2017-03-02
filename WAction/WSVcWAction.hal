@@ -601,6 +601,42 @@ BEGIN
   RETURN;
 END;
 
+global //Edit***************************Sasha2,17:39 02.03.2017 {
+function Boolean Phone1DClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
+BEGIN
+  Boolean res;
+  record Phone1Vc Phone1r;
+  Integer normalmode,updatemode;
+ 
+  res = true;
+  normalmode = 0;//Rs_normal
+  if (WindowState(wn)==Rs_update) then begin
+    res = false;
+    GetPrevWindowRecord(wn,Phone1r);
+      res = true;
+      switch (fieldname) begin
+        case "PersonalRebCode": 
+          res = UserCanAction("AllowChangeRebate",false); //Edit***************************Sasha2,17:38 02.03.2017     
+      end;
+  end else begin
+    switch (fieldname) begin
+      case "PersonalRebCode": 
+        res = UserCanAction("AllowChangeRebate",false); //Edit***************************Sasha2,17:38 02.03.2017  
+    end;
+  end;
+  
+LPhone1DClassActiveEditField:;  
+
+  if(currentuser=="SA1")then begin
+  	res = true;
+  end;
+
+  
+  
+  Phone1DClassActiveEditField = res;
+  RETURN;
+END; //Edit***************************Sasha2,17:39 02.03.2017 }
+
 global
 function Boolean WSDClassActiveEditField(Integer wn,string fieldname,Integer fn,Integer wnst,Integer rownr,Integer changed)
 BEGIN
@@ -628,7 +664,7 @@ BEGIN
         case "Price": 
           res = UserCanAction("ChangeUnitPrices",true);
         case "vRebate": 
-          res = UserCanAction("ChangeUnitPrices",true);
+          res = UserCanAction("AllowChangeRebate",false); //Edit***************************Sasha2,17:38 02.03.2017
         case "Sum": 
           res = UserCanAction("ChangeUnitPrices",true);      
       end;
@@ -644,7 +680,7 @@ BEGIN
       case "Price": 
         res = UserCanAction("ChangeUnitPrices",true);
       case "vRebate": 
-        res = UserCanAction("ChangeUnitPrices",true);
+        res = UserCanAction("AllowChangeRebate",false); //Edit***************************Sasha2,17:38 02.03.2017
       case "Sum": 
         res = UserCanAction("ChangeUnitPrices",true);      
     end;
