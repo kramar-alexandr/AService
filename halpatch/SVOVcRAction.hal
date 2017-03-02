@@ -203,7 +203,7 @@ BEGIN
   if (SingleUserMode) then begin
     SVOr.SerNr = NextSerNr("SVOVc",SVOr.TransDate,GetUserSerNrSeries(-1),false,"");
   end;
-  
+  SVOr.CustomField7 = CurrentUser; //Edit***************************Sasha2,18:03 02.03.2017
     
   SVOVcRecordDefaults = res; 
   RETURN;
