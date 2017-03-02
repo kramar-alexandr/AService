@@ -10144,6 +10144,7 @@ begin
   RlColKey(4,4,  "Номер",PhoneNum,false,PhoneNum);
   RlColKey(150,150,"Власник",Vlastnik,false,Vlastnik);
   RlColKey(300,300,"Прийнято від",Priynato,false,Priynato);
+  RlCol(-70,-70,"Знижка",PersonalRebCode,false);
   
   SearchField("Пошук");
   EndWindow;

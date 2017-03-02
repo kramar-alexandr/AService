@@ -1,4 +1,6 @@
 external procedure M4PadString(string,Integer,string,Boolean,var string);
+external procedure  FindPhonePerson(var record Phone1Vc,string);
+
 SetLangMode(LangUkrainian,"UKR",0); 
 
 
@@ -13,6 +15,9 @@ begin
 	string 200 Name,Address,Phone;
 	integer rowLength;
 	record SVOVc SVOr,SVO2r;
+	string 10 rebate;
+	record Phone1Vc Phoner;
+	val sumreb;
 	
 	SetLeftAlignment = chr(27) & chr(97) & "0";
 	SetMiddleAlignment = chr(27) & chr(97) & "1";
@@ -34,6 +39,18 @@ begin
 	SVOr.RegDate = currentDate;// Edit ************************** Wednesday, 28 October 2015 14:28:31
 	SVOr.OutTime = CurrentTime; //Edit***************************Sasha2,17:10 25.10.2016
 	RecordUpdate(SVO2r,SVOr,true);// Edit ************************** Wednesday, 28 October 2015 14:30:39
+	
+	if(nonblank(SVOr.Kontinfo1))then begin
+		FindPhonePerson(Phoner,SVOr.Kontinfo1);
+		rebate = Phoner.PersonalRebCode;
+	end;
+	
+	if(blank(rebate))then begin
+		if(nonblank(SVOr.Phone2))then begin
+			FindPhonePerson(Phoner,SVOr.Phone2);
+			rebate = Phoner.PersonalRebCode;
+		end;
+	end;
 	
 	switch (WSr.SalesGroup) begin
 		case "3GR":
@@ -70,7 +87,14 @@ begin
 	addtexttoarea("Сервісне обслуговування" & chr(13) & chr(10) ,aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(SetRightAlignment,aFile);
-	addtexttoarea("1.0 x " & WSr.Sum4 & " = " & WSr.Sum4 & chr(13) & chr(10),aFile);
+	if(blank(rebate))then begin
+		addtexttoarea("1.0 x " & WSr.Sum4 & " = " & WSr.Sum4 & chr(13) & chr(10),aFile);
+	end else begin
+		sumreb = WSr.Sum4/(1-stringtoval(rebate,M4Val)/100)*100;
+		addtexttoarea("1.0 x " & sumreb & " = " & sumreb & chr(13) & chr(10),aFile);
+		addtexttoarea("Персональна знижка " & rebate & "%" & chr(13) & chr(10),aFile);
+		addtexttoarea("Сума зі знижкою " & WSr.Sum4 & chr(13) & chr(10),aFile);
+	end;
 	addtexttoarea("--------------------------------" & chr(13) & chr(10) ,aFile);	
 
 	addtexttoarea(SetLeftAlignment,aFile);
@@ -256,6 +280,9 @@ begin
 	string 100 s1,s2,s3, sTot,sVAT,sPay;
 	string 200 Name,Address,Phone;
 	integer rowLength;
+	string 10 rebate;
+	record Phone1Vc Phoner;
+	val sumreb;
 	
 	SetLeftAlignment = chr(27) & chr(97) & "0";
 	SetMiddleAlignment = chr(27) & chr(97) & "1";
@@ -270,6 +297,18 @@ begin
 	BigLetterOff = chr(27) & chr(33) & chr(0);
 	
 	rowLength = 32;
+	
+	if(nonblank(SVOr.Kontinfo1))then begin
+		FindPhonePerson(Phoner,SVOr.Kontinfo1);
+		rebate = Phoner.PersonalRebCode;
+	end;
+	
+	if(blank(rebate))then begin
+		if(nonblank(SVOr.Phone2))then begin
+			FindPhonePerson(Phoner,SVOr.Phone2);
+			rebate = Phoner.PersonalRebCode;
+		end;
+	end;
 	
 	switch (SVOr.SalesGroup) begin
 		case "3GR":
@@ -306,7 +345,18 @@ begin
 	addtexttoarea("Сервісне обслуговування" & chr(13) & chr(10) ,aFile);
 	addtexttoarea(chr(13) & chr(10),aFile);
 	addtexttoarea(SetRightAlignment,aFile);
-	addtexttoarea("1.0 x " & SVOr.WSCost & " = " & SVOr.WSCost & chr(13) & chr(10),aFile);
+	
+	
+	//addtexttoarea("1.0 x " & SVOr.WSCost & " = " & SVOr.WSCost & chr(13) & chr(10),aFile);
+	if(blank(rebate))then begin
+		addtexttoarea("1.0 x " & SVOr.WSCost & " = " & SVOr.WSCost & chr(13) & chr(10),aFile);
+	end else begin
+		sumreb = SVOr.WSCost/(1-stringtoval(rebate,M4Val)/100)*100;
+		addtexttoarea("1.0 x " & sumreb & " = " & sumreb & chr(13) & chr(10),aFile);
+		addtexttoarea("Персональна знижка " & rebate & "%" & chr(13) & chr(10),aFile);
+		addtexttoarea("Сума зі знижкою " & SVOr.WSCost & chr(13) & chr(10),aFile);
+	end;
+	
 	addtexttoarea("--------------------------------" & chr(13) & chr(10) ,aFile);	
 
 	addtexttoarea(SetLeftAlignment,aFile);
