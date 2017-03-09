@@ -146,6 +146,8 @@ begin
   Maintenance("Розбіжність складу з балансом",MyVClass,StockBalDiffMn,modIN); //Edit***************************Sasha2,11:21 17.02.2017
   
   Maintenance("NormaliezPhones",MyVClass,NormalizePhonesInSVOMn,modDBMain); //Edit***************************Sasha2,11:21 17.02.2017
+  Maintenance("Fix Phone1Vc",MyVClass,FixPhone1VcMn,modDBMain); //Edit***************************Sasha2,11:21 17.02.2017
+
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 2" & USetStr(31035),LabelItem2RClass,ItemLabForm2,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
@@ -157,7 +159,9 @@ begin
 	Document("Форма для етикеток цінників" ,LabelItem8RClass,ItemLabForm8,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Форма для цінників 8",LabelItem9RClass,ItemLabForm9,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
 	Document("Завершені замовлення партнерів",SVOPartnerFinishedRClass,SVOPartnerFinishedForm,MyLabelItemFClass,modSVO);
-		 
+	
+	SString(964,"");
+	 
   SString(31000,"грн.");
   SString(31001,"Підготовлено у системі HansaWorld");
 	SString(31002,"to invoice "); 
