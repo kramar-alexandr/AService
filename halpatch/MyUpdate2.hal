@@ -542,3 +542,79 @@ begin
     GetPhone1SerNrByPhone = res;
   return;
 end; //Edit***************************Sasha2,15:27 28.02.2017 }
+
+global //Edit***************************Sasha2,10:51 10.03.2017 {
+updating procedure RecalcRepairSumInPhone1Mn(record RcVc RepSpec)
+begin
+  record IVVc IVr;
+  record SVOVc SVOr;
+  record RLinkVc RLinkr;
+  record Phone1Vc Phoner;
+  Integer notenr,sign,i;
+  boolean testf,foundf;
+  LongInt svorNr;
+  string 100 phone,phone1Code;
+  vector Boolean phone1IsFound;
+  vector val phoneSumBalance;
+  array string 255 indexes;
+  string 255 curindex;
+  
+      IVr.SerNr = -1;
+      while (LoopMain(IVr,1,true)) begin
+        testf = true;
+        svorNr = -1;
+        if (IVr.OKFlag==0 or IVr.Invalid==1) then begin testf = false; end;
+        if (IVr.Sum4==0) then begin testf = false; end;
+        if (testf) then begin
+          if (IVr.SVONr!=-1) then begin
+            svorNr = IVr.SVONr;
+          end else begin
+            notenr = 1;
+            if (ReadRecordLink(IVr,notenr,SVOr,RLinkr)) then begin
+              svorNr = SVOr.SerNr;
+            end;
+          end;
+        end;
+        if (svorNr!=-1) then begin
+          SVOr.SerNr = svorNr;
+          if (ReadFirstMain(SVOr,1,true)) then begin
+            if (NonBlank(SVOr.Kontinfo1)) then begin
+              phone = SVOr.Kontinfo1;
+            end else begin
+              phone = SVOr.Phone2;
+            end;            
+            phone1Code = GetPhone1SerNrByPhone(phone);
+            if (NonBlank(phone1Code)) then begin
+              foundf = phone1IsFound[phone1Code];
+              if (foundf==false) then begin
+                Phoner.PhoneNum = phone1Code;
+                if (ReadFirstMain(Phoner,1,true)) then begin
+                  phone1IsFound[phone1Code] = true;
+                  foundf = true;
+                end;
+              end;
+              if (foundf) then begin
+                sign = 1;
+                if (IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales or IVr.Sum4<0) then begin
+                  sign = -1;
+                end;
+                phoneSumBalance[phone1Code] = phoneSumBalance[phone1Code] + IVr.Sum4 * sign;
+              end;
+            end;
+          end;
+        end;
+      end;
+      
+      GetVectorTags(phoneSumBalance,indexes);
+      for (i=0;i<indexes.length;i=i+1) begin
+        curindex = indexes[i];
+        Phoner.PhoneNum = curindex;
+        if (ReadFirstMain(Phoner,1,true) and phoneSumBalance[curindex]<>blankval) then begin
+          Phoner.RepairsSum = phoneSumBalance[curindex];
+          RECORDSTORE(Phoner,true);
+          LogText(0,Phoner.PhoneNum & " Sum:" & Phoner.RepairsSum);
+        end;
+      end;
+
+  return;
+end; //Edit***************************Sasha2,10:51 10.03.2017 }

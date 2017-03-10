@@ -101,6 +101,7 @@ external function string 255 CheckTrans(var record TRVc,Integer,Boolean); //Edit
 external updating procedure UpdateTrans_Stock(record TRVc); //Edit***************************Sasha2,14:14 31.08.2015
 external function Integer MakeTransFromIVAfterFIFO(var record TRVc,var record SMVc,record IVVc,Boolean,Boolean); //Edit***************************Sasha2,14:10 31.08.2015
 external updating procedure ChangeCostOfIVsInSVO(Longint);//Edit-------------------Vitalii 10:20 25.11.2016
+remote function string 50 GetPhone1SerNrByPhone(string); //Edit***************************Sasha2,13:52 10.03.2017
 
 procedure SetIVAcceptanceFlag(var record IVVc IVr,record IVVc prevIVr,LongInt stat)
 begin
@@ -315,6 +316,70 @@ begin
   RETURN;
 END;
 
+//Edit***************************Sasha2,13:49 10.03.2017 {
+updating procedure HandlePhone1RepairSum(var record IVVc IVr,boolean addSum,string inPhone,var string outPhone)
+begin
+  record SVOVc SVOr;
+  record RLinkVc RLinkr;
+  record Phone1Vc Phoner;
+  Integer notenr,sign;
+  LongInt svorNr;
+  boolean testf;
+  string 100 phone;
+    
+    testf = true;
+    outPhone = "";
+    //if (IVr.OKFlag==0 or IVr.Invalid==1) then begin testf = false; end;
+    if (IVr.Sum4==0) then begin testf = false; end;
+    if (testf) then begin
+      if (NonBlank(inPhone)) then begin
+        Phoner.PhoneNum = inPhone;
+      end else begin
+        if (IVr.SVONr!=-1) then begin
+          svorNr = IVr.SVONr;
+        end else begin
+          notenr = 1;
+          if (ReadRecordLink(IVr,notenr,SVOr,RLinkr)) then begin
+            svorNr = SVOr.SerNr;
+          end;
+        end;
+        if (svorNr!=-1) then begin
+          SVOr.SerNr = svorNr;
+          if (ReadFirstMain(SVOr,1,true)) then begin
+            if (NonBlank(SVOr.Kontinfo1)) then begin
+              phone = SVOr.Kontinfo1;
+            end else begin
+              phone = SVOr.Phone2;
+            end;            
+            Phoner.PhoneNum = GetPhone1SerNrByPhone(phone);
+          end;
+        end;  
+      end;
+    end;
+ 
+    if (NonBlank(Phoner.PhoneNum) and ReadFirstMain(Phoner,1,true)) then begin
+      sign = 1;
+      if (IVr.InvType==kInvoiceTypeCredit or IVr.InvType==kInvoiceTypeCreditSpecialSales or IVr.Sum4<0) then begin
+        sign = -1;
+      end;
+      if (addSum) then begin
+        Phoner.RepairsSum = Phoner.RepairsSum + IVr.Sum4 * sign;
+      end else begin
+        Phoner.RepairsSum = Phoner.RepairsSum - IVr.Sum4 * sign;
+      end;
+      RECORDSTORE(Phoner,true);
+      outPhone = Phoner.PhoneNum;
+    end else begin
+      if (addSum) then begin
+        LogText(0,"Problem to increase RepairSum for invoice #:" & IVr.SerNr);
+      end else begin
+        LogText(0,"Problem to decrease RepairSum for invoice #:" & IVr.SerNr & ". Income phone:" & inPhone);
+      end;
+    end;
+  
+  return;  
+end; //Edit***************************Sasha2,13:50 10.03.2017 }
+
 global
 updating function LongInt IVVcRecordSave(var record IVVc IVr,record IVVc IV2r,LongInt stat,LongInt long4)
 BEGIN
@@ -327,6 +392,7 @@ BEGIN
   record EInvCUVc EInvCUr;
   record EInvoiceBlock EIb;
   row LegalInvNrBlock LINrbrw;
+  string 100 outPhone; //Edit***************************Sasha2,14:43 10.03.2017
 
   SetIVAcceptanceFlag(IVr,IV2r,stat);
   IVr.DiscSum = blankval;
@@ -369,6 +435,8 @@ BEGIN
       if (EInvoiceWithPDFFileTest(IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin 
         CreateAndAttachPdfIV(IVr);
       end;
+      HandlePhone1RepairSum(IVr,true,"",outPhone); //Edit***************************Sasha2,14:00 10.03.2017
+      IVr.Phone = outPhone; //Edit***************************Sasha2,14:44 10.03.2017
     end;  
     RecalculetWeightVolumeIVVc(IVr,false);
   end;
@@ -845,6 +913,7 @@ BEGIN
   row IVVc IVrw;
   Boolean ihef,testf;
   record EInvCUVc EInvCUr;
+  string 100 outPhone; //Edit***************************Sasha2,14:43 10.03.2017
   
   SetIVAcceptanceFlag(IVr,IV2r,stat);
   SetFinRef(IVr);
@@ -896,6 +965,8 @@ BEGIN
       if (EInvoiceWithPDFFileTest(IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin 
         CreateAndAttachPdfIV(IVr);
       end;
+      HandlePhone1RepairSum(IVr,true,"",outPhone); //Edit***************************Sasha2,14:00 10.03.2017
+      IVr.Phone = outPhone; //Edit***************************Sasha2,14:44 10.03.2017
     end;
     RecalculetWeightVolumeIVVc(IVr,false);
   end;
@@ -928,6 +999,8 @@ LkInvoiceTypeCredit:;
           end;
       end;
       IVr.Prntdf = 0;
+      HandlePhone1RepairSum(IVr,false,IVr.Phone,outPhone); //Edit***************************Sasha2,14:00 10.03.2017
+      IVr.Phone = ""; //Edit***************************Sasha2,14:45 10.03.2017
   end;
 LIVVcRecordUpdate:;
   IVVcRecordUpdate = res; 

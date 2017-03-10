@@ -147,6 +147,7 @@ begin
   
   Maintenance("NormaliezPhones",MyVClass,NormalizePhonesInSVOMn,modDBMain); //Edit***************************Sasha2,11:21 17.02.2017
   Maintenance("Fix Phone1Vc",MyVClass,FixPhone1VcMn,modDBMain); //Edit***************************Sasha2,11:21 17.02.2017
+  Maintenance("Перерахувати суми в Phone1Vc",MyVClass,RecalcRepairSumInPhone1Mn,modDBMain); //Edit***************************Sasha2,13:35 10.03.2017
 
   
 	Document("Форма для цінників 1" & USetStr(31034),LabelItem1RClass,ItemLabForm1,MyLabelItemFClass,modLabPrint); //Edit***************************Sasha2,12:08 23.10.2014
