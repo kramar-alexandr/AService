@@ -1185,6 +1185,7 @@ begin
 	IVr.InvDate = sd;
 	while(loopkey("InvDate",IVr,1,TrHs)) begin
 		testf = true;
+		phoneNumber = ""; //Edit***************************Sasha2,16:23 10.03.2017
 		if(IVr.InvDate>ed)then begin TrHs = false; testf = false; end;
 		if(IVr.Invalid==1)then begin testf = false; end;
 		if(IVr.OKFlag==0)then begin testf = false; end;
