@@ -1213,11 +1213,12 @@ begin
 		    end;
 			end else begin
 			  svonr = 1;
-			  ReadRecordLink(IVr,svonr,SVOr,RLinkr);
-			  if (NonBlank(SVOr.Kontinfo1)) then begin
-		      phoneNumber = SVOr.Kontinfo1;
-		    end else begin
-		      phoneNumber = SVOr.Phone2;
+			  if(ReadRecordLink(IVr,svonr,SVOr,RLinkr))then begin// Edit ************************** Friday, 10 March 2017 16:33:08
+					if (NonBlank(SVOr.Kontinfo1)) then begin
+						phoneNumber = SVOr.Kontinfo1;
+					end else begin
+						phoneNumber = SVOr.Phone2;
+					end;
 		    end;
 			end; //Edit***************************Sasha2,14:11 22.02.2017 }
 			CUr.Code = IVr.CustCode;
