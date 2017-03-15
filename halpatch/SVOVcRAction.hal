@@ -282,6 +282,7 @@ BEGIN
   SVOr.CustomField4 = ""; 
   SVOr.CustomField5 = ""; 
   SVOr.CustomField8 = ""; // Edit ************************** Monday, 11 July 2016 17:04:41
+  SVOr.CustomField9 = "";
   
   SVOr.Batary = ""; 
   SVOr.Zaryadka = ""; 
@@ -295,6 +296,10 @@ BEGIN
   SVOr.OurContact = Userr.CurOurContact;
   SVOr.ServLocation = Userr.ServLocation;
   
+  SVOr.FastCash = blankval;
+ 	SVOr.FastTerm = blankval; 
+ 	SVOr.SerialNrTextSearch = "";
+ 	SVOr.OldPhone = "";
   
   SVOVcRecordDuplicate = res; 
   RETURN;
