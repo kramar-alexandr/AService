@@ -1064,7 +1064,7 @@ global procedure SalesReportRn(record RcVc RepSpec)
 begin
 	integer i0,i01,i02,i1,i2,i3,i4,i5,i6,i7,i8,i81,i9,i91,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38;
 	integer i,mtrw;
-	record IVVc IVr;
+	record IVVc IVr,credIVr;
 	row IVVc IVrw;
 	record IVCashVc IVcashr;
 	row IVCashVc IVcashrw;
@@ -1203,24 +1203,50 @@ begin
       end;
     end;
 		If(testf) then begin
-		  if (IVr.SVONr>-1) then begin //Edit***************************Sasha2,14:11 22.02.2017 {
-			  SVOr.SerNr = IVr.SVONr;
-			  ReadFirstMain(SVOr,1,true);
-		    if (NonBlank(SVOr.Kontinfo1)) then begin
-		      phoneNumber = SVOr.Kontinfo1;
-		    end else begin
-		      phoneNumber = SVOr.Phone2;
-		    end;
-			end else begin
-			  svonr = 1;
-			  if(ReadRecordLink(IVr,svonr,SVOr,RLinkr))then begin// Edit ************************** Friday, 10 March 2017 16:33:08
+			if(IVr.InvType!=3)then begin
+				if (IVr.SVONr>-1) then begin //Edit***************************Sasha2,14:11 22.02.2017 {
+					SVOr.SerNr = IVr.SVONr;
+					ReadFirstMain(SVOr,1,true);
 					if (NonBlank(SVOr.Kontinfo1)) then begin
 						phoneNumber = SVOr.Kontinfo1;
 					end else begin
 						phoneNumber = SVOr.Phone2;
 					end;
-		    end;
-			end; //Edit***************************Sasha2,14:11 22.02.2017 }
+				end else begin
+					svonr = 1;
+					if(ReadRecordLink(IVr,svonr,SVOr,RLinkr))then begin// Edit ************************** Friday, 10 March 2017 16:33:08
+						if (NonBlank(SVOr.Kontinfo1)) then begin
+							phoneNumber = SVOr.Kontinfo1;
+						end else begin
+							phoneNumber = SVOr.Phone2;
+						end;
+					end;
+				end; //Edit***************************Sasha2,14:11 22.02.2017 }
+			end else begin
+				if (IVr.CredInv>0) then begin
+					credIVr.SerNr = IVr.CredInv;
+					if (ReadFirstMain(credIVr,1,true)) then begin
+						if (IVr.SVONr>-1) then begin //Edit***************************Sasha2,14:11 22.02.2017 {
+							SVOr.SerNr = credIVr.SVONr;
+							ReadFirstMain(SVOr,1,true);
+							if (NonBlank(SVOr.Kontinfo1)) then begin
+								phoneNumber = SVOr.Kontinfo1;
+							end else begin
+								phoneNumber = SVOr.Phone2;
+							end;
+						end else begin
+							svonr = 1;
+							if(ReadRecordLink(credIVr,svonr,SVOr,RLinkr))then begin// Edit ************************** Friday, 10 March 2017 16:33:08
+								if (NonBlank(SVOr.Kontinfo1)) then begin
+									phoneNumber = SVOr.Kontinfo1;
+								end else begin
+									phoneNumber = SVOr.Phone2;
+								end;
+							end;
+						end;
+					end;
+				end;
+			end;
 			CUr.Code = IVr.CustCode;
 			readfirstmain(CUr,1,true);
 			invfr = IVr.FrRate;
