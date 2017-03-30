@@ -31,6 +31,7 @@ external updating procedure UpdateLocalUserChargeFields();
 external updating procedure UpdateLocalCompaniesChargeFields();
 external updating procedure InitMarketPlaceLicenseCopytoClient();
 external updating function Boolean UserLicensesExpired();
+external procedure GetUserAccessGroup(string,var string);// Edit ************************** Thursday, 30 March 2017 10:16:28
 
 global
 function Integer GetPOSOffLineCompNo()
@@ -186,7 +187,7 @@ BEGIN
   string 255 clockinaction,warning;
   Boolean accpetancef;
   record RcVc acptRepSpec;
-  string 255 mailboxnr,mailboxname;
+  string 255 mailboxnr,mailboxname,accessgroup;// Edit ************************** Thursday, 30 March 2017 10:23:07
   record ActVc Actr;
   record CYBlock CYb;
   record SelCountryBlock SCb;
@@ -423,15 +424,18 @@ BEGIN
         nwn = OpenMasterWClass2(mailboxnr,mailboxname);
         //nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);    // Edit ************************** Thursday, 13 October 2016 10:49:36
       end;
-      acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 16:26:39
-      acptRepSpec.sStartDate = stringtodate("01/01/2012");
-      acptRepSpec.sEndDate = Currentdate;
-      acptRepSpec.d1 = stringtodate("01/01/2012");
-			acptRepSpec.d2 = Currentdate;
-			acptRepSpec.Period2Str = acptRepSpec.sStartDate;
-			acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
-			acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
-      nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
+      GetUserAccessGroup(currentuser,accessgroup);
+      if(accessgroup!="FIN+" and accessgroup!="ADMIN" and accessgroup!="ISTUD")then begin
+				acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 16:26:39
+				acptRepSpec.sStartDate = stringtodate("01/01/2012");
+				acptRepSpec.sEndDate = Currentdate;
+				acptRepSpec.d1 = stringtodate("01/01/2012");
+				acptRepSpec.d2 = Currentdate;
+				acptRepSpec.Period2Str = acptRepSpec.sStartDate;
+				acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
+				acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
+				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
+      end;
   end;
   end else begin
     accpetancef = true;
@@ -441,15 +445,18 @@ BEGIN
       nwn = OpenMasterWClass2(mailboxnr,mailboxname);
       //nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:13  
     end;
-    acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 13:10:06
-    acptRepSpec.sStartDate = stringtodate("01/01/2012");
-		acptRepSpec.sEndDate = Currentdate;
-		acptRepSpec.d1 = stringtodate("01/01/2012");
-		acptRepSpec.d2 = Currentdate;
-		acptRepSpec.Period2Str = acptRepSpec.sStartDate;
-		acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
-		acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
-    nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:19
+    GetUserAccessGroup(currentuser,accessgroup);
+      if(accessgroup!="FIN+" and accessgroup!="ADMIN" and accessgroup!="ISTUD")then begin
+			acptRepSpec.f1 = CurrentUser;// Edit ************************** Thursday, 13 October 2016 13:10:06
+			acptRepSpec.sStartDate = stringtodate("01/01/2012");
+			acptRepSpec.sEndDate = Currentdate;
+			acptRepSpec.d1 = stringtodate("01/01/2012");
+			acptRepSpec.d2 = Currentdate;
+			acptRepSpec.Period2Str = acptRepSpec.sStartDate;
+			acptRepSpec.Period2Str = acptRepSpec.Period2Str & ":";
+			acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
+			nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:19
+    end;
   end;
   if (CurrentUser=="$MASTER") then begin
     RecordNew(Userr);
@@ -770,13 +777,13 @@ end;
 global procedure UpdateMasterWClassOnKPIs(string str)
 begin
 	Integer wn;
+	string 20 accessgroup;
 	//if(currentuser=="SA")then begin
-		if(currentuser!="LENAS" and currentuser!="CHAYKOVSKA" and currentuser!="KUDINA")then begin
+		GetUserAccessGroup(currentuser,accessgroup);
+		if(accessgroup!="FIN+" and accessgroup!="ADMIN" and accessgroup!="ISTUD")then begin
 			wn = curwindow;
 			if(wn>0)then begin
-				if (WindowValid(wn)) then begin
-					//messagebox(0,wn);
-			
+				if (WindowValid(wn)) then begin			
 					if(WindowState(wn)==0)then begin
 						wn = FindWindow("ToDoWClass");
 						if(wn>0)then begin
