@@ -1,5 +1,6 @@
 external function string 255 GetTextForPrint(integer,string);
 remote function Boolean Getformcode(Integer,Integer,string,string,string,LongInt,LongInt,string,string,Integer,string,var string);
+external procedure GetUserAccessGroup(string,var string);
 
 
 //##ii
@@ -19,7 +20,10 @@ integer mwn,wn; //Edit***************************Sasha2,12:04 20.01.2015
 record FormDefVc FDr;
 row FormDefVc FDrw;
 string 200 formcode;
-string 20 winclass,recname,printfunc; //Edit***************************Sasha2,11:20 20.01.2015
+string 20 winclass,recname,printfunc,usergroup; //Edit***************************Sasha2,11:20 20.01.2015
+
+
+GetUserAccessGroup(CurrentUser,usergroup);
 
   WindowBegin("„рук",MyPrintTClass,CGother,RcType);
 	UseView(RcVc);
@@ -65,8 +69,15 @@ string 20 winclass,recname,printfunc; //Edit***************************Sasha2,11
 		matrowget(FDr,i,FDrw);
 		formcode = ""; 
 		if(Getformcode(i,FDrw.intdocnr,FDrw.FPCode,FDrw.UserGroup,FDrw.LangCode,FDrw.SerNr,-1,FDrw.PrintGroupCode,"",i+1,recname,formcode))then begin
-			RadioButton(h,v,FDrw.intdocnr,0,GetTextForPrint(i,recname),flags[0]); //Edit***************************Sasha2,11:21 20.01.2015
-			v=v+16;
+			if(usergroup=="ISTUD")then begin
+				if(FDrw.UserGroup=="ISTUD")then begin
+					RadioButton(h,v,FDrw.intdocnr,0,GetTextForPrint(i,recname),flags[0]); //Edit***************************Sasha2,11:21 20.01.2015
+					v=v+16;
+				end;
+			end else begin
+				RadioButton(h,v,FDrw.intdocnr,0,GetTextForPrint(i,recname),flags[0]); //Edit***************************Sasha2,11:21 20.01.2015
+				v=v+16;
+			end;
 		end;
 	end;
 	v=v+16;

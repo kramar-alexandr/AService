@@ -7075,7 +7075,7 @@ begin
 	HalPushButton(370,5,430,25,"PrintDoSVOFormButton","Друк");	//Edit----------------------Dima  09.02.2015
   EndToolBar;
   ActiveFieldOnNew("CustCode");  
-  FormName(SVOForm);
+  //FormName(SVOForm);
   vs = 20; h3 = 550;
   Tile(0,125,false,"",CustCode);
   EditField(h=90,v=6, 82,"Номер",Normal,SerNr,false,TSerSClass);

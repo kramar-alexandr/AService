@@ -861,10 +861,13 @@ begin
 						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
-					if(INr.Code=="IPAD")then begin
-	  			 Actr.MainPersons = "POGEDAEV,KAYZER";
-					 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					switch(INr.Code)begin
+						case "IPAD":	Actr.MainPersons = "POGEDAEV,KAYZER";
+												 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						case "IPHONE3":	Actr.MainPersons = "MOISEEV";
+												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
+					
 				end;	
 			end;			
 		end else begin
@@ -883,9 +886,11 @@ begin
 						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
 					end;
-					if(INr.Code=="IPAD")then begin
-	  			 Actr.MainPersons = "POGEDAEV,KAYZER";
-					 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					switch(INr.Code)begin
+						case "IPAD":	Actr.MainPersons = "POGEDAEV,KAYZER";
+					 								Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						case "IPHONE3":	Actr.MainPersons = "MOISEEV";
+												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
 				end;	
 			end;
