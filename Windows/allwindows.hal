@@ -2349,31 +2349,31 @@ email not working yet
   SpecialMenu("Додати разом",' ',14,"SubtotalORDsm");
   SpecialMenu("Перерахувати знижку",' ',11,"RecalcDiscountORDsm"); 
   if (StandardHansa==false) then begin
-  SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
+    SpecialMenu("Перерахувати вагу та об'єм",' ',10,"RecalculateWeightORDsm");
   end;
   SpecialMenu("Поновити товари валют. прейск.",' ',7,"UpdatePricesORDsm");
   SpecialMenu("Статус товару",'I',2,"ItemStatusORDsm");
   SpecialMenu("Пошук товару",'f',1,"ItemSearchDsm");
   SpecialMenu("Статус замовлення",'r',5,"ORInfoRnORDsm");
   if (StandardHansa==false) then begin
-  SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
-  SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
+    SpecialMenu("Ціна попереднього продажу",' ',12,"ORLastSPrsm");
+    SpecialMenu("Роздрукувати внутрішнє замовлення",' ',4,"Or2FormORDsm");
   end;
   SpecialMenu("Резервування",' ',15,"OrderReservORDsm");
   if (StandardHansa==false) then begin
-  SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
-  SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
+    SpecialMenu("Відправити для затвердження",' ',6,"ORSendforAcceptanceORDsm");
+    SpecialMenu("Скасувати запит на затвердження",' ',2,"CancelApprovalRequestDsm"); 
   end;
   SpecialMenu("Створити діяльність",'c',9,"CreateActFromORDsm");
   SpecialMenu("Відвантаження",'L',0,"SHFromORDsm");
   SpecialMenu("Акт/накладна на аванс",'o',3,"DownPayFromORDsm");
   if (HaseMail) then begin
-  SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
+    SpecialMenu("Створити E-Mail",'m',11,"CreateMailFromORDsm");
   end;
   SpecialMenu("Акт/накладна",'F',1,"IVFromORDsm");
   if (HasModTS) then begin
-  SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
-  SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
+    SpecialMenu("Створити проект",' ',9,"CreatePRFromORDsm");
+    SpecialMenu("Створити бюджет проекту",' ',10,"CreateTBBUFromORDsm");
   end;
   if (HasModPO) then begin
     SpecialMenu("Створити замовлення",' ',4,"POFromORDsm");
@@ -2384,7 +2384,7 @@ email not working yet
   SpecialMenu("Повернення товарів",'B',6,"RetFromORsm");
   SpecialMenu("Переміщення по складу",' ',8,"StockMovFromORDsm");
   if (HasTaxMatrix) then begin
-  SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
+    SpecialMenu("Відкрити матрицю податків",' ',25,"OpenVatMatrixORDsm"); 
   end;
   SpecialMenu("Перемістити на Shops",' ',25,"SendToShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
   SpecialMenu("Забрати з Shops",' ',25,"TakeFromShopsFromORVcDm"); //Edit***************************Sasha2,15:32 29.08.2014
