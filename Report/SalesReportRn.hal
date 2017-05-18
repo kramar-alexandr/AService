@@ -450,6 +450,7 @@ begin
 	while(ReadRecordLink(IVr,cnt1,WSr,RLr)) begin
 		cnt1 = cnt1+1;
 		IVWSSeNr = WSr.SerNr;
+		IVr.SVONr = WSr.SVONr;
 	end;
 	
 	ressize = 0;

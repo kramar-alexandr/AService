@@ -134,7 +134,11 @@ begin
           if(SVOr.SerNr>=8000000)then begin
             body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2229293.[/SMS]";
           end else begin
-            body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+            if(SVOr.SerNr>=7000000)then begin
+							body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.098-1010132.[/SMS]";
+						end else begin
+							body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+						end;
           end;
         end;
         //body = convertstringfromcodepage("WINDOWS-1251",body);
@@ -222,7 +226,11 @@ begin
 						if(SVOr.SerNr>=8000000)then begin
 							body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2229293.[/SMS]";
 						end else begin
-							body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+							if(SVOr.SerNr>=7000000)then begin
+								body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.098-1010132.[/SMS]";
+							end else begin
+								body = "[SENDER]AServis[/SENDER][SMS]Ваш ремонт №" & SVOr.SerNr & " принят, тел.044-2227709.[/SMS]";
+							end;
 						end;
 					end;
 					//body = convertstringfromcodepage("WINDOWS-1251",body);

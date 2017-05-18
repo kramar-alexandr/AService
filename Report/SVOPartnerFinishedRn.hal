@@ -341,7 +341,7 @@ string 50 location;
 		
 		if(nonblank(USr.Phone2)and nonblank(NormalPhone(SVOr.Kontinfo1)) and nonblank(location))then begin			
 			//messagebox(0,host & ":" & port & page);
-			MySendWebRequest(host,port,-1,false,"GET",page,"text/plain","",false,mainRequest,replyarea,10);
+			//MySendWebRequest(host,port,-1,false,"GET",page,"text/plain","",false,mainRequest,replyarea,10);
 			//logtext(0,getstringfromarea(replyarea.));
 		end;
 	end;
@@ -402,7 +402,7 @@ string 50 location;
 		
 		if(nonblank(USr.Phone2)and nonblank(NormalPhone(SVOr.Phone2)) and nonblank(location))then begin			
 			//messagebox(0,host & ":" & port & page);
-			MySendWebRequest(host,port,-1,false,"GET",page,"text/plain","",false,mainRequest,replyarea,10);
+			//MySendWebRequest(host,port,-1,false,"GET",page,"text/plain","",false,mainRequest,replyarea,10);
 			//logtext(0,getstringfromarea(replyarea.));
 		end;
 	end;
