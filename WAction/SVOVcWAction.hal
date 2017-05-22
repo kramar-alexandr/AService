@@ -32,7 +32,7 @@ remote updating function Integer RecordAction_raPasteSVOInOrder(var record ORVc,
 remote procedure HandleSVOReceiptPrinting(record SVOVc,var area);
 external procedure PrintBixolonReceipt(area);
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);// Edit ************************** Monday, 27 February 2017 15:43:57
-remote procedure FindPhonePerson(var record PhoneVc,string);// Edit ************************** Tuesday, 28 February 2017 16:03:58
+remote procedure FindPhonePerson(var record Phone1Vc,string);// Edit ************************** Tuesday, 28 February 2017 16:03:58
 
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
