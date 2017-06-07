@@ -626,3 +626,13 @@ begin
 
   return;
 end; //Edit***************************Sasha2,10:51 10.03.2017 }
+
+
+global procedure GitHALFilesMn(record RcVc RepSpec)
+begin
+	
+	logtext(0,"GIT Pull HAL");
+	runprogram("./githal.sh","");
+	
+return;
+end;
