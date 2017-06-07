@@ -9,6 +9,25 @@ external function val CalcSumForSales(val,val,val,val,val,integer, val,boolean);
 external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode); //Edit***************************Sasha2,17:48 23.04.2015
 external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,11:32 27.04.2015
 
+
+global function string 50 FindSVOPhone(longint svonum)
+begin
+	string 50 res;
+	record SVOVc SVOr;
+	
+	SVOr.SerNr = svonum;
+	if(readfirstmain(SVOr,1,true))then begin
+		if(nonblank(SVOr.Kontinfo1))then begin
+			res = SVOr.Kontinfo1;
+		end else begin
+			res = SVOr.Phone2;
+		end;
+	end;
+	
+	FindSVOPhone = res;
+return;
+end;
+
 global //Edit***************************Sasha2,14:29 10.09.2014 {
 procedure GetItemName(string Item, var string Name,var string Groupe)
 begin
@@ -433,6 +452,7 @@ begin
 		OutString(pos[20],0,"ServiceMan",false);
 		OutString(pos[21],0,"Service Order",false);
 		OutString(pos[23],0,"Sale Order",false);
+		OutString(pos[23],0,"Phone",false);
 		
     
   EndFormat;
@@ -722,6 +742,7 @@ begin
 										OutString(pos[20],0,enginer,false);
 										OutString(pos[21],0,svonr,false);
 										OutString(pos[23],0,IVr.OrderNr,false);
+										OutString(pos[23],0,FindSVOPhone(svonr),false);
 										
                   endformat;
                 end; //Edit***************************Sasha2,15:52 23.04.2015
@@ -800,6 +821,7 @@ begin
 										OutString(pos[20],0,enginer,false);
 										OutString(pos[21],0,svonr,false);
 										OutString(pos[23],0,newIVr.OrderNr,false);
+										OutString(pos[23],0,FindSVOPhone(svonr),false);
 										
 						      endformat;
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
@@ -1114,6 +1136,7 @@ l1:;
 													OutString(pos[20],0,enginer,false);
 													OutString(pos[21],0,svonr,false);
 													OutString(pos[23],0,newIVr.OrderNr,false);
+													OutString(pos[23],0,FindSVOPhone(svonr),false);
 													
                         endformat;
                       end; //Edit***************************Sasha2,15:52 23.04.2015
@@ -1230,6 +1253,7 @@ begin
     OutString(pos[13],0,"GP %",false);
     OutString(pos[21],0,"Service Order",false);
     OutString(pos[23],0,"Work sheet",false);
+    OutString(pos[23],0,"Phone",false);
   EndFormat;
   
   while (LoopKey("TransDate",IPrsr,1,TrHs)) begin
@@ -1433,6 +1457,7 @@ begin
                     OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
+										OutString(pos[23],0,FindSVOPhone(svonr),false);
                   endformat;
                   	totSum = totSum + sumorig;
                   	totCost = totCost + sumcostorig;
@@ -1479,6 +1504,7 @@ begin
                     OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
+										OutString(pos[23],0,FindSVOPhone(svonr),false);
 						      endformat;
 									totSum = totSum + sumorig;
 									totCost = totCost + sumcostorig;
@@ -1779,6 +1805,7 @@ l1:;
 														OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
 														OutString(pos[21],0,svonr,false);
 														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
+														OutString(pos[23],0,FindSVOPhone(svonr),false);
 													endformat;
 														totSum = totSum + sumorig;
 														totCost = totCost + sumcostorig;
