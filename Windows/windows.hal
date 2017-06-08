@@ -1677,7 +1677,7 @@ Integer i;
 end; //Edit***************************Sasha2,17:18 06.01.2016 }
 
 window SamsungFtpSettingsTClass:1
-  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vs;
   WindowBegin("Налаштування вивантаження для Samsung EDI",SamsungFtpSettingsTClass,CGSbl,-);
@@ -1929,7 +1929,7 @@ WindowBegin("Швидка оплата",ConfirmFastPaySVOWClass,CGother,RcType);
 end;
 
 window UpdateTextFieldsForQuickSearchVClass:1
-  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
 begin
   real h,v,vm,vs;
   WindowBegin("Оновити текстові поля для швидкого пошуку",UpdateTextFieldsForQuickSearchVClass,CGMnt,RcType);
