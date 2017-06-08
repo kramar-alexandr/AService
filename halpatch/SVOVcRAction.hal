@@ -1353,7 +1353,7 @@ string 50 location,ser;
 			ser = left(SVOr.SerNr,1);
 			switch(ser)begin
 				case "1":	RepSpec.f1 = "03";
-									RepSpec.f2 = "32";
+									RepSpec.f2 = "31";
 				case "9":	RepSpec.f1 = "08";
 									RepSpec.f2 = "T4";
 				case "3":
