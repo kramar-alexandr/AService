@@ -3,7 +3,7 @@ begin
 	Real h,h1,h2,h3,h4,h5,h6,h7,hs,hm,v,v3,l,vs,vm,f,t,x,v2;
 	string 60 label;
 	//record RcVc RepSpec1;
-	SetLangMode(LangRussian,"RUS",0);
+	SetLangMode(LangUkrainian,"UKR",0);
 
   //------------------------------------------------------------------------------------------
   WindowBegin("Ћтчет по стоку",MyRepSenderTClass,CGother,RcType);
