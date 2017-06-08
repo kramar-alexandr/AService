@@ -28,6 +28,24 @@ begin
 return;
 end;
 
+global function string 50 FindSVOItem(longint svonum)
+begin
+	string 50 res;
+	record SVOVc SVOr;
+	row SVOVc SVOrw;
+	
+	SVOr.SerNr = svonum;
+	if(readfirstmain(SVOr,1,true))then begin
+		if(matrowcnt(SVOr)>0)then begin
+			matrowget(SVOr,0,SVOrw);
+			res = SVOrw.Spec;
+		end;
+	end;
+	
+	FindSVOItem = res;
+return;
+end;
+
 global //Edit***************************Sasha2,14:29 10.09.2014 {
 procedure GetItemName(string Item, var string Name,var string Groupe)
 begin
@@ -367,6 +385,7 @@ begin
   record RLinkVc RLr;
   Integer notenr,notenr1,notenr2,z,mtws;
   record SVOVc SVOr;
+  row SVOVc SVOrw;
   record WOVc WOr;
   record WSVc WSr;
   row WSVc WSrw;
@@ -453,6 +472,7 @@ begin
 		OutString(pos[21],0,"Service Order",false);
 		OutString(pos[23],0,"Sale Order",false);
 		OutString(pos[23],0,"Phone",false);
+		OutString(pos[23],0,"Item",false);
 		
     
   EndFormat;
@@ -743,6 +763,7 @@ begin
 										OutString(pos[21],0,svonr,false);
 										OutString(pos[23],0,IVr.OrderNr,false);
 										OutString(pos[23],0,FindSVOPhone(svonr),false);
+										OutString(pos[23],0,FindSVOItem(svonr),false);
 										
                   endformat;
                 end; //Edit***************************Sasha2,15:52 23.04.2015
@@ -822,6 +843,7 @@ begin
 										OutString(pos[21],0,svonr,false);
 										OutString(pos[23],0,newIVr.OrderNr,false);
 										OutString(pos[23],0,FindSVOPhone(svonr),false);
+										OutString(pos[23],0,FindSVOItem(svonr),false);
 										
 						      endformat;
 					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
@@ -1137,6 +1159,7 @@ l1:;
 													OutString(pos[21],0,svonr,false);
 													OutString(pos[23],0,newIVr.OrderNr,false);
 													OutString(pos[23],0,FindSVOPhone(svonr),false);
+													OutString(pos[23],0,FindSVOItem(svonr),false);
 													
                         endformat;
                       end; //Edit***************************Sasha2,15:52 23.04.2015
@@ -1194,6 +1217,7 @@ begin
   record RLinkVc RLr;
   Integer notenr,notenr1,notenr2,z,mtws;
   record SVOVc SVOr;
+  row SVOVc SVOrw;
   record WOVc WOr;
   record WSVc WSr;
   row WSVc WSrw;
@@ -1254,6 +1278,7 @@ begin
     OutString(pos[21],0,"Service Order",false);
     OutString(pos[23],0,"Work sheet",false);
     OutString(pos[23],0,"Phone",false);
+    OutString(pos[23],0,"Item",false);
   EndFormat;
   
   while (LoopKey("TransDate",IPrsr,1,TrHs)) begin
@@ -1458,6 +1483,7 @@ begin
                     OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 										OutString(pos[23],0,FindSVOPhone(svonr),false);
+										OutString(pos[23],0,FindSVOItem(svonr),false);
                   endformat;
                   	totSum = totSum + sumorig;
                   	totCost = totCost + sumcostorig;
@@ -1505,6 +1531,7 @@ begin
                     OutString(pos[21],0,svonr,false);
 										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 										OutString(pos[23],0,FindSVOPhone(svonr),false);
+										OutString(pos[23],0,FindSVOItem(svonr),false);
 						      endformat;
 									totSum = totSum + sumorig;
 									totCost = totCost + sumcostorig;
@@ -1806,6 +1833,7 @@ l1:;
 														OutString(pos[21],0,svonr,false);
 														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 														OutString(pos[23],0,FindSVOPhone(svonr),false);
+														OutString(pos[23],0,FindSVOItem(svonr),false);
 													endformat;
 														totSum = totSum + sumorig;
 														totCost = totCost + sumcostorig;
