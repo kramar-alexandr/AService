@@ -18,7 +18,7 @@ begin
 	Register("ARVc","ARVc",ARVc,modDBMain);
   Register("ARPayVc","ARPayVc",ARPayVc,modDBMain);
   Register("APVc","APVc",APVc,modDBMain);
-  Register("OPVc","OPVc",OPVc,modDBMain);
+  Register("OPPVc","OPPVc",OPPVc,modDBMain);
 	
 	Report("Ћтчет по истории товаров технический ",FindErrorInIHRClass,FindErrorInIHRn,0,modDBMain);
 	Report("Ћтчет по телефонам клиентов",ServClientOrderRClass,ServClientOrderRn,0,modSVO);// Edit ************************** Monday, 4 July 2016 17:52:38
