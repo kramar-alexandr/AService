@@ -795,7 +795,7 @@ L11:;
             end;
             if (APAccRec.ForceUniquePP!=0) then begin
               if (OPrw.RecVal>0) then begin
-                if (PrepaymentNumberUsed(OPp.SerNr,OPrw.PrepayNr)) then begin
+                if (PrepaymentNumberUsed(OPp.SerNr,OPrw.PrepayNr) or currentuser!="SA") then begin
                   if (disperrf) then begin
                     RecordCheckError(20057,"",i,"PrepayNr");      
                   end;
@@ -807,7 +807,7 @@ L11:;
             APHistr.VEPNr = OPrw.PrepayNr;
             APHistr.FileName = "OPVc";
             if (ReadFirstMain(APHistr,2,true)==true) then begin
-              if (APAccRec.ForceUniquePP!=0) then begin
+              if (APAccRec.ForceUniquePP!=0 or currentuser!="SA") then begin
                 temp = blankval;
                 OPPr.SerNr = APHistr.VEPNr;
                 if (ReadFirstMain(OPPr,1,true)==true) then begin
