@@ -10375,3 +10375,46 @@ begin
   EndMatrix;
   EndWindow;
 end;
+
+window OPPDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs;
+  WindowBegin("Открытую предоплату",OPPDClass,CGview,-);
+  SetWRect(20,80,700,410);
+  UseView(OPPVc);
+  v = 6; vs = 20; h = 70;
+  EditField(h,v ,80,"SerNr",Normal,SerNr,false,0);
+  EditField(160,v+=vs,80,"OrderNr",Normal,OrderNr,false,0);
+  EditField(160,v+=vs,80,"PayDate",Normal,PayDate,false,0);
+  EditField(160,v+=vs,80,"VECode",Normal,VECode,false,0);
+  EditField(160,v+=vs,80,"VEName",Normal,VEName,false,0);
+  EditField(160,v+=vs,80,"PPVal",Normal,PPVal,false,0);
+  EditField(160,v+=vs,80,"BookRVal",Normal,BookRVal,false,0);
+  EditField(160,v+=vs,80,"CurncyCode",Normal,CurncyCode,false,0);
+
+  
+  EndWindow;
+end;
+
+window OPPSClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Выберите открытую предоплату",OPPSClass,CGslist,-);
+  SetWRect(20,80,650,355);
+  Sizeable(-1,-1,0,0);
+  UseView(OPPVc);
+  SpawnClass(OPPDClass);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,1,    "Номер",SerNr,false,SerNr);
+  RlColKey(90,90,    "№ сч.",OrderNr,false,OrderNr);
+  RlColKey(180,180,"Дата оплаты",PayDate,false,PayDate);
+  RlColKey(250,250,"Пост.",VECode,false,VECode);
+  RlColKey(310,310,"Наим.",VEName,false,VEName);
+  RlCol(-210,-210, "НДС",VATVal,true);
+  RlCol(-150,-150, "Сумма",PPVal,true);
+  RlCol(-90,-90, "Заказанная",BookRVal,true);
+  RlCol(-30,-30, "Вал.",CurncyCode,false);
+  SearchField("Найти");
+  EndWindow;
+end;
