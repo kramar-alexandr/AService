@@ -856,9 +856,9 @@ begin
 					switch(INr.Group)begin
 						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER";
 											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
+						case"APP2":Actr.MainPersons = "MOISEEV,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
+						case"APP3":Actr.MainPersons = "MOISEEV,KAYZER";//TRIKOPA,SAO,RABCHUN,
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 					end;
 					switch(INr.Code)begin
@@ -881,9 +881,9 @@ begin
 					switch(INr.Group)begin
 						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER";
 											 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
+						case"APP2":Actr.MainPersons = "MOISEEV,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
-						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
+						case"APP3":Actr.MainPersons = "MOISEEV,KAYZER";//TRIKOPA,SAO,RABCHUN,
 											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
 					end;
 					switch(INr.Code)begin
