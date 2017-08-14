@@ -854,7 +854,7 @@ begin
 					Actr.Comment = INr.Code & " " & Actr.Comment;
 					Actr.Phone = SVOrw.Spec;
 					switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER";
+						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
 											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
 						case"APP2":Actr.MainPersons = "MOISEEV,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
@@ -879,7 +879,7 @@ begin
 					Actr.Comment = INr.Code & " " & Actr.Comment;
 					Actr.Phone = SVOrw.Spec;
 					switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,MOISEEV,DIMA,KAYZER";
+						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
 											 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
 						case"APP2":Actr.MainPersons = "MOISEEV,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
