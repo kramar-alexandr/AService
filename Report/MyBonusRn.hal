@@ -320,6 +320,8 @@ begin
 	record RLinkVc RLr;
 	boolean trhs2;
 	
+	logtext(0,"FindEnginer " & IVr.SerNr);
+	
 	svonr = -1;
 	if(IVr.SVONr>-1)then begin
 		svonr = IVr.SVONr;
