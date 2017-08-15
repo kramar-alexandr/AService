@@ -350,6 +350,7 @@ begin
 						MatRowGet(WSr,i,WSrw);
 						if(WSrw.ArtCode==artcode)then begin
 							enginer = WSr.EMCode;
+							logtext(0,OrigIVr.SerNr & " " & WSrw.ArtCode & " " & WSr.EMCode);
 							trhs2 = false;
 						end;
 					end;
