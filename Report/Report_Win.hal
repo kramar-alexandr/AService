@@ -178,6 +178,9 @@ begin
     ButtonFrame(50,55,140,2,"Отчет за месяц");
     RadioButton(50,55,0,0,"Текущий",flags[1]);
     RadioButton(50,71,1,0,"Предыдущий",flags[1]);
+    if(currentuser=="SA")then begin
+    	EditField(h,v=70,-20,"User",Normal,f1,false,UserSClass);
+    end;
   EndWindow;
 
 
