@@ -1767,7 +1767,7 @@ l1:;
 											end;
                       
                       svonr = newIVr.SVONr;
-											if(blank(enginer))then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
+											if(blank(enginer) or CredNo>-1)then begin// Edit ************************** Wednesday, 1 February 2017 14:44:22
 												FindEnginer(newIVrw.ArtCode,newIVr,enginer,svonr);
 											end;
                       
