@@ -10441,3 +10441,40 @@ begin
   SearchField("Найти");
   EndWindow;
 end;
+
+
+window ActTypeDClass:4
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer") 
+begin
+  real h,v,vm;
+  WindowBegin("Вид діяльності",ActTypeDClass,CGview,-); 
+    SetWRect(64,80,509,270);
+  UseView(ActTypeVc);
+  EditField(h=100,v=6,50,"Код",St_i,Code,false,0); 
+  EditField(200,v,50,"Клас",Normal,ActTypeGr,false,ActTypeGrSClass); 
+  if (HasModTS or HasModSVO) then begin
+  EditField(300,v,-50,"Товар",Normal,ItemCode,false,INSClass); 
+  end;
+  EditField(h,v+=20,-50,"Коментар",Normal,Comment,false,0); 
+  if (HasAdvancedCRM) then begin
+  EditField(h,v+=20,50,"Код шабл.тексту",Normal,CompTextType,false,CompTextTypeSClass);
+  EditField(h,v+=20,-20,"Особи",Normal,MainPersons,false,UserSClass);
+  EditField(h,v+=20,-20,"Копія",Normal,CC,false,UserSClass);
+    
+  ButtonFrame(h,vm=(v+=40),120,4,"Тип сигналу");
+  RadioButton(h,v,0,0,"Немає",AlarmType);
+  RadioButton(h,v+=16,1,0,"Повідомлення",AlarmType);
+  RadioButton(h,v+=16,2,0,"SMS",AlarmType);
+  RadioButton(h,v+=16,3,0,"E-mail",AlarmType);
+  CheckBox(h,v+=32,0,"Оповіщ. для співроб. у копії",AlarmToCCPersons);
+  ButtonFrame(h+=150,v=vm,130,7,"Оповіщення");
+  RadioButton(h,v,0,0,"Хвилин до",AlarmWhen);
+  RadioButton(h,v+=16,1,0,"Годин до",AlarmWhen);
+  RadioButton(h,v+=16,2,0,"Днів до",AlarmWhen);
+  RadioButton(h,v+=16,3,0,"Хвилин після",AlarmWhen);
+  RadioButton(h,v+=16,4,0,"Годин після",AlarmWhen);
+  RadioButton(h,v+=16,5,0,"Днів після",AlarmWhen);
+  EditField(h+75,v+=17,50,"Одиниць",Normal,AlarmUnits,false,0);
+  end;
+  EndWindow;
+end;

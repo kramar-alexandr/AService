@@ -4483,6 +4483,39 @@ EndRecord;
   EndRecord;
   
   
+  RecordBegin(ActTypeVc,-,"acttype");
+  ImpExpLevel(1);
+  RecordField(Code,M4Code,5,ActTypeVc);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(ItemCode,M4Code,20,INVc);
+  RecordField(ActTypeGr,M4Code,5,ActTypeGrVc);
+  RecordField(AlarmType,M4Int,0,0);
+  RecordField(AlarmWhen,M4Int,0,0);
+  RecordField(AlarmUnits,M4Int,0,0);
+  RecordField(AlarmToCCPersons,M4Int,0,0);
+  RecordField(CompTextType,M4Code,20,0);
+  RecordField(MainPersons,M4Str,255,0);// Edit ************************** Thursday, 17 August 2017 15:20:18
+  RecordField(CC,M4Str,255,0);// Edit ************************** Thursday, 17 August 2017 15:20:18
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  KeyBegin(Comment);
+  KeySegment(Comment);
+  KeySegment(Code);
+  KeyBegin(ActTypeGr);
+  KeySegment(ActTypeGr);
+  KeySegment(Code);
+  
+  
+  SubsetKeyBegin2(ATGCode);
+  StoreInBaseKey;
+  AppendFieldToKeyName(ActTypeGr);
+  KeySegment(Code);  
+  SubsetKeyBegin2(ATGComment);
+  StoreInBaseKey;
+  AppendFieldToKeyName(ActTypeGr);
+  KeySegment(Comment);
+  KeySegment(Code);
+  EndRecord;
   
 return;
 end;
