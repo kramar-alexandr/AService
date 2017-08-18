@@ -912,6 +912,78 @@ begin
 		end;
 	end;
 	
+	if(left(sernum,1)=="9" and SVOr.OrderStatus==0 and SVOr.DoneMark==0)then begin
+		Actr.SVOSerNr = SVOr.SerNr;
+		if(!readfirstkey("SVOSerNr",Actr,1,true))then begin
+			creaetf = true;
+			recordnew(Actr);
+			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			//Actr.AlarmType = kAlarmTypeMessage; //Edit-------------------Vitalii 11:31 23.12.2016
+      Actr.AlarmType = kAlarmTypeNone;
+			Actr.SVOSerNr = SVOr.SerNr;
+			Actr.TodoFlag = kTodoFlagTodo;
+			Actr.SymbNr = 3;
+			if(matrowcnt(SVOr)>0)then begin
+				matrowget(SVOr,0,SVOrw);
+				INr.Code = SVOrw.ArtCode;
+				if(readfirstmain(INr,1,true))then begin
+					Actr.Comment = INr.Code & " " & Actr.Comment;
+					Actr.Phone = SVOrw.Spec;
+					/*switch(INr.Group)begin
+						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
+											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
+						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
+											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
+											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					end;*/
+					switch(INr.Code)begin
+						case "IMAC":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
+												 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						case "MACBOOK":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
+												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					end;
+					
+				end;	
+			end;			
+		end else begin
+			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			if(matrowcnt(SVOr)>0)then begin
+				matrowget(SVOr,0,SVOrw);
+				INr.Code = SVOrw.ArtCode;
+				if(readfirstmain(INr,1,true))then begin
+					Actr.Comment = INr.Code & " " & Actr.Comment;
+					Actr.Phone = SVOrw.Spec;
+					/*switch(INr.Group)begin
+						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
+											 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
+						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
+											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
+											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+					end;*/
+					switch(INr.Code)begin
+						case "IMAC":	Actr.MainPersons = "POGEDAEV,KAYZER";
+					 								Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						case "MACBOOK":	Actr.MainPersons = "MOISEEV";
+												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+					end;
+				end;	
+			end;
+			recordstore(Actr,true);
+		end;
+	end;
+	if(left(sernum,1)=="9" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0))then begin
+		Actr.SVOSerNr = SVOr.SerNr;
+		if(readfirstkey("SVOSerNr",Actr,1,true))then begin
+			if(Actr.OKFlag==0)then begin
+				RecordCopy(oldActr,Actr);
+				Actr.OKFlag = 1;		
+				RecordUpdate(oldActr,Actr,true);
+			end;
+		end;
+	end;
+	
 	if(creaetf)then begin	
 		Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
 		if(recordstore(Actr,true))then begin
