@@ -1281,7 +1281,8 @@ global
 function LongInt ActVcRecordSave(var record ActVc Actr,record ActVc Act2r,LongInt stat,LongInt long4)
 BEGIN
   LongInt res;
-
+	
+	Actr.Supervisor = CurrentUser;// Edit ************************** Friday, 18 August 2017 10:25:40
   Actr.LengthClass = ActLenClass(Actr.TransDate,Actr.EndDate);
   Actr.CreationDate = CurrentDate;
   Actr.LastChangedDate = CurrentDate;
