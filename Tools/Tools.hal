@@ -921,7 +921,7 @@ begin
 	if(left(sernum,1)=="9" and SVOr.OrderStatus==0 and SVOr.DoneMark==0)then begin
 		Actr.SVOSerNr = SVOr.SerNr;
 		if(!readfirstkey("SVOSerNr",Actr,1,true))then begin
-			creaetf = true;
+			
 			recordnew(Actr);
 			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
 			//Actr.AlarmType = kAlarmTypeMessage; //Edit-------------------Vitalii 11:31 23.12.2016
@@ -938,11 +938,11 @@ begin
 					Actr.Phone = SVOrw.Spec;
 					switch(INr.Code)begin
 						case "IMAC":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
-												 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-												 recordstore(Actr,true);
+												 	Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+												 	creaetf = true;
 						case "MACBOOK":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-												 		recordstore(Actr,true);
+												 		creaetf = true;
 					end;
 					
 				end;	
