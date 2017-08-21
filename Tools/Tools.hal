@@ -831,14 +831,28 @@ begin
 	row SVOVc SVOrw;
 	record INVc INr;
 	boolean creaetf;
+	boolean foundf,TrHs;
 	
 	
 	
 	
 	sernum = SVOr.SerNr;
 	if(left(sernum,1)=="1" and SVOr.OrderStatus==0 and SVOr.DoneMark==0)then begin
+		foundf = false;
+		resetloop(SVOr);
 		Actr.SVOSerNr = SVOr.SerNr;
-		if(!readfirstkey("SVOSerNr",Actr,1,true))then begin
+		TrHs = true;
+		while(loopkey("SVOSerNr",Actr,1,TrHs))begin
+			if(Actr.SVOSerNr!=SVOr.SerNr)then begin TrHs = false; end;
+			
+			if(TrHs and Actr.ActType=="SERV")then begin
+				goto lFoundSVO1;
+				foundf = true;
+			end;
+		end;
+		
+lFoundSVO1:;
+		if(!foundf)then begin
 			creaetf = true;
 			recordnew(Actr);
 			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
@@ -919,8 +933,22 @@ begin
 	end;
 	
 	if(left(sernum,1)=="9" and SVOr.OrderStatus==0 and SVOr.DoneMark==0)then begin
+		
+		foundf = false;
+		resetloop(SVOr);
 		Actr.SVOSerNr = SVOr.SerNr;
-		if(!readfirstkey("SVOSerNr",Actr,1,true))then begin
+		TrHs = true;
+		while(loopkey("SVOSerNr",Actr,1,TrHs))begin
+			if(Actr.SVOSerNr!=SVOr.SerNr)then begin TrHs = false; end;
+			
+			if(TrHs and Actr.ActType=="SERV")then begin
+				goto lFoundSVO9;
+				foundf = true;
+			end;
+		end;
+		
+lFoundSVO9:;
+		if(!foundf)then begin
 			
 			recordnew(Actr);
 			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
