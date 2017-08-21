@@ -876,7 +876,7 @@ begin
 		end else begin
 			if(Actr.ActType=="SERV")then begin
 				Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
-			end;
+			
 			
 			if(matrowcnt(SVOr)>0)then begin
 				matrowget(SVOr,0,SVOrw);
@@ -902,7 +902,9 @@ begin
 					end;
 				end;	
 			end;
+			
 			recordstore(Actr,true);
+			end;
 		end;
 	end;
 	if(left(sernum,1)=="1" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0) and Actr.ActType=="SERV")then begin
@@ -954,7 +956,7 @@ begin
 		end else begin
 			if(Actr.ActType=="SERV")then begin
 				Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
-			end;
+			
 			if(matrowcnt(SVOr)>0)then begin
 				matrowget(SVOr,0,SVOrw);
 				INr.Code = SVOrw.ArtCode;
@@ -978,6 +980,7 @@ begin
 				end;	
 			end;
 			recordstore(Actr,true);
+			end;
 		end;
 	end;
 	if(left(sernum,1)=="9" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0) and Actr.ActType=="SERV")then begin
