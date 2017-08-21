@@ -943,6 +943,9 @@ begin
 						case "MACBOOK":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 												 		creaetf = true;
+						case "IPHONE":	Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
+												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+												 		creaetf = true;
 					end;
 					
 				end;	
@@ -962,6 +965,9 @@ begin
 														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 														recordstore(Actr,true);
 							case "MACBOOK":	Actr.MainPersons = "MOISEEV";
+															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+															recordstore(Actr,true);
+							case "IPHONE":	Actr.MainPersons = "MOISEEV";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 															recordstore(Actr,true);
 						end;
