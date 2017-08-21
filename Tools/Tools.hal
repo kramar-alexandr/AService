@@ -846,8 +846,9 @@ begin
 			if(Actr.SVOSerNr!=SVOr.SerNr)then begin TrHs = false; end;
 			
 			if(TrHs and Actr.ActType=="SERV")then begin
-				goto lFoundSVO1;
 				foundf = true;
+				creaetf = false;
+				goto lFoundSVO1;
 			end;
 		end;
 		
@@ -921,13 +922,19 @@ lFoundSVO1:;
 			end;
 		end;
 	end;
-	if(left(sernum,1)=="1" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0) and Actr.ActType=="SERV")then begin
+	if(left(sernum,1)=="1" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0))then begin
+		resetloop(SVOr);
 		Actr.SVOSerNr = SVOr.SerNr;
-		if(readfirstkey("SVOSerNr",Actr,1,true))then begin
-			if(Actr.OKFlag==0)then begin
-				RecordCopy(oldActr,Actr);
-				Actr.OKFlag = 1;		
-				RecordUpdate(oldActr,Actr,true);
+		TrHs = true;
+		while(loopkey("SVOSerNr",Actr,1,TrHs))begin
+			if(Actr.SVOSerNr!=SVOr.SerNr)then begin TrHs = false; end;
+			
+			if(TrHs and Actr.ActType=="SERV")then begin
+				if(Actr.OKFlag==0)then begin
+					RecordCopy(oldActr,Actr);
+					Actr.OKFlag = 1;		
+					RecordUpdate(oldActr,Actr,true);
+				end;
 			end;
 		end;
 	end;
@@ -942,8 +949,9 @@ lFoundSVO1:;
 			if(Actr.SVOSerNr!=SVOr.SerNr)then begin TrHs = false; end;
 			
 			if(TrHs and Actr.ActType=="SERV")then begin
-				goto lFoundSVO9;
 				foundf = true;
+				creaetf = false;
+				goto lFoundSVO9;
 			end;
 		end;
 		
@@ -991,27 +999,31 @@ lFoundSVO9:;
 						switch(INr.Code)begin
 							case "IMAC":	Actr.MainPersons = "POGEDAEV,KAYZER";
 														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-														recordstore(Actr,true);
 							case "MACBOOK":	Actr.MainPersons = "MOISEEV";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-															recordstore(Actr,true);
 							case "IPHONE":	Actr.MainPersons = "MOISEEV";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-															recordstore(Actr,true);
 						end;
 					end;	
 				end;
+				recordstore(Actr,true);
 				
 			end;
 		end;
 	end;
-	if(left(sernum,1)=="9" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0) and Actr.ActType=="SERV")then begin
+	if(left(sernum,1)=="9" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0))then begin
+		resetloop(SVOr);
 		Actr.SVOSerNr = SVOr.SerNr;
-		if(readfirstkey("SVOSerNr",Actr,1,true))then begin
-			if(Actr.OKFlag==0)then begin
-				RecordCopy(oldActr,Actr);
-				Actr.OKFlag = 1;		
-				RecordUpdate(oldActr,Actr,true);
+		TrHs = true;
+		while(loopkey("SVOSerNr",Actr,1,TrHs))begin
+			if(Actr.SVOSerNr!=SVOr.SerNr)then begin TrHs = false; end;
+			
+			if(TrHs and Actr.ActType=="SERV")then begin
+				if(Actr.OKFlag==0)then begin
+					RecordCopy(oldActr,Actr);
+					Actr.OKFlag = 1;		
+					RecordUpdate(oldActr,Actr,true);
+				end;
 			end;
 		end;
 	end;
