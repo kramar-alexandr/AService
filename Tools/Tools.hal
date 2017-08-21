@@ -846,6 +846,7 @@ begin
       Actr.AlarmType = kAlarmTypeNone;
 			Actr.SVOSerNr = SVOr.SerNr;
 			Actr.TodoFlag = kTodoFlagTodo;
+			Actr.ActType = "SERV";
 			Actr.SymbNr = 3;
 			if(matrowcnt(SVOr)>0)then begin
 				matrowget(SVOr,0,SVOrw);
@@ -873,7 +874,10 @@ begin
 				end;	
 			end;			
 		end else begin
-			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			if(Actr.ActType=="SERV")then begin
+				Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			end;
+			
 			if(matrowcnt(SVOr)>0)then begin
 				matrowget(SVOr,0,SVOrw);
 				INr.Code = SVOrw.ArtCode;
@@ -901,7 +905,7 @@ begin
 			recordstore(Actr,true);
 		end;
 	end;
-	if(left(sernum,1)=="1" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0))then begin
+	if(left(sernum,1)=="1" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0) and Actr.ActType=="SERV")then begin
 		Actr.SVOSerNr = SVOr.SerNr;
 		if(readfirstkey("SVOSerNr",Actr,1,true))then begin
 			if(Actr.OKFlag==0)then begin
@@ -922,6 +926,7 @@ begin
       Actr.AlarmType = kAlarmTypeNone;
 			Actr.SVOSerNr = SVOr.SerNr;
 			Actr.TodoFlag = kTodoFlagTodo;
+			Actr.ActType = "SERV";
 			Actr.SymbNr = 3;
 			if(matrowcnt(SVOr)>0)then begin
 				matrowget(SVOr,0,SVOrw);
@@ -947,7 +952,9 @@ begin
 				end;	
 			end;			
 		end else begin
-			Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			if(Actr.ActType=="SERV")then begin
+				Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
+			end;
 			if(matrowcnt(SVOr)>0)then begin
 				matrowget(SVOr,0,SVOrw);
 				INr.Code = SVOrw.ArtCode;
@@ -973,7 +980,7 @@ begin
 			recordstore(Actr,true);
 		end;
 	end;
-	if(left(sernum,1)=="9" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0))then begin
+	if(left(sernum,1)=="9" and (SVOr.OrderStatus>0 or SVOr.DoneMark>0) and Actr.ActType=="SERV")then begin
 		Actr.SVOSerNr = SVOr.SerNr;
 		if(readfirstkey("SVOSerNr",Actr,1,true))then begin
 			if(Actr.OKFlag==0)then begin
