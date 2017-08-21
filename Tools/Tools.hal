@@ -878,32 +878,32 @@ begin
 				Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
 			
 			
-			if(matrowcnt(SVOr)>0)then begin
-				matrowget(SVOr,0,SVOrw);
-				INr.Code = SVOrw.ArtCode;
-				if(readfirstmain(INr,1,true))then begin
-					Actr.Comment = INr.Code & " " & Actr.Comment;
-					Actr.Phone = SVOrw.Spec;
-					switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
-											 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
-											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
-						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
-											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
-					end;
-					switch(INr.Code)begin
-						case "IPAD":	Actr.MainPersons = "POGEDAEV,KAYZER";
-					 								Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-						case "IPHONE3":	Actr.MainPersons = "MOISEEV";
-												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-						case "IPHONE2":	Actr.MainPersons = "MOISEEV";
-												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-					end;
-				end;	
-			end;
+				if(matrowcnt(SVOr)>0)then begin
+					matrowget(SVOr,0,SVOrw);
+					INr.Code = SVOrw.ArtCode;
+					if(readfirstmain(INr,1,true))then begin
+						Actr.Comment = INr.Code & " " & Actr.Comment;
+						Actr.Phone = SVOrw.Spec;
+						switch(INr.Group)begin
+							case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
+												 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
+							case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
+												 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+							case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
+												 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+						end;
+						switch(INr.Code)begin
+							case "IPAD":	Actr.MainPersons = "POGEDAEV,KAYZER";
+														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+							case "IPHONE3":	Actr.MainPersons = "MOISEEV";
+															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+							case "IPHONE2":	Actr.MainPersons = "MOISEEV";
+															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						end;
+					end;	
+				end;
 			
-			recordstore(Actr,true);
+				recordstore(Actr,true);
 			end;
 		end;
 	end;
@@ -957,29 +957,29 @@ begin
 			if(Actr.ActType=="SERV")then begin
 				Actr.Comment = SVOr.SerNr & " " & SVOr.Comment1;
 			
-			if(matrowcnt(SVOr)>0)then begin
-				matrowget(SVOr,0,SVOrw);
-				INr.Code = SVOrw.ArtCode;
-				if(readfirstmain(INr,1,true))then begin
-					Actr.Comment = INr.Code & " " & Actr.Comment;
-					Actr.Phone = SVOrw.Spec;
-					/*switch(INr.Group)begin
-						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
-											 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
-						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
-											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
-						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
-											 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
-					end;*/
-					switch(INr.Code)begin
-						case "IMAC":	Actr.MainPersons = "POGEDAEV,KAYZER";
-					 								Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-						case "MACBOOK":	Actr.MainPersons = "MOISEEV";
-												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
-					end;
-				end;	
-			end;
-			recordstore(Actr,true);
+				if(matrowcnt(SVOr)>0)then begin
+					matrowget(SVOr,0,SVOrw);
+					INr.Code = SVOrw.ArtCode;
+					if(readfirstmain(INr,1,true))then begin
+						Actr.Comment = INr.Code & " " & Actr.Comment;
+						Actr.Phone = SVOrw.Spec;
+						/*switch(INr.Group)begin
+							case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
+												 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
+							case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
+												 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+							case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
+												 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+						end;*/
+						switch(INr.Code)begin
+							case "IMAC":	Actr.MainPersons = "POGEDAEV,KAYZER";
+														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+							case "MACBOOK":	Actr.MainPersons = "MOISEEV";
+															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+						end;
+					end;	
+				end;
+				recordstore(Actr,true);
 			end;
 		end;
 	end;
