@@ -997,7 +997,7 @@ lFoundSVO9:;
 						Actr.Comment = INr.Code & " " & Actr.Comment;
 						Actr.Phone = SVOrw.Spec;
 						switch(INr.Code)begin
-							case "IMAC":	Actr.MainPersons = "POGEDAEV,KAYZER";
+							case "IMAC":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 							case "MACBOOK":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
