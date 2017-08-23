@@ -832,9 +832,10 @@ begin
 	record INVc INr;
 	boolean creaetf;
 	boolean foundf,TrHs;
+	boolean needcreate;
 	
 	
-	
+	needcreate = false;
 	
 	sernum = SVOr.SerNr;
 	if(left(sernum,1)=="1" and SVOr.OrderStatus==0 and SVOr.DoneMark==0)then begin
@@ -872,18 +873,24 @@ lFoundSVO1:;
 					switch(INr.Group)begin
 						case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
 											 Actr.Comment = addhours(currenttime,2) & " " & Actr.Comment;
+											 needcreate = true;
 						case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+											 needcreate = true;
 						case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
 											 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+											 needcreate = true;
 					end;
 					switch(INr.Code)begin
 						case "IPAD":	Actr.MainPersons = "POGEDAEV,KAYZER";
 												 Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+												 needcreate = true;
 						case "IPHONE3":	Actr.MainPersons = "MOISEEV";
 												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+												 		needcreate = true;
 						case "IPHONE2":	Actr.MainPersons = "MOISEEV";
 												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+												 		needcreate = true;
 					end;
 					
 				end;	
@@ -902,18 +909,24 @@ lFoundSVO1:;
 						switch(INr.Group)begin
 							case"APP1":Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
 												 Actr.Comment = addhours(Actr.StartTime,2) & " " & Actr.Comment;
+												 needcreate = true;
 							case"APP2":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//"TRIKOPA,SAO,RABCHUN,KAYZER";
 												 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+												 needcreate = true;
 							case"APP3":Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";//TRIKOPA,SAO,RABCHUN,
 												 Actr.Comment = addhours(Actr.StartTime,5) & " " & Actr.Comment;
+												 needcreate = true;
 						end;
 						switch(INr.Code)begin
 							case "IPAD":	Actr.MainPersons = "POGEDAEV,KAYZER";
 														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+														needcreate = true;
 							case "IPHONE3":	Actr.MainPersons = "MOISEEV";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+															needcreate = true;
 							case "IPHONE2":	Actr.MainPersons = "MOISEEV";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+															needcreate = true;
 						end;
 					end;	
 				end;
@@ -976,12 +989,15 @@ lFoundSVO9:;
 						case "IMAC":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 												 	Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 												 	creaetf = true;
+												 	needcreate = true;
 						case "MACBOOK":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 												 		creaetf = true;
+												 		needcreate = true;
 						case "IPHONE":	Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
 												 		Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
 												 		creaetf = true;
+												 		needcreate = true;
 					end;
 					
 				end;	
@@ -999,10 +1015,13 @@ lFoundSVO9:;
 						switch(INr.Code)begin
 							case "IMAC":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 														Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+														needcreate = true;
 							case "MACBOOK":	Actr.MainPersons = "TRIKOPA,SAO,RABCHUN,KAYZER";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+															needcreate = true;
 							case "IPHONE":	Actr.MainPersons = "BATCHENKO,DIMA,KAYZER";
 															Actr.Comment = addhours(currenttime,5) & " " & Actr.Comment;
+															needcreate = true;
 						end;
 					end;	
 				end;
@@ -1028,7 +1047,7 @@ lFoundSVO9:;
 		end;
 	end;
 	
-	if(creaetf)then begin	
+	if(creaetf and needcreate)then begin	
 		Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");
 		if(recordstore(Actr,true))then begin
 			CreateRecordLink(SVOr,CurrentCompany,Actr,CurrentCompany);  
