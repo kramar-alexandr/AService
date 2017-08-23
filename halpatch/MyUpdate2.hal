@@ -636,3 +636,33 @@ begin
 	
 return;
 end;
+
+global updating procedure FixACTSERVMn(record RcVc RepSpec)
+begin
+	record ActVc Actr,oldActr;
+	boolean testf;
+	record SVOVc SVOr;
+	
+	Actr.SerNr = 0;
+	while(loopmain(Actr,1,true))begin
+		testf = true;
+		if(Actr.ActType!="SERV")then begin testf = false; end;
+		if(Actr.OKFlag!=0)then begin testf = false; end;
+		if(Actr.SVOSerNr==-1)then begin testf = false; end;
+		
+		if(testf)then begin 
+			SVOr.SerNr = Actr.SVOSerNr;
+			if(readfirstmain(SVOr,1,true))then begin
+				if(SVOr.OrderStatus>0 or SVOr.DoneMark>0)then begin
+					RecordCopy(oldActr,Actr);
+					Actr.OKFlag = 1;		
+					RecordUpdate(oldActr,Actr,true);
+					logtext(0,SVOr.SerNr);
+				end;
+			end;
+		end;
+		
+	end;
+	
+return;
+end;
