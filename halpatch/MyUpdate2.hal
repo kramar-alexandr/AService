@@ -642,13 +642,17 @@ begin
 	record ActVc Actr,oldActr;
 	boolean testf;
 	record SVOVc SVOr;
+	string 50 sernum;
 	
 	Actr.SerNr = 0;
 	while(loopmain(Actr,1,true))begin
 		testf = true;
-		if(Actr.ActType!="SERV")then begin testf = false; end;
+		if(nonblank(Actr.ActType))then begin testf = false; end;
 		if(Actr.OKFlag!=0)then begin testf = false; end;
 		if(Actr.SVOSerNr==-1)then begin testf = false; end;
+		if(Actr.TransDate>stringtodate("21/08/2017"))then begin testf = false; end;
+		sernum = Actr.SVOSerNr;
+		if(left(sernum,1)!="1")then begin testf = false; end;
 		
 		if(testf)then begin 
 			SVOr.SerNr = Actr.SVOSerNr;
