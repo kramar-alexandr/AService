@@ -7175,7 +7175,7 @@ begin
 	
 	CheckBox(-270,v,0,"Без СМС",NoSMS);
 	
-	EditField(-130,v,-105,"Пост.Кл.",Normal,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
+	EditField(-130,v,-105,"Пост.Кл.",ViewOnly,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
 	HalPushButton(-90,v-3,-50,v+15,"ServClientOrderDsm","Звіт");
 	
 	EditField(h,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
