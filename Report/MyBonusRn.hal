@@ -1909,14 +1909,23 @@ return;
 end;
 //***************************************************************************** whole function added by dima-f 13.09.17
 global
-procedure MyBonusCurrentUserRemote(var val cnt, var val ttl) begin
+procedure MyBonusCurrentUserRemote(var val cnt, var val ttl, var boolean showFlag) begin
     record RcVc RepSpec;
-    ReportDefaults(RepSpec,"MyBonusCurUserRClass");
-    RepSpec.flags[29]=1;
-    MyBonusCurrentUserRn(RepSpec);
-    cnt=RepSpec.vals3;//n distinct
-    ttl = RepSpec.vals4;//totGP
-    return;
+    record UserVc Userr;
+    Userr.Code = CurrentUser;
+    if(ReadFirstMain(Userr,1,true))begin
+        if(Userr.MonthStat==1) begin
+            showFlag=true;
+        end;
+    end;
+    if(showFlag==true) begin
+        ReportDefaults(RepSpec,"MyBonusCurUserRClass");
+        RepSpec.flags[29]=1;
+        MyBonusCurrentUserRn(RepSpec);
+        cnt=RepSpec.vals3;//n distinct
+        ttl = RepSpec.vals4;//totGP
+        return;
+    end;
 end;
 //**************************************************************************** end edit
 
