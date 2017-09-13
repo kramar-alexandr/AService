@@ -1,3 +1,4 @@
+SetLangMode(LangUkrainian,"UKR",0);//********************************************************************* dima-f 13.09.2017
 remote procedure SetServerBuildProductCode();
 external function Boolean ProductInDemoMode();
 external updating procedure WelcomeWClassNewInstallClient();
@@ -32,6 +33,7 @@ external updating procedure UpdateLocalCompaniesChargeFields();
 external updating procedure InitMarketPlaceLicenseCopytoClient();
 external updating function Boolean UserLicensesExpired();
 external procedure GetUserAccessGroup(string,var string);// Edit ************************** Thursday, 30 March 2017 10:16:28
+remote  procedure MyBonusCurrentUserRemote(var val,var val);
 
 global
 function Integer GetPOSOffLineCompNo()
@@ -44,6 +46,20 @@ BEGIN
   GetPOSOffLineCompNo = res;
   RETURN;
 END;
+//***************************************************************************** function added by dima-f 13.09.17
+
+procedure  ShowUserInfo()
+BEGIN
+  val cnt, ttl;
+  cnt=0;
+  ttl=0;
+  if(Userr.MonthStat==1) begin
+    MyBonusCurrentUserRemote(cnt, ttl);
+    MessageBox(0,"Співробітник:" & CurrentUser & "   Кількість ремонтів:" & cnt & "   Прибуток:" & ttl);
+  end;
+  return;
+END;
+//****************************************************************************************************** end
 
 global
 function Boolean CheckOffLineRecords(Boolean openf)
@@ -436,6 +452,7 @@ BEGIN
 				acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
 				nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);// Edit ************************** Thursday, 13 October 2016 10:49:44
       end;
+      ShowUserInfo;//***************************************************************************** function added by dima-f 13.09.17
   end;
   end else begin
     accpetancef = true;
@@ -457,6 +474,7 @@ BEGIN
 			acptRepSpec.Period2Str = acptRepSpec.Period2Str & acptRepSpec.sEndDate;
 			nwn = OpenToDoWClass(mailboxnr,mailboxname,acptRepSpec);  // Edit ************************** Thursday, 13 October 2016 10:51:19
     end;
+    ShowUserInfo;//***************************************************************************** function added by dima-f 13.09.17
   end;
   if (CurrentUser=="$MASTER") then begin
     RecordNew(Userr);
