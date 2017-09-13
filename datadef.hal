@@ -3760,6 +3760,7 @@ EndRecord;
   RecordField(ThroughLocation,M4Str,10,0);	//Edit----------------------Dima  10.12.2015
   RecordField(AdditionalLocations,M4Str,200,0);	//Edit----------------------Dima  10.12.2015
   RecordField(ServDays,M4Int,0,0);//Edit-------------------Vitalii 12:21 26.08.2016
+  RecordField(MonthStat,M4Int,0,0);//*********************************edited by dima-f 12.09.17
   ArrayBegin(Math,-,1);
   ArrayField(Code,M4Code,5,0);
   ArrayField(PRCode,M4Code,20,PRVc);

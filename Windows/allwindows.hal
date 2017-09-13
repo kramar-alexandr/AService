@@ -9124,7 +9124,8 @@ begin
   EditField(h,v+=vs,100,"Обмеження клієнта",Normal,CanUseOS,false,SetSClass);
   end;
   EditField(h,v+=vs,100,"Код контакта",Normal,CustCode,false,ContactCUSClass);
-//  EditField(h,v+=vs,100,"Пароль для знижки",Normal,OldPassWord,false,0);
+  //EditField(h,v+=vs,100,"Пароль для знижки",Normal,OldPassWord,false,0);
+  CheckBox(h-100,v+=vs,0,"Виводити стан ремонтів за місяць",MonthStat);//********************************    edit dima-f 18.09.17
   if (StandardHansa==false) then begin
   ButtonFrame(h2,v=44,165,3,"Обмежений доступ");
   RadioButton(h2,v,kLimitedAccessNoLimitation,0,"без обмежень",limitedAccess);

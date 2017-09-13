@@ -405,7 +405,7 @@ begin
 	longint worksheet,CredNo,svonr;
 	integer cred;
 	vector boolean usedinvno;
-	
+
 	blockload(BCb);
 
   startreportnoheaderjob("Bonus");
@@ -1195,7 +1195,7 @@ return;
 end;
 
 
-global procedure MyBonusCurrentUserRn(record RcVc RepSpec)
+global procedure MyBonusCurrentUserRn(var record RcVc RepSpec)
 begin
   record ARVc ARr;
   record IVVc IVr;
@@ -1239,7 +1239,11 @@ begin
 	integer cred;
 	vector boolean usedinvno;
 	string 50 cusr;
-	
+	//***************************************************************************** edit dima-f 12.09.17
+    integer n;
+    vector boolean vec;
+	n=0;
+	//***************************************************************************** end edit
 	cusr = currentuser;
 	
 	if(nonblank(RepSpec.f1))then begin
@@ -1247,9 +1251,12 @@ begin
 	end;
 	
 	blockload(BCb);
+  //***************************************************************************** edit dima-f 12.09.17
+  if(RepSpec.flags[29]==0) begin
+    startreportnoheaderjob("Bonus");
+  end;
+  //***************************************************************************** end edit
 
-  startreportnoheaderjob("Bonus");
-  
   if (RepSpec.flags[1]==0) then begin		//current month
   	sDate = AddDay(CurrentDate,1-GetDay(CurrentDate));//begin of the month
   	eDate = CurrentDate;
@@ -1488,9 +1495,17 @@ begin
                     OutVal(pos[13],0,gporig,M4Val,false);
                     OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
-										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
-										OutString(pos[23],0,FindSVOPhone(svonr),false);
-										OutString(pos[23],0,FindSVOItem(svonr),false);
+                    OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
+                    OutString(pos[23],0,FindSVOPhone(svonr),false);
+                    OutString(pos[23],0,FindSVOItem(svonr),false);
+                    //***************************************************************************** edit dima-f 12.09.17
+                    if(nonblank(svonr and quant>0)) begin
+                        if(vec[svonr]==false) begin
+                            vec[svonr]=true;
+                            n = n + 1;
+                        end;
+                    end;
+                    //***************************************************************************** end edit
                   endformat;
                   	totSum = totSum + sumorig;
                   	totCost = totCost + sumcostorig;
@@ -1536,15 +1551,23 @@ begin
                     OutVal(pos[13],0,gporig,M4Val,false);
                     OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
-										OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
-										OutString(pos[23],0,FindSVOPhone(svonr),false);
-										OutString(pos[23],0,FindSVOItem(svonr),false);
-						      endformat;
-									totSum = totSum + sumorig;
-									totCost = totCost + sumcostorig;
-									totGP = totGP + gporig;						      
-					      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
-					      end; //CurrentUser == enginer
+                    OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
+                    OutString(pos[23],0,FindSVOPhone(svonr),false);
+                    OutString(pos[23],0,FindSVOItem(svonr),false);
+                    //***************************************************************************** edit dima-f 12.09.17
+                    if(nonblank(svonr and quant>0)) begin
+                        if(vec[svonr]==false) begin
+                            vec[svonr]=true;
+                            n = n + 1;
+                        end;
+                    end;
+                    //***************************************************************************** end edit
+                          endformat;
+                                totSum = totSum + sumorig;
+                                totCost = totCost + sumcostorig;
+                                totGP = totGP + gporig;
+                      end;	 //Edit***************************Sasha2,18:04 23.04.2015 }
+                      end; //CurrentUser == enginer
               end;
             end;
             goto l1;
@@ -1841,14 +1864,20 @@ l1:;
 														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
 														OutString(pos[23],0,FindSVOPhone(svonr),false);
 														OutString(pos[23],0,FindSVOItem(svonr),false);
+														//***************************************************************************** edit dima-f 12.09.17
+                                                        if(nonblank(svonr) and quant>0) begin
+                                                            if(vec[svonr]==false) begin
+                                                                vec[svonr]=true;
+                                                                n = n + 1;
+                                                            end;
+                                                        end;
+                                                        //***************************************************************************** end edit
 													endformat;
 														totSum = totSum + sumorig;
 														totCost = totCost + sumcostorig;
 														totGP = totGP + gporig;                        
 												end;
-												
-      					      end; 
-      					      
+      					      end;
 	                 end;
                 end; 
               end;
@@ -1859,7 +1888,6 @@ l1:;
       end;
     end; 
   end;
-  
   if (totSum>0 or totCost>0) then begin
 		startformat(15);
 		endformat;
@@ -1867,10 +1895,38 @@ l1:;
 		OutVal(pos[11],0,totSum,M4Val,false);
 		OutVal(pos[12],0,totCost,M4Val,false);
 		OutVal(pos[13],0,totGP,M4Val,false);
+		OutString(pos[21],0,USetStr(32632) & n,false);//***************************************************************************** edit dima-f 12.09.17
 		endformat;
-	end;  
-
-  endjob;
+	end;
+	RepSpec.vals3=n;//***************************************************************************** edit dima-f 12.09.17
+    RepSpec.vals4=totGP;//***************************************************************************** edit dima-f 12.09.17
+    //***************************************************************************** edit dima-f 12.09.17
+    if(RepSpec.flags[29]==0) begin
+      endjob;
+    end;
+    //***************************************************************************** end edit
 return;
 end;
+//***************************************************************************** whole function added by dima-f 13.09.17
+global
+procedure MyBonusCurrentUserRemote(var val cnt, var val ttl, var boolean showFlag) begin
+    record RcVc RepSpec;
+    record UserVc Userr;
+    
+    Userr.Code = CurrentUser;
+    if(ReadFirstMain(Userr,1,true))begin
+        if(Userr.MonthStat==1) begin
+            showFlag=true;
+        end;
+    end;
+    if(showFlag==true) begin
+        ReportDefaults(RepSpec,"MyBonusCurUserRClass");
+        RepSpec.flags[29]=1;
+        MyBonusCurrentUserRn(RepSpec);
+        cnt=RepSpec.vals3;//n distinct
+        ttl = RepSpec.vals4;//totGP
+        return;
+    end;
+end;
+//**************************************************************************** end edit
 
