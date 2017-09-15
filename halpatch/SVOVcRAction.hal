@@ -656,7 +656,8 @@ begin
 
     count = 0;
     NormPhoneNumber(phone, phones);
-
+		
+		logtext(0,"CountNumberRepeatPhone");
     for(i=0;i<phones.length;i=i+1) begin
         LogText(0,"phones[i] ------------- " & phones[i]);
         PhoneLightr.PhoneNum = phones[i];
@@ -672,6 +673,7 @@ begin
         end;
         ResetLoop(PhoneLightr);
     end;
+    logtext(0,"count= " & count);
 	/*
 	while(loopmain(SVOr,1,true))begin
 		recordnew(Letr);
@@ -774,13 +776,17 @@ BEGIN
   	CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
   	if(count>0)then begin
   		SVOr.CustomField9 = count;
-  	end;
+  	end else begin
+  		SVOr.CustomField9 = "";
+  	end;	
   end;
   if(stat==Rs_update and nonblank(SVOr.Kontinfo1) and (SVOr.Kontinfo1!=SVO2r.Kontinfo1))then begin
   	CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
   	if(count>0)then begin
   		SVOr.CustomField9 = count;
-  	end;
+  	end else begin
+  		SVOr.CustomField9 = "";
+  	end;	
   end;
   
  // Edit Start ---------------------------------------------- Edit Start
