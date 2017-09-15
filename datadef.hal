@@ -13,6 +13,7 @@ SourceFile("halcust\\FPrinter",0);
 SourceFile("halcust\\LabelPrint",0);
 SourceFile("halcust\\WebShop",0);// Edit ************************** Thursday, 26 March 2015 10:36:06
 SourceFile("halcust\\SetComp",0);
+SourceFile("halcust\\Lib",0);//************************************ added by dima-f 14.09.17
 
 procedure INVcDefinition()
 begin
@@ -4434,6 +4435,17 @@ EndRecord;
     KeySegment(PhoneNum);
     KeyBegin(Priynato);
     KeySegment(Priynato);
+    KeySegment(PhoneNum);
+  EndRecord;
+  //****************************************************************** record added by dima-f 14.09.17
+  RecordBegin(PhoneLightVc,-,"");
+    RecordField(PhoneNum,M4Str,20,0);
+    RecordField(SerNum,M4Long,0,0);
+    MainKeyBegin(PhoneNum,0);
+    KeySegment(PhoneNum);
+    KeySegment(SerNum);
+    KeyBegin(SerNum);
+    KeySegment(SerNum);
     KeySegment(PhoneNum);
   EndRecord;
   

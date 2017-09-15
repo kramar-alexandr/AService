@@ -1,0 +1,85 @@
+external procedure NormPhoneNumber(string, var array string);
+
+updating procedure PhoneLightStoreRecord(record SVOVc SVOr, string phoneNumber) begin
+    record PhoneLightVc PhoneLightr;
+    array string 255 phones;
+    integer i;
+    NormPhoneNumber(phoneNumber,phones);
+    for(i=0;i<phones.length;i=i+1) begin
+        PhoneLightr.PhoneNum = phones[i];
+        PhoneLightr.SerNum = SVOr.SerNr;
+        RecordStore(PhoneLightr,true);
+        LogText(0,"Added phone------------------------------->" & PhoneLightr.PhoneNum);
+    end;
+end;
+
+//мейнтейненс для формирования записей PhoneLightVc из SVOVc
+global updating procedure FillPhoneLightRegisterMn(record RcVc RepSpec) begin
+    record SVOVc SVOr;
+    while(LoopMain(SVOr,1,true)) begin
+        if(nonblank(SVOr.Kontinfo1)) begin
+            PhoneLightStoreRecord(SVOr,SVOr.Kontinfo1);
+        end;
+        if(nonblank(SVOr.Phone2))begin
+            PhoneLightStoreRecord(SVOr,SVOr.Phone2);
+        end;
+    end;
+end;
+
+//мейнтейненс для удаления всех записей из PhoneLightVc
+global updating procedure DeletePhoneLightRegisterMn(record RcVc RepSpec) begin
+    record PhoneLightVc PhoneLightr;
+    longint i;
+    i=0;
+    PhoneLightr.PhoneNum = "";
+    while(LoopMain(PhoneLightr,1,true)) begin
+        i=i+1;
+        RecordDelete(PhoneLightr);
+        StepBack(PhoneLightr);
+    end;
+end;
+
+//обработчик удаления записей SVOVc
+global updating procedure RemovePhoneLightAfterSVOVcRemoved(record SVOVc SVOr) begin
+    record PhoneLightVc PhoneLightr;
+    boolean TrHs,condition;
+
+    TrHs = true;
+    PhoneLightr.SerNum = SVOr.SerNr;
+
+    //удаляем все записи старые записи, которые могли быть изменены
+    while(LoopKey("SerNum",PhoneLightr,1,TrHs)) begin
+        condition = true;
+        if(PhoneLightr.SerNum!=SVOr.SerNr) begin
+            condition=false;
+            TrHs=false;
+        end;
+        if(condition) begin
+            LogText(0,"Deleted phone------------------------>" & PhoneLightr.PhoneNum);
+            RecordDelete(PhoneLightr);
+            StepBack(PhoneLightr);
+        end;
+    end;
+end;
+
+//обработчик добавления записей SVOVc
+global updating procedure AddPhoneLightAfterSVOVcSaved(record SVOVc SVOr) begin
+    record PhoneLightVc PhoneLightr;
+
+    PhoneLightr.SerNum = SVOr.SerNr;
+    if(ReadFirstMain(PhoneLightr,1,true)==false) begin
+        //добавляем новые записи
+        if(nonblank(SVOr.Kontinfo1))begin
+            PhoneLightStoreRecord(SVOr,SVOr.Kontinfo1);
+        end;
+        if(nonblank(SVOr.Phone2))begin
+            PhoneLightStoreRecord(SVOr,SVOr.Phone2);
+        end;
+    end;
+end;
+
+//обработчик изменения записей SVOVc, в нем обновляются записи PhoneLightVc
+global updating procedure UpdatePhoneLightAfterSVOVcChanging(record SVOVc SVOr) begin
+    RemovePhoneLightAfterSVOVcRemoved(SVOr);
+    AddPhoneLightAfterSVOVcSaved(SVOr);
+end;

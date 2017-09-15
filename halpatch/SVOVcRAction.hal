@@ -21,8 +21,12 @@ remote procedure CountNumberRepeatPhone(string,var array longint,var integer );
 external updating procedure CreateActFromSVOToEnginer(record SVOVc);
 external updating procedure ChangeCostOfIVsInSVO(longint);//Edit-------------------Vitalii 10:13 25.11.2016
 external updating procedure PhonesFromSVO(longint);//Edit-------------------Vitalii 17:10 03.11.2016
+external updating procedure UpdatePhoneLightAfterSVOVcChanging(record SVOVc);//**************************************** dima-f 15.09.17
+external updating procedure RemovePhoneLightAfterSVOVcRemoved(record SVOVc);//**************************************** dima-f 15.09.17
+external updating procedure AddPhoneLightAfterSVOVcSaved(record SVOVc);//**************************************** dima-f 15.09.17
 remote procedure SENDSECONDSMS(longint);// Edit ************************** Friday, 18 November 2016 14:48:29
 remote updating procedure FastPayInvoicesSVO(record RcVc);// Edit ************************** Friday, 25 November 2016 13:09:52
+external procedure NormPhoneNumber(string, var array string);//-------------------------------------- dima-f 15.09.17
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -390,7 +394,7 @@ BEGIN
   	
   SENDFIRSTSMS(SVOr);
   PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:10 03.11.2016
-  
+  AddPhoneLightAfterSVOVcSaved(SVOr);//************************ dima-f 14.09.17
   SVOVcRecordSaveAfter = res; 
   RETURN;
 END;
@@ -552,6 +556,7 @@ BEGIN
 	
 	CreateActFromSVOToEnginer(SVOr);
   PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:09 03.11.2016
+  UpdatePhoneLightAfterSVOVcChanging(SVOr);//************************ dima-f 14.09.17
 	
   SVOVcRecordUpdateAfter = res;
   RETURN;
@@ -636,24 +641,47 @@ LFindOpenActTrans:;
   return;
 end;
 
-
+//----------------------------------------------------------function edited by dima-f 15.09.17
 global procedure CountNumberRepeatPhone(string phone,var array longint sernr,var integer count)
 begin
-record SVOVc SVOr;
-boolean testf;
-record LetVc Letr;
+    /*
+    record SVOVc SVOr;
+    boolean testf;
+    record LetVc Letr;
+    */
+    record PhoneLightVc PhoneLightr;
+    boolean TrHs,condition;
+    array string 255 phones;
+    integer i;
 
-	
-	count = 0;
+    count = 0;
+    NormPhoneNumber(phone, phones);
+
+    for(i=0;i<phones.length;i=i+1) begin
+        LogText(0,"phones[i] ------------- " & phones[i]);
+        PhoneLightr.PhoneNum = phones[i];
+        TrHs=true;
+        while(LoopMain(PhoneLightr,1,TrHs))begin
+            if(PhoneLightr.PhoneNum == phones[i]) begin
+                sernr[count] = PhoneLightr.SerNum;
+                count = count + 1;
+                LogText(0,"-----------count----------->>>>>>>>>" & count);
+            end else begin
+                TrHs=false;
+            end;
+        end;
+        ResetLoop(PhoneLightr);
+    end;
+	/*
 	while(loopmain(SVOr,1,true))begin
 		recordnew(Letr);
 		AddToText(SVOr.Kontinfo1,Letr);
 		if(StringInText(phone,Letr))then begin
 			sernr[count] = SVOr.SerNr;
 			count = count + 1;
-		end;	
+		end;
 	end;
-	
+	*/
 return
 end;
 
@@ -1073,9 +1101,19 @@ BEGIN
   end;
 	// Edit End ---------------------------------------------- Edit End  
   
-LSVOVcRecordRemoveTest:;  
+LSVOVcRecordRemoveTest:;
   SVOVcRecordRemoveTest = res; 
   RETURN;
+END;
+
+global updating
+function LongInt SVOVcRecordRemove(var record SVOVc SVOr,record SVOVc SVO2r,LongInt long3,LongInt long4)
+BEGIN
+  LongInt res;
+  res=1;
+  RemovePhoneLightAfterSVOVcRemoved(SVOr);
+  SVOVcRecordRemove=res;
+  return;
 END;
 
 procedure SVOVcConvertB1ToB2(record SVOVc SVOr,var val to1p,var val to2p,var val br1p,var val br2p)
