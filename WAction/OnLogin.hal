@@ -57,9 +57,7 @@ BEGIN
   showFlag=false;
   MyBonusCurrentUserRemote(cnt, ttl, showFlag);
   if(showFlag==true) begin
-    if(showFlag==true) begin
-        MessageBox(0,"Співробітник:" & CurrentUser & "   Кількість ремонтів:" & cnt & "   Прибуток:" & ttl);
-    end;
+     MessageBox(0,"Співробітник:" & CurrentUser & "   Кількість ремонтів:" & cnt & "   Прибуток:" & ttl);
   end;
   return;
 END;
