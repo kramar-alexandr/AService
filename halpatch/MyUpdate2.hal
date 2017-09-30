@@ -163,8 +163,7 @@ begin
         SetAreaZeroSize(replyarea);
         AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=1",mainRequest);
         MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
-        logtext(0,"SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
-        
+        logtext(0,host & page & "SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
         logtext(0,"SEND SMS");
     end;
   end;
@@ -255,7 +254,8 @@ begin
 					SetAreaZeroSize(replyarea);
 					AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=2",mainRequest);
 					MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
-				
+				  logtext(0,host & page & " SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
+
 					logtext(0,"SENDSECONDSMS SMS");
 			end;
 		end;
