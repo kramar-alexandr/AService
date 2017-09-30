@@ -1,4 +1,0 @@
-global
-function Boolean MySendWebRequest(string s1,longint l1,longint l2,boolean b1,string s3,string s4,string s5,string s5,boolean b2,area a1,var area a2,integer i1) begin
-    return true;
-end;
