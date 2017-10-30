@@ -488,10 +488,10 @@ begin
 		curcost[ressize] = 0;
 		realcostbase[ressize] = blankval;
 		realcostuah[ressize] = blankval;
-		/*if(IVrw.FIFORowVal!=0)then begin
+		if(IVrw.FIFORowVal!=0)then begin
 			curcost[ressize] = IVrw.FIFORowVal;
 			realcostbase[ressize] = IVrw.FIFORowVal;
-		end;*/
+		end;
 		curncy[ressize] = IVr.CurncyCode;
 		rate[ressize] =	0;
 		indate[ressize] =	IVr.InvDate;
