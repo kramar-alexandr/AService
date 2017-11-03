@@ -959,6 +959,62 @@ begin
 							end;
 						end; 
 			    end;
+			    
+			    if(cred<0)then begin
+						cnt = 1;
+						while(ReadRecordLink(IVr,cnt,Retr,RLr)) begin
+							cnt = cnt+1;
+							if(Retr.SerNr>-1)then begin
+								retrwnt = matrowcnt(Retr);
+								For(reti=0;reti<retrwnt;reti=reti+1) begin
+									matrowget(Retr,reti,Retrw);
+
+									if(IVrw.RetRow>=0 and IVrw.RetRow==reti)then begin
+									IHr.FileName = "RetVc";
+									IHr.TransNr = Retr.SerNr;
+									IHr.Row = reti;
+									TrHs = true;
+									while(loopkey("FNTransNr",IHr,3,TrHs)) begin
+										testf = true;
+										if(IHr.TransNr!=Retr.SerNr)then begin TrHs = false; testf = false; end;
+										if(IHr.Row!=reti)then begin TrHs = false; testf = false; end;
+										if(IHr.FileName!="RetVc")then begin TrHs = false; testf = false;  end;
+			
+										if(testf)then begin
+											cost[ressize] = AbsoluteVal(IHr.TotCostPrice / IHr.Qty*cred);
+											serial[ressize] = IHr.SerialNr;
+											qty[ressize] = IHr.Qty*cred; 
+											if(IHr.InFileName=="PUVc" and nonblank(IHr.InFileName))then begin
+												PUr.SerNr = IHr.InSerNr;
+												if(readfirstmain(PUr,1,true))then begin
+													curcost[ressize] = 	AbsoluteVal(IHr.TotCostPriceCurncy / IHr.Qty*cred);
+													curncy[ressize] = IHr.PUCurncyCode;
+													rate[ressize] =	PUr.FrRate / PUr.ToRateB1;
+													if(PUr.CurncyCode==BCb.BaseCur2)then begin
+														rate[ressize] = PUr.BaseRate2/PUr.BaseRate1;
+													end;
+													com = "Ret ";
+													NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+													indate[ressize] =	PUr.TransDate;
+													vecode[ressize] = PUr.VECode;
+													findf = true;
+												end;
+											end else begin
+												com = "RetNOPu ";
+												PUr.SerNr = -1;
+												PUr.CurncyCode = "";
+												NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
+											end;
+											ressize = ressize + 1;
+										end;
+									end;
+									resetloop(IHr);
+								end;
+								end; 											
+							end;
+						end;
+					end;
+			    
 			    if(!findf)then begin
 						com = "Simple IV NOHIST ";
 						
