@@ -1006,6 +1006,7 @@ begin
 												PUr.CurncyCode = "";
 												NewCalcCostAndPrice(IVr,IVrw,cost,curcost,qty,ressize,cred,realcostbase,realcostuah,realpricebase,realpriceuah,realsumbase,realsumuah,PUr,uahpurate,uahcurrate,com,comment,BCb,vecode);
 											end;
+											findf = true;
 											ressize = ressize + 1;
 										end;
 									end;
