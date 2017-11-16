@@ -1047,6 +1047,7 @@ BEGIN
     otherwise      
       Actr.MainPersons = CurrentUser;
   end;*/
+  Actr.CCPersons = CurrentUser;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 15:38:48
  	Actr.Supervisor = CurrentUser;// Edit ************************** Friday, 18 August 2017 10:25:40
   Actr.SerNr = -1;  
   Actr.TransDate = CurrentDate;
