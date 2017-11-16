@@ -10518,7 +10518,7 @@ begin
     EnterSkip(StartTime);
     EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
     EditField(h,v+=vs,80,"Пріоритет",Normal,PrioLevel,false,0);
-    EditField(h,v+=vs,80,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
+    EditField(h,v+=vs,120,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
     EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
     EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
     EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
