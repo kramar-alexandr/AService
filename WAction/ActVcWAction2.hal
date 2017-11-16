@@ -1,0 +1,1587 @@
+remote updating function boolean CreateInvitationAndSend(longint,var longint,var string);
+external function string 255 GetGlobalUserMainCompanies(string);
+external function Time TimeDiff(Time,Time);
+remote procedure ActDEndActivityServer(var record ActVc);
+remote updating function Boolean DelActivity(LongInt,var string,var LongInt);
+remote updating function Integer RecordAction_raPasteActInWayList(var record WayListVc,var record ActVc);
+external function Boolean GetFirstItem(var string,var record INVc);
+external function Boolean ActDClassCUCodeEFAfter(Integer,Integer,Integer,Integer);
+external function Boolean ActDClassItemCodeEFAfter(Integer,Integer,Integer,Integer);
+external procedure ActVcRecordDefClient(var record ActVc);
+external procedure In2Period(var string,var Date,var Date);
+external procedure CustMessages(string,string);
+remote updating function Integer RecordAction_raPasteActInOrder(var record ORVc,var record ActVc);
+remote updating function Integer RecordAction_raPasteActInQT(var record QTVc,var record ActVc);
+remote updating function LongInt LetFromActDsmRemote(record ActVc,var record LetVc,Boolean);
+external procedure SetupCustPS2Rn(string,record RcVc);
+remote updating function LongInt MailFromActDsmRemote(record ActVc,var record MailVc,string);
+external procedure FindUserMailboxName(string,var string,var string);
+remote function Boolean ReadAcceptanceRulesForFileName(string,string,string,var record AcceptanceRulesVc);
+
+procedure DoNewActivity(Integer wn,string username,LongInt mother)
+begin
+  Integer nwn;
+  record ActVc Actr,Act2r;
+  Date sd;
+  Date ed;
+  Date td;
+  record RcVc RepSpec;
+  string 255 tstr;
+  Integer caltimeflag;
+  Integer todoflag; 
+  Integer AccessLevel; 
+  Integer oldcomp;
+  string 255 usercrmcompanies;
+  
+  oldcomp = CurrentCompany;
+/*  
+  if (GlobalUsersMainCompany>0) then begin // Only for Client code, is not set in the server
+    if (GlobalUsersMainCompany!=CurrentCompany) then begin
+      if (SetCompany(GlobalUsersMainCompany,false)) then begin
+      end;
+    end;
+  end;
+*/
+  usercrmcompanies = GetGlobalUserMainCompanies(CurrentUser);
+  if (nonblank(usercrmcompanies)) then begin
+    if (SetInSet(CurrentCompany,usercrmcompanies)==false) then begin
+      if (SetCompany(GlobalUsersMainCompany,false)) then begin
+      end;
+    end;
+  end;
+
+  caltimeflag = 0;
+  todoflag = 1; 
+  td = CurrentDate;
+//  AccessLevel = UserRegisterAccess("ActVc");//VcAccessLevel("ActVc");
+//  if ((AccessLevel==2) or (AccessLevel==5) or (AccessLevel==6)) then begin goto LDoNewActivity; end;
+  if ((GetWindowClass(wn)=="MonthWClass") or
+      (GetWindowClass(wn)=="HalfYearWClass")) then begin  
+    GetWindowRecord(wn,RepSpec);
+    sd = RepSpec.sStartDate;
+    ed = RepSpec.sStartDate;
+    tstr = RepSpec.f1;
+    caltimeflag = 1;
+    todoflag = 0;
+  end;
+  if (GetWindowClass(wn)=="WeekWClass") then begin
+    GetWindowRecord(wn,RepSpec);
+/*    
+//    sd = RepSpec.sStartDate; // Why ???
+//    ed = RepSpec.sEndDate;
+//    td = sd;
+*/
+    tstr = RepSpec.f1;
+    caltimeflag = 1;
+    todoflag = 0;
+  end;
+  if (GetWindowClass(wn)=="DayWClass") then begin
+    GetWindowRecord(wn,RepSpec);
+    sd = RepSpec.sStartDate;
+    ed = RepSpec.sStartDate;
+    td = sd;
+    tstr = RepSpec.f1;
+    caltimeflag = 1;
+    todoflag = 0;
+  end;
+  if (GetWindowClass(wn)=="ToDoWClass") then begin
+    GetWindowRecord(wn,RepSpec);
+    sd = RepSpec.sStartDate;
+    ed = RepSpec.sStartDate;
+    td = sd;
+    td = CurrentDate;
+    ed = CurrentDate;
+    tstr = RepSpec.f1;
+    caltimeflag = 0;
+  end;
+  if (GetWindowClass(wn)=="ResMonWClass") then begin
+    GetWindowRecord(wn,RepSpec);
+    td = CurrentDate;
+    ed = CurrentDate;
+    tstr = RepSpec.f3;
+    caltimeflag = 1;
+    todoflag = 0;
+  end;
+  
+  if ((ProgramType==typFirstOffice) or 
+      (ProgramType==typFirstOfficeSmall) or
+      (ProgramType==typFirstOfficeCurrency) or
+      (IsBooks) or (IsStandardProduct)) then begin
+    caltimeflag = 1;
+  end;    
+// this is how it should be 
+//  nwn = OpenNamedView("ActDClass",0,NIL,true,0);
+//  RecordNew(Actr);//that code is on server when server.hob in not present
+  ActVcRecordDefClient(Actr);
+    
+  Actr.TodoFlag = todoflag;
+  Actr.PrivateFlag = 0;
+  Actr.Invalid = 0;
+  if (GetWindowClass(wn)=="DayWClass") or (GetWindowClass(wn)=="WeekWClass") then begin
+    Actr.TransDate = td;
+    if (nonblankdate(ed)) then begin
+      Actr.EndDate = ed;
+    end;
+  end;
+  if (Actr.TransDate>Actr.EndDate) then begin Actr.EndDate = Actr.TransDate; end;
+  Actr.CalTimeFlag = caltimeflag;
+  //if (nonblank(tstr)) then begin Actr.MainPersons = tstr; end;
+  
+  Actr.Supervisor = currentuser;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 18:20:09
+  
+  Actr.Mother = mother;
+  if (GetWindowClass(wn)=="ActDClass") then begin
+    GetWindowRecord(wn,Act2r);
+    if (blank(Actr.ActType)) then begin Actr.ActType = Act2r.ActType; end;
+    if (blank(Actr.ActTypeComment)) then begin  Actr.ActTypeComment = Act2r.ActTypeComment; end;    
+    if (blank(Actr.PRCode)) then begin Actr.PRCode = Act2r.PRCode; end;    
+    if (blank(Actr.Contact)) then begin  Actr.Contact = Act2r.Contact; end;    
+    if (blank(Actr.CUCode)) then begin Actr.CUCode = Act2r.CUCode; end;    
+    if (blank(Actr.CUName)) then begin Actr.CUName = Act2r.CUName; end;    
+    if (blank(Actr.Phone)) then begin  Actr.Phone = Act2r.Phone; end;    
+  end; 
+
+  nwn = OpenWindow("ActDClass",1,0,"","",Actr);
+
+  WindowFieldGoto(nwn,Actr,-1,"Comment",true);
+  //if (nwn!=0) then begin
+  //  PutWindowRecord(nwn,Actr);
+  //end;
+  
+LDoNewActivity:;
+  ResetCompany(oldcomp);
+  return;
+end;
+
+global
+procedure NewActivityTool()
+begin
+  Integer wn;
+
+  wn = CurWindow;
+  DoNewActivity(wn,"",-1);  
+  return;
+end;
+
+global
+function Boolean DayWClassCommandNew(Integer wn)
+begin
+  DoNewActivity(wn,"",-1);  
+  DayWClassCommandNew = true;
+  return;
+end;
+
+global
+function Boolean WeekWClassCommandNew(Integer wn)
+begin
+  DoNewActivity(wn,"",-1);
+  WeekWClassCommandNew = true;
+  return;
+end;
+
+global
+function Boolean MonthWClassCommandNew(Integer wn)
+begin
+  DoNewActivity(wn,"",-1);  
+  MonthWClassCommandNew = true;
+  return;
+end;
+
+global
+procedure WeekWClassGregorian()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarGregorian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure WeekWClassHijri()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarHijri;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure WeekWClassPersian()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarPersian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure MonthWClassGregorian()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarGregorian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure MonthWClassHijri()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarHijri;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure MonthWClassPersian()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarPersian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure HalfYearWClassGregorian()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarGregorian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure HalfYearWClassHijri()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarHijri;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+global
+procedure HalfYearWClassPersian()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarPersian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+
+
+/*
+global
+procedure MonthWClassCalendar()
+begin
+  record RcVc RepSpec;
+  Integer wn;
+ 
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,RepSpec);
+  RepSpec.Custf = kCalendarPersian;
+  PutWindowRecord(wn,RepSpec);
+  SetWindowTitle(wn);
+  return;
+end;
+*/
+
+global
+function Boolean HalfYearWClassCommandNew(Integer wn)
+begin
+  DoNewActivity(wn,"",-1);  
+  HalfYearWClassCommandNew = true;
+  return;
+end;
+
+global
+function Boolean ToDoWClassCommandNew(Integer wn)
+begin
+  DoNewActivity(wn,"",-1);  
+  ToDoWClassCommandNew = true;
+  return;
+end;
+
+global
+function Boolean ConferenceWClassCommandNew(Integer wn)
+begin
+  record ConfVc Confr;
+  Integer nwn;
+  string 255 subsetname;
+  
+  RecordNew(Confr);
+  nwn = OpenWindow("ConfDClass",1,wn,"","",Confr);
+  if (nwn!=0) then begin
+    GetWindowRecord(nwn,Confr);
+    if (wn>0) then begin
+      subsetname = GetWindowSubset(wn);
+      if (blank(subsetname)) then begin
+        Confr.Class = kConfClassMailbox;
+        Confr.MotherConf = -1;
+      end else  begin
+        Confr.Class = kConfClassConference;
+        Confr.MotherConf = StringToLongInt(subsetname);
+      end;
+    end;
+    PutWindowRecord(nwn,Confr);
+  end;
+  ConferenceWClassCommandNew = true;
+  return;
+end;
+
+global
+updating procedure MailFromActDsm()
+begin
+  Integer wn,nwn;
+  record ActVc Actr;
+  record MailVc Mailr;
+  string 255 tstr;
+
+  wn = CurWindow;
+  if (WindowState(wn)!=1) then begin
+    GetWindowRecord(wn,Actr);  
+    if (MailFromActDsmRemote(Actr,Mailr,WindowFormName(wn))==0) then begin
+      nwn = OpenWindow("MailDClass",1,0,"","",Mailr);
+    end;
+  end;  
+  return;
+end;
+
+global
+updating procedure LetFromActDsm()
+begin
+  Integer wn,nwn;
+  record ActVc Actr;
+  record LetVc Letr;
+
+  wn = CurWindow;
+  if (WindowState(wn)!=1) then begin
+    GetWindowRecord(wn,Actr);  
+    if (LetFromActDsmRemote(Actr,Letr,false)==0) then begin
+      nwn = OpenWindow("LetDClass",1,0,"","",Letr);
+    end;
+  end;  
+  return;
+end;
+
+global
+updating procedure LetWithQuoteFromActDsm()
+begin
+  Integer wn,nwn;
+  record ActVc Actr;
+  record LetVc Letr;
+
+  wn = CurWindow;
+  if (WindowState(wn)!=1) then begin
+    GetWindowRecord(wn,Actr);  
+    if (LetFromActDsmRemote(Actr,Letr,true)==0) then begin
+      nwn = OpenWindow("LetDClass",1,0,"","",Letr);
+    end;
+  end;  
+  return;
+end;
+
+global
+updating procedure ORFromActDsm()
+begin
+  record ORVc ORr;
+  record ActVc Actr;
+  Integer nwn,wn;
+  LongInt r;
+
+  wn = CurWindow;
+  if (WindowState(wn)==0) then begin//Rs_normal
+    GetWindowRecord(wn,Actr);
+//    if (UserModuleAccess("modSO")) then begin // Some products has the Order in another module...
+//    if (UserCanAction("QTToOrd",true)) then begin
+    if (nonblank(Actr.CUCode)) then begin
+      r = RecordAction_raPasteActInOrder(ORr,Actr);
+      if (r!=-1) then begin
+        nwn = OpenWindow("ORDClass",1,0,"","",ORr);
+        CloseWindow(wn);
+        UpdateBrowses("ORVc");
+        CustMessages("ORVc",ORr.CustCode);
+      end else begin
+        Beep;
+      end;
+    end else begin
+      Beep;
+    end;
+//    end else begin
+//      MessageBox(1274,"");
+//    end;
+  end else begin
+    Beep;
+  end;
+  return;
+end;
+
+global
+updating procedure QTFromActDsm()
+begin
+  record QTVc QTr;
+  record ActVc Actr;
+  Integer nwn,wn;
+  LongInt r;
+
+  wn = CurWindow;
+  if (WindowState(wn)==0) then begin//Rs_normal
+    GetWindowRecord(wn,Actr);
+//    if (UserModuleAccess("modSO")) then begin // Some products has the Order in another module...
+//    if (UserCanAction("QTToOrd",true)) then begin
+    if (nonblank(Actr.CUCode)) then begin
+      r = RecordAction_raPasteActInQT(QTr,Actr);
+      if (r!=-1) then begin
+        nwn = OpenWindow("QTDClass",1,0,"","",QTr);
+        CloseWindow(wn);
+        UpdateBrowses("QTVc");
+        CustMessages("QTVc",QTr.CustCode);
+      end else begin
+        Beep;
+      end;
+    end else begin
+      Beep;
+    end;
+//    end else begin
+//      MessageBox(1274,"");
+//    end;
+  end else begin
+    Beep;
+  end;
+  return;
+end;
+
+global
+procedure CUStatusActDsm()
+begin
+  record ActVc Actr;
+  record CUVc CUr;
+  record RcVc RepSpec;
+  Integer wn;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,Actr);
+  if (nonblank(Actr.CUCode)) then begin
+    CUr.Code = Actr.CUCode;
+    if (ReadFirstMain(CUr,1,true)) then begin end;
+    if (CUr.CUType!=0) then begin
+      SetupCustPS2Rn(Actr.CUCode,RepSpec);
+      RunReport(RepSpec,0);
+    end;
+  end;
+  return;
+end;
+
+global
+procedure HalfYearWClassMonth()
+begin
+  record RcVc RepSpec;
+  Integer wn,nwn;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec)
+  RepSpec.sStartDate = AddDay(CurrentDate,-GetDay(CurrentDate)+1);    
+  nwn = OpenWindow("MonthWClass",1,0,"","",RepSpec);
+  return;
+end;
+
+global
+procedure HalfYearWClassWeek()
+begin
+  record RcVc RepSpec;
+  Integer wn,nwn;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec)
+  RepSpec.sStartDate = CurrentDate;
+  if (GetDateId(RepSpec.sStartDate)!=1) then begin
+    RepSpec.sStartDate = AddDay(RepSpec.sStartDate,-GetDateId(RepSpec.sStartDate)+1);
+  end;
+  nwn = OpenWindow("WeekWClass",1,0,"","",RepSpec);
+  return;
+end;
+
+global
+procedure HalfYearWClassDay()
+begin
+  record RcVc RepSpec;
+  Integer wn,nwn;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec)
+  RepSpec.sStartDate = CurrentDate;
+  nwn = OpenWindow("DayWClass",1,0,"","",RepSpec);
+  return;
+end;
+
+// Should have been one function that builds the area in the server before returning, now it does a lot of calls. Less now with remote, still a lot...
+// Also the functions that used to be external (not remote) are only available in server.hob, which would have crashed if done in a HM client (that doesn't have server.hob)
+global 
+updating procedure SendInvitationDsm()
+begin
+  Boolean res;
+  string 255 errorstr;
+  longint errorcode;
+  integer wn;
+  record ActVc Actr;
+
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_normal) then begin
+    GetWindowRecord(wn,Actr);
+    res = CreateInvitationAndSend(Actr.SerNr,errorcode,errorstr);
+    if (res) then begin 
+      MessageBox(errorcode,errorstr);
+      UpdateBrowses("MailVc");
+    end else begin
+      MessageBox(errorcode,errorstr);
+    end;
+  end;
+
+  return;
+end;
+
+// To replace  updating procedure SendInvitationDsm()
+global 
+procedure SendInvitationDsm2()
+begin
+  Boolean res;
+  string 255 errorstr;
+  longint errorcode;
+  integer wn;
+  record ActVc Actr;
+
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_normal) then begin
+    GetWindowRecord(wn,Actr);
+    res = qupdating.CreateInvitationAndSend(Actr.SerNr,errorcode,errorstr);
+    if (res) then begin 
+      MessageBox(errorcode,errorstr);
+      UpdateBrowses("MailVc");
+    end else begin
+      MessageBox(errorcode,errorstr);
+    end;
+  end;
+  return;
+end;
+
+/* I have disconected this. Once we have made new multiple views of Activities we reactivate it.
+global
+updating function Boolean ActDClassTodoFlagButtonAfter(Integer wn,Boolean changedf)
+begin
+  Boolean res;
+  record ActVc Actr;
+  record ActVc OldActr;
+  string 255 windnamearg;
+  string 255 subset;
+  string 255 wname;
+  integer nwn,mwn,multif,wstate;
+  
+  GetWindowRecord(wn,Actr);
+  GetPrevWindowRecord(wn,OldActr);
+  
+  //StopAlert("changedf = " & changedf & " Actr.TodoFlag = " & Actr.TodoFlag);  
+  //RedefineWindow(wn);
+  
+  //GetWindowName(wn,wname);
+  wname = "ActDClass";
+  //GetWindowNameArgument(wn,windnamearg);
+  //GetWindowSubset(wn,subset);
+  mwn = MotherWindow(wn);
+  multif = 0; // ???
+  wstate = WindowState(wn);
+  
+  SetWindowDirty(wn);
+  CloseWindow(wn);
+  
+  nwn = OpenWindow(wname,multif,mwn,subset,windnamearg,Actr);
+  
+  SetWindowState(nwn,wstate);
+  PutWindowPrevRecord(nwn,OldActr);
+  
+  res = true;
+  ActDClassTodoFlagButtonAfter = res;
+end;
+*/
+
+global
+procedure ActDClassCreateSubTask()
+begin
+  Integer wn;
+  record ActVc Actr;
+  
+  wn = CurWindow;
+  GetWindowRecord(wn,Actr);
+  
+  DoNewActivity(wn,"",Actr.SerNr);
+  //UpdateBrowses("ActVc");
+  
+  return;
+end;
+
+global
+function Boolean ToDoWClassPrint(Integer wn,Boolean previewf)
+begin
+  record RcVc RepSpec;
+  
+  GetWindowRecord(wn,RepSpec);
+  if (previewf==false) then begin
+    RepSpec.Media = mtPrinter;
+  end else begin
+    RepSpec.Media = mtScreen;
+  end;
+  RepSpec.UsedOnly = 1;
+  RepSpec.repname = "ActToDo2Rn";
+  RunReport(RepSpec,0);
+//  ActToDo2Rn(RepSpec);
+  ToDoWClassPrint = true;
+  RETURN;
+end;
+
+global
+function Boolean DayWClassPrint(Integer wn,Boolean previewf)
+begin
+  record RcVc RepSpec;
+  
+  GetWindowRecord(wn,RepSpec);
+  if (previewf==false) then begin
+    RepSpec.Media = mtPrinter;
+  end else begin
+    RepSpec.Media = mtScreen;
+  end;
+  RepSpec.UsedOnly = 2;
+  RepSpec.flags[1] = 0;
+  RepSpec.flags[2] = 0;
+  RepSpec.flags[3] = 3;
+  RepSpec.flags[4] = 0;
+  RepSpec.flags[5] = 0;
+  RepSpec.repname = "ActToDo2Rn";
+  RunReport(RepSpec,0);
+//  ActToDo2Rn(RepSpec);
+  DayWClassPrint = true;
+  RETURN;
+end;
+
+global
+function Boolean WeekWClassPrint(Integer wn,Boolean previewf)
+begin
+  record RcVc RepSpec;
+  
+  GetWindowRecord(wn,RepSpec);
+  if (previewf==false) then begin
+    RepSpec.Media = mtPrinter;
+  end else begin
+    RepSpec.Media = mtScreen;
+  end;
+  RepSpec.UsedOnly = 2;
+  RepSpec.repname = "ActToDo2Rn";
+  RepSpec.flags[1] = 0;
+  RepSpec.flags[2] = 0;
+  RepSpec.flags[3] = 0;
+  RepSpec.flags[4] = 0;
+  RepSpec.flags[5] = 0;
+  RunReport(RepSpec,0);
+ // ActToDo2Rn(RepSpec);
+  WeekWClassPrint = true;
+  RETURN;
+end;
+
+global
+function Boolean MonthWClassPrint(Integer wn,Boolean previewf)
+begin
+  record RcVc RepSpec;
+  
+  GetWindowRecord(wn,RepSpec);
+  if (previewf==false) then begin
+    RepSpec.Media = mtPrinter;
+  end else begin
+    RepSpec.Media = mtScreen;
+  end;
+  RepSpec.UsedOnly = 2;
+  RepSpec.repname = "ActToDo2Rn";
+  RepSpec.flags[1] = 0;
+  RepSpec.flags[2] = 0;
+  RepSpec.flags[3] = 0;
+  RepSpec.flags[4] = 0;
+  RepSpec.flags[5] = 0;
+  RunReport(RepSpec,0);
+//  ActToDo2Rn(RepSpec);
+  MonthWClassPrint = true;
+  return;
+end;
+
+global
+function Boolean ToDoWClassAfterEditField(Integer wn,string fieldname,Integer fn,Integer rownr,Integer changed)
+begin
+  Boolean res;
+  record RcVc RepSpec; 
+  Date td; 
+  Boolean found;
+  record ActVc Actr;
+  string 255 index;
+  
+  res = false;
+  switch (fieldname) begin
+    case "Period2Str":
+      GetWindowRecord(wn,RepSpec);
+      In2Period(RepSpec.Period2Str,RepSpec.sStartDate,RepSpec.sEndDate);
+      PutWindowRecord(wn,RepSpec);
+    case "f1":
+      GetWindowRecord(wn,RepSpec);
+
+      index = "UserMain:" & RepSpec.f1;
+      Actr.TodoFlag = 1;  
+      td.year = 1980;
+      td.month = 1;
+      td.day = 1;
+      Actr.TransDate = td;
+      found = true;
+      while (LoopKey(index,Actr,2,found)) begin
+        if (Actr.TodoFlag!=1) then begin found = false; end;
+        if (found) then begin
+          goto LLoopEnd;
+        end;;
+      end;;
+LLoopEnd:;  
+      if (found) then begin
+        RepSpec.sStartDate = Actr.TransDate;
+        RepSpec.Period2Str = RepSpec.sStartDate & ":" & RepSpec.sEndDate;
+      end;;
+      In2Period(RepSpec.Period2Str,RepSpec.sStartDate,RepSpec.sEndDate);
+      PutWindowRecord(wn,RepSpec);
+  end;
+
+  ToDoWClassAfterEditField = res;
+  return;
+end;
+
+global
+procedure ToDoWSearchLsm()
+begin
+  Integer wn,nwn;
+  record RcVc RepSpec;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec);  
+  nwn = OpenWindow("SearchToDoWRClass",0,wn,"","",RepSpec);
+  DeselectWindow(nwn,false);
+  RepSpec.Scaling = 1;
+  RepSpec.Media = mtScreen;
+  RepSpec.repname = "SearchToDoWRn";
+  RepSpec.critname = "SearchToDoWRClass";
+  PutWindowRecord(nwn,RepSpec);  
+  WindowFieldGoto(nwn,RepSpec,-1,"f6",true);
+  return;
+end;
+
+global
+procedure ToDoWListLsm()
+begin
+  Integer wn,nwn;
+  record RcVc RepSpec;
+  
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec);  
+  nwn = OpenWindow("ActToDo2RClass",0,wn,"","",RepSpec);
+  DeselectWindow(nwn,false);
+  RepSpec.Scaling = 1;
+  RepSpec.Media = mtScreen;
+  RepSpec.repname = "ActToDo2Rn";
+  RepSpec.critname = "ActToDo2RClass";
+  PutWindowRecord(nwn,RepSpec);  
+  WindowFieldGoto(nwn,RepSpec,-1,"f6",true);
+  return;
+end;
+
+global
+procedure CopyToLocalCalendarDsm()
+begin
+  CopyToLocalCalendar;
+  return;
+END;
+
+global
+procedure ActDClassEditRow(integer wn,Integer rwn)
+begin
+  record ActVc Actr;
+  row ActVc Actrw;
+  record RcVc RepSpec;
+  integer nwn;
+  
+  GetWindowRecord(wn,Actr);
+  MatRowGet(Actr,rwn,Actrw);
+  RepSpec.long1 = rwn;
+  RepSpec.f1 = Actrw.TextCode;
+  RepSpec.f2 = Actrw.Text;
+  
+  nwn = OpenWindow("ActRowDClass",0,wn,"","",RepSpec);
+  
+end;
+
+global
+procedure ActDClassAddRow(Integer wn,Integer rwn)
+begin
+  record ActVc Actr;
+  row ActVc Actrw;
+
+  GetWindowRecord(wn,Actr);
+  MatRowGet(Actr,rwn,Actrw);
+//  Actrw.stp = kInvoiceRowTypeNormal;
+  MatRowPut(Actr,rwn,Actrw);
+  PutWindowRecord(wn,Actr);
+  ActDClassEditRow(wn,rwn);
+  return;
+end;
+
+global
+function boolean ActRowDClassOnOKWindow(Integer wn)
+begin
+  record RcVc RepSpec;
+  record ActVc Actr;
+  row ActVc ActRw;
+  integer mwn;
+  integer rwn;
+  
+  mwn = MotherWindow(wn);
+  GetWindowRecord(wn,RepSpec);
+  GetWindowRecord(mwn,Actr);
+  rwn = RepSpec.long1;
+  
+  MatRowGet(Actr,rwn,Actrw);
+  
+  Actrw.TextCode = RepSpec.f1;
+  Actrw.Text = RepSpec.f2;
+  
+  MatRowPut(Actr,rwn,Actrw);
+  PutWindowRecord(mwn,Actr);
+  
+  ActRowDClassOnOKWindow = true;
+end;
+
+global
+procedure ActDClassBarcodeData(Integer wn,string bcdata)
+begin
+  record INVc INr;
+  record CUVc CUr;
+  record ActVc Actr;
+  record BarcodeVc BCr;
+  
+  BCr.Barcode = bcdata;
+  
+  if (ReadFirstMain(BCr,1,true)) then begin
+    if (BCr.CustCode<>"") then begin
+      CUr.Code = BCr.CustCode;
+      if (ReadFirstMain(CUr,1,true)==false) then begin
+        RecordClear(CUr);
+      end;
+    end;
+  end;
+  
+  if (CUr.Code<>"") then begin
+    if (GetFirstItem(bcdata,INr)==false) then begin
+      StopAlert(USetStr(2292) & ": " & bcdata);
+      goto LActDClassBarcodeData;
+    end;
+  end;
+  
+  GetWindowRecord(wn,Actr);
+  
+  if (CUr.Code<>"") then begin
+    Actr.CUCode = CUr.Code;
+    PutWindowRecord(wn,Actr);
+    ActDClassCUCodeEFAfter(wn,-1,-1,1);
+  end;
+  
+  GetWindowRecord(wn,Actr);
+  
+  if (INr.Code<>"") then begin
+    Actr.ItemCode = INr.Code;
+    PutWindowRecord(wn,Actr);
+    ActDClassItemCodeEFAfter(wn,-1,-1,1);
+  end;
+    
+LActDClassBarcodeData:;
+  return;
+end;
+
+global
+updating procedure AddToFavActTypeLsm()
+begin
+  record ActTypeVc ActTyper;
+  record FavActTypeVc FATr;
+  Integer wn,i,nwn;
+  Boolean selected;
+  
+  wn = CurWindow;  
+  i = 1;
+  while (GetRecordFromBrowse(ActTyper,wn,i)) begin
+    RecordNew(FATr);
+    FATr.UserCode = CurrentUser;
+    FATr.ActType = ActTyper.Code;
+    FATr.ActTypeGr = ActTyper.ActTypeGr;
+    FATr.Comment = ActTyper.Comment;
+    RecordStore(FATr,true);
+    selected = true;
+    i = i + 1;
+  end;  
+  if (selected==false) then begin
+    RecordNew(FATr);
+    FATr.UserCode = CurrentUser;
+    nwn = OpenWindow("FavActTypeDClass",1,0,"","",FATr);
+    WindowFieldGoto(nwn,FATr,-1,"ActType",true);
+  end;
+  return;
+end;
+
+global
+procedure OpenMainTaskActDsm()
+begin
+  Integer wn,nwn;
+  record ActVc Actr;
+  record ActVc mainActr;
+
+  wn = CurWindow;  
+  GetWindowRecord(wn,Actr);
+  mainActr.SerNr = Actr.Mother;
+  if (ReadFirstMain(mainActr,1,true)) then begin
+    nwn = OpenWindow("ActDClass",1,0,"","",mainActr);
+  end;
+  return;
+end;
+
+global
+updating procedure DropActDClassOnActDClass(Integer frwn,Integer town)
+begin
+  record ActVc newActr;
+  record ActVc Actr;
+  record ActVc oldActr;
+  record ActVc mainActr;
+  Boolean testf;
+
+  if (WindowState(frwn)!=Rs_normal) then begin
+    goto LDropActDClassOnActDClass;
+  end;
+  if (WindowState(town)==Rs_insert) then begin
+    goto LDropActDClassOnActDClass;
+  end;
+  testf = true;
+  if (testf) then begin
+    GetWindowRecord(frwn,Actr);
+    ReadFirstMain(Actr,1,true)
+    GetWindowRecord(town,mainActr);
+    ReadFirstMain(mainActr,1,true)
+    if (Actr.Mother<=0) and (mainActr.SerNr>0) then begin
+      if (Actr.SerNr!=mainActr.SerNr) then begin
+        RecordCopy(oldActr,Actr);
+        Actr.Mother = mainActr.SerNr;
+        RecordUpdate(oldActr,Actr,false);
+      end;
+    end;
+  end;
+LDropActDClassOnActDClass:;  
+  return;
+end;
+
+global
+updating procedure WayListFromActDsm()
+begin
+  record WayListVc WayListr;
+  record ActVc Actr;
+  Integer nwn,wn;
+  LongInt r;
+
+  wn = CurWindow;
+  if (WindowState(wn)==0) then begin //Rs_normal
+    GetWindowRecord(wn,Actr);
+    r = RecordAction_raPasteActInWayList(WayListr,Actr);
+    if (r!=-1) then begin
+      nwn = OpenWindow("WayListDClass",1,0,"","",WayListr);
+    end else begin
+      Beep;
+    end;
+  end else begin
+    Beep;
+  end;
+  return;
+end;
+
+global
+updating procedure SignActDsm()
+begin
+  record RcVc RepSpec;
+  Integer nwn,wn;
+  record ActVc Actr;
+  
+  wn = CurWindow;
+  if (WindowState(wn)!=Rs_insert) then begin
+    GetWindowRecord(wn,Actr);
+    nwn = OpenWindow("SignatureWClass",1,wn,"","",RepSpec);
+  end else begin
+    Beep;
+  end;
+end;
+
+function Boolean ActDClassOpenFromSerNrRecord(Integer wn)
+begin
+  Boolean res;
+  record ActVc Actr;
+  record POVc POr;
+  record IVVc IVr;
+  record TBBUVc TBBUr;
+  record VIVc VIr;
+  record ExpVc Expr;
+  record IntORVc IntORr;
+  record QTVc QTr;
+  record ORVc ORr;
+  record PUVc PUr;
+  record SDVc SDr;
+  record OPVc OPr;
+  record LeaveApplicationVc LeaveApplicationr;
+  record LeaveTransferVc LeaveTransferr;
+  record HMTravelLogVc HMTravelLogr;
+  
+  res = false;
+  GetWindowRecord(wn,Actr);
+  switch (Actr.FromFileName) begin
+    case "ExpVc": 
+      Expr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(Expr,1,true)) then begin
+        OpenWindow("ExpDClass",0,0,"","",Expr);
+        res = true;
+      end;
+    case "IntORVc": 
+      IntORr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(IntORr,1,true)) then begin
+        OpenWindow("IntORDClass",0,0,"","",IntORr);
+        res = true;
+      end;
+    case "IVVc": 
+      IVr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(IVr,1,true)) then begin
+        OpenWindow("IVDClass",0,0,"","",IVr);
+        res = true;
+      end;
+    case "LeaveApplicationVc":
+      LeaveApplicationr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(LeaveApplicationr,1,true)) then begin
+        OpenWindow("LeaveApplicationDClass",0,0,"","",LeaveApplicationr);
+        res = true;
+      end;
+    case "LeaveTransferVc":
+      LeaveTransferr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(LeaveTransferr,1,true)) then begin
+        OpenWindow("LeaveTransferDClass",0,0,"","",LeaveTransferr);
+        res = true;
+      end;
+    case "OPVc":
+      OPr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(OPr,1,true)) then begin
+        OpenWindow("OPDClass",0,0,"","",OPr);
+        res = true;
+      end;
+    case "ORVc": 
+      ORr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(ORr,1,true)) then begin
+        OpenWindow("ORDClass",0,0,"","",ORr);
+        res = true;
+      end;
+    case "POVc": 
+      POr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(POr,1,true)) then begin
+        OpenWindow("PODClass",0,0,"","",POr);
+        res = true;
+      end;
+    case "PUVc":
+      PUr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(PUr,1,true)) then begin
+        OpenWindow("PUDClass",0,0,"","",PUr);
+        res = true;
+      end;
+    case "QTVc": 
+      QTr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(QTr,1,true)) then begin
+        OpenWindow("QTDClass",0,0,"","",QTr);
+        res = true;
+      end;
+    case "SDVc":
+      SDr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(SDr,1,true)) then begin
+        OpenWindow("SDDClass",0,0,"","",SDr);
+        res = true;
+      end;
+    case "TBBUVc": 
+      TBBUr.PRCode = Actr.FromSerNr;
+      if (ReadFirstMain(TBBUr,1,true)) then begin
+        OpenWindow("TBBUDClass",0,0,"","",TBBUr);
+        res = true;
+      end;
+    case "VIVc": 
+      VIr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(VIr,1,true)) then begin
+        OpenWindow("VIDClass",0,0,"","",VIr);
+        res = true;
+      end;
+    case "HMTravelLogVc": 
+      HMTravelLogr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(HMTravelLogr,1,true)) then begin
+        OpenWindow("HMTravelLogDClass",0,0,"","",HMTravelLogr);
+        res = true;
+      end;
+  end;
+  
+  ActDClassOpenFromSerNrRecord = res;
+end;
+
+global
+function Boolean ActDClassOpenRecord(Integer wn,string fieldname,Integer fn,Integer rownr)
+begin
+  Boolean res;
+  record ActVc Actr;
+  Integer nwn;
+  record CUVc Contactr;
+  record ContactRelVc CRr;
+  
+  GetWindowRecord(wn,Actr);  
+  switch (fieldname) begin
+    case "Contact":
+      if (nonblank(Actr.Contact)) then begin
+        CRr.ContactName = Actr.Contact;
+        CRr.CustCode = Actr.CUCode;
+        if (ReadFirstKey("Contact",CRr,2,true)) then begin
+          Contactr.Code = CRr.ContactCode;
+          if (ReadFirstMain(Contactr,1,true)) then begin
+            nwn = OpenWindow("CUDClass",0,0,"","",Contactr);    
+            res = true;
+          end;
+        end;
+      end;
+    case "FromSerNr":
+      res = ActDClassOpenFromSerNrRecord(wn);
+  end;
+  ActDClassOpenRecord = res;
+  return;
+end;
+
+global
+updating procedure ActDClassDeleteSubTask()
+begin
+  Integer wn;
+  record ActVc Actr;
+  record ActVc fakeActr;
+  string 255 tstr;
+  LongInt error;
+  
+  wn = CurWindow;
+  if (ReadMarkedRecord(wn,Actr)) then begin
+    if (DelActivity(Actr.SerNr,tstr,error)==false) then begin 
+      MessageBox(error,"");
+    end else begin 
+      UpdateBrowses("ToDoWClass");
+    end;
+  end;
+  return;
+end;
+
+global
+updating procedure ActDEndActivity()
+begin
+  Integer wn;
+  record ActVc Actr;
+  record CRMBlock CRMb;
+    
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,Actr);
+  BlockLoad(CRMb);
+  if (Actr.OKFlag==0) then begin
+    if (CRMb.ActTimeFromClient!=0) then begin
+      Actr.EndDate = CurrentDate;
+      Actr.EndTime = CurrentTime;
+    end else begin
+      ActDEndActivityServer(Actr);
+    end;
+    Actr.CostTime = TimeDiff(Actr.StartTime,Actr.EndTime);
+    PutWindowRecord(wn,Actr);
+    SelectWindow(wn);
+    if (WindowDoOK(wn,0)) then begin
+    end;
+  end;
+  return;
+end;
+
+global
+updating procedure OpenTaskManagerOnLoginLsm()
+begin
+  record LocalLoginBlock LocalMachineLoginb;
+  row LocalLoginBlock LocalMachineLoginrw;
+  Integer rwcnt,i;
+  
+  BlockLoad(LocalMachineLoginb);
+  rwcnt = MatRowCnt(LocalMachineLoginb);
+  if(rwcnt>0) then begin
+    for(i=0;i<rwcnt;i=i+1) begin
+      MatRowGet(LocalMachineLoginb,i,LocalMachineLoginrw);
+      if (LocalMachineLoginrw.OnLoginWindow==11 and LocalMachineLoginrw.Code==CurrentUser) then begin
+        MatRowDelete(LocalMachineLoginb,i);
+        goto LOpenTaskManagerOnLoginLsm;
+      end;
+    end;
+    LocalMachineLoginrw.OnLoginWindow = StringToInt("11");
+    LocalMachineLoginrw.Code = CurrentUser;
+    MatRowPut(LocalMachineLoginb,rwcnt,LocalMachineLoginrw);
+  end else begin
+    LocalMachineLoginrw.OnLoginWindow = StringToInt("11");
+    LocalMachineLoginrw.Code = CurrentUser;
+    MatRowPut(LocalMachineLoginb,rwcnt,LocalMachineLoginrw);
+  end;
+LOpenTaskManagerOnLoginLsm:;
+  BlockStore(LocalMachineLoginb);
+  return;
+end;
+
+global
+updating procedure ActDClassApproveActivity()
+begin
+  record ActVc Actr;
+  record AcceptanceRulesVc Acptr;
+  record ActTypeVc ATr;
+  Integer wn;
+  
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,Actr);
+  
+  if (Actr.OKFlag!=0) then begin goto LActDClassApproveActivity; end;
+  if (ReadAcceptanceRulesForFileName(Actr.FromFileName,Actr.FromSerNr,Actr.CUCode,Acptr)==false) then begin goto LActDClassApproveActivity; end;
+  
+  ATr.Code = Acptr.AcceptedActType;
+  if (ReadFirstMain(ATr,1,true)==false) then begin goto LActDClassApproveActivity; end;
+  
+  Actr.ActResult = ATr.Code;
+  Actr.OKFlag = 1;
+  Actr.EndDate = CurrentDate;
+  Actr.EndTime = CurrentTime;
+  PutWindowRecord(wn,Actr);
+  WindowDoOK(wn,0);
+  
+LActDClassApproveActivity:;
+end;
+
+global
+updating procedure ActDClassForwardActivity()
+begin
+  record ActVc Actr;
+  record AcceptanceRulesVc Acptr;
+  record ActTypeVc ATr;
+  Integer wn;
+  
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,Actr);
+  
+  if (Actr.OKFlag!=0) then begin goto LActDClassForwardActivity; end;
+  if (ReadAcceptanceRulesForFileName(Actr.FromFileName,Actr.FromSerNr,Actr.CUCode,Acptr)==false) then begin goto LActDClassForwardActivity; end;
+  
+  ATr.Code = Acptr.ForwardedActType;
+  if (ReadFirstMain(ATr,1,true)==false) then begin goto LActDClassForwardActivity; end;
+  
+  Actr.ActResult = ATr.Code;
+  Actr.OKFlag = 1;
+  Actr.EndDate = CurrentDate;
+  Actr.EndTime = CurrentTime;
+  PutWindowRecord(wn,Actr);
+  WindowDoOK(wn,0);
+  
+LActDClassForwardActivity:;
+end;
+
+global
+updating procedure ActDClassRejectActivity()
+begin
+  record ActVc Actr;
+  record AcceptanceRulesVc Acptr;
+  record ActTypeVc ATr;
+  Integer wn;
+  
+  wn = CurWindow;
+  DeselectWindow(wn,false);
+  GetWindowRecord(wn,Actr);
+  
+  if (Actr.OKFlag!=0) then begin goto LActDClassRejectActivity; end;
+  if (ReadAcceptanceRulesForFileName(Actr.FromFileName,Actr.FromSerNr,Actr.CUCode,Acptr)==false) then begin goto LActDClassRejectActivity; end;
+  
+  ATr.Code = Acptr.RejectedActType;
+  if (ReadFirstMain(ATr,1,true)==false) then begin goto LActDClassRejectActivity; end;
+  
+  Actr.ActResult = ATr.Code;
+  Actr.OKFlag = 1;
+  Actr.EndDate = CurrentDate;
+  Actr.EndTime = CurrentTime;
+  PutWindowRecord(wn,Actr);
+  WindowDoOK(wn,0);
+  
+LActDClassRejectActivity:;
+end;
+
+global
+updating procedure ActDClassSendFYI()
+begin
+  record RcVc RepSpec;
+  
+  OpenWindow("SelectFYIWClass",0,CurWindow,"","",RepSpec);
+end;
+
+global
+procedure ActDClassOpenApprovalRecord()
+begin
+  ActDClassOpenFromSerNrRecord(CurWindow);
+end;
+
+global
+procedure ActDClassOpenApprovalAttach()
+begin
+  record ActVc Actr;
+  record POVc POr;
+  record IVVc IVr;
+  record TBBUVc TBBUr;
+  record VIVc VIr;
+  record ExpVc Expr;
+  record IntORVc IntORr;
+  record QTVc QTr;
+  record ORVc ORr;
+  record PUVc PUr;
+  record SDVc SDr;
+  record OPVc OPr;
+  record LeaveApplicationVc LeaveApplicationr;
+  record LeaveTransferVc LeaveTransferr;
+  record HMTravelLogVc HMTravelLogr;
+  record RLinkVc RLr;
+  string 255 recidstr;
+  Boolean TrHs;
+  
+  TrHs = true;
+  GetWindowRecord(CurWindow,Actr);
+  switch (Actr.FromFileName) begin
+    case "ExpVc": 
+      Expr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(Expr,1,true)) then begin
+        recidstr = BuildRecordIdStr(Expr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "IntORVc": 
+      IntORr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(IntORr,1,true)) then begin
+        recidstr = BuildRecordIdStr(IntORr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "IVVc": 
+      IVr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(IVr,1,true)) then begin
+        recidstr = BuildRecordIdStr(IVr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "LeaveApplicationVc":
+      LeaveApplicationr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(LeaveApplicationr,1,true)) then begin
+        recidstr = BuildRecordIdStr(LeaveApplicationr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "LeaveTransferVc":
+      LeaveTransferr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(LeaveTransferr,1,true)) then begin
+        recidstr = BuildRecordIdStr(LeaveTransferr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "OPVc":
+      OPr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(OPr,1,true)) then begin
+        recidstr = BuildRecordIdStr(OPr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "ORVc": 
+      ORr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(ORr,1,true)) then begin
+        recidstr = BuildRecordIdStr(ORr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "POVc": 
+      POr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(POr,1,true)) then begin
+        recidstr = BuildRecordIdStr(POr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "PUVc":
+      PUr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(PUr,1,true)) then begin
+        recidstr = BuildRecordIdStr(PUr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "QTVc": 
+      QTr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(QTr,1,true)) then begin
+        recidstr = BuildRecordIdStr(QTr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "SDVc":
+      SDr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(SDr,1,true)) then begin
+        recidstr = BuildRecordIdStr(SDr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "TBBUVc": 
+      TBBUr.PRCode = Actr.FromSerNr;
+      if (ReadFirstMain(TBBUr,1,true)) then begin
+        recidstr = BuildRecordIdStr(TBBUr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "VIVc": 
+      VIr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(VIr,1,true)) then begin
+        recidstr = BuildRecordIdStr(VIr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+    case "HMTravelLogVc": 
+      HMTravelLogr.SerNr = Actr.FromSerNr;
+      if (ReadFirstMain(HMTravelLogr,1,true)) then begin
+        recidstr = BuildRecordIdStr(HMTravelLogr,CurrentCompany);
+        RLr.FromRecidStr = recidstr;
+        while (LoopMain(RLr,1,TrHs)) begin
+          if (RLr.FromRecidStr!=recidstr) then begin TrHs = false; end;
+          if (TrHs) then begin
+            OpenRecordLink(0,RLr.ToRecidStr,0);
+          end;
+        end;
+      end;
+  end;
+end;
