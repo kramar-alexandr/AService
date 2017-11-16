@@ -10479,3 +10479,253 @@ begin
   end;
   EndWindow;
 end;
+
+window ActDClass:13
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real fs,h,h2,h3,h4,v,vm,vs;
+  string 255 label;
+  record LocalMachineBlock LMb;
+  Integer wn,tilenr;
+  record ActVc Actr;
+  Boolean showapprovaltile;
+  
+  WindowBegin("Діяльність",ActDClass,CGview,ActView);
+    BlockLoad(LMb);
+    SetWRect(64,80,760,500);
+    BrowseButtons(false);
+    Sizeable(-1,-1,0,0);
+    UseView(ActVc);
+    ActiveFieldOnNew("Comment");    
+    FormName(ActDocForm);
+    
+    showapprovaltile = false;
+    if (StandardHansa==false and LMb.ApprovalTypeActDClass!=0) then begin
+      wn = CurWindow;
+      if (wn>0) then begin
+        if (GetWindowClass(wn)=="ActDClass") then begin
+          GetWindowRecord(wn,Actr);
+          showapprovaltile = ActivityIsForAcceptanceOrFYI(Actr,true,false);
+        end;
+      end;
+    end;
+    
+    v = 6; vs = 20; h = 100; h2 = 270; h3 = 420; h4 = 450; fs = 100;
+    CommunicateButton;
+    Tile(0,130,false,"",Comment);
+    EditField(h,vm=6,-40,"Текст",Normal,Comment,false,0);
+    EditField(h,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
+    EnterSkip(StartTime);
+    EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
+    EditField(h,v+=vs,80,"Пріоритет",Normal,PrioLevel,false,0);
+    EditField(h,v+=vs,80,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
+    EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
+    EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
+    EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
+    EditField(h2,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
+    EditField(h4,v,-40,"Перенапр.затв.",Normal,ApprovalFwdPersons,false,UserSClass);
+    EditField(h4,v+=vs,60,"Результат",Normal,ActResult,false,ActTypeSClass);
+    tilenr = 1;
+    if (showapprovaltile) then begin
+      TileButton(tilenr,"Затверждення"); tilenr = tilenr + 1;
+    end;
+    TileButton(tilenr,"Час"); tilenr = tilenr + 1;
+    TileButton(tilenr,"Клієнт"); tilenr = tilenr + 1;
+    TileButton(tilenr,"Текст"); tilenr = tilenr + 1;
+    TileButton(tilenr,"Під -завдання"); tilenr = tilenr + 1;
+    TileButton(tilenr,"Нагадування"); tilenr = tilenr + 1;
+    if (StandardHansa==false) then begin
+      TileButton(tilenr,"Ресурси"); tilenr = tilenr + 1;
+      TileButton(tilenr,"Послуг."); tilenr = tilenr + 1;
+      TileButton(tilenr,"Визначено кор-чем"); tilenr = tilenr + 1;
+    end;
+    CheckBox(-170,v,0,"Приватне",PrivateFlag); //##cc
+    CheckBox(-100,v,0,"Завершене",OKFlag); //##cc
+    tilenr = 1;
+    if (showapprovaltile) then begin
+      Tile(tilenr,100,false,"",-); tilenr = tilenr + 1;
+      ButtonFrame(h=100,v=18,440,2,"Затвердження");
+      HalPushButton(h+=5,v+=5,h+100,v+20,"ActDClassApproveActivity","Затверджено");
+      HalPushButton(h+=110,v,h+100,v+20,"ActDClassForwardActivity","Перенаправити");
+      HalPushButton(h+=110,v,h+100,v+20,"ActDClassRejectActivity","Відхилити");
+      HalPushButton(h+=110,v,h+100,v+20,"ActDClassSendFYI","Відправити для інф.");
+      HalPushButton(h=105,v+=40,h+100,v+20,"ActDClassOpenApprovalRecord","Відкрити запист");
+      HalPushButton(h+=110,v,h+120,v+20,"ActDClassOpenApprovalAttach","Відкрити вкладені файли");
+    end;
+    Tile(tilenr,90,false,"1",StartTime); tilenr = tilenr + 1;
+    h = 100; h2 = 270;
+    EditField(h,v=6,60,"Час початку",Normal,StartTime,false,PasteCurTime);
+    EditField(h,v+=vs,60,"Час завершення",Normal,EndTime,false,PasteCurTime);
+    EditField(h,v+=vs,60,"Вартість (Час)",Normal,CostTime,false,PasteCurTime);
+    if (StandardHansa==false) then begin
+      EditField(h,v+=vs,60,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+    end;
+//    EditField(h,v+=vs,60,"New Dur.",Normal,TestDuration,false,0);
+    EditField(h2,v=6 ,80,"Дата початку",Normal,TransDate,false,PasteCurDate);
+    EditField(h2,v+=vs,80,"Дата закінчення",Normal,EndDate,false,PasteCurDate);
+    if (StandardHansa==false) then begin
+    EditField(h2,v+=vs,80,"Клас часу",Normal,TimeClass,false,TimeClassSClass);
+      EditField(h2,v+=vs,80,"Вартість",Normal,Value,true,0);
+    end;
+    v = 18;
+    ButtonFrame(h3=h2+120,vm=v,120,4,"Тип завдання");
+    RadioButton(h3,v,kTodoFlagCalendar,0,"Календар",TodoFlag);
+    RadioButton(h3,v+=16,kTodoFlagTodo,0,"Заплановане",TodoFlag);
+    RadioButton(h3,v+=16,kTodoFlagTimedTodo,0,"Запл. на певн. час",TodoFlag);
+    if (StandardHansa==false) then begin
+    RadioButton(h3,v+=16,kTodoFlagWorkHours,0,"Робочі години",TodoFlag);
+    end;
+    EndFrame;
+  //  RadioButton(h3,v+=16,kTodoFlagBanner,0,"Banner",TodoFlag); // When will we do something behind this radio button?
+    h3 = h3+160;
+    ButtonFrame(h3,v=vm,120,3,"Календар");
+    RadioButton(h3,v,kCalTimeFlagTime,0,"Час",CalTimeFlag);
+    RadioButton(h3,v+=16,kCalTimeFlagProfile,0,"Профіль",CalTimeFlag);
+    RadioButton(h3,v+=16,kCalTimeFlagNoshow,0,"Не показувати",CalTimeFlag);
+    EnterSkip(PRCode);
+    Tile(tilenr,70,false,"2",PRCode); tilenr = tilenr + 1;
+    vm = 6;
+    v = 6;
+    if (HasProjects) then begin
+      EditField(h,v,80,"Проект",Normal,PRCode,false,PRSClass);
+      v = v+vs;
+    end;
+    EditField(h,v,80,"Клієнт",Normal,CUCode,false,AllCUSClass);
+    if (StandardHansa==false) then begin
+      EditField(h,v+=vs,80,"Товар накл.",Normal,ItemCode,false,INSClass);
+    end;
+    EnterSkip(Math);
+    EditField(h2,v=vm,-40,"Назва",Normal,CUName,false,0);
+    EditField(h2,v+=vs,-40,"Телефон",Normal,Phone,false,0);
+    EditField(h2,v+=vs,-40,"Контакт",Normal,Contact,false,ContactSClass);
+    EnterSkip(Math);
+    Tile(tilenr,100,true,"3",Math); tilenr = tilenr + 1;
+    MatrixBegin(4,v=24,-32,-30,ActRowType,199);
+    MatCol(1,32,"Код",0,TextCode,false,TextTypeSClass);
+    MatCol(1,84,"Текст",0,Text,false,0);
+  //  MatColMLT(1,84,"Text",0,Text,false,0);
+    EndMatrix;
+    if (GuiType!=kGuiiPhone and GuiType!=kGuiAndroid) then begin
+      HalPushButton(-140,-30,-40,-10,"ActDEndActivity","ActDEndActivity");
+    end else begin
+      HalPushButton(600,500,700,520,"ActDEndActivity","ActDEndActivity");
+    end;
+    Tile(tilenr,200,true,"4",Comment); tilenr = tilenr + 1; 
+    v = 10;
+    HalPushButton(h,v,h+100,v+20,"ActDClassCreateSubTask","Нове під-завдання");
+    HalPushButton(h2,v,h2+100,v+20,"ActDClassDeleteSubTask","Знищити під-завдання");
+    v = v + vs;
+    RecordList2(10,v+=vs,-30,-39,"ActVc");
+    RlColKey(4,4,"Завдання",Comment,false,ActComment);
+    RlColKey(-50,-50,"Усі",Comment,false,Comment);
+    Tile(tilenr,140,false,"5",-); tilenr = tilenr + 1;
+    h3 = 40;
+    ButtonFrame(h3,v=18,130,4,"Вид оповіщ.");
+    RadioButton(h3,v,0,0,"Немає",AlarmType);
+    RadioButton(h3,v+=16,1,0,"Повідомлення",AlarmType);
+    RadioButton(h3,v+=16,2,0,"SMS",AlarmType);
+    RadioButton(h3,v+=16,3,0,"E-mail",AlarmType);
+    ButtonFrame(h3+=160,v=18,130,7,"Оповіщення");
+    RadioButton(h3,v,0,0,"Хвилинин до",AlarmWhen);
+    RadioButton(h3,v+=16,1,0,"Годин до",AlarmWhen);
+    RadioButton(h3,v+=16,2,0,"Днів до",AlarmWhen);
+    RadioButton(h3,v+=16,3,0,"Хвилинин після",AlarmWhen);
+    RadioButton(h3,v+=16,4,0,"Годин після",AlarmWhen);
+    RadioButton(h3,v+=16,5,0,"Днів після",AlarmWhen);
+    EditField(h3+75,v+=17,50,"Одиниць",Normal,AlarmUnits,false,0);
+    ButtonFrame(h4=h3+160,v=18,130,4,"Символ");
+    RadioButton(h4,v,1,0,"Виклик",SymbNr);
+    RadioButton(h4,v+=16,2,0,"Зустріч",SymbNr);
+    RadioButton(h4,v+=16,3,0,"Робота в офісі",SymbNr);
+    RadioButton(h4,v+=16,0,0,"Інше",SymbNr);
+    if (StandardHansa==false) then begin
+      Tile(tilenr,30,false,"6",Resources); tilenr = tilenr + 1;
+    EditField(h,v=6,300,"Ресурси",Normal,Resources,false,ResSClass);
+    EditField(h+400,v, fs,"Актив",Normal,InventoryNr,false,AT2UnitSClass);
+      Tile(tilenr,70,false,"7",SVOSerNr); tilenr = tilenr + 1;
+    EditField(h,v=6, fs,"Сер. №",Normal,SerialNr,false,SVOSerSClass);
+    EditField(h+200,v,fs,"Товар",Normal,ArtCode,false,INSClass);
+    EditField(h+400,v, fs,"Виробн. опер.",Normal,ProdOpSerNr,false,0);
+    EditField(h,v+=vs, fs,"Замовл. на обсл.",Normal,SVOSerNr,false,SVOSClass);
+    EditField(h+200,v,fs,"Товар акту",Normal,ItemCode,false,INSClass);
+    EditField(h+400,v, fs,"Виробництво",Normal,ProdSerNr,false,0);
+    EditField(h,v+=vs, fs,"З наймен. файла",ViewOnly,FromFileName,false,0);
+    EditField(h+200,v, fs,"З №",ViewOnly,FromSerNr,false,0);
+    EditField(h+400,v, fs,"Подія відпочинку",ViewOnly,RsrtEventSerNr,false,0);
+      Tile(tilenr,240,false,"8",-); tilenr = tilenr + 1;
+    fs = 80;
+    h = 180;
+    label = UserDefined("ActVc","UserStr1");
+    if (nonblank(label)) then begin
+      EditField(h,v=6 ,-20,label,Normal,UserStr1,false,0);
+    end;
+    label = UserDefined("ActVc","UserStr2");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,-20,label,Normal,UserStr2,false,0);
+    end;
+    label = UserDefined("ActVc","UserStr3");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,-20,label,Normal,UserStr3,false,0);
+    end;
+    label = UserDefined("ActVc","UserStr4");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,-20,label,Normal,UserStr4,false,0);
+    end;
+    label = UserDefined("ActVc","UserStr5");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,-20,label,Normal,UserStr5,false,0);
+    end;
+    label = UserDefined("ActVc","UserVal1");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,50,label,Normal,UserVal1,true,0);
+    end;
+    label = UserDefined("ActVc","UserVal2");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,50,label,Normal,UserVal2,true,0);
+    end;
+    label = UserDefined("ActVc","UserVal3");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,50,label,Normal,UserVal3,true,0);
+    end;
+    label = UserDefined("ActVc","UserDate1");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,80,label,Normal,UserDate1,true,PasteCurDate);
+    end;
+    label = UserDefined("ActVc","UserDate2");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,80,label,Normal,UserDate2,true,PasteCurDate);
+    end;
+    label = UserDefined("ActVc","UserDate3");
+    if (nonblank(label)) then begin
+      EditField(h,v+=vs,80,label,Normal,UserDate3,true,PasteCurDate);
+    end;
+    end;
+    SpecialMenu("Створити E-mail",'m',1,"MailFromActDsm");
+    SpecialMenu("Створити лист",'l',2,"LetFromActDsm");
+    SpecialMenu("Створити лист з комерц. пропоз.",' ',2,"LetWithQuoteFromActDsm");
+    SpecialMenu("Створити замовлення",'G',3,"ORFromActDsm");
+    SpecialMenu("Створити пропозицію",' ',4,"QTFromActDsm");
+    SpecialMenu("Створити під-завдання",'T',9,"ActDClassCreateSubTask");
+    SpecialMenu("Створити наст. етап діяльності",'n',9,"ActDClassCreateNextStep"); 
+    if (StandardHansa==false) then begin
+    SpecialMenu("Створити  подорожній лиcт",' ',8,"WayListFromActDsm"); 
+    end;
+    if (UserCanAction("EnabINF",false)) then begin
+      SpecialMenu("Інформація про ключ",' ',5,"EnablerInfoDsm");
+    end;
+    if (UserCanReport("CustPSRn","",true)) then begin 
+    SpecialMenu("Статус клієнта",'e',6,"CUStatusActDsm");
+    end;
+    if (ClientMode and LicenseMode!=kLicenseModeServer) then begin
+      SpecialMenu("Відправити запрошення",' ',7,"SendInvitationDsm2");
+    end;
+    SpecialMenu("Відкрити запис операції",'t',0,"OpenTRFromAct");
+    SpecialMenu("Відкрити гол. завдання",'o',4,"OpenMainTaskActDsm");
+    if (GuiType==kGuiCocoa) then begin
+      SpecialMenu("Скопіювати до iCal",' ',7,"CopyToLocalCalendarDsm");
+    end;    
+    if (GuiType==kGuiiPhone) then begin
+      SpecialMenu("Підпис",' ',8,"SignActDsm");
+    end;
+  EndWindow;
+end;
