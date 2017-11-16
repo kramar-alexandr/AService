@@ -1040,13 +1040,13 @@ BEGIN
   Time blankt;
   record TLSettingBlock TLSb;
   
-  switch (ProgramType) begin
+  /*switch (ProgramType) begin
     case typTimeLog:   
       BlockLoad(TLSb);
       Actr.MainPersons = TLSb.UserCode;
     otherwise      
       Actr.MainPersons = CurrentUser;
-  end;
+  end;*/
  	Actr.Supervisor = CurrentUser;// Edit ************************** Friday, 18 August 2017 10:25:40
   Actr.SerNr = -1;  
   Actr.TransDate = CurrentDate;
