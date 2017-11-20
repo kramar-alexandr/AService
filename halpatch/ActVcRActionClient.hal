@@ -17,6 +17,7 @@ begin
   if (blank(Actr.MainPersons)) then begin
     //Actr.MainPersons = CurrentUser;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 17 November 2017 17:54:03
   end;
+  Actr.CCPersons = CurrentUser;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 15:38:48
 
   return;
 end;

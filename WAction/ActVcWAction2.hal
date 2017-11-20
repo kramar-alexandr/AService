@@ -113,7 +113,6 @@ begin
 //  nwn = OpenNamedView("ActDClass",0,NIL,true,0);
 //  RecordNew(Actr);//that code is on server when server.hob in not present
   ActVcRecordDefClient(Actr);
-    
   Actr.TodoFlag = todoflag;
   Actr.PrivateFlag = 0;
   Actr.Invalid = 0;
