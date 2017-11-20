@@ -1593,6 +1593,7 @@ begin
 	string 50 from,to;
 	
 	wn = curwindow;
+	deselectwindow(wn,true);
 	getwindowrecord(wn,Actr);
 	if(Actr.OKFlag==0)then begin
 		from = Actr.MainPersons;
