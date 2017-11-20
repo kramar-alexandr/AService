@@ -10516,30 +10516,35 @@ begin
     EditField(h,vm=6,-40,"Текст",Normal,Comment,false,0);
     EditField(h,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
     EnterSkip(StartTime);
-    EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
-    EditField(h,v+=vs,80,"Пріоритет",Normal,PrioLevel,false,0);
+    //EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
+    //EditField(h,v+=vs,80,"Пріоритет",Normal,PrioLevel,false,0);
     EditField(h,v+=vs,120,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
+    EditField(h,v+=vs, 80,"Замовл. на обсл.",Normal,SVOSerNr,false,SVOSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 17 November 2017 15:54:06
+
     EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
     EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
     EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
     EditField(h2,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
-    EditField(h4,v,-40,"Перенапр.затв.",Normal,ApprovalFwdPersons,false,UserSClass);
-    EditField(h4,v+=vs,60,"Результат",Normal,ActResult,false,ActTypeSClass);
+		
+		halpushbutton(h2,v+=vs,h2+100,v+vs,"ActBackDsm","Відповісти");
+		
+    //EditField(h4,v,-40,"Перенапр.затв.",Normal,ApprovalFwdPersons,false,UserSClass);
+    //EditField(h4,v+=vs,60,"Результат",Normal,ActResult,false,ActTypeSClass);
     tilenr = 1;
     if (showapprovaltile) then begin
       TileButton(tilenr,"Затверждення"); tilenr = tilenr + 1;
     end;
     TileButton(tilenr,"Час"); tilenr = tilenr + 1;
-    TileButton(tilenr,"Клієнт"); tilenr = tilenr + 1;
-    TileButton(tilenr,"Текст"); tilenr = tilenr + 1;
-    TileButton(tilenr,"Під -завдання"); tilenr = tilenr + 1;
+    //TileButton(tilenr,"Клієнт"); tilenr = tilenr + 1;
+    //TileButton(tilenr,"Текст"); tilenr = tilenr + 1;
+    //TileButton(tilenr,"Під -завдання"); tilenr = tilenr + 1;
     TileButton(tilenr,"Нагадування"); tilenr = tilenr + 1;
     if (StandardHansa==false) then begin
-      TileButton(tilenr,"Ресурси"); tilenr = tilenr + 1;
-      TileButton(tilenr,"Послуг."); tilenr = tilenr + 1;
-      TileButton(tilenr,"Визначено кор-чем"); tilenr = tilenr + 1;
+      //TileButton(tilenr,"Ресурси"); tilenr = tilenr + 1;
+      //TileButton(tilenr,"Послуг."); tilenr = tilenr + 1;
+      //TileButton(tilenr,"Визначено кор-чем"); tilenr = tilenr + 1;
     end;
-    CheckBox(-170,v,0,"Приватне",PrivateFlag); //##cc
+    //CheckBox(-170,v,0,"Приватне",PrivateFlag); //##cc
     CheckBox(-100,v,0,"Завершене",OKFlag); //##cc
     tilenr = 1;
     if (showapprovaltile) then begin
@@ -10556,16 +10561,16 @@ begin
     h = 100; h2 = 270;
     EditField(h,v=6,60,"Час початку",Normal,StartTime,false,PasteCurTime);
     EditField(h,v+=vs,60,"Час завершення",Normal,EndTime,false,PasteCurTime);
-    EditField(h,v+=vs,60,"Вартість (Час)",Normal,CostTime,false,PasteCurTime);
+    //EditField(h,v+=vs,60,"Вартість (Час)",Normal,CostTime,false,PasteCurTime);
     if (StandardHansa==false) then begin
-      EditField(h,v+=vs,60,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
+      //EditField(h,v+=vs,60,"Валюта",Normal,CurncyCode,false,CurncyCodeSClass);
     end;
 //    EditField(h,v+=vs,60,"New Dur.",Normal,TestDuration,false,0);
     EditField(h2,v=6 ,80,"Дата початку",Normal,TransDate,false,PasteCurDate);
     EditField(h2,v+=vs,80,"Дата закінчення",Normal,EndDate,false,PasteCurDate);
     if (StandardHansa==false) then begin
-    EditField(h2,v+=vs,80,"Клас часу",Normal,TimeClass,false,TimeClassSClass);
-      EditField(h2,v+=vs,80,"Вартість",Normal,Value,true,0);
+    //EditField(h2,v+=vs,80,"Клас часу",Normal,TimeClass,false,TimeClassSClass);
+		//EditField(h2,v+=vs,80,"Вартість",Normal,Value,true,0);
     end;
     v = 18;
     ButtonFrame(h3=h2+120,vm=v,120,4,"Тип завдання");
@@ -10582,7 +10587,7 @@ begin
     RadioButton(h3,v,kCalTimeFlagTime,0,"Час",CalTimeFlag);
     RadioButton(h3,v+=16,kCalTimeFlagProfile,0,"Профіль",CalTimeFlag);
     RadioButton(h3,v+=16,kCalTimeFlagNoshow,0,"Не показувати",CalTimeFlag);
-    EnterSkip(PRCode);
+    /*EnterSkip(PRCode);
     Tile(tilenr,70,false,"2",PRCode); tilenr = tilenr + 1;
     vm = 6;
     v = 6;
@@ -10617,7 +10622,7 @@ begin
     v = v + vs;
     RecordList2(10,v+=vs,-30,-39,"ActVc");
     RlColKey(4,4,"Завдання",Comment,false,ActComment);
-    RlColKey(-50,-50,"Усі",Comment,false,Comment);
+    RlColKey(-50,-50,"Усі",Comment,false,Comment);*/
     Tile(tilenr,140,false,"5",-); tilenr = tilenr + 1;
     h3 = 40;
     ButtonFrame(h3,v=18,130,4,"Вид оповіщ.");
@@ -10638,7 +10643,7 @@ begin
     RadioButton(h4,v+=16,2,0,"Зустріч",SymbNr);
     RadioButton(h4,v+=16,3,0,"Робота в офісі",SymbNr);
     RadioButton(h4,v+=16,0,0,"Інше",SymbNr);
-    if (StandardHansa==false) then begin
+    /*if (StandardHansa==false) then begin
       Tile(tilenr,30,false,"6",Resources); tilenr = tilenr + 1;
     EditField(h,v=6,300,"Ресурси",Normal,Resources,false,ResSClass);
     EditField(h+400,v, fs,"Актив",Normal,InventoryNr,false,AT2UnitSClass);
@@ -10699,7 +10704,7 @@ begin
     if (nonblank(label)) then begin
       EditField(h,v+=vs,80,label,Normal,UserDate3,true,PasteCurDate);
     end;
-    end;
+    end;*/
     SpecialMenu("Створити E-mail",'m',1,"MailFromActDsm");
     SpecialMenu("Створити лист",'l',2,"LetFromActDsm");
     SpecialMenu("Створити лист з комерц. пропоз.",' ',2,"LetWithQuoteFromActDsm");

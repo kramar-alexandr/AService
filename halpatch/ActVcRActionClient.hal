@@ -1,0 +1,95 @@
+external function Integer CountObjects(string);
+remote procedure ActVcRecordDefServer(var record ActVc);
+
+global
+procedure ActVcRecordDefClient(var record ActVc Actr)
+begin
+  record CRMBlock CRMb;
+  
+  BlockLoad(CRMb);
+  if (CRMb.ActTimeFromClient!=0) then begin
+    Actr.TransDate = CurrentDate;
+    Actr.EndDate = CurrentDate;
+    Actr.StartTime = CurrentTime;
+  end else begin
+    ActVcRecordDefServer(Actr);
+  end;
+  if (blank(Actr.MainPersons)) then begin
+    //Actr.MainPersons = CurrentUser;// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 17 November 2017 17:54:03
+  end;
+
+  return;
+end;
+
+global
+function LongInt ActVcRecordDefaultsClient(LongInt wn,var record ActVc Actr,record ActVc Act2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+  
+  ActVcRecordDefClient(Actr);
+  ActVcRecordDefaultsClient = res; 
+  return;
+end;
+
+global
+function LongInt ActVcRecordUpdateClient(LongInt wn,var record ActVc Actr,record ActVc Act2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+  record RcVc RepSpec;
+  Integer nwn;
+  
+  switch (Actr.NextApproversType) begin
+    case kNextApproversTypeNextLevel:
+      if (nonblank(Actr.NextApprovers)) then begin
+        RepSpec.f11 = Actr.NextFYIPersons;
+        RepSpec.f12 = Actr.NextApprovers;
+        if (CountObjects(RepSpec.f12)==1) then begin
+          RepSpec.f1 = RepSpec.f12;
+        end;
+        if (CountObjects(RepSpec.f11)==1) then begin
+          RepSpec.f2 = RepSpec.f11;
+        end;
+        RepSpec.UsedOnly = 1;
+        RepSpec.ArtMode = kNextApproversTypeNextLevel;
+        nwn = OpenWindow("SelectApproverWClass",0,wn,"","",RepSpec);
+      end;
+    case kNextApproversTypeForward:
+      if (nonblank(Actr.NextApprovers)) then begin
+        RepSpec.f11 = Actr.NextFYIPersons;
+        RepSpec.f12 = Actr.NextApprovers;
+        if (CountObjects(RepSpec.f12)==1) then begin
+          RepSpec.f1 = RepSpec.f12;
+        end;
+        if (CountObjects(RepSpec.f11)==1) then begin
+          RepSpec.f2 = RepSpec.f11;
+        end;
+        RepSpec.UsedOnly = 1;
+        RepSpec.ArtMode = kNextApproversTypeForward;
+        nwn = OpenWindow("SelectApproverWClass",0,wn,"","",RepSpec);
+      end;
+  end;
+  UpdateBrowses("ToDoWClass");
+//  UpdateBrowses("ActVc");
+  ActVcRecordUpdateClient = res; 
+  return;
+end;
+
+global
+function LongInt ActVcRecordSaveClient(LongInt wn,var record ActVc Actr,record ActVc Act2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+  
+  UpdateBrowses("ToDoWClass");
+  ActVcRecordSaveClient = res; 
+  return;
+end;
+
+global
+updating function LongInt ActVcRecordRemoveClient(LongInt wn,var record ActVc Actr,record ActVc Act2r,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+
+  UpdateBrowses("ToDoWClass");
+  ActVcRecordRemoveClient = res;
+  RETURN;
+END;
