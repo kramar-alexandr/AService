@@ -1584,3 +1584,31 @@ begin
       end;
   end;
 end;
+
+
+global procedure ActBackDsm()
+begin
+	record ActVc Actr;
+	integer wn;
+	string 50 from,to;
+	
+	wn = curwindow;
+	getwindowrecord(wn,Actr);
+	if(Actr.OKFlag==0)then begin
+		from = Actr.MainPersons;
+		to = Actr.Supervisor;
+		Actr.MainPersons = to;
+		Actr.Supervisor = from;
+		Actr.Comment = "RE:" & Actr.Comment;
+		if(!setinset(Actr.Supervisor,Actr.CCPersons))then begin
+			if(blank(Actr.CCPersons))then begin
+				Actr.CCPersons = Actr.Supervisor;
+			end else begin
+				Actr.CCPersons = Actr.CCPersons & "," & Actr.Supervisor;
+			end;
+		end;
+		putwindowrecord(wn,Actr);
+	end;
+
+return;
+end;
