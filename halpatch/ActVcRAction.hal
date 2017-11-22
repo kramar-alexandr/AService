@@ -1066,6 +1066,7 @@ BEGIN
   if (IsStandardProduct) then begin
     Actr.CalTimeFlag = kCalTimeFlagTime;
   end;
+  Actr.AlarmType = 1;// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 22 November 2017 17:47:27
   ActVcRecordDefaults = res; 
   RETURN;
 END;
