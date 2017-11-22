@@ -1872,3 +1872,23 @@ BEGIN
   NotepadDClassOnEnterKey = res;
   RETURN;
 END;
+
+
+global procedure OpenSVODsm()
+begin
+	integer wn;
+	record ActVc Actr;
+	record SVOVc SVOr;
+	
+	wn = curwindow;
+	deselectwindow(wn,true);
+	getwindowrecord(wn,Actr);
+	if(Actr.SVOSerNr>-1)then begin
+		SVOr.SerNr = Actr.SVOSerNr;
+		if(readfirstmain(SVOr,1,true))then begin
+			OpenWindow("SVODClass",1,0,"","",SVOr);
+		end;
+	end;
+	
+return;
+end;

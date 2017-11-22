@@ -10520,11 +10520,11 @@ begin
     //EditField(h,v+=vs,80,"Пріоритет",Normal,PrioLevel,false,0);
     EditField(h,v+=vs,120,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
     EditField(h,v+=vs, 80,"Замовл. на обсл.",Normal,SVOSerNr,false,SVOSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 17 November 2017 15:54:06
-
+		halpushbutton(h+90,v,h+90+80,v+vs,"OpenSVODsm","Відкр.");
     EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
     EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
     EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
-    EditField(h2,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
+    EditField(h2+100,v+=vs,80,"Керівник",Normal,Supervisor,false,UserSClass);
 		
 		halpushbutton(h2,v+=vs,h2+100,v+vs,"ActBackDsm","Відповісти");
 		
