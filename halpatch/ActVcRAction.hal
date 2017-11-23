@@ -1078,6 +1078,8 @@ begin
   Actr.TransDate = CurrentDate;
   Actr.EndDate = CurrentDate;
   Actr.StartTime = CurrentTime;
+  Actr.AlarmType = 1;
+  
   return;
 end;
 
