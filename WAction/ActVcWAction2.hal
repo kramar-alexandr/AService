@@ -1601,6 +1601,8 @@ begin
 		Actr.MainPersons = to;
 		Actr.Supervisor = from;
 		Actr.Comment = "RE:" & Actr.Comment;
+		Actr.TransDate = currentdate;
+		Actr.StartTime = addminutes(currenttime,2);
 		if(!setinset(Actr.Supervisor,Actr.CCPersons))then begin
 			if(blank(Actr.CCPersons))then begin
 				Actr.CCPersons = Actr.Supervisor;
