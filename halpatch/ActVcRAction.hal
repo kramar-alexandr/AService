@@ -1079,7 +1079,7 @@ begin
   Actr.EndDate = CurrentDate;
   Actr.StartTime = CurrentTime;
   Actr.AlarmType = 1;
-  
+  Actr.MainPersons = "";
   return;
 end;
 
