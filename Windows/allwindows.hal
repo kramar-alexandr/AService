@@ -10512,8 +10512,9 @@ begin
     
     v = 6; vs = 20; h = 100; h2 = 270; h3 = 420; h4 = 450; fs = 100;
     CommunicateButton;
-    Tile(0,130,false,"",Comment);
+    Tile(0,160,false,"",Comment);
     EditField(h,vm=6,-40,"Текст",Normal,Comment,false,0);
+    EditField(h,v+=vs,-40,"Текст 1",Normal,Comment1,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 27 November 2017 16:06:24
     EditField(h,v+=vs,80,"Тип",Normal,ActType,false,ActTypeSClass);//ActType2SClass
     EnterSkip(StartTime);
     //EditField(h,v+=vs,80,"Мова",Normal,LangCode,false,LangSClass);
@@ -10521,6 +10522,7 @@ begin
     EditField(h,v+=vs,120,"Сер. №",Normal,SerialNr,false,SVOSerSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 16 November 2017 14:33:10
     EditField(h,v+=vs, 80,"Замовл. на обсл.",Normal,SVOSerNr,false,SVOSClass);// Edit ************************** BPI Ukraine - KramarAlexandr - Friday, 17 November 2017 15:54:06
 		halpushbutton(h+90,v,h+90+80,v+vs,"OpenSVODsm","Відкр.");
+    vm=vm+vs;
     EditField(h2,v=vm+vs,-40,"",Normal,ActTypeComment,false,0);
     EditField(h2,v+=vs,140,"Особи",Normal,MainPersons,false,UserSClass);
     EditField(h4,v,-40,"Копія",Normal,CCPersons,false,UserSClass);
@@ -10538,17 +10540,17 @@ begin
     //TileButton(tilenr,"Клієнт"); tilenr = tilenr + 1;
     //TileButton(tilenr,"Текст"); tilenr = tilenr + 1;
     //TileButton(tilenr,"Під -завдання"); tilenr = tilenr + 1;
-    TileButton(tilenr,"Нагадування"); tilenr = tilenr + 1;
+    //TileButton(tilenr,"Нагадування"); tilenr = tilenr + 1;
     if (StandardHansa==false) then begin
       //TileButton(tilenr,"Ресурси"); tilenr = tilenr + 1;
       //TileButton(tilenr,"Послуг."); tilenr = tilenr + 1;
       //TileButton(tilenr,"Визначено кор-чем"); tilenr = tilenr + 1;
     end;
     //CheckBox(-170,v,0,"Приватне",PrivateFlag); //##cc
-    CheckBox(-100,v,0,"Завершене",OKFlag); //##cc
+    CheckBox(-100,v,0,"Виконано",OKFlag); //##cc
     tilenr = 1;
     if (showapprovaltile) then begin
-      Tile(tilenr,100,false,"",-); tilenr = tilenr + 1;
+      Tile(tilenr,130,false,"",-); tilenr = tilenr + 1;
       ButtonFrame(h=100,v=18,440,2,"Затвердження");
       HalPushButton(h+=5,v+=5,h+100,v+20,"ActDClassApproveActivity","Затверджено");
       HalPushButton(h+=110,v,h+100,v+20,"ActDClassForwardActivity","Перенаправити");
@@ -10623,7 +10625,7 @@ begin
     RecordList2(10,v+=vs,-30,-39,"ActVc");
     RlColKey(4,4,"Завдання",Comment,false,ActComment);
     RlColKey(-50,-50,"Усі",Comment,false,Comment);*/
-    Tile(tilenr,140,false,"5",-); tilenr = tilenr + 1;
+    /*Tile(tilenr,140,false,"5",-); tilenr = tilenr + 1;
     h3 = 40;
     ButtonFrame(h3,v=18,130,4,"Вид оповіщ.");
     RadioButton(h3,v,0,0,"Немає",AlarmType);
@@ -10642,7 +10644,7 @@ begin
     RadioButton(h4,v,1,0,"Виклик",SymbNr);
     RadioButton(h4,v+=16,2,0,"Зустріч",SymbNr);
     RadioButton(h4,v+=16,3,0,"Робота в офісі",SymbNr);
-    RadioButton(h4,v+=16,0,0,"Інше",SymbNr);
+    RadioButton(h4,v+=16,0,0,"Інше",SymbNr);*/
     /*if (StandardHansa==false) then begin
       Tile(tilenr,30,false,"6",Resources); tilenr = tilenr + 1;
     EditField(h,v=6,300,"Ресурси",Normal,Resources,false,ResSClass);
