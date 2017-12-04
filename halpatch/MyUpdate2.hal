@@ -685,7 +685,14 @@ begin
 	while(loopmain(Confr,1,true))begin
 		logtext(0,Confr.AddrName);
 		
-		Web1r.SerNr = 99;
+		notenr = 1;
+		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
+			RLinkr.Comment = Web1r.Description;
+			if (RecordStore(RLinkr,true)) then begin  end;
+			notenr = notenr + 1;
+		end;
+		
+		/*Web1r.SerNr = 99;
 		readfirstmain(Web1r,1,true);
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
@@ -754,7 +761,7 @@ begin
 			RLinkr.Comment = Web1r.Description;
 			logtext(0,Web1r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
-		end;
+		end;*/
 	end;
 
 return;
