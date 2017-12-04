@@ -677,7 +677,7 @@ end;
 global updating procedure AttachToMailWEBLink()
 begin
 	record ConfVc Confr;
-	record WebNavLinkVc Web1r,Web2r,Web3r,Web4r,Web5r;
+	record WebNavLinkVc Web1r;
 	integer notenr;
 	record RLinkVc RLinkr;
 
@@ -699,60 +699,60 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
-		Web2r.SerNr = 100;
-		readfirstmain(Web2r,1,true);
-		createrecordlink(Web2r,currentcompany,Confr,currentcompany);
-		createrecordlink(Confr,currentcompany,Web2r,currentcompany);
+		Web1r.SerNr = 100;
+		readfirstmain(Web1r,1,true);
+		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
+		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
 		notenr = 1;
-		while (ReadRecordLink(Confr,notenr,Web2r,RLinkr)) begin
+		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
 			notenr = notenr + 1;
 		end;
-		if (ReadRecordLink(Confr,notenr-1,Web2r,RLinkr)) then begin
-			RLinkr.Comment = Web2r.Description;
-			logtext(0,Web2r.Description);
+		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
+			RLinkr.Comment = Web1r.Description;
+			logtext(0,Web1r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
-		logtext(0,Web2r.Description);
-		Web3r.SerNr = 101;
-		readfirstmain(Web3r,1,true);
-		createrecordlink(Web3r,currentcompany,Confr,currentcompany);
-		createrecordlink(Confr,currentcompany,Web3r,currentcompany);
+		logtext(0,Web1r.Description);
+		Web1r.SerNr = 101;
+		readfirstmain(Web1r,1,true);
+		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
+		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
 		notenr = 1;
-		while (ReadRecordLink(Confr,notenr,Web3r,RLinkr)) begin
+		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
 			notenr = notenr + 1;
 		end;
-		if (ReadRecordLink(Confr,notenr-1,Web3r,RLinkr)) then begin
-			RLinkr.Comment = Web3r.Description;
-			logtext(0,Web3r.Description);
+		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
+			RLinkr.Comment = Web1r.Description;
+			logtext(0,Web1r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
-		Web4r.SerNr = 102;
-		readfirstmain(Web4r,1,true);
-		createrecordlink(Web4r,currentcompany,Confr,currentcompany);	
-		createrecordlink(Confr,currentcompany,Web4r,currentcompany);	
+		Web1r.SerNr = 102;
+		readfirstmain(Web1r,1,true);
+		createrecordlink(Web1r,currentcompany,Confr,currentcompany);	
+		createrecordlink(Confr,currentcompany,Web1r,currentcompany);	
 		notenr = 1;
-		while (ReadRecordLink(Confr,notenr,Web4r,RLinkr)) begin
+		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
 			notenr = notenr + 1;
 		end;
-		if (ReadRecordLink(Confr,notenr-1,Web4r,RLinkr)) then begin
-			RLinkr.Comment = Web4r.Description;
-			logtext(0,Web4r.Description);
+		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
+			RLinkr.Comment = Web1r.Description;
+			logtext(0,Web1r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
-		Web5r.SerNr = 103;
-		readfirstmain(Web5r,1,true);
-		createrecordlink(Web5r,currentcompany,Confr,currentcompany);	
-		createrecordlink(Confr,currentcompany,Web5r,currentcompany);	
+		Web1r.SerNr = 103;
+		readfirstmain(Web1r,1,true);
+		createrecordlink(Web1r,currentcompany,Confr,currentcompany);	
+		createrecordlink(Confr,currentcompany,Web1r,currentcompany);	
 		notenr = 1;
-		while (ReadRecordLink(Confr,notenr,Web5r,RLinkr)) begin
+		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
 			notenr = notenr + 1;
 		end;
-		if (ReadRecordLink(Confr,notenr-1,Web5r,RLinkr)) then begin
-			RLinkr.Comment = Web5r.Description;
-			logtext(0,Web5r.Description);
+		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
+			RLinkr.Comment = Web1r.Description;
+			logtext(0,Web1r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 	end;
