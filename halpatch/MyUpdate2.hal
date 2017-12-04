@@ -680,28 +680,13 @@ begin
 	record WebNavLinkVc Web1r,Web2r,Web3r,Web4r,Web5r;
 	integer notenr;
 	record RLinkVc RLinkr;
-	
-	Web1r.SerNr = 99;
-	readfirstmain(Web1r,1,true);
-	logtext(0,Web1r.Description);
-	Web2r.SerNr = 100;
-	readfirstmain(Web2r,1,true);
-	logtext(0,Web2r.Description);
-	Web3r.SerNr = 101;
-	readfirstmain(Web3r,1,true);
-	logtext(0,Web3r.Description);
-	Web4r.SerNr = 102;
-	readfirstmain(Web4r,1,true);
-	logtext(0,Web4r.Description);
-	Web5r.SerNr = 103;
-	readfirstmain(Web5r,1,true);
-	logtext(0,Web5r.Description);
-	
 
 	Confr.SerNr = -1;
 	while(loopmain(Confr,1,true))begin
 		logtext(0,Confr.AddrName);
 		
+		Web1r.SerNr = 99;
+		readfirstmain(Web1r,1,true);
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
 		notenr = 1;
@@ -714,6 +699,8 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
+		Web2r.SerNr = 100;
+		readfirstmain(Web2r,1,true);
 		createrecordlink(Web2r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web2r,currentcompany);
 		notenr = 1;
@@ -726,6 +713,9 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
+		logtext(0,Web2r.Description);
+		Web3r.SerNr = 101;
+		readfirstmain(Web3r,1,true);
 		createrecordlink(Web3r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web3r,currentcompany);
 		notenr = 1;
@@ -738,6 +728,8 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
+		Web4r.SerNr = 102;
+		readfirstmain(Web4r,1,true);
 		createrecordlink(Web4r,currentcompany,Confr,currentcompany);	
 		createrecordlink(Confr,currentcompany,Web4r,currentcompany);	
 		notenr = 1;
@@ -750,6 +742,8 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
+		Web5r.SerNr = 103;
+		readfirstmain(Web5r,1,true);
 		createrecordlink(Web5r,currentcompany,Confr,currentcompany);	
 		createrecordlink(Confr,currentcompany,Web5r,currentcompany);	
 		notenr = 1;
