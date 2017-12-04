@@ -677,7 +677,7 @@ end;
 global updating procedure AttachToMailWEBLink()
 begin
 	record ConfVc Confr;
-	record WebNavLinkVc Web1r,Web2r,Web3r,Web4r;
+	record WebNavLinkVc Web1r,Web2r,Web3r,Web4r,Web5r;
 	integer notenr;
 	record RLinkVc RLinkr;
 	
@@ -689,10 +689,14 @@ begin
 	readfirstmain(Web3r,1,true);
 	Web4r.SerNr = 102;
 	readfirstmain(Web4r,1,true);
+	Web5r.SerNr = 103;
+	readfirstmain(Web5r,1,true);
 	
 
 	Confr.SerNr = -1;
 	while(loopmain(Confr,1,true))begin
+		logtext(0,Confr.AddrName);
+		
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
 		notenr = 1;
@@ -701,6 +705,7 @@ begin
 		end;
 		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
 			RLinkr.Comment = Web1r.Description;
+			logtext(0,Web1r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
@@ -712,6 +717,7 @@ begin
 		end;
 		if (ReadRecordLink(Confr,notenr-1,Web2r,RLinkr)) then begin
 			RLinkr.Comment = Web2r.Description;
+			logtext(0,Web2r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
@@ -723,6 +729,7 @@ begin
 		end;
 		if (ReadRecordLink(Confr,notenr-1,Web3r,RLinkr)) then begin
 			RLinkr.Comment = Web3r.Description;
+			logtext(0,Web3r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
@@ -734,6 +741,19 @@ begin
 		end;
 		if (ReadRecordLink(Confr,notenr-1,Web4r,RLinkr)) then begin
 			RLinkr.Comment = Web4r.Description;
+			logtext(0,Web4r.Description);
+			if (RecordStore(RLinkr,true)) then begin  end;
+		end;
+		
+		createrecordlink(Web5r,currentcompany,Confr,currentcompany);	
+		createrecordlink(Confr,currentcompany,Web5r,currentcompany);	
+		notenr = 1;
+		while (ReadRecordLink(Confr,notenr,Web5r,RLinkr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(Confr,notenr-1,Web5r,RLinkr)) then begin
+			RLinkr.Comment = Web5r.Description;
+			logtext(0,Web5r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 	end;
