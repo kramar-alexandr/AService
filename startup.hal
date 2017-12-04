@@ -112,7 +112,8 @@ begin
   Import("Импорт Item/Group",INITImportIClass,ImportNewItemsWithGroupIn,modIN); //Edit***************************Sasha2,15:52 21.01.2016
 	
 	Maintenance("Fix Actr SERV",MyVClass,FixACTSERVMn,modDBMain);  //Edit**********Dima, 28.01.2014
-	
+	Maintenance("Link To MailBoxes",MyVClass,AttachToMailWEBLink,modDBMain); // Edit ************************** BPI Ukraine - KramarAlexandr - Monday, 4 December 2017 12:27:35
+
 	Maintenance("Fix FB",MyVClass,FixFBVcMn,modDBMain);  //Edit**********Dima, 28.01.2014
 	Maintenance("Файли для Samsung FTP",SamsungSendFilesByMailEXCELVClass,SamsungSendFilesToFtpMn,modIN); //to delete
 	Maintenance("Перенос начального сальдо по объектам",ObjInitBalVClass,ObjInitBalMn,modNL);// Edit ************************** Friday, 4 March 2016 16:57:53

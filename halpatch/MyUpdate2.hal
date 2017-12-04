@@ -672,3 +672,70 @@ begin
 	
 return;
 end;
+
+
+global updating procedure AttachToMailWEBLink()
+begin
+	record ConfVc Confr;
+	record WebNavLinkVc Web1r,Web2r,Web3r,Web4r;
+	integer notenr;
+	record RLinkVc RLinkr;
+	
+	Web1r.SerNr = 1;
+	readfirstmain(Web1r,1,true);
+	Web2r.SerNr = 2;
+	readfirstmain(Web2r,1,true);
+	Web3r.SerNr = 3;
+	readfirstmain(Web3r,1,true);
+	Web4r.SerNr = 4;
+	readfirstmain(Web4r,1,true);
+
+	Confr.SerNr = -1;
+	while(loopmain(Confr,1,true))begin
+		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
+		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
+		notenr = 1;
+		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
+			RLinkr.Comment = Web1r.Description;
+			if (RecordStore(RLinkr,true)) then begin  end;
+		end;
+		
+		createrecordlink(Web2r,currentcompany,Confr,currentcompany);
+		createrecordlink(Confr,currentcompany,Web2r,currentcompany);
+		notenr = 1;
+		while (ReadRecordLink(Confr,notenr,Web2r,RLinkr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(Confr,notenr-1,Web2r,RLinkr)) then begin
+			RLinkr.Comment = Web2r.Description;
+			if (RecordStore(RLinkr,true)) then begin  end;
+		end;
+		
+		createrecordlink(Web3r,currentcompany,Confr,currentcompany);
+		createrecordlink(Confr,currentcompany,Web3r,currentcompany);
+		notenr = 1;
+		while (ReadRecordLink(Confr,notenr,Web3r,RLinkr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(Confr,notenr-1,Web3r,RLinkr)) then begin
+			RLinkr.Comment = Web3r.Description;
+			if (RecordStore(RLinkr,true)) then begin  end;
+		end;
+		
+		createrecordlink(Web4r,currentcompany,Confr,currentcompany);	
+		createrecordlink(Confr,currentcompany,Web4r,currentcompany);	
+		notenr = 1;
+		while (ReadRecordLink(Confr,notenr,Web4r,RLinkr)) begin
+			notenr = notenr + 1;
+		end;
+		if (ReadRecordLink(Confr,notenr-1,Web4r,RLinkr)) then begin
+			RLinkr.Comment = Web4r.Description;
+			if (RecordStore(RLinkr,true)) then begin  end;
+		end;
+	end;
+
+return;
+end;
