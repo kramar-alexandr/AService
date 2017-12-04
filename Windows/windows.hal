@@ -167,6 +167,7 @@ begin
   end;
   if (HasMultiLocations) then begin
   EditFieldTL(h,v+=vs,80,"Склад",M4Code,Normal,10,f2,false,LocationSClass);
+  EditFieldTL(h,v+=vs,80,"Рахунок Складу",M4Code,Normal,10,f6,false,AccSClass);
   end;
 
   if (HasPositions) then begin
