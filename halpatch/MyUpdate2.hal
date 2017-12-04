@@ -681,18 +681,19 @@ begin
 	integer notenr;
 	record RLinkVc RLinkr;
 	
-	//Web1r.SerNr = 99;
-	//readfirstmain(Web1r,1,true);
-	//Web2r.SerNr = 100;
-	//readfirstmain(Web2r,1,true);
-	//Web3r.SerNr = 101;
-	//readfirstmain(Web3r,1,true);
-	Web4r.SerNr = 103;
+	Web1r.SerNr = 99;
+	readfirstmain(Web1r,1,true);
+	Web2r.SerNr = 100;
+	readfirstmain(Web2r,1,true);
+	Web3r.SerNr = 101;
+	readfirstmain(Web3r,1,true);
+	Web4r.SerNr = 102;
 	readfirstmain(Web4r,1,true);
+	
 
 	Confr.SerNr = -1;
 	while(loopmain(Confr,1,true))begin
-		/*createrecordlink(Web1r,currentcompany,Confr,currentcompany);
+		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
 		notenr = 1;
 		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
@@ -723,7 +724,7 @@ begin
 		if (ReadRecordLink(Confr,notenr-1,Web3r,RLinkr)) then begin
 			RLinkr.Comment = Web3r.Description;
 			if (RecordStore(RLinkr,true)) then begin  end;
-		end;*/
+		end;
 		
 		createrecordlink(Web4r,currentcompany,Confr,currentcompany);	
 		createrecordlink(Confr,currentcompany,Web4r,currentcompany);	
