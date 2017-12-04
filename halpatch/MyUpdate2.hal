@@ -683,14 +683,19 @@ begin
 	
 	Web1r.SerNr = 99;
 	readfirstmain(Web1r,1,true);
+	logtext(0,Web1r.Description);
 	Web2r.SerNr = 100;
 	readfirstmain(Web2r,1,true);
+	logtext(0,Web2r.Description);
 	Web3r.SerNr = 101;
 	readfirstmain(Web3r,1,true);
+	logtext(0,Web3r.Description);
 	Web4r.SerNr = 102;
 	readfirstmain(Web4r,1,true);
+	logtext(0,Web4r.Description);
 	Web5r.SerNr = 103;
 	readfirstmain(Web5r,1,true);
+	logtext(0,Web5r.Description);
 	
 
 	Confr.SerNr = -1;
