@@ -681,13 +681,13 @@ begin
 	integer notenr;
 	record RLinkVc RLinkr;
 	
-	Web1r.SerNr = 1;
+	Web1r.SerNr = 99;
 	readfirstmain(Web1r,1,true);
-	Web2r.SerNr = 2;
+	Web2r.SerNr = 100;
 	readfirstmain(Web2r,1,true);
-	Web3r.SerNr = 3;
+	Web3r.SerNr = 101;
 	readfirstmain(Web3r,1,true);
-	Web4r.SerNr = 4;
+	Web4r.SerNr = 102;
 	readfirstmain(Web4r,1,true);
 
 	Confr.SerNr = -1;
