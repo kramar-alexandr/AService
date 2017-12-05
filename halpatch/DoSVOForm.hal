@@ -26,6 +26,7 @@ external procedure PrintBranchData(string);
 external function roundmode SetRoundModeD(Integer);
 external procedure GetFieldArgument(record DocVc,Integer,var string);
 
+SetLangMode(LangUkrainian,"UKR",0);
 
 procedure PrintWorksRows(record SVOVc SVOr)// Edit ************************** Tuesday, 10 February 2015 18:48:46
 begin
