@@ -262,7 +262,15 @@ LActPrintNote1:;
 		OUTFORMFIELD("MY_Priynato",SVOr.Name & " " & SVOr.Priynato & " " & SVOr.MiddleName);
 		OUTFORMFIELD("MY_Kontinfo1",SVOr.Kontinfo1);
 		OUTFORMFIELD("MY_Phone2",SVOr.Phone2);
-		OUTFORMFIELD("MY_Kontinfo2",SVOr.Kontinfo2);
+		if(USetStr(31047)==SVOr.Kontinfo2)then begin
+			OUTFORMFIELD("MY_Kontinfo2",SVOr.Kontinfo2);
+		end else begin
+			tstr = SVOr.Kontinfo2;
+			if(SVOr.NoOpros==1)then begin
+				tstr = tstr & "/ На опрос согласен";
+			end;
+			OUTFORMFIELD("MY_Kontinfo2",tstr);
+		end;
 		OUTFORMFIELD("MY_Kontinfo3",SVOr.Kontinfo3);
 		OUTFORMFIELD("MY_RegTime",SVOr.RegTime);
 		

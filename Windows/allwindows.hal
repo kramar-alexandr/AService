@@ -7178,7 +7178,8 @@ begin
 	EditField(-130,v,-105,"Пост.Кл.",ViewOnly,CustomField9,false,0);	// Edit ************************** Thursday, 30 June 2016 10:21:49
 	HalPushButton(-90,v-3,-50,v+15,"ServClientOrderDsm","Звіт");
 	
-	EditField(h,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
+	CheckBox(h-70,v+vs,0,"C опросом",NoOpros);
+	EditField(h+70,v+=vs,-20,"e-mail",Normal,Kontinfo2,false,0);	
 	EditField(h,v+=vs,-20,"Адреса клієнта",Normal,Kontinfo3,false,0);
   v=v+10;
   EditField(h,v+=vs,-20,"Скарги власн.",Normal,Comment1,false,IssueSClass);
