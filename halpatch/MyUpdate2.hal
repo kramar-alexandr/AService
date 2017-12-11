@@ -692,7 +692,7 @@ begin
 			notenr = notenr + 1;
 		end;
 		
-		/*Web1r.SerNr = 99;
+		Web1r.SerNr = 105;
 		readfirstmain(Web1r,1,true);
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
@@ -706,7 +706,7 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
-		Web1r.SerNr = 100;
+		Web1r.SerNr = 106;
 		readfirstmain(Web1r,1,true);
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
@@ -720,7 +720,7 @@ begin
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 		
-		logtext(0,Web1r.Description);
+		/*logtext(0,Web1r.Description);
 		Web1r.SerNr = 101;
 		readfirstmain(Web1r,1,true);
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
