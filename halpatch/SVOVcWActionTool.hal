@@ -97,7 +97,7 @@ BEGIN
     
     SVOp.ShipDeal = CUr.ShipDeal;
     SVOp.ShipMode = CUr.ShipMode;
-    SVOp.Comment1 = CUr.OrderComment;
+    //SVOp.Comment1 = CUr.OrderComment;// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 14:08:42
     SVOp.RebCode = CUr.RebCode;
     SVOp.CustVATCode = CUr.VATCode;
     if (CUr.TaxTemplateCode!=SVOp.CustTaxTemplateCode) then begin
