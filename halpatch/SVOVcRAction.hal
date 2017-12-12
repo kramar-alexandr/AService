@@ -136,6 +136,18 @@ BEGIN
   
 	if (blank(SVOr.CustCode)) then begin
     SVOr.CustCode = LMb.DefCustCode;
+    if(Userr.SalesGroup=="9GR")then begin
+    	SVOr.CustCode = "A-SRV_KRS";
+    end;
+    if(Userr.SalesGroup=="3GR")then begin
+    	SVOr.CustCode = "A-SRV_LUK";
+    end;
+    if(Userr.SalesGroup=="7GR")then begin
+    	SVOr.CustCode = "ISTUDIO";
+    end;
+    if(blank(Userr.SalesGroup))then begin
+    	SVOr.CustCode = "A-SRV_KVZ";
+    end;
     if (PasteCUInSVO(SVOr,"",warning)) then begin	////Edit----------------------Dima  14.05.2015 //oldcustCode = blank
     end;
   end;  
