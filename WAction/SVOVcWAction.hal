@@ -556,6 +556,7 @@ begin
   if(changed>0/* and Blank(SVOr.Vlastnik)*/)then begin
   	
   	FindPhonePerson(Phoner,SVOr.Kontinfo1);
+  	SVOr.PersonalRebCode = Phoner.PersonalRebCode;
   	SVOr.Vlastnik = Phoner.Vlastnik;
   	SVOr.Priynato = Phoner.Priynato;
   	if(nonblank(Phoner.FirstName))then begin

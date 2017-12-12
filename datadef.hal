@@ -2709,6 +2709,7 @@ EndRecord;
   RecordField(Name,M4Str,255,0);// Edit ************************** Monday, 27 February 2017 11:23:43
   RecordField(MiddleName,M4Str,255,0);// Edit ************************** Monday, 27 February 2017 11:23:43
   RecordField(NoOpros,M4Int,0,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 5 December 2017 13:33:56
+  RecordField(PersonalRebCode,M4Code,5,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 14:33:44
    //----------End Custom
   ArrayBegin(Math,-,1);
   ArrayField(stp,M4Int,0,0);
