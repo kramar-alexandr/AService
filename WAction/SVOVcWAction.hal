@@ -553,7 +553,7 @@ begin
   record Phone1Vc Phoner;
   
   GetWindowRecord(wn,SVOr);
-  if(changed>0 and Blank(SVOr.Vlastnik))then begin
+  if(changed>0/* and Blank(SVOr.Vlastnik)*/)then begin
   	
   	FindPhonePerson(Phoner,SVOr.Kontinfo1);
   	SVOr.Vlastnik = Phoner.Vlastnik;
