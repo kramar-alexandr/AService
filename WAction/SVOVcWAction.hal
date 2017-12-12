@@ -33,6 +33,7 @@ remote procedure HandleSVOReceiptPrinting(record SVOVc,var area);
 external procedure PrintBixolonReceipt(area);
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);// Edit ************************** Monday, 27 February 2017 15:43:57
 remote procedure FindPhonePerson(var record Phone1Vc,string);// Edit ************************** Tuesday, 28 February 2017 16:03:58
+remote procedure CountNumberRepeatPhone(string,var array longint,var integer );// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 15:16:16
 
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
@@ -551,9 +552,15 @@ begin
   string 100 tstr;
   array string 100 fio;
   record Phone1Vc Phoner;
+  array longint sernr;// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 15:15:43
+  integer count;// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 15:15:53
   
   GetWindowRecord(wn,SVOr);
   if(changed>0/* and Blank(SVOr.Vlastnik)*/)then begin
+  	CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
+  	if(count>0)then begin
+  		SVOr.CustomField9 = count;
+  	end;
   	
   	FindPhonePerson(Phoner,SVOr.Kontinfo1);
   	SVOr.PersonalRebCode = Phoner.PersonalRebCode;
