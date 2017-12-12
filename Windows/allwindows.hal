@@ -7167,7 +7167,7 @@ begin
  	EditField(h,v+=vs,120,"Призвище",Normal,Priynato,false,0);	
  	EditField(h+160,v,120,"Ім'я",Normal,Name,false,0);	
  	EditField(h+360,v,120,"По батькові",Normal,MiddleName,false,0);
- 	EditField(h+360,v,120,"Поточна знижка",ViewOnly,PersonalRebCode,false,0);	
+ 	EditField(h+420,v,120,"Поточна знижка",ViewOnly,PersonalRebCode,false,0);	
  	
 	EditField(h,v+=vs,100,"Тел.1",Normal,Kontinfo1,false,0);	
 	HalPushButton(h+110,v-3,h+180,v+15,"CallToClientDsm","Дзвінок");
