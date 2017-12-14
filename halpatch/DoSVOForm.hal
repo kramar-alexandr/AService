@@ -79,27 +79,118 @@ return;
 end;
 
 global
-procedure MyPrintNote(record NotepadVc Noter,integer length)// Edit ************************** Thursday, July 3, 2014 at 10:53:57
+procedure MyPrintNote(record NotepadVc Noter,integer length,string formcode)// Edit ************************** Thursday, July 3, 2014 at 10:53:57
 BEGIN
   Integer i,rwcnt,j;
-  string 255 tstr;
+  string 255 tstr,tstr1,tstr2,srwcnt;
+  record DocVc Docr;
+  row DocVc Docrw;
+  record StyleVc Styler;
+  val fontsize;
+  longint maxsymbols,lastpos,k,prewpos;
+  area atstr,atstr1;
+  longint alen,lines;
+  integer ch;
+  array string 255 atext;
+  
+  logtext(0,"MyPrintNote" & formcode);
+  
+  Docr.Code = formcode;
+  readfirstmain(Docr,1,true);
+  rwcnt = matrowcnt(Docr);
+  For(i=0;i<rwcnt;i=i+1) begin
+	  matrowget(Docr,i,Docrw);
+	  if(Docrw.fieldSetNr==F_STANDARDPROBLEMTEXT)then begin
+	  	if(nonblank(Docrw.unitStyle))then begin
+	  		Styler.Code = Docrw.unitStyle;
+	  		if(readfirstmain(Styler,1,true))then begin
+	  			fontsize = Styler.MacSize;
+	  		end else begin
+	  			Styler.Code = "";
+					if(readfirstmain(Styler,1,false))then begin
+						fontsize = Styler.MacSize;
+					end;
+	  		end;
+	  	end else begin
+	  		Styler.Code = "";
+	  		if(readfirstmain(Styler,1,false))then begin
+	  			fontsize = Styler.MacSize;
+	  		end;
+	  	end;
+	  	
+	  	maxsymbols = Docrw.unitWidth / fontsize * 1.7;
+	  	logtext(0,maxsymbols);
+	  end;
+	end; 
   
   rwcnt = LineTextCnt(Noter);
-  for (i=0;i<rwcnt;i=i+1) begin
-    tstr = LineTextGet(Noter,i);
-    if(length>0)then begin
-      while(len(tstr)>=length) begin
-        OUTFORMFIELD("F_STANDARDPROBLEMTEXT",left(tstr,length)); 
-        tstr = right(tstr,len(tstr)-length);
-      end;
-      if(len(tstr)>0)then begin
-        OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr); 
-      end;
-    end else begin
-      OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr);     
-    end;
-    	EndFormRow; //Edit----------------------Dima  08.06.2015
-  end;  
+  k=0;
+  addrecordtoarea(Noter,"NotepadVc",atstr);
+
+  For(i=0;i<getarealength(atstr);i=i+1) begin
+		tstr2 = getstringfromarea(atstr,i,1);
+		if(asc(tstr2)==13)then begin
+			k=k+1;
+			if(k==4)then begin
+				getareafromarea(atstr,i+1,getarealength(atstr)-i-1,atstr1);
+				i=getarealength(atstr);
+			end;
+		end;
+	end;	
+
+	setareazerosize(atstr);
+	For(i=0;i<getarealength(atstr1);i=i+1) begin
+		tstr2 = getstringfromarea(atstr1,i,1);
+		if(tstr2=="<")then begin
+			if(i<getarealength(atstr1)-4)then begin
+				if(getstringfromarea(atstr1,i,4)=="<CR>")then begin
+					addtexttoarea(chr(10),atstr);
+					tstr2 = "";
+					i=i+3;
+				end;
+			end;
+		end;
+		if(asc(tstr2)!=13 and asc(tstr2)!=9)then begin
+			addtexttoarea(tstr2,atstr);
+		end;
+	end;	
+
+  prewpos = 0;
+  lines = countlinesinarea(atstr);
+    tstr2 = "";
+    alen = getarealength(atstr);
+    lastpos = 0;
+    For(k=0;k<alen;k=k+1) begin
+			ch = asc(getstringfromarea(atstr,k,1));
+			//logtext(0,mid(tstr,k,1) & " " & ch);
+			if(ch==10 or ch==32 or k>=alen-1)then begin
+				tstr2 = getstringfromarea(atstr,lastpos,k-lastpos);
+				//logtext(0,tstr2);
+				if(len(tstr2)>maxsymbols or ch==10 or k==alen-1)begin
+					if(ch!=10 and k<len(tstr)-1)then begin
+						OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr1);  
+						EndFormRow;
+						logtext(0,tstr1);
+						tstr1 = tstr2;
+						lastpos = prewpos;
+					end else begin
+						OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr2);  
+						EndFormRow;
+						logtext(0,tstr2);
+						tstr1 = tstr2;
+						lastpos = k + 1;
+					end;
+				end else begin
+					tstr1 = tstr2;
+					prewpos = k + 1;
+				end;
+			end;
+		end;
+
+    
+    
+    	 //Edit----------------------Dima  08.06.2015
+  //end;  
   RETURN;
 END;
 
@@ -194,7 +285,7 @@ BEGIN
 END;
 
 
-procedure printSVO(record SVOVc SVOr,record RcVc RepSpec,string datacode)
+procedure printSVO(record SVOVc SVOr,record RcVc RepSpec,string datacode,string formcode)
 begin
 record CUVc CUr;
 Integer i,rwcnt;
@@ -207,7 +298,7 @@ Integer svoi,svorwcnt;
 record LangNrVc LangNrr;
 Boolean printf,langf;
 Integer intdocnr;
-string 30 formcode,langcode;
+string 30 langcode;
 record SVOSerVc SVOSerr;
 // Edit Start ---------------------------------------------- Edit Start
 	//Monday, 26 July 2010 11:12:22
@@ -239,7 +330,7 @@ end;
 					if(nonblank(argument))then begin
 						length = stringtoint(argument);
 					end;
-					MyPrintNote(NPr,length);
+					MyPrintNote(NPr,length,formcode);
 					goto L1;
 				end; 
 			 cnt = cnt+1;
@@ -618,7 +709,7 @@ LBREAK:;
           if (ReadFirstMain(CUr,1,true)) then begin
             SetFaxInfo(CUr.Person,CUr.Name,CUr.Fax,USetStr(1790));
           end;        
-          printSVO(SVOr,RepSpec,""); 
+          printSVO(SVOr,RepSpec,"",formcode); 
           PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr,"");
           CloseForm;        
       end else begin
@@ -707,7 +798,7 @@ LBREAK:;
 						if (ReadFirstMain(CUr,1,true)) then begin
 							SetFaxInfo(CUr.Person,CUr.Name,CUr.Fax,USetStr(1790));
 						end;        
-					 	printSVO(SVOr,RepSpec,datacode); 
+					 	printSVO(SVOr,RepSpec,datacode,formcode); // Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 15:59:18
 						PrintSVOrows(RepSpec,SVOr,SysFormatRec,LangNrr,datacode);
 						CloseForm;        
 				end else begin
