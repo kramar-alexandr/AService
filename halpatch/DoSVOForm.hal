@@ -154,29 +154,30 @@ BEGIN
 			addtexttoarea(tstr2,atstr);
 		end;
 	end;	
+	writeareatofile(atstr,"tesf1.txt",0);
 
   prewpos = 0;
   lines = countlinesinarea(atstr);
     tstr2 = "";
     alen = getarealength(atstr);
     lastpos = 0;
-    For(k=0;k<alen;k=k+1) begin
+    For(k=0;k<=alen;k=k+1) begin
 			ch = asc(getstringfromarea(atstr,k,1));
 			//logtext(0,mid(tstr,k,1) & " " & ch);
-			if(ch==10 or ch==32 or k>=alen-1)then begin
+			if(ch==10 or ch==32 or k>=alen)then begin
 				tstr2 = getstringfromarea(atstr,lastpos,k-lastpos);
-				//logtext(0,tstr2);
-				if(len(tstr2)>maxsymbols or ch==10 or k==alen-1)begin
+				logtext(0,tstr2);
+				if(len(tstr2)>maxsymbols or ch==10 or k>=alen)begin
 					if(ch!=10 and k<len(tstr)-1)then begin
 						OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr1);  
 						EndFormRow;
-						logtext(0,tstr1);
+						//logtext(0,tstr1);
 						tstr1 = tstr2;
 						lastpos = prewpos;
 					end else begin
 						OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr2);  
 						EndFormRow;
-						logtext(0,tstr2);
+						//logtext(0,tstr2);
 						tstr1 = tstr2;
 						lastpos = k + 1;
 					end;
