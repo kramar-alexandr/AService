@@ -10739,3 +10739,19 @@ begin
     end;
   EndWindow;
 end;
+
+window WebNavLinkDClass:1
+  wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,h2,h4,v,vs;
+  WindowBegin("Web-посилання",WebNavLinkDClass,CGview,WebNavLinkView);
+  UseView(WebNavLinkVc);
+  SetWRect(20,80,450,200);
+  vs = 20;h = 100;h2 =  330;h4 = 500; v = 6;
+  EditField(h,v,100,"Сер. No",St_i,SerNr,false,0);
+  EditField(h,v+=vs,200,"URL",Normal,URL,false,0);
+  EditField(h,v+=vs,200,"Опис",Normal,Description,false,0);
+  EditField(h,v+=vs,200,"Відкрити",Normal,OpenType,false,SetSClass);
+  SpecialMenu("Добавить всем пользователям",' ',8,"AttachToMailWEBLinkDsm");
+  EndWindow;
+end;

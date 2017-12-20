@@ -435,7 +435,10 @@ BEGIN
       if (EInvoiceWithPDFFileTest(IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin 
         CreateAndAttachPdfIV(IVr);
       end;
-      HandlePhone1RepairSum(IVr,true,"",outPhone); //Edit***************************Sasha2,14:00 10.03.2017
+      if(blank(IVr.Phone))then begin
+      	IVr.Phone = IVr.Phone2;
+      end;
+      HandlePhone1RepairSum(IVr,true,IVr.Phone,outPhone); //Edit***************************Sasha2,14:00 10.03.2017
       IVr.Phone = outPhone; //Edit***************************Sasha2,14:44 10.03.2017
     end;  
     RecalculetWeightVolumeIVVc(IVr,false);
@@ -965,7 +968,10 @@ BEGIN
       if (EInvoiceWithPDFFileTest(IVr.CustCode,IVr.CurncyCode,EInvCUr)) then begin 
         CreateAndAttachPdfIV(IVr);
       end;
-      HandlePhone1RepairSum(IVr,true,"",outPhone); //Edit***************************Sasha2,14:00 10.03.2017
+      if(blank(IVr.Phone))then begin
+      	IVr.Phone = IVr.Phone2;
+      end;
+      HandlePhone1RepairSum(IVr,true,IVr.Phone,outPhone); //Edit***************************Sasha2,14:00 10.03.2017
       IVr.Phone = outPhone; //Edit***************************Sasha2,14:44 10.03.2017
     end;
     RecalculetWeightVolumeIVVc(IVr,false);
