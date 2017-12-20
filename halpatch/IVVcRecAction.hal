@@ -422,19 +422,19 @@ BEGIN
 			end;
   	
   	if(blank(IVp.Phone2))then begin
-  		RecordCheckError(31092,"",-1,"Phone");      
+  		RecordCheckError(31092,"",-1,"Phone2");      
 			res = -1; 
 			goto L99;
   	end;
   	
   	if(len(IVp.Phone2)!=13)then begin
-  		RecordCheckError(31087,"",-1,"Phone");      
+  		RecordCheckError(31087,"",-1,"Phone2");      
 			res = -1; 
 			goto L99;
   	end;
   	
   	if(left(IVp.Phone2,3)!="+38")then begin
-  		RecordCheckError(31087,"",-1,"Phone");      
+  		RecordCheckError(31087,"",-1,"Phone2");      
 			res = -1; 
 			goto L99;
   	end;
