@@ -34,7 +34,7 @@ external procedure PrintBixolonReceipt(area);
 external procedure ExtractObjWithSeparator(string,string,Boolean,var Integer,var string);// Edit ************************** Monday, 27 February 2017 15:43:57
 remote procedure FindPhonePerson(var record Phone1Vc,string);// Edit ************************** Tuesday, 28 February 2017 16:03:58
 remote procedure CountNumberRepeatPhone(string,var array longint,var integer );// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 12 December 2017 15:16:16
-
+remote updating procedure RA_AttachToMailWEBLinkDsm(record WebNavLinkVc);
 // Edit Start ---------------------------------------------- Edit Start
 	//Wednesday, 3 June 2015 16:58:34
 	
@@ -1916,22 +1916,7 @@ begin
 	getwindowrecord(wn,Web1r);
 	
 	if(Web1r.SerNr>-1)then begin
-		Confr.SerNr = -1;
-		while(loopmain(Confr,1,true))begin
-			logtext(0,Confr.AddrName);
-
-			createrecordlink(Web1r,currentcompany,Confr,currentcompany);
-			createrecordlink(Confr,currentcompany,Web1r,currentcompany);
-			notenr = 1;
-			while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
-				notenr = notenr + 1;
-			end;
-			if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
-				RLinkr.Comment = Web1r.Description;
-				logtext(0,Web1r.Description);
-				if (RecordStore(RLinkr,true)) then begin  end;
-			end;
-		end;
+		RA_AttachToMailWEBLinkDsm(Web1r);
 	end;
 	
 return;
