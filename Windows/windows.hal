@@ -465,8 +465,8 @@ window MyWebAttachVClass:1// Edit ************************** BPI Ukraine - Krama
  begin
 WindowBegin("Maintenance",MyWebAttachVClass,CGMnt,RcType);
   SetWRect(20,120,460,220);
-  	EditField(20,50, -20,"Ссылка",Normal,f1,false,0);
-  	EditField(20,50, -20,"Название",Normal,f2,false,0);
+  	EditField(70,30, -20,"Ссылка",Normal,f1,false,0);
+  	EditField(70,50, -20,"Название",Normal,f2,false,0);
   EndWindow;
 end;
 
