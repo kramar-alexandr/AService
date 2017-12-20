@@ -2414,19 +2414,20 @@ if (HasTouchScreenLook==false) then begin
   CommunicateButton;
   Tile(0,74,false,"",CustCode);
   EditField(75,vm=(v=6),95,"№",Normal,SerNr,false,TSerSClass);
-  EditField(75,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
+  EditField(55,v+=20,95,"Клієнт",Normal,CustCode,false,CUSClass);
   EnterSkip(PayDeal);
   EditField(h=255,v=vm,-40,"Наймен.",Normal,Addr0,false,0);
   if (StandardHansa==false) then begin
     if (HasLocalization("FIN")) then begin
       EditField(h,vm=(v+=20),180,"Оплата посил",ViewOnly,CalcFinRef,false,0);
     end else begin
-  EditField(h,vm=(v+=20),135,"Офіц. номер",Normal,OfficialSerNr,false,LegalInvNrSClass);
+  /*EditField(h,vm=(v+=20),135,"Офіц. номер",Normal,OfficialSerNr,false,LegalInvNrSClass);
   if (CurrentUser=="SA") then begin
     EditField(h+200,v,100,"LocOKNr",Normal,LocOKNr,false,0); //Edit***************************Sasha2,14:56 15.02.2016
+  end;*/
+		EditField(180,vm=(v+=20),220,"ФІБ",Normal,DelAddr3,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 11:34:08
+		EditField(h+210,v,100,"Телефон",Normal,Phone2,false,0);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 11:34:06
   end;
-  
-    end;
   end else begin
     v = v + 20;
     vm = v;

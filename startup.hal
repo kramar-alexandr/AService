@@ -264,7 +264,9 @@ begin
 	SString(31088,"Основний телефон порожній");
 	SString(31089,"Порожня дата завершення ремонту");
 	SString(31090,"Сервіс. майстер");
-    SString(31091,"Прийняв");
+  SString(31091,"Прийняв");
+  SString(31092,"Визначте телефон");
+  SString(31093,"Визначте ім'я клієнта");
   
   StrSetBegin(3); /* Try to keep them in alphabetical order */
   StrSetText(UnCloseAll,"Відкрити записи");// Edit ************************** Wednesday, 15 April 2015 17:21:45

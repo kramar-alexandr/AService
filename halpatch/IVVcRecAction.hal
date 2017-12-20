@@ -73,6 +73,7 @@ external function Boolean HasModNL();
 external function Boolean HasIncomeAndExpenseBook();
 external updating function Boolean DoXMLExport_IVVc(var record IVVc);
 external function Boolean PasteInvIn2IPr(var record IPVc,Integer,Date,var val,Boolean,var Boolean);// Edit ************************** Friday, 25 November 2016 14:08:15
+remote function string 50 GetPhone1SerNrByPhone(string); //Edit***************************Sasha2,13:52 10.03.2017
 
 function Boolean CheckIfNextLegalSerNr(LongInt curivnr,string OfficialSerNr,Date invdate,record CUVc CUr)
 begin
@@ -328,6 +329,12 @@ BEGIN
   record CYBlock CYb;
   Boolean TouchScreenFinishButtonf;
   row TRVc TRrw;// Edit ************************** Thursday, 15 October 2015 18:11:40
+  record Phone1Vc Phoner;// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 12:48:08
+  record SVOVc SVOr;// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 12:49:29
+	record RLinkVc RLinkr;// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 12:49:29
+	integer notenr;// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 12:49:46
+	longint svorNr;// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 12:49:59
+	string 50 phone;
 	
 	
 	/*if(currentuser=="SA")then begin
@@ -384,6 +391,68 @@ BEGIN
       if (IV2p.OKFlag==0) then begin transf = true; end;
     end;  
   end;
+  
+  
+  if(transf)then begin// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 20 December 2017 12:33:20
+  		
+  		if (blank(IVp.Phone2)) then begin
+
+				if (IVp.SVONr!=-1) then begin
+					svorNr = IVp.SVONr;
+				end else begin
+					notenr = 1;
+					if (ReadRecordLink(IVp,notenr,SVOr,RLinkr)) then begin
+						svorNr = SVOr.SerNr;
+					end;
+				end;
+				if (svorNr!=-1) then begin
+					SVOr.SerNr = svorNr;
+					if (ReadFirstMain(SVOr,1,true)) then begin
+						if (NonBlank(SVOr.Kontinfo1)) then begin
+							phone = SVOr.Kontinfo1;
+						end else begin
+							phone = SVOr.Phone2;
+						end;            
+						Phoner.PhoneNum = GetPhone1SerNrByPhone(phone);
+					end;
+				end;  
+				if (NonBlank(Phoner.PhoneNum) and ReadFirstMain(Phoner,1,true)) then begin
+					IVp.Phone2 = Phoner.PhoneNum;
+				end;
+			end;
+  	
+  	if(blank(IVp.Phone2))then begin
+  		RecordCheckError(31092,"",-1,"Phone");      
+			res = -1; 
+			goto L99;
+  	end;
+  	
+  	if(len(IVp.Phone2)!=13)then begin
+  		RecordCheckError(31087,"",-1,"Phone");      
+			res = -1; 
+			goto L99;
+  	end;
+  	
+  	if(left(IVp.Phone2,3)!="+38")then begin
+  		RecordCheckError(31087,"",-1,"Phone");      
+			res = -1; 
+			goto L99;
+  	end;
+  	
+  	if(blank(IVp.DelAddr3) and nonblank(IVp.Phone2))then begin
+  		Phoner.PhoneNum = IVp.Phone2;
+  		if(readfirstmain(Phoner,1,true))then begin
+  			IVp.DelAddr3 = Phoner.FirstName & " " & Phoner.LastName & " " & Phoner.MiddleName;
+  		end;
+  	end;
+  	
+  	if(blank(IVp.DelAddr3))then begin
+  		RecordCheckError(31093,"",-1,"DelAddr3");      
+			res = -1; 
+			goto L99;
+  	end;
+  end;
+  
   BlockLoad(ARAccb);
   BlockLoad(MSb);
   BlockLoad(SRRec);
