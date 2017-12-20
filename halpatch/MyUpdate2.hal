@@ -679,6 +679,7 @@ begin
 	record ConfVc Confr;
 	integer notenr;
 	record RLinkVc RLinkr;
+	record WebNavLinkVc Web2r
 	
 	Confr.SerNr = -1;
 	while(loopmain(Confr,1,true))begin
@@ -687,12 +688,12 @@ begin
 		createrecordlink(Web1r,currentcompany,Confr,currentcompany);
 		createrecordlink(Confr,currentcompany,Web1r,currentcompany);
 		notenr = 1;
-		while (ReadRecordLink(Confr,notenr,Web1r,RLinkr)) begin
+		while (ReadRecordLink(Confr,notenr,Web2r,RLinkr)) begin
 			notenr = notenr + 1;
 		end;
-		if (ReadRecordLink(Confr,notenr-1,Web1r,RLinkr)) then begin
-			RLinkr.Comment = Web1r.Description;
-			logtext(0,Web1r.Description);
+		if (ReadRecordLink(Confr,notenr-1,Web2r,RLinkr)) then begin
+			RLinkr.Comment = Web2r.Description;
+			logtext(0,Web2r.Description);
 			if (RecordStore(RLinkr,true)) then begin  end;
 		end;
 	end;
