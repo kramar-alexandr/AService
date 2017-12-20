@@ -10,7 +10,7 @@ external procedure CurValToOtherCur(Date,string,val,string,var val,roundmode); /
 external function string 200 ValToMyString(val,integer); //Edit***************************Sasha2,11:32 27.04.2015
 
 
-global function string 50 FindSVOPhone(longint svonum)
+global function string 50 FindSVOPhone(longint svonum,record IVVc IVr)
 begin
 	string 50 res;
 	record SVOVc SVOr;
@@ -21,6 +21,11 @@ begin
 			res = SVOr.Kontinfo1;
 		end else begin
 			res = SVOr.Phone2;
+		end;
+	end;
+	if(blank(res))then begin
+		if(nonblank(IVr.Phone2))then begin
+			res = IVr.Phone2;
 		end;
 	end;
 	
@@ -762,7 +767,7 @@ begin
 										OutString(pos[20],0,enginer,false);
 										OutString(pos[21],0,svonr,false);
 										OutString(pos[23],0,IVr.OrderNr,false);
-										OutString(pos[23],0,FindSVOPhone(svonr),false);
+										OutString(pos[23],0,FindSVOPhone(svonr,IVr),false);
 										OutString(pos[23],0,FindSVOItem(svonr),false);
 										
                   endformat;
@@ -842,7 +847,7 @@ begin
 										OutString(pos[20],0,enginer,false);
 										OutString(pos[21],0,svonr,false);
 										OutString(pos[23],0,newIVr.OrderNr,false);
-										OutString(pos[23],0,FindSVOPhone(svonr),false);
+										OutString(pos[23],0,FindSVOPhone(svonr,IVr),false);
 										OutString(pos[23],0,FindSVOItem(svonr),false);
 										
 						      endformat;
@@ -1158,7 +1163,7 @@ l1:;
 													OutString(pos[20],0,enginer,false);
 													OutString(pos[21],0,svonr,false);
 													OutString(pos[23],0,newIVr.OrderNr,false);
-													OutString(pos[23],0,FindSVOPhone(svonr),false);
+													OutString(pos[23],0,FindSVOPhone(svonr,newIVr),false);
 													OutString(pos[23],0,FindSVOItem(svonr),false);
 													
                         endformat;
@@ -1496,7 +1501,7 @@ begin
                     OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
                     OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
-                    OutString(pos[23],0,FindSVOPhone(svonr),false);
+                    OutString(pos[23],0,FindSVOPhone(svonr,IVr),false);
                     OutString(pos[23],0,FindSVOItem(svonr),false);
                     //***************************************************************************** edit dima-f 12.09.17
                     if(nonblank(svonr and quant>0)) begin
@@ -1552,7 +1557,7 @@ begin
                     OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
                     OutString(pos[21],0,svonr,false);
                     OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
-                    OutString(pos[23],0,FindSVOPhone(svonr),false);
+                    OutString(pos[23],0,FindSVOPhone(svonr,IVr),false);
                     OutString(pos[23],0,FindSVOItem(svonr),false);
                     //***************************************************************************** edit dima-f 12.09.17
                     if(nonblank(svonr and quant>0)) begin
@@ -1862,7 +1867,7 @@ l1:;
 														OutString(pos[13],0,ValToMyString((sumorig - sumcostorig)/sumorig*100*cred,3),false);
 														OutString(pos[21],0,svonr,false);
 														OutStringID(pos[23],"DblBonusRn",worksheet,false,worksheet);
-														OutString(pos[23],0,FindSVOPhone(svonr),false);
+														OutString(pos[23],0,FindSVOPhone(svonr,newIVr),false);
 														OutString(pos[23],0,FindSVOItem(svonr),false);
 														//***************************************************************************** edit dima-f 12.09.17
                                                         if(nonblank(svonr) and quant>0) begin
