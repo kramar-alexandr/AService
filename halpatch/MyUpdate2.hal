@@ -5,6 +5,78 @@ external function Boolean FindStringInString(string, string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
+global procedure SendSMSText(string text,longint from,string to)
+begin
+	string 255 subject,body,subphone;
+	array string 100 phone,normphone;
+	integer i,lenth,cnt,k;
+	area a_subject,a_body;
+  string 100 host,page;
+  area mainRequest,replyarea;
+  longint port;
+  
+  cnt = 0;
+	subphone = to;
+	lenth = len(subphone);
+	For(i=0;i<lenth;i=i+1) begin
+		if(mid(subphone,i,1)==",")then begin
+				cnt = cnt+1;
+		end else begin
+			phone[cnt] = phone[cnt] & mid(subphone,i,1);
+		end;
+	end; 
+	cnt = cnt+1;
+	for(k=0;k<cnt;k=k+1)begin
+		lenth = len(phone[k]);
+		normphone[k] = NormalizePhoneNumber(phone[k]);
+		if(len(normphone[k])==10)then begin
+			normphone[k] = "38" & normphone[k];
+		end;
+		if(len(normphone[k])==11)then begin
+			normphone[k] = "3" & normphone[k];
+		end;
+		if(len(normphone[k])!=12)then begin
+			messagebox(0,"ERROR PHONE");
+			goto LSendSMSText;
+		end;
+	end;
+	
+	subject = "9c7e332509201516 ";
+	For(i=0;i<cnt;i=i+1) begin
+		subject = subject & normphone[i] & ",";
+	end; 
+	subject = mid(subject,0,len(subject)-1);
+	addtexttoarea(subject,a_subject);
+	writeareatofile(a_subject,"SMS/sms_subj.txt",0);
+	body = "[SENDER]AServis[/SENDER][SMS]" & text & "[/SMS]";
+	addtexttoarea(body,a_body);
+	writeareatofile(a_body,"SMS/sms_body.txt",0);
+	if(from>=9000000)then begin
+		host = "109.95.53.85";//krasnoarm
+	end else begin
+		if(from>=3000000)then begin
+			host = "82.144.202.163";//lukanovka
+		end else begin
+			host = "134.249.184.148";//kikvidze
+		end;
+	end;
+  
+  port = 2501;
+	page = "/hansa/sms.php";
+	SetAreaZeroSize(mainRequest);
+	SetAreaZeroSize(replyarea);
+	AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & from & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=3",mainRequest);
+	MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+	logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
+	
+	
+	logtext(0,"SEND SMS");
+  
+LSendSMSText:;
+
+return;
+end;
+
 global procedure SENDSMS(record SVOVc SVOr,record SVOVc SVO2r)
 begin
 	string 255 subject,body,subphone;

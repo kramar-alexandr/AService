@@ -27,6 +27,7 @@ external updating procedure AddPhoneLightAfterSVOVcSaved(record SVOVc);//*******
 remote procedure SENDSECONDSMS(longint);// Edit ************************** Friday, 18 November 2016 14:48:29
 remote updating procedure FastPayInvoicesSVO(record RcVc);// Edit ************************** Friday, 25 November 2016 13:09:52
 external procedure NormPhoneNumber(string, var array string);//-------------------------------------- dima-f 15.09.17
+external procedure SendSMSText(string,longint,string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -407,6 +408,7 @@ BEGIN
   SENDFIRSTSMS(SVOr);
   PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:10 03.11.2016
   AddPhoneLightAfterSVOVcSaved(SVOr);//************************ dima-f 14.09.17
+  SendSMSText(SVOr.Addr0,SVOr.SerNr,"0662200737");
   SVOVcRecordSaveAfter = res; 
   RETURN;
 END;
