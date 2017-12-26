@@ -5,7 +5,7 @@ external function Boolean FindStringInString(string, string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
-global procedure SendSMSText(string text,longint from,string to)
+global procedure SendSMSText(string text,longint from,string to,string name)
 begin
 	string 255 subject,body,subphone;
 	array string 100 phone,normphone;
@@ -65,7 +65,7 @@ begin
 	page = "/hansa/sms.php";
 	SetAreaZeroSize(mainRequest);
 	SetAreaZeroSize(replyarea);
-	AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & from & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=" & text,mainRequest);
+	AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & from & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=" & text & "&name=" & name,mainRequest);
 	MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
 	logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
 	
@@ -143,7 +143,7 @@ begin
         page = "/hansa/sms.php";
         SetAreaZeroSize(mainRequest);
         SetAreaZeroSize(replyarea);
-        AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=3",mainRequest);
+        AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=3&name=" & SVOr.Name,mainRequest);
         MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
         logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
         
@@ -233,7 +233,7 @@ begin
         page = "/hansa/sms.php";
         SetAreaZeroSize(mainRequest);
         SetAreaZeroSize(replyarea);
-        AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=1",mainRequest);
+        AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=1&name=" & SVOr.Name,mainRequest);
         MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
         logtext(0,"GetAreaLength(replyarea) " & GetAreaLength(replyarea));
         logtext(0,host & page & "SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
@@ -325,7 +325,7 @@ begin
 					page = "/hansa/sms.php";
 					SetAreaZeroSize(mainRequest);
 					SetAreaZeroSize(replyarea);
-					AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=2",mainRequest);
+					AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=2&name=" & SVOr.Name,mainRequest);
 					MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
 				  logtext(0,"GetAreaLength(replyarea) " & GetAreaLength(replyarea));
 				  logtext(0,host & page & " SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
