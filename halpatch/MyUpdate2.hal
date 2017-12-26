@@ -65,7 +65,7 @@ begin
 	page = "/hansa/sms.php";
 	SetAreaZeroSize(mainRequest);
 	SetAreaZeroSize(replyarea);
-	AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & from & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=3",mainRequest);
+	AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & from & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=" & text,mainRequest);
 	MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
 	logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
 	
