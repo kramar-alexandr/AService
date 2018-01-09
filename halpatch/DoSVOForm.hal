@@ -116,10 +116,8 @@ BEGIN
 	  		if(readfirstmain(Styler,1,false))then begin
 	  			fontsize = Styler.MacSize;
 	  		end;
-	  	end;
-	  	
+	  	end;	  	
 	  	maxsymbols = Docrw.unitWidth / fontsize * 1.7;
-	  	logtext(0,maxsymbols);
 	  end;
 	end; 
   
@@ -166,7 +164,6 @@ BEGIN
 			//logtext(0,mid(tstr,k,1) & " " & ch);
 			if(ch==10 or ch==32 or k>=alen)then begin
 				tstr2 = getstringfromarea(atstr,lastpos,k-lastpos);
-				logtext(0,tstr2);
 				if(len(tstr2)>maxsymbols or ch==10 or k>=alen)begin
 					if(ch!=10 and k<len(tstr)-1)then begin
 						OUTFORMFIELD("F_STANDARDPROBLEMTEXT",tstr1);  

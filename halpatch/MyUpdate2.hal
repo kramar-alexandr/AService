@@ -2,8 +2,19 @@ external procedure ExtractObj(string,var Integer,var string);
 external function Boolean SetInSet2(string,string);
 external function Boolean MySendWebRequest(string,longint,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 external function Boolean FindStringInString(string, string);
+external function Boolean MySendAsyncWebRequest(string,longint,boolean,string,string,string,string,area,string,integer);
 
 SetLangMode(LangUkrainian,"UKR",0);
+
+
+global
+updating procedure SMSCallBack(Area a_reply,Area a_replyheader,boolean timeout)
+begin
+
+	logtext(0,"SMS reply - " & GetStringFromArea(a_reply,0,GetAreaLength(a_reply)));
+
+  return;
+end;
 
 global procedure SendSMSText(string text,longint from,string to,string name)
 begin
@@ -66,7 +77,9 @@ begin
 	SetAreaZeroSize(mainRequest);
 	SetAreaZeroSize(replyarea);
 	AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & from & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=" & text & "&name=" & name,mainRequest);
-	MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+	//MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+	MySendAsyncWebRequest(host,port,false,"POST",page,"application/x-www-form-urlencoded","",mainRequest,"SMSCallBack",0);// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 9 January 2018 17:39:13
+	
 	logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
 	
 	
@@ -144,7 +157,8 @@ begin
         SetAreaZeroSize(mainRequest);
         SetAreaZeroSize(replyarea);
         AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=3&name=" & SVOr.Name,mainRequest);
-        MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+        //MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 9 January 2018 17:39:33
+        MySendAsyncWebRequest(host,port,false,"POST",page,"application/x-www-form-urlencoded","",mainRequest,"SMSCallBack",0);
         logtext(0,"SENDSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
         
         
@@ -234,7 +248,8 @@ begin
         SetAreaZeroSize(mainRequest);
         SetAreaZeroSize(replyarea);
         AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=1&name=" & SVOr.Name,mainRequest);
-        MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+        //MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);// Edit ************************** BPI Ukraine - KramarAlexandr - Tuesday, 9 January 2018 17:39:50
+        MySendAsyncWebRequest(host,port,false,"POST",page,"application/x-www-form-urlencoded","",mainRequest,"SMSCallBack",0);
         logtext(0,"GetAreaLength(replyarea) " & GetAreaLength(replyarea));
         logtext(0,host & page & "SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
         logtext(0,"SEND SMS");
@@ -326,7 +341,8 @@ begin
 					SetAreaZeroSize(mainRequest);
 					SetAreaZeroSize(replyarea);
 					AddTextToArea("passwd=hj87Hjwofb07QVeg62k&id=" & SVOr.SerNr & "&num=" & right(normphone[0],len(normphone[0])-2) & "&status=2&name=" & SVOr.Name,mainRequest);
-					MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+					//MySendWebRequest(host,port,-1,false,"POST",page,"application/x-www-form-urlencoded","",false,mainRequest,replyarea,10);
+				  MySendAsyncWebRequest(host,port,false,"POST",page,"application/x-www-form-urlencoded","",mainRequest,"SMSCallBack",0);
 				  logtext(0,"GetAreaLength(replyarea) " & GetAreaLength(replyarea));
 				  logtext(0,host & page & " SENDFIRSTSMS request - " & GetStringFromArea(mainRequest,0,GetAreaLength(mainRequest)) & " reply - " & GetStringFromArea(replyarea,0,GetAreaLength(replyarea)));
 
