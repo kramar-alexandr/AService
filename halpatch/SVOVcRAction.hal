@@ -665,46 +665,28 @@ end;
 //----------------------------------------------------------function edited by dima-f 15.09.17
 global procedure CountNumberRepeatPhone(string phone,var array longint sernr,var integer count)
 begin
-    /*
-    record SVOVc SVOr;
-    boolean testf;
-    record LetVc Letr;
-    */
-    record PhoneLightVc PhoneLightr;
-    boolean TrHs,condition;
-    array string 255 phones;
-    integer i;
+	record PhoneLightVc PhoneLightr;
+	boolean TrHs,condition;
+	array string 255 phones;
+	integer i;
 
-    count = 0;
-    NormPhoneNumber(phone, phones);
-		
-		logtext(0,"CountNumberRepeatPhone");
-    for(i=0;i<phones.length;i=i+1) begin
-        LogText(0,"phones[i] ------------- " & phones[i]);
-        PhoneLightr.PhoneNum = phones[i];
-        TrHs=true;
-        while(LoopMain(PhoneLightr,1,TrHs))begin
-            if(PhoneLightr.PhoneNum == phones[i]) begin
-                sernr[count] = PhoneLightr.SerNum;
-                count = count + 1;
-                LogText(0,"-----------count----------->>>>>>>>>" & count);
-            end else begin
-                TrHs=false;
-            end;
-        end;
-        ResetLoop(PhoneLightr);
-    end;
-    logtext(0,"count= " & count);
-	/*
-	while(loopmain(SVOr,1,true))begin
-		recordnew(Letr);
-		AddToText(SVOr.Kontinfo1,Letr);
-		if(StringInText(phone,Letr))then begin
-			sernr[count] = SVOr.SerNr;
-			count = count + 1;
-		end;
+	count = 0;
+	NormPhoneNumber(phone, phones);
+	
+	logtext(0,"CountNumberRepeatPhone");
+	for(i=0;i<phones.length;i=i+1) begin
+			PhoneLightr.PhoneNum = phones[i];
+			TrHs=true;
+			while(LoopMain(PhoneLightr,1,TrHs))begin
+					if(PhoneLightr.PhoneNum == phones[i]) begin
+							sernr[count] = PhoneLightr.SerNum;
+							count = count + 1;
+					end else begin
+							TrHs=false;
+					end;
+			end;
+			ResetLoop(PhoneLightr);
 	end;
-	*/
 return
 end;
 
