@@ -1,0 +1,30 @@
+global
+function boolean MySendWebRequest(string host,longint port,longint b3,boolean b2,string GET,string page,string s2,string s1,boolean b1,area mainRequest,var area replyarea,integer wtime)begin
+	boolean res;
+	
+	res = SendWebRequest(host,port,b3,b2,GET,page,s2,s1,b1,mainRequest,replyarea,wtime);
+	
+	MySendWebRequest = res;
+return;
+end;
+
+
+global
+function boolean MySendRawWebRequest(string host,longint port,boolean b3,string GET,string page,string s2,string s1,boolean b1,area mainRequest,var area replyarea,integer wtime)begin
+	boolean res;
+	
+	res = SendRawWebRequest(host,port,b3,GET,page,s2,s1,b1,mainRequest,replyarea,wtime);
+	
+	MySendRawWebRequest = res;
+return;
+end;
+
+global
+function boolean MySendAsyncWebRequest(string host,longint port,boolean b3,string GET,string page,string s2,string s1,area mainRequest,string CallBack,integer wtime)begin
+	boolean res;
+	
+	SendAsyncWebRequest(host,port,-1,b3,GET,page,s2,s1,mainRequest,CallBack,wtime);
+
+	MySendAsyncWebRequest = res;
+return;
+end;
