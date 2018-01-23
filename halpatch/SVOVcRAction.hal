@@ -579,6 +579,10 @@ BEGIN
 		 case 3:SendSMSText("7",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//wait remcomplet
 		end;
 	end;
+	
+	if(nonblankdate(SVOr.RegDate) and blankdate(SVO2r.RegDate))then begin
+		SendSMSText("8",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//prohodite escjo!
+	end;
   SVOVcRecordUpdateAfter = res;
   RETURN;
 END;
