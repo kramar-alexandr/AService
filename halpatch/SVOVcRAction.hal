@@ -28,6 +28,7 @@ remote procedure SENDSECONDSMS(longint);// Edit ************************** Frida
 remote updating procedure FastPayInvoicesSVO(record RcVc);// Edit ************************** Friday, 25 November 2016 13:09:52
 external procedure NormPhoneNumber(string, var array string);//-------------------------------------- dima-f 15.09.17
 external procedure SendSMSText(string,longint,string,string);
+external procedure  FindPhonePerson(var record Phone1Vc,string);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -240,6 +241,7 @@ BEGIN
   Date blankd;
   Time blankt;
   record UserVc Userr;// Edit ************************** Monday, 31 October 2016 12:54:07
+  record Phone1Vc Phoner;// Edit ************************** BPI Ukraine - KramarAlexandr - Thursday, 1 February 2018 11:35:15
       
   SVOr.SerNr = -1;
   SVOr.TransDate = CurrentDate;  
@@ -317,6 +319,11 @@ BEGIN
  	SVOr.FastTerm = blankval; 
  	SVOr.SerialNrTextSearch = "";
  	SVOr.OldPhone = "";
+ 	
+ 	if(nonblank(SVOr.Kontinfo1))then begin
+		FindPhonePerson(Phoner,SVOr.Kontinfo1);
+		SVOr.PersonalRebCode = Phoner.PersonalRebCode;
+  end;
   
   SVOVcRecordDuplicate = res; 
   RETURN;
