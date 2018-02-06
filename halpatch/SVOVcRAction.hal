@@ -415,8 +415,9 @@ BEGIN
   SENDFIRSTSMS(SVOr);
   if(nonblank(SVOr.Kontinfo1) or nonblank(SVOr.Phone2))then begin
 		PhonesFromSVO(SVOr);//Edit-------------------Vitalii 17:10 03.11.2016
+    AddPhoneLightAfterSVOVcSaved(SVOr);//************************ dima-f 14.09.17
   end;
-  AddPhoneLightAfterSVOVcSaved(SVOr);//************************ dima-f 14.09.17
+  
   //SendSMSText(SVOr.Addr0,SVOr.SerNr,"0662200737");
   SVOVcRecordSaveAfter = res; 
   RETURN;
