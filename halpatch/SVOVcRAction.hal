@@ -576,8 +576,12 @@ BEGIN
 	end;
 	
 	CreateActFromSVOToEnginer(SVOr);
-  PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:09 03.11.2016
-  UpdatePhoneLightAfterSVOVcChanging(SVOr);//************************ dima-f 14.09.17
+	
+  	PhonesFromSVO(SVOr.SerNr);//Edit-------------------Vitalii 17:09 03.11.2016
+  
+  if(SVOr.Kontinfo1!=SVO2r.Kontinfo1 or SVOr.Phone2!=SVO2r.Phone2)then begin
+  	UpdatePhoneLightAfterSVOVcChanging(SVOr);//************************ dima-f 14.09.17
+  end;
   if(SVOr.OrderStatus!=SVO2r.OrderStatus and SVOr.OrderStatus!=2)then begin
   	switch(SVOr.OrderStatus)begin
 		 case 5:SendSMSText("4",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//diagnostic
