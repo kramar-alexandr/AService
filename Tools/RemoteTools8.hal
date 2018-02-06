@@ -2144,10 +2144,10 @@ end;
 
 
 global
-updating procedure PhonesFromSVO(longint SVONr)
+updating procedure PhonesFromSVO(record SVOVc SVOr)
 begin
     record Phone1Vc Pr,oldPr;
-    record SVOVc SVOr;
+    //record SVOVc SVOr;
     string 255 phone;
     boolean TrHs,testf;
     string 255 tstr,newSVONrs;
@@ -2155,8 +2155,8 @@ begin
     string 1 char,c;
     array string 20 phones;
   
-  SVOr.SerNr = SVONr;
-  if (ReadFirstMain(SVOr,1,true)) then begin
+  //SVOr.SerNr = SVONr;
+  if (true) then begin
     if (nonblank(SVOr.Kontinfo1)) then begin
       tstr = SVOr.Kontinfo1;
       phone = "";
@@ -2273,9 +2273,9 @@ begin
       for (i=0;i<pi;i=i+1) begin
         Pr.PhoneNum = phones[i];
         if (readfirstmain(Pr,1,true)) then begin
-          if setinset((SVONr & ""),Pr.SVONrs) then begin
+          if setinset((SVOr.SerNr & ""),Pr.SVONrs) then begin
             if (SVOr.DoneMark!=0) then begin
-              Pr.SVONrs = StrReplace(Pr.SVONrs,(SVONr & ""),"");
+              Pr.SVONrs = StrReplace(Pr.SVONrs,(SVOr.SerNr & ""),"");
               Pr.SVONrs = StrReplace(Pr.SVONrs,",,",",");
               if (left(Pr.SVONrs,1)==",") then begin
                 Pr.SVONrs = right(Pr.SVONrs,len(Pr.SVONrs)-1);
@@ -2287,9 +2287,9 @@ begin
           end else begin
             if (SVOr.DoneMark==0) then begin
               if (nonblank(Pr.SVONrs)) then begin
-                Pr.SVONrs = Pr.SVONrs & "," & SVONr;
+                Pr.SVONrs = Pr.SVONrs & "," & SVOr.SerNr;
               end else begin
-                Pr.SVONrs = SVONr;
+                Pr.SVONrs = SVOr.SerNr;
               end;
             end;
           end;
@@ -2304,7 +2304,7 @@ begin
           RecordNew(Pr);
           Pr.PhoneNum = phones[i];
           if (SVOr.DoneMark==0) then begin
-            Pr.SVONrs = SVONr & "";
+            Pr.SVONrs = SVOr.SerNr & "";
           end;
           Pr.Vlastnik = SVOr.Vlastnik;
           Pr.Priynato = SVOr.Priynato & " " & SVOr.Name & " " & SVOr.MiddleName;
@@ -2431,9 +2431,9 @@ begin
       for (i=0;i<pi;i=i+1) begin
         Pr.PhoneNum = phones[i];
         if (readfirstmain(Pr,1,true)) then begin
-          if setinset((SVONr & ""),Pr.SVONrs) then begin
+          if setinset((SVOr.SerNr & ""),Pr.SVONrs) then begin
             if (SVOr.DoneMark!=0) then begin
-              Pr.SVONrs = StrReplace(Pr.SVONrs,(SVONr & ""),"");
+              Pr.SVONrs = StrReplace(Pr.SVONrs,(SVOr.SerNr & ""),"");
               Pr.SVONrs = StrReplace(Pr.SVONrs,",,",",");
               if (left(Pr.SVONrs,1)==",") then begin
                 Pr.SVONrs = right(Pr.SVONrs,len(Pr.SVONrs)-1);
@@ -2445,9 +2445,9 @@ begin
           end else begin
             if (SVOr.DoneMark==0) then begin
               if (nonblank(Pr.SVONrs)) then begin
-                Pr.SVONrs = Pr.SVONrs & "," & SVONr;
+                Pr.SVONrs = Pr.SVONrs & "," & SVOr.SerNr;
               end else begin
-                Pr.SVONrs = SVONr;
+                Pr.SVONrs = SVOr.SerNr;
               end;
             end;
           end;
@@ -2462,7 +2462,7 @@ begin
           RecordNew(Pr);
           Pr.PhoneNum = phones[i];
           if (SVOr.DoneMark==0) then begin
-            Pr.SVONrs = SVONr & "";
+            Pr.SVONrs = SVOr.SerNr & "";
           end;
           Pr.Vlastnik = SVOr.Vlastnik;
           Pr.Priynato = SVOr.Priynato & " " & SVOr.Name & " " & SVOr.MiddleName;
@@ -2498,7 +2498,7 @@ begin
   end else begin
     resetloop(SVOr);
     while (loopmain(SVOr,1,true)) begin
-      PhonesFromSVO(SVOr.SerNr);
+      PhonesFromSVO(SVOr);
     end;
   end;
   
