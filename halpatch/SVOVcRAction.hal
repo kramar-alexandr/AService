@@ -581,7 +581,7 @@ BEGIN
   if(SVOr.OrderStatus!=SVO2r.OrderStatus and SVOr.OrderStatus!=2)then begin
   	switch(SVOr.OrderStatus)begin
 		 case 5:SendSMSText("4",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//diagnostic
-		 case 4:SendSMSText("5",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//utverjdenie
+		 //case 4:SendSMSText("5",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//utverjdenie
 		 case 1:SendSMSText("6",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//diagnostic finish
 		 case 3:SendSMSText("7",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//wait remcomplet
 		end;
@@ -1381,8 +1381,15 @@ global procedure DblSendSMSCancelDsm()
 begin
 	integer wn;
 	record RcVc RepSpec;
+	record SVOVc SVOr;
 	
 	wn = curwindow;
+	getwindowrecord(wn,RepSpec);
+	SVOr.SerNr = RepSpec.long1;
+	readfirstmain(SVOr,1,true);
+	SendSMSText("5",SVOr.SerNr,SVOr.Kontinfo1,SVOr.Name);//utverjdenie
+
+	
 	closewindow(wn);
 	
 
