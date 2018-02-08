@@ -431,6 +431,15 @@ BEGIN
   LongInt res;
   
   SetSVOFlags(SVOr);
+  if (blankdate(SVO2r.EndDiagnDate) and nonblankdate(SVOr.EndDiagnDate)) then begin
+	SVOr.DiagnosFinishUsr = currentuser;
+  end;
+  if (blankdate(SVO2r.PlanShipDate) and nonblankdate(SVOr.PlanShipDate)) then begin
+	SVOr.RepairFinishUsr = currentuser;
+  end;
+  if (blankdate(SVO2r.RegDate) and nonblankdate(SVOr.RegDate)) then begin
+	SVOr.GiveAwayUsr = currentuser;
+  end;
   SVOVcRecordUpdate = res; 
   RETURN;
 END;

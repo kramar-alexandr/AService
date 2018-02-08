@@ -7126,7 +7126,10 @@ begin
   v=vm-20;
   halpushbutton(h2+200,v,h2+325,v+50,"FastPaySVODsm","Швидка оплата");// Edit ************************** Friday, 25 November 2016 11:32:03 
   EditField(h2+125,v,60, "Готівка",Normal,FastCash,false,0);
-  EditField(h2+125,v+=20,60, "Термін.",Normal,FastTerm,false,0);
+  EditField(h2+240,v+=20,60, "Термін.",Normal,FastTerm,false,0); // Edit ************ Dima 8 February 2018, 15:45
+  EditField(h2+85,v,80,"",ViewOnly,DiagnosFinishUsr,false,0);
+  EditField(h2+85,v+=20,80,"",ViewOnly,RepairFinishUsr,false,0);
+  EditField(h2+85,v+=20,80,"",ViewOnly,GiveAwayUsr,false,0);
   //EditField(h2+125,v+=20,60, "PlanShip",Normal,PlanShip,false,0);/////////
   EnterSkip(Math);
   Tile(2,110,false,"2",Math);
