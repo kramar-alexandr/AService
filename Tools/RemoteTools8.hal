@@ -2798,9 +2798,9 @@ record SVOVc SVOr;
 		if(left(phone,1)<"0" or left(phone,1)>"9")then begin
 			phone = "+" & right(phone,len(phone)-1);
 		end;
-				
 		Phoner.PhoneNum = phone;
 		if(readfirstmain(Phoner,1,true))then begin
+			
 			recordcopy(Phonerres,Phoner);
 			res = Phoner.Priynato;
 			if(nonblank(Phoner.FirstName))then begin
