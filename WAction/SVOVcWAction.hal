@@ -557,19 +557,25 @@ begin
   
   GetWindowRecord(wn,SVOr);
   if(changed>0/* and Blank(SVOr.Vlastnik)*/)then begin
-  	CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
-  	if(count>0)then begin
-  		SVOr.CustomField9 = count;
+  	if(nonblank(SVOr.Kontinfo1))then begin
+  		CountNumberRepeatPhone(SVOr.Kontinfo1,sernr,count);
+			if(count>0)then begin
+				SVOr.CustomField9 = count;
+			end;
+  	end else begin
+  		SVOr.CustomField9 = blankval;
   	end;
   	
-  	FindPhonePerson(Phoner,SVOr.Kontinfo1);
+  	if(nonblank(SVOr.Kontinfo1))then begin
+			FindPhonePerson(Phoner,SVOr.Kontinfo1);
+  	end;
   	SVOr.PersonalRebCode = Phoner.PersonalRebCode;
-	if (nonblank(Phoner.Vlastnik)) then begin
-	  	SVOr.Vlastnik = Phoner.Vlastnik;
-	end;
-	if (nonblank(Phoner.Priynato)) then begin
-	  	SVOr.Priynato = Phoner.Priynato;
-	end;
+		if (nonblank(Phoner.Vlastnik)) then begin
+			SVOr.Vlastnik = Phoner.Vlastnik;
+		end;
+		if (nonblank(Phoner.Priynato)) then begin
+			SVOr.Priynato = Phoner.Priynato;
+		end;
   	if(nonblank(Phoner.FirstName))then begin
 			SVOr.Priynato = Phoner.LastName;
 			SVOr.Name = Phoner.FirstName;
@@ -614,10 +620,15 @@ begin
   
   GetWindowRecord(wn,SVOr);
   if(changed>0 and Blank(SVOr.Vlastnik))then begin
-  	
-  	FindPhonePerson(Phoner,SVOr.Phone2);
-  	SVOr.Vlastnik = Phoner.Vlastnik;
-  	SVOr.Priynato = Phoner.Priynato;
+  	if(nonblank(SVOr.Phone2))then begin
+  		FindPhonePerson(Phoner,SVOr.Phone2);
+  	end;
+  	if(nonblank(Phoner.Vlastnik))then begin
+			SVOr.Vlastnik = Phoner.Vlastnik;
+  	end;
+  	if(nonblank(Phoner.Priynato))then begin
+			SVOr.Priynato = Phoner.Priynato;
+  	end;
   	if(nonblank(Phoner.FirstName))then begin
 			SVOr.Priynato = Phoner.LastName;
 			SVOr.Name = Phoner.FirstName;
