@@ -667,7 +667,7 @@ L22:;
           if (RepSpec.ArtMode==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,15:23 19.08.2014 {
           end else begin
           	StartFormat(15);
-           		OutString(0,"DblCUVc",CUr.Code,false);
+           	OutString(0,"DblCUVc",CUr.Code,false);
 	       		OutString(100,0,CUr.Name,false);
 	       		OutString(280,0,CUr.Phone,false);
 	        	if (RepSpec.flags[2]==1) then begin
