@@ -69,6 +69,7 @@ begin
 	
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modIN); //Edit***************************Sasha2,11:21 17.02.2017
 	Report("Розбіжність складу з балансом",StockBalDiffRClass,StockBalDiffRn,0,modNL); //Edit***************************Sasha2,11:21 17.02.2017
+  Report("Выданные ремонты за период",ReportRegDateServAndInvRClass,ReportRegDateServAndInvRn,0,modSVO);
   
 	Setting("Настройка Cash Flow",MyCashFlowTClass,modNL);
 	Setting("Настройка Cash Flow - прямий метод",MyCashFlowDirectTClass,modNL);

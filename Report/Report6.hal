@@ -752,3 +752,102 @@ endjob;
 
 return;
 end;
+
+global procedure ReportRegDateServAndInvRn(record RcVc RepSpec)
+begin
+	record SVOVc SVOr;
+	boolean TrHs,testf;
+	record IVVc IVr;
+	val sum;
+	string 100 searchstr;
+	
+	startreportnoheaderjob("Выданные ремонты за период");
+	
+	StartFormat(15);
+		outstring(0,0,"Ремонт",false);			
+		outstring(50,0,"Клиент",false);
+		outstring(100,0,"Дата ремонта",false);
+		outstring(150,0,"Дата выдачи",false);	
+		outstring(200,0,"К оплате",false);
+		outstring(250,0,"Выдал",false);	
+	endformat;
+	
+	SVOr.RegDate = RepSpec.sStartDate;
+	TrHs = true;
+	while(loopkey("RegDate",SVOr,1,TrHs))begin
+		testf = true;
+		if(SVOr.RegDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
+		if(RepSpec.f1!=SVOr.SalesGroup)then begin testf = false; end;
+		
+		if(testf)then begin
+			StartFormat(15);
+				outstring(0,"DblSVOVc",SVOr.SerNr,false);			
+				outstring(50,0,SVOr.Kontinfo1,false);
+				outstring(100,0,SVOr.TransDate,false);
+				outstring(150,0,SVOr.RegDate,false);	
+				outstring(200,0,SVOr.WSCost,false);
+				outstring(250,0,SVOr.GiveAwayUsr,false);		
+			endformat;
+			sum = sum + SVOr.WSCost;
+		end;		
+	end;
+	
+	StartFormat(15);
+		outstring(0,0,"Акт",false);			
+		outstring(50,0,"Клиент",false);
+		outstring(100,0,"Дата Акта",false);
+		outstring(150,0,"Дата выдачи",false);	
+		outstring(200,0,"К оплате",false);
+		outstring(250,0,"Выдал",false);	
+	endformat;
+	
+	IVr.InvDate = RepSpec.sStartDate;
+	TrHs = true;
+	while(loopkey("InvDate",IVr,1,TrHs))begin
+		testf = true;
+		if(IVr.InvDate>RepSpec.sEndDate)then begin TrHs = false; testf = false; end;
+		if(IVr.OKFlag==0)then begin testf = false; end;
+		if(IVr.Invalid>0)then begin testf = false; end;
+		if(IVr.SVONr>-1)then begin testf = false; end;
+		if(RepSpec.f1!=IVr.SalesGroup)then begin testf = false; end;
+		/*if(blank(IVr.SalesGroup) and nonblank(RepSpec.f1))then begin
+			switch(RepSpec.f1)begin
+				case "3GR":searchstr = "";
+				case "4GR":searchstr = "";
+				case "7GR":searchstr = "";
+				case "8GR":searchstr = "";
+				case "9GR":searchstr = "KRS";
+			end;
+		end;*/
+		
+		if(testf)then begin
+			if(IVr.InvType==kInvoiceTypeCredit)then begin
+				IVr.Sum4 = -IVr.Sum4;
+			end;
+			
+			StartFormat(15);
+				outstring(0,"DblIVVc",IVr.SerNr,false);			
+				outstring(50,0,IVr.Addr0,false);
+				outstring(100,0,"",false);
+				outstring(150,0,IVr.InvDate,false);	
+				outstring(200,0,IVr.Sum4,false);
+				outstring(250,0,IVr.SalesMan,false);		
+			endformat;
+			
+		end;
+		
+	end;
+	
+	
+	StartFormat(15);
+		outstring(0,0,"",false);			
+		outstring(50,0,"",false);
+		outstring(100,0,"",false);
+		outstring(150,0,"Итого",false);	
+		outstring(200,0,sum,false);
+		outstring(250,0,"",false);	
+	endformat;
+	
+	endjob;
+return;
+end;
