@@ -366,7 +366,7 @@ BEGIN
         TrHs = false;
       end;
     end;
-	if (User.Closed==0) then begin // Edit Dima ************* 2018-02-26 11:51 AM
+	if (User.Closed==1) then begin // Edit Dima ************* 2018-02-26 11:51 AM
 		testf = false;
 	end;
 	if (testf) then begin // Edit Dima ************* 2018-02-26 11:51 AM
