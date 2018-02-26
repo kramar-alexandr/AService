@@ -7191,8 +7191,9 @@ begin
   EditField(h,v+=vs,-20,"Скарги власн.",Normal,Comment1,false,IssueSClass);
   EditField(h,v+=vs,-20,"",Normal,Comment2,false,IssueSClass);
   v=v+10;
-  EditField(h,v+=vs,-20,"Наявні деф.",Normal,Comment3,false,DefectSClass);// Edit ************************** Friday, 29 May 2015 17:19:51
-  EditField(h,v+=vs,-20,"",Normal,Comment4,false,DefectSClass);
+  EditField(h,v+=vs,600,"Наявні деф.",Normal,Comment3,false,0); // Edit Dima ************* 2018-02-26 12:24 PM
+  EditField(h,v+=vs,600,"",Normal,Comment4,false,0); // Edit Dima ************* 2018-02-26 12:26 PM
+  HalPushButton(h+630,v-3,h+690,v+155,"DefectsButtonDsm","Дефекти"); // Edit Dima ************* 2018-02-26 12:38 PM
   v=v+10;
   StaticText(h,v+=vs,"Комплектність",true);
   EditField(h,v+=vs-10,-20,"Батарея:",Normal,Batary,false,0);

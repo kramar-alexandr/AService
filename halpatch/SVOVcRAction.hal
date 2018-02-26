@@ -1482,3 +1482,69 @@ begin
 
 return;
 end;
+
+global
+procedure DefectsButtonDsm()
+begin
+	Integer 	wn;
+	record 		SVOVc SVOr;
+	record 		RcVc RepSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	if (windowstate(wn)==0) then begin
+		OpenWindow("DefectsSVOWClass",0,wn,"","",RepSpec)
+	end;
+	return;
+end;
+
+global updating procedure DefectsConfirmDsm()
+begin
+	integer wn, mwn, i;
+	record RcVc RepSpec;
+	record SVOVc SVOr;
+	record DefectVc Def;
+	string	255		temp;
+	
+	wn = curwindow;
+	mwn = MotherWindow(wn);
+	getwindowrecord(mwn,SVOr);
+	getwindowrecord(wn,RepSpec);
+	i = 0;
+	while (LoopMain(Def,1,true)) begin
+		temp = "";
+		switch(i) begin
+			case 0: if (RepSpec.flags[0]==1) then begin temp = Def.DefectName; end;
+			case 1: if (RepSpec.flags[1]==1) then begin temp = Def.DefectName; end;
+			case 2: if (RepSpec.flags[2]==1) then begin temp = Def.DefectName; end;
+			case 3: if (RepSpec.flags[3]==1) then begin temp = Def.DefectName; end;
+			case 4: if (RepSpec.flags[4]==1) then begin temp = Def.DefectName; end;
+			case 5: if (RepSpec.flags[5]==1) then begin temp = Def.DefectName; end;
+			case 6: if (RepSpec.flags[6]==1) then begin temp = Def.DefectName; end;
+			case 7: if (RepSpec.flags[7]==1) then begin temp = Def.DefectName; end;
+			case 8: if (RepSpec.flags[8]==1) then begin temp = Def.DefectName; end;
+			case 9: if (RepSpec.flags[9]==1) then begin temp = Def.DefectName; end;
+			case 10: if (RepSpec.flags[10]==1) then begin temp = Def.DefectName; end;
+			case 11: if (RepSpec.flags[11]==1) then begin temp = Def.DefectName; end;
+			case 12: if (RepSpec.flags[12]==1) then begin temp = Def.DefectName; end;				
+		end;
+		if (temp!="") then begin
+			if (len(SVOr.Comment3) + len(temp) < 255) then begin
+				if (SVOr.Comment3!="") then begin
+					SVOr.Comment3 = SVOr.Comment3 & ",";
+				end;
+				SVOr.Comment3 = SVOr.Comment3 & temp;
+			end else begin
+				if (len(SVOr.Comment4) + len(temp) < 255) then begin
+					if (SVOr.Comment4!="") then begin
+						SVOr.Comment4 = SVOr.Comment4 & ",";
+					end;
+					SVOr.Comment4 = SVOr.Comment4 & temp;
+				end;
+			end;
+		end;
+		i = i + 1;
+	end;
+	PutWindowRecord(mwn,SVOr);
+return;
+end;
