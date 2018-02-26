@@ -313,7 +313,7 @@ global
 procedure PersPerRn(record RcVc RepSpec)
 BEGIN
   record UserVc User;
-  Boolean TrHs, testf;
+  Boolean TrHs, testf; // Edit Dima ************* 2018-02-26 11:51 AM
   string 255 frcc,tocc,tstr;
   val v,sum1;
   val StartBal,TotCustBal,TotStartBal;
@@ -360,16 +360,16 @@ BEGIN
   User.Code = frcc;
   TrHs = true;
   while (LoopMain(User,1,TrHs)) begin
-	testf = true;
+	testf = true; // Edit Dima ************* 2018-02-26 11:51 AM
     if (nonblank(tocc)) then begin
       if (User.Code>tocc) then begin
         TrHs = false;
       end;
     end;
-	if (User.Closed==0) then begin
+	if (User.Closed==0) then begin // Edit Dima ************* 2018-02-26 11:51 AM
 		testf = false;
 	end;
-	if (testf) then begin
+	if (testf) then begin // Edit Dima ************* 2018-02-26 11:51 AM
 		if (TrHs) then begin
 		  if (RepSpec.flags[2]==1) then begin
 			BeginCurncyTotals(curcnt);
@@ -383,7 +383,7 @@ BEGIN
 			PrintCurncyTotals(acur,av1,av2,av3,curcnt,450,-1,-1,6,true,RepSpec.PocketPC);
 		  end;
 		end;
-	end;
+	end; 
   end;
 /* why was this removed ??? */
 /* why is it needed here, people want to see total for report regardless currency, it is always in base 1 anyway*/
