@@ -21,6 +21,9 @@ external function LongInt CalcARRnColumnSpacing(LongInt,Integer,var LongInt,var 
 external procedure ExtractObj(string,var Integer,var string); //Edit***************************Sasha2,10:51 30.11.2015
 external function Boolean SetInSet2(string,string); //Edit***************************Sasha2,10:56 30.11.2015
 
+SetLangMode(LangUkrainian,"UKR",0);
+
+
 global
 function string 255 CreateInvoiceNumberDisputedMark(LongInt SerNr, string OfficialSerNr, Integer Disputed)
 begin
@@ -319,6 +322,7 @@ BEGIN
   record ORVc ORr; //Edit***************************Sasha2,11:18 20.08.2014
   record SVOVc SVOr;
   row SVOVc SVOrw;
+  date blankdate1,regdate;
   
   BlockLoad(Ab);
   if ((IVr.InstallmentInv==1) and (RepSpec.flags[19]!=0)) then begin
@@ -362,7 +366,16 @@ BEGIN
     if (RepSpec .ArtMode ==1 and (RepSpec.Media == mtExcel or RepSpec.Media == mtFile or RepSpec.Media == mtScreen)) then begin //Edit***************************Sasha2,9:21 20.08.2014 {
     	OutString(0,"DblCUVc",CUr.Code,false);
     	OutString(30,0,IVr.Addr0,false);
-    	OutString(90,0,USetStr(2423),false);
+    	regdate = blankdate1;
+    	if(IVr.SVONr>-1)then begin
+    		SVOr.SerNr = IVr.SVONr;
+    		if(readfirstmain(SVOr,1,true))then begin
+    			regdate = SVOr.RegDate;
+    		end;
+    	end;
+    	
+    	//OutString(90,0,USetStr(2423),false);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 21 February 2018 11:44:05
+    	OutDate(90,0,regdate,false);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 21 February 2018 11:44:21
     	if (RepSpec.flags[23]!=0) then begin
 	      if (IVr.DisputedFlag==1) then begin 
 	        OutStringID(120,"DblIVVc",IVr.OfficialSerNr & "(*)",false,IVr.SerNr);
@@ -418,8 +431,8 @@ BEGIN
 	      end;
 	    end;
       if (IVr.SVONr!=-1) then begin //Edit-------------------Vitalii 15:30 03.01.2017
-        SVOr.SerNr = IVr.SVONr;
-        readfirstmain(SVOr,1,true);
+        //SVOr.SerNr = IVr.SVONr;
+        //readfirstmain(SVOr,1,true);
         matrowget(SVOr,0,SVOrw);
         OutString(500,0,SVOrw.Spec,true);
         OutString(650,0,SVOrw.SerialNr,true);
@@ -1070,7 +1083,8 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
   if (RepSpec.ArtMode==0) then begin
     StartFormat(15);
      OutString(0,0,USetStr(2426),false);
-     OutString(55,0,USetStr(2435),false);
+     //OutString(55,0,USetStr(2435),false);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 21 February 2018 11:49:00
+    	OutString(55,0,"Ремонт выдан",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 21 February 2018 11:49:12
      OutString(100,0,USetStr(2436),false);
      OutString(170,0,USetStr(2707),false);
      OutString(240,0,USetStr(2438),false);
@@ -1100,7 +1114,8 @@ record BaseCurBlock bascur; //Edit***************************Sasha2,10:23 20.08.
      	OutString(30,0,USetStr(9165),false);
 	    if (RepSpec.flags[23]!=0) then begin
 	    end else begin
-	      OutString(90,0,USetStr(2358),false);
+	      //OutString(90,0,USetStr(2358),false);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 21 February 2018 11:50:55
+	      OutString(90,0,"Ремонт выдан",false);// Edit ************************** BPI Ukraine - KramarAlexandr - Wednesday, 21 February 2018 11:51:04
 	      OutString(120,0,USetStr(8178),false);
 	    end;
 	    OutString(145,0,USetStr(8447),false);

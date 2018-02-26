@@ -1350,7 +1350,7 @@ BEGIN
   Actr.TransDate = CurrentDate;
   Actr.MainPersons = ORr.SalesMan;
   if (ORr.SalesMan!=CurrentUser) then begin
-    Actr.CCPersons = CurrentUser;
+    //Actr.CCPersons = CurrentUser;
   end;
   Actr.Comment = ORr.Comment;
   Actr.SerNr = NextSerNr("ActVc",Actr.TransDate,-1,false,"");  
@@ -1653,7 +1653,7 @@ BEGIN
   Actr.MainPersons = SVOr.ServiceManager;// Edit ************************** Monday, 21 August 2017 17:33:56
   
   if (SVOr.SalesMan!=CurrentUser) then begin
-    Actr.CCPersons = CurrentUser;
+    //Actr.CCPersons = CurrentUser;
   end;
   //Actr.CCPersons = "SEREGA";// Edit ************************** Monday, 21 August 2017 17:41:21
   Actr.SVOSerNr = SVOr.SerNr;
