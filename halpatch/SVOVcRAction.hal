@@ -1492,9 +1492,9 @@ begin
 	
 	wn = curwindow;
 	getwindowrecord(wn,SVOr);
-	if (windowstate(wn)==0) then begin
+	//if (windowstate(wn)==0) then begin
 		OpenWindow("DefectsSVOWClass",0,wn,"","",RepSpec)
-	end;
+	//end;
 	return;
 end;
 
@@ -1507,9 +1507,9 @@ begin
 
 	wn = curwindow;
 	getwindowrecord(wn,SVOr);
-	if (windowstate(wn)==0) then begin
+	//if (windowstate(wn)==0) then begin
 		OpenWindow("IssuesSVOWClass",0,wn,"","",RepSpec)
-	end;
+	//end;
 	return;
 end;
 
