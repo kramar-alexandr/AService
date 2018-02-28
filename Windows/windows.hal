@@ -1958,3 +1958,122 @@ begin
   EndWindow;
 end;
 
+// Edit Dima ************* 2018-02-26 12:46 PM
+
+window DefectsSVOWClass:1 
+ wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	integer mwn,wn,h,v,i,vs;
+	record DefectVc Def;
+	
+	WindowBegin("Дефекти",DefectsSVOWClass,CGother,RcType);
+		DynamicWindow;
+		Modality(1);
+		wn = curwindow;
+		mwn = MotherWindow(wn);
+		UseView(RcVc);
+		SetWRect(80,200,640,900);
+		Sizeable(-1,-1,0,0);
+		i = 0;
+		h = 30;
+		v = 20;
+		vs = 20;
+		while (LoopMain(Def,1,true)) begin
+			switch(i) begin
+				case 0: CheckBox(h,v,0,Def.DefectName,flags[0]);
+				case 1: CheckBox(h,v,0,Def.DefectName,flags[1]);
+				case 2: CheckBox(h,v,0,Def.DefectName,flags[2]);
+				case 3: CheckBox(h,v,0,Def.DefectName,flags[3]);
+				case 4: CheckBox(h,v,0,Def.DefectName,flags[4]);
+				case 5: CheckBox(h,v,0,Def.DefectName,flags[5]);
+				case 6: CheckBox(h,v,0,Def.DefectName,flags[6]);
+				case 7: CheckBox(h,v,0,Def.DefectName,flags[7]);
+				case 8: CheckBox(h,v,0,Def.DefectName,flags[8]);
+				case 9: CheckBox(h,v,0,Def.DefectName,flags[9]);
+				case 10: CheckBox(h,v,0,Def.DefectName,flags[10]);
+				case 11: CheckBox(h,v,0,Def.DefectName,flags[11]);
+				case 12: CheckBox(h,v,0,Def.DefectName,flags[12]);
+				case 13: CheckBox(h,v,0,Def.DefectName,flags[13]);				
+				case 14: CheckBox(h,v,0,Def.DefectName,flags[14]);				
+				case 15: CheckBox(h,v,0,Def.DefectName,flags[15]);				
+				case 16: CheckBox(h,v,0,Def.DefectName,flags[16]);				
+				case 17: CheckBox(h,v,0,Def.DefectName,flags[17]);				
+				case 18: CheckBox(h,v,0,Def.DefectName,flags[18]);				
+				case 19: CheckBox(h,v,0,Def.DefectName,flags[19]);				
+				case 20: CheckBox(h,v,0,Def.DefectName,flags[20]);				
+				case 21: CheckBox(h,v,0,Def.DefectName,flags[21]);				
+				case 22: CheckBox(h,v,0,Def.DefectName,flags[22]);				
+				case 23: CheckBox(h,v,0,Def.DefectName,flags[23]);				
+				case 24: CheckBox(h,v,0,Def.DefectName,flags[24]);				
+				case 25: CheckBox(h,v,0,Def.DefectName,flags[25]);				
+				case 26: CheckBox(h,v,0,Def.DefectName,flags[26]);				
+				case 27: CheckBox(h,v,0,Def.DefectName,flags[27]);				
+				case 28: CheckBox(h,v,0,Def.DefectName,flags[28]);				
+				case 29: CheckBox(h,v,0,Def.DefectName,flags[29]);				
+				
+			end;
+			i = i + 1;
+			v = v + vs;
+		end;
+		HalPushButton(h,v+20,h+100,v+50,"DefectsConfirmDsm","Підтвердити");
+  EndWindow;
+end;
+
+// Edit Dima ************* 2018-02-27 04:20 PM
+window IssuesSVOWClass:1
+	wtag("language","UKR"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+	integer mwn,wn,h,v,i,vs;
+	record IssueVc Ir;
+	
+	WindowBegin("Скарги",IssuesSVOWClass,CGother,RcType);
+		DynamicWindow;
+		Modality(1);
+		wn = curwindow;
+		mwn = MotherWindow(wn);
+		UseView(RcVc);
+		SetWRect(80,200,640,900);
+		Sizeable(-1,-1,0,0);
+		i = 0;
+		h = 30;
+		v = 20;
+		vs = 20;
+		while (loopmain(Ir,1,true)) begin
+			switch(i) begin
+				case 0: CheckBox(h,v,0,Ir.IssueName,flags[0]);
+				case 1: CheckBox(h,v,0,Ir.IssueName,flags[1]);
+				case 2: CheckBox(h,v,0,Ir.IssueName,flags[2]);
+				case 3: CheckBox(h,v,0,Ir.IssueName,flags[3]);
+				case 4: CheckBox(h,v,0,Ir.IssueName,flags[4]);
+				case 5: CheckBox(h,v,0,Ir.IssueName,flags[5]);
+				case 6: CheckBox(h,v,0,Ir.IssueName,flags[6]);
+				case 7: CheckBox(h,v,0,Ir.IssueName,flags[7]);
+				case 8: CheckBox(h,v,0,Ir.IssueName,flags[8]);
+				case 9: CheckBox(h,v,0,Ir.IssueName,flags[9]);
+				case 10: CheckBox(h,v,0,Ir.IssueName,flags[10]);
+				case 11: CheckBox(h,v,0,Ir.IssueName,flags[11]);
+				case 12: CheckBox(h,v,0,Ir.IssueName,flags[12]);
+				case 13: CheckBox(h,v,0,Ir.IssueName,flags[13]);
+				case 14: CheckBox(h,v,0,Ir.IssueName,flags[14]);
+				case 15: CheckBox(h,v,0,Ir.IssueName,flags[15]);
+				case 16: CheckBox(h,v,0,Ir.IssueName,flags[16]);
+				case 17: CheckBox(h,v,0,Ir.IssueName,flags[17]);
+				case 18: CheckBox(h,v,0,Ir.IssueName,flags[18]);
+				case 19: CheckBox(h,v,0,Ir.IssueName,flags[19]);
+				case 20: CheckBox(h,v,0,Ir.IssueName,flags[20]);
+				case 21: CheckBox(h,v,0,Ir.IssueName,flags[21]);
+				case 22: CheckBox(h,v,0,Ir.IssueName,flags[22]);
+				case 23: CheckBox(h,v,0,Ir.IssueName,flags[23]);
+				case 24: CheckBox(h,v,0,Ir.IssueName,flags[24]);
+				case 25: CheckBox(h,v,0,Ir.IssueName,flags[25]);
+				case 26: CheckBox(h,v,0,Ir.IssueName,flags[26]);
+				case 27: CheckBox(h,v,0,Ir.IssueName,flags[27]);
+				case 28: CheckBox(h,v,0,Ir.IssueName,flags[28]);
+				case 29: CheckBox(h,v,0,Ir.IssueName,flags[29]);
+			end;
+			i = i + 1;
+			v = v + vs;
+		end;
+		HalPushButton(h,v+20,h+100,v+50,"IssuesConfirmDsm","Підтвердити");
+	EndWindow;
+end;

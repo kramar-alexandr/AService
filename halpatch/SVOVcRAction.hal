@@ -1482,3 +1482,178 @@ begin
 
 return;
 end;
+
+global // Edit Dima ************* 2018-02-27 04:16 PM
+procedure DefectsButtonDsm()
+begin
+	Integer 	wn;
+	record 		SVOVc SVOr;
+	record 		RcVc RepSpec;
+	
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	if (windowstate(wn)==0) then begin
+		OpenWindow("DefectsSVOWClass",0,wn,"","",RepSpec)
+	end;
+	return;
+end;
+
+global
+procedure IssuesButtonDsm()
+begin
+	Integer 	wn;
+	record 		SVOVc SVOr;
+	record 		RcVc RepSpec;
+
+	wn = curwindow;
+	getwindowrecord(wn,SVOr);
+	if (windowstate(wn)==0) then begin
+		OpenWindow("IssuesSVOWClass",0,wn,"","",RepSpec)
+	end;
+	return;
+end;
+
+global updating procedure DefectsConfirmDsm()
+begin
+	integer wn, mwn, i;
+	record RcVc RepSpec;
+	record SVOVc SVOr;
+	record DefectVc Def;
+	string	255		temp;
+	
+	wn = curwindow;
+	mwn = MotherWindow(wn);
+	getwindowrecord(mwn,SVOr);
+	getwindowrecord(wn,RepSpec);
+	i = 0;
+	while (LoopMain(Def,1,true)) begin
+		temp = "";
+		switch(i) begin
+			case 0: if (RepSpec.flags[0]==1) then begin temp = Def.DefectName; end;
+			case 1: if (RepSpec.flags[1]==1) then begin temp = Def.DefectName; end;
+			case 2: if (RepSpec.flags[2]==1) then begin temp = Def.DefectName; end;
+			case 3: if (RepSpec.flags[3]==1) then begin temp = Def.DefectName; end;
+			case 4: if (RepSpec.flags[4]==1) then begin temp = Def.DefectName; end;
+			case 5: if (RepSpec.flags[5]==1) then begin temp = Def.DefectName; end;
+			case 6: if (RepSpec.flags[6]==1) then begin temp = Def.DefectName; end;
+			case 7: if (RepSpec.flags[7]==1) then begin temp = Def.DefectName; end;
+			case 8: if (RepSpec.flags[8]==1) then begin temp = Def.DefectName; end;
+			case 9: if (RepSpec.flags[9]==1) then begin temp = Def.DefectName; end;
+			case 10: if (RepSpec.flags[10]==1) then begin temp = Def.DefectName; end;
+			case 11: if (RepSpec.flags[11]==1) then begin temp = Def.DefectName; end;
+			case 12: if (RepSpec.flags[12]==1) then begin temp = Def.DefectName; end;
+			case 13: if (RepSpec.flags[13]==1) then begin temp = Def.DefectName; end;				
+			case 14: if (RepSpec.flags[14]==1) then begin temp = Def.DefectName; end;				
+			case 15: if (RepSpec.flags[15]==1) then begin temp = Def.DefectName; end;				
+			case 16: if (RepSpec.flags[16]==1) then begin temp = Def.DefectName; end;				
+			case 17: if (RepSpec.flags[17]==1) then begin temp = Def.DefectName; end;				
+			case 18: if (RepSpec.flags[18]==1) then begin temp = Def.DefectName; end;				
+			case 19: if (RepSpec.flags[19]==1) then begin temp = Def.DefectName; end;				
+			case 20: if (RepSpec.flags[20]==1) then begin temp = Def.DefectName; end;				
+			case 21: if (RepSpec.flags[21]==1) then begin temp = Def.DefectName; end;				
+			case 22: if (RepSpec.flags[22]==1) then begin temp = Def.DefectName; end;				
+			case 23: if (RepSpec.flags[23]==1) then begin temp = Def.DefectName; end;				
+			case 24: if (RepSpec.flags[24]==1) then begin temp = Def.DefectName; end;				
+			case 25: if (RepSpec.flags[25]==1) then begin temp = Def.DefectName; end;				
+			case 26: if (RepSpec.flags[26]==1) then begin temp = Def.DefectName; end;				
+			case 27: if (RepSpec.flags[27]==1) then begin temp = Def.DefectName; end;				
+			case 28: if (RepSpec.flags[28]==1) then begin temp = Def.DefectName; end;				
+			case 29: if (RepSpec.flags[29]==1) then begin temp = Def.DefectName; end;							
+		end;
+		if (temp!="") then begin
+			if (len(SVOr.Comment3) + len(temp) < 255) then begin
+				if (!SetInSet(temp, SVor.Comment3)) then begin
+					if (SVOr.Comment3!="") then begin
+						SVOr.Comment3 = SVOr.Comment3 & ",";
+					end;
+					SVOr.Comment3 = SVOr.Comment3 & temp;
+				end;
+			end else begin
+				if (len(SVOr.Comment4) + len(temp) < 255) then begin
+					if (!SetInSet(temp, SVor.Comment4)) then begin
+						if (SVOr.Comment4!="") then begin
+							SVOr.Comment4 = SVOr.Comment4 & ",";
+						end;
+						SVOr.Comment4 = SVOr.Comment4 & temp;
+					end;
+				end;
+			end;
+		end;
+		i = i + 1;
+	end;
+	PutWindowRecord(mwn,SVOr);
+return;
+end;
+
+// Edit Dima ************* 2018-02-27 04:28 PM
+global updating procedure IssuesConfirmDsm()
+begin
+	integer wn, mwn, i;
+	record RcVc RepSpec;
+	record SVOVc SVOr;
+	record IssueVc Ir;
+	string	255		temp;
+	
+	wn = curwindow;
+	mwn = MotherWindow(wn);
+	getwindowrecord(mwn,SVOr);
+	getwindowrecord(wn,RepSpec);
+	i = 0;
+	while (LoopMain(Ir,1,true)) begin
+		temp = "";
+		switch(i) begin
+			case 0: if (RepSpec.flags[0]==1) then begin temp = Ir.IssueName; end;
+			case 1: if (RepSpec.flags[1]==1) then begin temp = Ir.IssueName; end;
+			case 2: if (RepSpec.flags[2]==1) then begin temp = Ir.IssueName; end;			
+			case 3: if (RepSpec.flags[3]==1) then begin temp = Ir.IssueName; end;			
+			case 4: if (RepSpec.flags[4]==1) then begin temp = Ir.IssueName; end;			
+			case 5: if (RepSpec.flags[5]==1) then begin temp = Ir.IssueName; end;			
+			case 6: if (RepSpec.flags[6]==1) then begin temp = Ir.IssueName; end;			
+			case 7: if (RepSpec.flags[7]==1) then begin temp = Ir.IssueName; end;			
+			case 8: if (RepSpec.flags[8]==1) then begin temp = Ir.IssueName; end;			
+			case 9: if (RepSpec.flags[9]==1) then begin temp = Ir.IssueName; end;			
+			case 10: if (RepSpec.flags[10]==1) then begin temp = Ir.IssueName; end;			
+			case 11: if (RepSpec.flags[11]==1) then begin temp = Ir.IssueName; end;			
+			case 12: if (RepSpec.flags[12]==1) then begin temp = Ir.IssueName; end;			
+			case 13: if (RepSpec.flags[13]==1) then begin temp = Ir.IssueName; end;			
+			case 14: if (RepSpec.flags[14]==1) then begin temp = Ir.IssueName; end;			
+			case 15: if (RepSpec.flags[15]==1) then begin temp = Ir.IssueName; end;			
+			case 16: if (RepSpec.flags[16]==1) then begin temp = Ir.IssueName; end;			
+			case 17: if (RepSpec.flags[17]==1) then begin temp = Ir.IssueName; end;			
+			case 18: if (RepSpec.flags[18]==1) then begin temp = Ir.IssueName; end;			
+			case 19: if (RepSpec.flags[19]==1) then begin temp = Ir.IssueName; end;			
+			case 20: if (RepSpec.flags[20]==1) then begin temp = Ir.IssueName; end;			
+			case 21: if (RepSpec.flags[21]==1) then begin temp = Ir.IssueName; end;			
+			case 22: if (RepSpec.flags[22]==1) then begin temp = Ir.IssueName; end;			
+			case 23: if (RepSpec.flags[23]==1) then begin temp = Ir.IssueName; end;			
+			case 24: if (RepSpec.flags[24]==1) then begin temp = Ir.IssueName; end;			
+			case 25: if (RepSpec.flags[25]==1) then begin temp = Ir.IssueName; end;			
+			case 26: if (RepSpec.flags[26]==1) then begin temp = Ir.IssueName; end;			
+			case 27: if (RepSpec.flags[27]==1) then begin temp = Ir.IssueName; end;			
+			case 28: if (RepSpec.flags[28]==1) then begin temp = Ir.IssueName; end;			
+			case 29: if (RepSpec.flags[29]==1) then begin temp = Ir.IssueName; end;			
+		end;
+		if (temp!="") then begin
+			if (len(SVOr.Comment1) + len(temp) < 255) then begin
+				if (!SetInSet(temp, SVor.Comment1)) then begin
+					if (SVOr.Comment1!="") then begin
+						SVOr.Comment1 = SVOr.Comment1 & ",";
+					end;
+					SVOr.Comment1 = SVOr.Comment1 & temp;
+				end;
+			end else begin
+				if (len(SVOr.Comment2) + len(temp) < 255) then begin
+					if (!SetInSet(temp, SVor.Comment2)) then begin
+						if (SVOr.Comment2!="") then begin
+							SVOr.Comment2 = SVOr.Comment2 & ",";
+						end;
+						SVOr.Comment2 = SVOr.Comment2 & temp;
+					end;
+				end;
+			end;
+		end;
+		i = i + 1;
+	end;
+	PutWindowRecord(mwn,SVOr);
+return;
+end;
