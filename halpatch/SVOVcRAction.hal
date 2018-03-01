@@ -1523,6 +1523,7 @@ begin
 	
 	wn = curwindow;
 	mwn = MotherWindow(wn);
+	deselectwindow(mwn,true);
 	getwindowrecord(mwn,SVOr);
 	getwindowrecord(wn,RepSpec);
 	i = 0;
@@ -1560,7 +1561,7 @@ begin
 			case 28: if (RepSpec.flags[28]==1) then begin temp = Def.DefectName; end;				
 			case 29: if (RepSpec.flags[29]==1) then begin temp = Def.DefectName; end;							
 		end;
-		if (temp!="") then begin
+		if (nonblank(temp)) then begin
 			if (len(SVOr.Comment3) + len(temp) < 255) then begin
 				if (!SetInSet(temp, SVor.Comment3)) then begin
 					if (SVOr.Comment3!="") then begin
@@ -1596,6 +1597,7 @@ begin
 	
 	wn = curwindow;
 	mwn = MotherWindow(wn);
+	deselectwindow(mwn,true);
 	getwindowrecord(mwn,SVOr);
 	getwindowrecord(wn,RepSpec);
 	i = 0;
@@ -1633,7 +1635,7 @@ begin
 			case 28: if (RepSpec.flags[28]==1) then begin temp = Ir.IssueName; end;			
 			case 29: if (RepSpec.flags[29]==1) then begin temp = Ir.IssueName; end;			
 		end;
-		if (temp!="") then begin
+		if (nonblank(temp)) then begin
 			if (len(SVOr.Comment1) + len(temp) < 255) then begin
 				if (!SetInSet(temp, SVor.Comment1)) then begin
 					if (SVOr.Comment1!="") then begin
