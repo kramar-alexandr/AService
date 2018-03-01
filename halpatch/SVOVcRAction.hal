@@ -1580,7 +1580,7 @@ begin
 			case 29: if (RepSpec.flags[29]==1) then begin temp = Def.DefectName; end;							
 		end;
 		if (nonblank(temp)) then begin
-			if (len(SVOr.Comment3) + len(temp) < 255) then begin
+			if (len(SVOr.Comment3) + len(temp) < 150) then begin
 				if (!SetInSet(NormStr(temp),NormStr(SVor.Comment3))) then begin
 					if (SVOr.Comment3!="") then begin
 						SVOr.Comment3 = SVOr.Comment3 & ",";
@@ -1588,7 +1588,7 @@ begin
 					SVOr.Comment3 = SVOr.Comment3 & temp;
 				end;
 			end else begin
-				if (len(SVOr.Comment4) + len(temp) < 255) then begin
+				if (len(SVOr.Comment4) + len(temp) < 150) then begin
 					if (!SetInSet(NormStr(temp),NormStr(SVor.Comment4))) then begin
 						if (SVOr.Comment4!="") then begin
 							SVOr.Comment4 = SVOr.Comment4 & ",";
@@ -1654,17 +1654,17 @@ begin
 			case 29: if (RepSpec.flags[29]==1) then begin temp = Ir.IssueName; end;			
 		end;
 		if (nonblank(temp)) then begin
-			if (len(SVOr.Comment1) + len(temp) < 255) then begin
-				if (!SetInSet(NormStr(temp), NormStr(SVor.Comment1))) then begin
-					if (SVOr.Comment1!="") then begin
+			if (len(SVOr.Comment1) + len(temp) < 150) then begin
+				if (!SetInSet(NormStr(temp),NormStr(SVor.Comment1))) then begin
+					if (nonblank(SVOr.Comment1)) then begin
 						SVOr.Comment1 = SVOr.Comment1 & ",";
 					end;
 					SVOr.Comment1 = SVOr.Comment1 & temp;
 				end;
 			end else begin
-				if (len(SVOr.Comment2) + len(temp) < 255) then begin
+				if (len(SVOr.Comment2) + len(temp) < 150) then begin
 					if (!SetInSet(NormStr(temp),NormStr(SVor.Comment2))) then begin
-						if (SVOr.Comment2!="") then begin
+						if (nonblank(SVOr.Comment2)) then begin
 							SVOr.Comment2 = SVOr.Comment2 & ",";
 						end;
 						SVOr.Comment2 = SVOr.Comment2 & temp;
