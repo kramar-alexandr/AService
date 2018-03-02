@@ -863,8 +863,8 @@ begin
 	addtexttoarea("\"host\":\"smtp.gmail.com\",",request);
 	addtexttoarea("\"port\":465,",request);
 	addtexttoarea("\"secure\":true,",request);
-	addtexttoarea("\"user\":\"kramar.alexandr@gmail.com\",",request);
-	addtexttoarea("\"pass\":\"geAlex1985@\",",request);
+	addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
+	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
 	addtexttoarea("\"to\":\"" & "kramar.alexandr@bpi.in.ua" & "\",",request);
 	addtexttoarea("\"subject\":\"Report: " & "\",",request);
