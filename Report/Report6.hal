@@ -953,7 +953,8 @@ procedure StockBalDiffEn()
 begin
 	record RcVc RepSpec;
 	
-	RepSpec.sStartDate = AddDay(currentdate, -1); 	
+	RepSpec.sStartDate = AddDay(currentdate, -1);
+	RepSpec.sEndDate = AddDay(currentdate, -1); 	
 	delete_file("Stock/StockBalDiff.xls");			
 	CreateFile("Stock/StockBalDiff.xls");			
 	closefile;										
