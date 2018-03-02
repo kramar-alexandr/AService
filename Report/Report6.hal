@@ -860,7 +860,7 @@ begin
 							
 	setareazerosize(request);
 	addtexttoarea("{",request);
-	addtexttoarea("\"host\":\"smtp.google.com\",",request);
+	addtexttoarea("\"host\":\"smtp.gmail.com\",",request);
 	addtexttoarea("\"port\":465,",request);
 	addtexttoarea("\"secure\":true,",request);
 	addtexttoarea("\"user\":\"kramar.alexandr@gmail.com\",",request);
