@@ -871,7 +871,7 @@ begin
 	addtexttoarea("\"message\":\"\",",request);
 							
 	addtexttoarea("\"filename\":\"StockBalDiff.xlsx" & "\",",request);
-	addtexttoarea("\"path\":\"/Applications/HANSA/Stock/StockBalDiff.xls" & "\"",request);
+	addtexttoarea("\"path\":\"/Applications/HANSA/Stock/FinishRemont.txt" & "\"",request);
 	addtexttoarea("}",request);
 
 	MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
@@ -887,10 +887,10 @@ begin
 	
 	RepSpec.sStartDate = AddDay(currentdate, -1);
 	RepSpec.sEndDate = AddDay(currentdate, -1); 	
-	delete_file("Stock/StockBalDiff.xls");			
-	CreateFile("Stock/StockBalDiff.xls");			
+	delete_file("Stock/FinishRemont.txt");			
+	CreateFile("Stock/FinishRemont.txt");			
 	closefile;										
-	openexportfile("Stock/StockBalDiff.xls",true);	
+	openexportfile("Stock/FinishRemont.txt",true);	
 	ReportRegDateServAndInvRn(RepSpec);
 	WebSaveExportReportToFileEn;
 end;
