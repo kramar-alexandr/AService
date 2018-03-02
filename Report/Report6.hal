@@ -1,7 +1,7 @@
 external procedure ExtractObj(string,var Integer,var string);
 external inner function string 255 StrReplace(string,string,string);
 external procedure CuPerRn(record RcVc);// Edit ************************** Monday, 13 November 2017 13:56:48
-external inner function boolean SendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
+external function Boolean MySendWebRequest(string,longint,longint,boolean,string,string,string,string,boolean,area,var area,integer);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -874,7 +874,7 @@ begin
 	addtexttoarea("\"path\":\"/Applications/HANSA/Stock/StockBalDiff.xls" & "\"",request);
 	addtexttoarea("}",request);
 
-	SendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+	MySendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
 return;
 end;
 
