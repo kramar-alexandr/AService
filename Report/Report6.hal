@@ -870,7 +870,7 @@ begin
 	addtexttoarea("\"subject\":\"Report: " & "\",",request);
 	addtexttoarea("\"message\":\"\",",request);
 							
-	addtexttoarea("\"filename\":\"StockBalDiff.xlsx" & "\",",request);
+	addtexttoarea("\"filename\":\"FinishRemont.txt" & "\",",request);
 	addtexttoarea("\"path\":\"/Applications/HANSA/Stock/FinishRemont.txt" & "\"",request);
 	addtexttoarea("}",request);
 
@@ -898,7 +898,8 @@ end;
 global webpublic Procedure WebReportRegDateServAndInvEn()
 begin
 	
+	SetCompany(8,false);
 	ReportRegDateServAndInvEn;
-	
+	ReSetCompany(8);
 	return;
 end;
