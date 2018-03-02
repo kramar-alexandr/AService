@@ -866,7 +866,7 @@ begin
 	addtexttoarea("\"user\":\"aservice.report@gmail.com\",",request);
 	addtexttoarea("\"pass\":\"arPassword123QWE@\",",request);
 	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
-	addtexttoarea("\"to\":\"" & "kramar.alexandr@bpi.in.ua" & "\",",request);
+	addtexttoarea("\"to\":\"" & "vci@a-service.in.ua,kramar.alexandr@bpi.in.ua" & "\",",request);
 	addtexttoarea("\"subject\":\"Report: Выполненые ремонты" & "\",",request);
 	addtexttoarea("\"message\":\"\",",request);
 							
