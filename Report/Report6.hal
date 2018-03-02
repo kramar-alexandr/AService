@@ -860,25 +860,18 @@ begin
 							
 	setareazerosize(request);
 	addtexttoarea("{",request);
-	addtexttoarea("\"host\":\"smtp.zoho.eu\",",request);
+	addtexttoarea("\"host\":\"smtp.google.com\",",request);
 	addtexttoarea("\"port\":465,",request);
 	addtexttoarea("\"secure\":true,",request);
-	addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
-	addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
-	addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
-	addtexttoarea("\"to\":\"" & "testtest" & "\",",request);
+	addtexttoarea("\"user\":\"kramar.alexandr@gmail.com\",",request);
+	addtexttoarea("\"pass\":\"GEAlex1985@\",",request);
+	addtexttoarea("\"from\":\"kramar.alexandr@gmail.com\",",request);
+	addtexttoarea("\"to\":\"" & "kramar.alexandr@bpi.in.ua" & "\",",request);
 	addtexttoarea("\"subject\":\"Report: " & "\",",request);
 	addtexttoarea("\"message\":\"\",",request);
 							
-	addtexttoarea("\"html\":\"<div><h3>„обрый день!</h3><p>Ћплата успешно проведена. Ћбновленный баланс в прикрепленном файле.</p><img src=\\\"cid:logo.png\\\">",request);
-	addtexttoarea("<p><a href=\\\"http://www.hitmarket.com.ua/\\\">www.hitmarket.com.ua</a></p></div>\",",request);
-
-	addtexttoarea("\"htmlpath\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/logo.png" & "\",",request);
-	addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
-	addtexttoarea("\"htmlcid\":\"logo.png" & "\",",request);
-							
-	addtexttoarea("\"filename\":\"Ѓаланс_" & "StockBalDiff.xlsx" & "\",",request);
-	addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Ѓаланс_" & "StockBalDiff.xlsx" & "\"",request);
+	addtexttoarea("\"filename\":\"StockBalDiff.xlsx" & "\",",request);
+	addtexttoarea("\"path\":\"/Applications/HANSA/Stock/StockBalDiff.xls" & "\"",request);
 	addtexttoarea("}",request);
 
 	SendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
@@ -888,7 +881,7 @@ end;
 // Edit Dima ************* 2018-03-02 02:33 PM
 
 global
-procedure StockBalDiffEn()
+procedure  ReportRegDateServAndInvEn()
 begin
 	record RcVc RepSpec;
 	
@@ -902,7 +895,10 @@ begin
 	WebSaveExportReportToFileEn;
 end;
 
-global webpublic Procedure WebStockBalDiffEn()
+global webpublic Procedure WebReportRegDateServAndInvEn()
 begin
-	StockBalDiffEn;
+	
+	ReportRegDateServAndInvEn;
+	
+	return;
 end;
