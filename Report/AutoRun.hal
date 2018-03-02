@@ -13,6 +13,7 @@ external procedure RetailSalesEn();
 external procedure KreditorkaReportEn();
 external procedure SaleWeekByVEEn();
 external updating procedure StockBalDiffMn(string); 
+external procedure StockBalDiffEn(); // Edit Dima ************* 2018-03-02 02:19 PM
 
 //------------------------------------------------------------------------------------------------------------------------------
 global updating procedure AutoRun()
@@ -35,6 +36,7 @@ idistribuEsti = 11;
   if (SetCompany(AService,false)) then begin//AService
     logtext(0,currentcompany & " StockBalDiffMn");
     StockBalDiffMn("SA,STRELKOVA,AUDITOR,CHAYKOVSKA,IRA_FM");
+	StockBalDiffEn; // Edit Dima ************* 2018-03-02 01:41 PM
   end;
 
 /*

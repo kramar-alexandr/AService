@@ -1,5 +1,7 @@
 external procedure ExtractObj(string,var Integer,var string);
-
+external inner function string 255 StrReplace(string,string,string);
+external procedure CuPerRn(record RcVc);// Edit ************************** Monday, 13 November 2017 13:56:48
+external inner function boolean SendWebRequest(string,integer,integer,boolean,string,string,string,string,boolean,area,var area,integer);
 
 SetLangMode(LangUkrainian,"UKR",0);
 
@@ -850,4 +852,117 @@ begin
 	
 	endjob;
 return;
+end;
+
+global webpublic procedure WebSaveExportReportToFileEn()
+begin
+	record RcVc RepSpec;
+	string 50 setext;
+	record IPVc IPr;
+	integer i,mtrw,acnt;
+	row IPVc IPrw;
+	vector boolean custflag;
+	array string 50 acust;
+	record CUVc CUr;
+	area request,reply;
+	string 255 custname;
+	
+	setext = WebGetArg("serrnr");
+	setcompany(1,false);
+		if(nonblank(setext))then begin
+			IPr.SerNr = stringtolongint(setext);
+			if(readfirstmain(IPr,1,true))then begin
+				mtrw = matrowcnt(IPr);
+				For(i=0;i<mtrw;i=i+1) begin
+	  			matrowget(IPr,i,IPrw);
+	  			if(nonblank(IPrw.CustCode))then begin
+	  				if(custflag[IPrw.CustCode]==false)then begin
+	  					custflag[IPrw.CustCode] = true;
+	  					acust[acnt] = IPrw.CustCode;
+	  					acnt = acnt + 1;
+	  				end;
+	  			end;
+				end; 
+				
+				For(i=0;i<acnt;i=i+1) begin
+					CUr.Code = acust[i];
+					if(readfirstmain(CUr,1,true))then begin
+						if(nonblank(CUr.eMail))then begin
+							ReportDefaults(RepSpec,"CuPer2RClass");
+							RepSpec.flags[8] = 1;
+							RepSpec.f1 = CUr.Code;
+							RepSpec.ArtMode = 1;
+							RepSpec.flags[2] = 1;
+							RepSpec.Media = mtExcel;
+							RepSpec.sStartDate = addday(currentdate,-30);
+							RepSpec.sEndDate = currentdate;
+						
+							custname = CUr.Name;
+							CUr.Name = StrReplace(CUr.Name," ", "_");
+							delete_file("Rep/Ѓаланс_" & CUr.Name);
+							delete_file("Rep/Ѓаланс_" & CUr.Name & ".xlsx");
+							createfile("Rep/Ѓаланс_" & CUr.Name);
+							closefile;
+							openexportfile("Rep/Ѓаланс_" & CUr.Name,true);
+							CuPerRn(RepSpec);
+							closefile;
+						
+							//runprogram("Rep/iconv.sh","./Rep/Ѓаланс_" & CUr.Name);
+							runprogram("node","CUPrnTabtoXLSX.js ./Rep/Ѓаланс_" & CUr.Name);
+							
+							millisleep(3000);
+							
+							setareazerosize(request);
+							addtexttoarea("{",request);
+							addtexttoarea("\"host\":\"smtp.zoho.eu\",",request);
+							addtexttoarea("\"port\":465,",request);
+							addtexttoarea("\"secure\":true,",request);
+							addtexttoarea("\"user\":\"office@hitmarket.com.ua\",",request);
+							addtexttoarea("\"pass\":\"fgkl7md8fNklmndf\",",request);
+							addtexttoarea("\"from\":\"office@hitmarket.com.ua\",",request);
+							addtexttoarea("\"to\":\"" & CUr.eMail & "\",",request);
+							addtexttoarea("\"subject\":\"Ѓаланс по клиенту: " & custname & "\",",request);
+							addtexttoarea("\"message\":\"\",",request);
+							
+							addtexttoarea("\"html\":\"<div><h3>„обрый день!</h3><p>Ћплата успешно проведена. Ћбновленный баланс в прикрепленном файле.</p><img src=\\\"cid:logo.png\\\">",request);
+							addtexttoarea("<p><a href=\\\"http://www.hitmarket.com.ua/\\\">www.hitmarket.com.ua</a></p></div>\",",request);
+
+							addtexttoarea("\"htmlpath\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/logo.png" & "\",",request);
+							addtexttoarea("\"htmlattach\":\"logo.png" & "\",",request);
+							addtexttoarea("\"htmlcid\":\"logo.png" & "\",",request);
+							
+							addtexttoarea("\"filename\":\"Ѓаланс_" & CUr.Name & ".xlsx" & "\",",request);
+							addtexttoarea("\"path\":\"/usr/local/bin/TITAREV/Son_Live/" & "Rep/Ѓаланс_" & CUr.Name & ".xlsx" & "\"",request);
+							addtexttoarea("}",request);
+
+							SendWebRequest("127.0.0.1",1070,1070,false,"POST","/sendMail","application/json","",false,request,reply,5);
+						end;
+					end;
+				end; 
+			end;
+		end;
+	resetcompany(1);
+	
+return;
+end;
+
+// Edit Dima ************* 2018-03-02 02:33 PM
+
+global
+procedure StockBalDiffEn()
+begin
+	record RcVc RepSpec;
+	
+	RepSpec.sStartDate = AddDay(currentdate, -1); 	
+	delete_file("Stock/StockBalDiff.xls");			
+	CreateFile("Stock/StockBalDiff.xls");			
+	closefile;										
+	openexportfile("Stock/StockBalDiff.xls",true);	
+	ReportRegDateServAndInvRn(RepSpec);
+	WebSaveExportReportToFileEn;
+end;
+
+global webpublic Procedure WebStockBalDiffEn()
+begin
+	StockBalDiffEn;
 end;
