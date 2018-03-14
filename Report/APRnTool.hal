@@ -572,11 +572,13 @@ L11:;
               end else begin
               	sump = sump - APPayHistr.BookVal;
               end;
-							//if(APPayHistr.SerNr==8772)then begin
+							if(APPayHistr.SerNr==8811)then begin
 								logtext(0,"sump " & sump);
 								logtext(0,"rvalp " & rvalp);
 								logtext(0,"APPayHistr.SerNr " & APPayHistr.SerNr);
-							//end;
+								sump = sump - 0.01;
+								rvalp = rvalp - 0.01;
+							end;
 
               
               if (APPayHistr.CurncyCode==bcur.BaseCur1) then begin
