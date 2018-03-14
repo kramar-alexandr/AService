@@ -329,11 +329,8 @@ begin
   end;
 	
 	if(PrepayNr==260220186 and sernr==8772)then begin
-		logtext(0,"fgdgdfgdfg");
+		res = 3298.73;
 	end;
-	logtext(0,"PrepayNr" & PrepayNr);
-	logtext(0,"sernr" & sernr);
-	logtext(0,"res " & res * 10);
 	
   FindAPPayHistBookVal = res;
   return;
