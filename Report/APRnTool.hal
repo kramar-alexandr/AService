@@ -180,6 +180,11 @@ BEGIN
 //                      t = OPrw.BankVal;//must be same as On OnAccAcc
                     end;
                   end;
+                  
+                  logtext(0,"sump " & sump);
+                  logtext(0,"t " & t);
+                  logtext(0,"pinvval " & pinvval);
+                  
                   sump = sump - t;
                   if ((RepSpec.flags[18]!=0) and (RepSpec.ArtMode!=4) and (RepSpec.ArtMode!=6)) then begin
                     AddToCreditorsAccounts(apacc,0,-t,credaccs,credbal,credcnt);
