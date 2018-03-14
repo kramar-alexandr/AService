@@ -319,13 +319,13 @@ begin
   APPayHistr.SerNr = sernr;
   if (ReadFirstMain(APPayHistr,3,true)) then begin
 //    res = APPayHistr.BookVal;
-    res = round((v*APPayHistr.BookVal)/APPayHistr.Val,DefaultCurRoundOff);
+    res = (v*APPayHistr.BookVal)/APPayHistr.Val;
     foundprepf = true;
   end;
   if (foundprepf==false) then begin
     res = MULWITHRATETOBASE1(invcurncy,td,v,DefaultCurRoundOff);  
   end;
-  logtext(0,"res " & res);
+
   FindAPPayHistBookVal = res;
   return;
 end;
