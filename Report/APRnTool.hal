@@ -576,8 +576,8 @@ L11:;
 								logtext(0,"sump " & sump);
 								logtext(0,"rvalp " & rvalp);
 								logtext(0,"APPayHistr.SerNr " & APPayHistr.SerNr);
-								sump = sump - 0.01;
-								rvalp = rvalp - 0.01;
+								sump = sump + 0.01;
+								rvalp = rvalp + 0.01;
 							end;
 
               
