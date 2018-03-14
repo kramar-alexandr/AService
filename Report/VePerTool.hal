@@ -319,7 +319,7 @@ begin
   APPayHistr.SerNr = sernr;
   if (ReadFirstMain(APPayHistr,3,true)) then begin
 //    res = APPayHistr.BookVal;
-    res = (v*APPayHistr.BookVal)/APPayHistr.Val;
+    res = round((v*APPayHistr.BookVal)/APPayHistr.Val,DefaultCurRoundOff);
     foundprepf = true;
   end;
   if (foundprepf==false) then begin
