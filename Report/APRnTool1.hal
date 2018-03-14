@@ -1293,7 +1293,7 @@ begin
   EndFormat;
   if (onacc!=0) then begin
     StartFormat(15);
-    //OutString(290,0,USetStr(2497),false);
+    OutString(290,0,USetStr(2497),false);
     OutValBiDi(450,0,onacc,M4Val,true,480);
     OutString(460,0,curcode,false);
     EndFormat;
