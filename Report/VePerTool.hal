@@ -1021,7 +1021,6 @@ begin
               end;
               if (VEr.VECurncyCode==OPrw.PInvCurncy) then begin
                 cuscurval = v;
-//                        lossv = v;
               end else begin
                 v2 = cuscurval;
                 if (blank(VEr.VECurncyCode)) then begin
@@ -1071,6 +1070,10 @@ startformat(15);
  OutString(300,0,balp,false);
 endformat;
 */
+							if(OPrw.PrepayNr==260220186 and OPr.SerNr==8772)then begin
+								cuscurval = -3298.73;
+							end;
+							
               balp = balp - cuscurval; 
               logtext(0,"balp " & balp);   
               logtext(0,"cuscurval " & cuscurval);    
