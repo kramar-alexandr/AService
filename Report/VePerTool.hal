@@ -1065,8 +1065,8 @@ endformat;
 */
               balp = balp - cuscurval; 
               logtext(0,"balp " & balp);   
-              logtext(0,"cuscurval " & cuscurval);    
-              logtext(0,"lossv " & lossv);                     
+              logtext(0,"cuscurval " & cuscurval*10);    
+              logtext(0,"lossv " & lossv*10);                     
               SumDebet = SumDebet + cuscurval;
 /*
 startformat(15);
