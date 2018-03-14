@@ -1070,7 +1070,7 @@ endformat;
 							end;
 							
               balp = balp - cuscurval;      
-              logtext(0,"balp " & balp);
+              //logtext(0,"balp " & balp);
                              
               SumDebet = SumDebet + cuscurval;
 /*
