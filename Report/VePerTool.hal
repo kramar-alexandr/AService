@@ -325,6 +325,7 @@ begin
   if (foundprepf==false) then begin
     res = MULWITHRATETOBASE1(invcurncy,td,v,DefaultCurRoundOff);  
   end;
+  logtext(0,"res " & res);
   FindAPPayHistBookVal = res;
   return;
 end;
