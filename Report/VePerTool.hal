@@ -327,10 +327,10 @@ begin
   if (foundprepf==false) then begin
     res = MULWITHRATETOBASE1(invcurncy,td,v,DefaultCurRoundOff);  
   end;
-	logtext(0,"resresresres ",res);
+	logtext(0,"resresresres " & res);
 	if(PrepayNr==260220186 and sernr==8772)then begin
 		res = 3298.73;
-		logtext(0,"resresresres ",res);
+		logtext(0,"resresresres " & res);
 	end;
 	
   FindAPPayHistBookVal = res;
