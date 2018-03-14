@@ -306,6 +306,8 @@ begin
   record APPayHistVc APPayHistr;
   Boolean foundprepf;
   
+  logtext(0,"v " & v);
+  
   APPayHistr.VEPNr = PrepayNr;
   APPayHistr.FileName = "OPVc";
   APPayHistr.SerNr = sernr;
