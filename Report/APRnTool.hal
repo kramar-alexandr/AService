@@ -83,6 +83,10 @@ BEGIN
   integer pos; //Edit***************************Sasha2,11:56 30.11.2015
   val rate;// Edit ************************** Thursday, 3 December 2015 17:56:13
   
+   logtext(0,"sump " & sump);
+                  logtext(0,"t " & t);
+                  logtext(0,"pinvval " & pinvval);
+  
   if (nonblank(RepSpec.ObjStr)) then begin //Edit***************************Sasha2,10:43 30.11.2015 {
     pos = 0;
     ExtractObj(RepSpec.ObjStr,pos,curobj);
