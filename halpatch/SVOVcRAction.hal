@@ -758,7 +758,7 @@ BEGIN
     SVOr.EndDiagnDate = SVOr.PlanShipDate;
     SVOr.EndDiagnTime = SVOr.DoneTime;
   end;
-  if (SVOr.OrderStatus==5 and Blank(SVOr.ServiceManager)) then begin
+  if (SVOr.OrderStatus!=0 and Blank(SVOr.ServiceManager)) then begin
     SVOr.ServiceManager = CurrentUser;
   end;
   if(nonblankdate(SVOr.PlanShipDate))then begin
