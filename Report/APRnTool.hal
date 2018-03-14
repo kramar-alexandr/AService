@@ -570,12 +570,14 @@ L11:;
               if (nonblank(RepSpec.CurncyCode)) then begin// Edit ************************** Thursday, 3 December 2015 18:05:34
 								sump = sump - APPayHistr.Val;
               end else begin
+              	
               	sump = sump - APPayHistr.BookVal;
               end;
-              
-               
-   						logtext(0,"sump " & sump);
-							logtext(0,"rvalp " & rvalp);
+							if(APPayHistr.SerNr==260220186)then begin
+								logtext(0,"sump " & sump);
+								logtext(0,"rvalp " & rvalp);
+							end;
+
               
               if (APPayHistr.CurncyCode==bcur.BaseCur1) then begin
               end else begin
