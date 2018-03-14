@@ -328,6 +328,9 @@ begin
     res = MULWITHRATETOBASE1(invcurncy,td,v,DefaultCurRoundOff);  
   end;
 	
+	if(PrepayNr==260220186 and res==-3298.72)then begin
+		logtext(0,"fgdgdfgdfg");
+	end;
 	logtext(0,"res " & res * 10);
 	
   FindAPPayHistBookVal = res;
