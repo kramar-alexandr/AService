@@ -327,11 +327,6 @@ begin
   if (foundprepf==false) then begin
     res = MULWITHRATETOBASE1(invcurncy,td,v,DefaultCurRoundOff);  
   end;
-	logtext(0,"resresresres " & res);
-	if(PrepayNr==260220186 and sernr==8772)then begin
-		res = -3298.73;
-		logtext(0,"resresresres " & res);
-	end;
 	
   FindAPPayHistBookVal = res;
   return;
@@ -1074,10 +1069,9 @@ endformat;
 								cuscurval = -3298.73;
 							end;
 							
-              balp = balp - cuscurval; 
-              logtext(0,"balp " & balp);   
-              logtext(0,"cuscurval " & cuscurval);    
-              logtext(0,"lossv " & lossv);                     
+              balp = balp - cuscurval;      
+              logtext(0,"balp " & balp);
+                             
               SumDebet = SumDebet + cuscurval;
 /*
 startformat(15);
