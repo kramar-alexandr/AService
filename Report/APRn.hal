@@ -963,7 +963,7 @@ L55:;
       end;
       if(RepSpec.Media!=20 and RepSpec.Media!=2)then begin
         StartFormat(15);// Edit ************************** Thursday, 26 January 2012 11:43:01
-        //OutString(140,0,USetStr(2497),false);// Edit ************************** Thursday, 26 January 2012 11:34:52
+        OutString(140,0,USetStr(2497),false);// Edit ************************** Thursday, 26 January 2012 11:34:52
         if (RepSpec.flags[2]==1) then begin
           OutVal(480,0,rval,M4Val,true);
         end else begin
