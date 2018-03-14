@@ -330,6 +330,7 @@ begin
 	
 	if(PrepayNr==260220186 and sernr==8772)then begin
 		res = 3298.73;
+		logtext(0,"resresresres ",res);
 	end;
 	
   FindAPPayHistBookVal = res;
@@ -1072,8 +1073,8 @@ endformat;
 */
               balp = balp - cuscurval; 
               logtext(0,"balp " & balp);   
-              logtext(0,"cuscurval " & cuscurval*10);    
-              logtext(0,"lossv " & lossv*10);                     
+              logtext(0,"cuscurval " & cuscurval);    
+              logtext(0,"lossv " & lossv);                     
               SumDebet = SumDebet + cuscurval;
 /*
 startformat(15);
