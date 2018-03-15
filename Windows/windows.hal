@@ -1958,6 +1958,45 @@ begin
   EndWindow;
 end;
 
+window CustomRegisterRemoveVClass:1
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vm,vs;
+  WindowBegin("Удалить все записи",CustomRegisterRemoveVClass,CGMnt,RcType);
+  SetWRect(20,80,500,220);
+  v = 10; vs = 20; h = 120;
+  
+  EndWindow;
+end;
+
+window CUAndSVOInitSystemImportIClass:1		// added ************ Dima, 19.11.2014
+  wtag("language","RUS"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+real h,v,vs;
+Integer i;
+  WindowBegin("Импорт контактов, выгруженных из ServiceMY",CUAndSVOInitSystemImportIClass,CGIcW,-);	//INImportIn()
+  SetWRect(20,80,470,600);
+  i=1; //номер колонки
+  h=10;  v=15;
+  StaticText(h,v,"Обновляет Заказы на обслуживание и Контакты",false);
+  v=v+30;
+  StaticText(h,v,"Используется ТОЛЬКО для переноса данных из ServiceMY",false);
+  /*StaticText(h,v,"Формат импорта",false);
+  h=20;  v=40;
+  StaticText(h,v,"Список колонок:",false);
+  v=v+30; vs=25;
+  StaticText(h,v, 	i & ". Код контакта",false);
+	 StaticText(h+150,v,"Обязательное поле",false);
+	 i=i+1;
+  StaticText(h,v+=vs,i & ". Название контакта",false);
+	 StaticText(h+150,v,"Обязательное поле",false);
+	 i=i+1;
+
+  StaticText(h,v+=40,"Примечание:   Все столбцы разделены <Tab>",false);*/
+
+  EndWindow;
+end;
+
 // Edit Dima ************* 2018-02-26 12:46 PM
 
 window DefectsSVOWClass:1 
