@@ -1442,9 +1442,9 @@ string 50 location,ser;
 			switch(ser)begin
 				case "1":	RepSpec.f1 = "03";
 									RepSpec.f2 = "31";
-				case "9":	RepSpec.f1 = "08";
+				case "9":	RepSpec.f1 = "03";
 									RepSpec.f2 = "T4";
-				case "3":
+				case "3":	RepSpec.f1 = "03";
 			end;
 			
 			RepSpec.long1 = SVOr.SerNr;
